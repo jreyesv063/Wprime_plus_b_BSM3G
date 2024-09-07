@@ -1,0 +1,6 @@
+{
+    "TTToSemiLeptonic_11": [
+        "root://eospublic.cern.ch//eos/opendata/cms/mc/RunIISummer20UL16NanoAODv9/TTToSemiLeptonic_TuneCP5CR1_13TeV-powheg-pythia8/NANOAODSIM/106X_mcRun2_asymptotic_v17-v1/40000/4B90EE49-EEE6-CA43-9820-033F1A7A1B4C.root",
+        "root://ccxrdcms.in2p3.fr:1094//store/mc/RunIISummer20UL16NanoAODv9/TTToSemiLeptonic_TuneCP5CR1_13TeV-powheg-pythia8/NANOAODSIM/106X_mcRun2_asymptotic_v17-v1/40000/6355B4CB-0CF0-564F-A922-1A1B0CBAE661.root"
+    ]
+}

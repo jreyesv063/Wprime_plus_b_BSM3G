@@ -1,0 +1,6 @@
+{
+    "WJetsToLNu_HT-400To600_3": [
+        "root://xrootd-local.unl.edu:1094//store/mc/RunIISummer20UL16NanoAODv9/WJetsToLNu_HT-400To600_TuneCP5_13TeV-madgraphMLM-pythia8/NANOAODSIM/106X_mcRun2_asymptotic_v17-v1/270000/BE83C31D-9E46-BA4F-A83C-F78B026F83E6.root",
+        "root://eospublic.cern.ch//eos/opendata/cms/mc/RunIISummer20UL16NanoAODv9/WJetsToLNu_HT-400To600_TuneCP5_13TeV-madgraphMLM-pythia8/NANOAODSIM/106X_mcRun2_asymptotic_v17-v1/280000/13E5DAFF-7747-184E-BC00-EEDEB7EAE452.root"
+    ]
+}

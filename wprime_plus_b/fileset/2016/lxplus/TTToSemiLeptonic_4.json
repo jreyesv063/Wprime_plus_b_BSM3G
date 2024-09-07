@@ -1,0 +1,6 @@
+{
+    "TTToSemiLeptonic_4": [
+        "root://xrootd-local.unl.edu:1094//store/mc/RunIISummer20UL16NanoAODv9/TTToSemiLeptonic_TuneCP5CR1_13TeV-powheg-pythia8/NANOAODSIM/106X_mcRun2_asymptotic_v17-v1/2530000/FDB73076-E165-4C4A-B559-07660421F900.root",
+        "root://cmsdcache-kit-disk.gridka.de:1094//store/mc/RunIISummer20UL16NanoAODv9/TTToSemiLeptonic_TuneCP5CR1_13TeV-powheg-pythia8/NANOAODSIM/106X_mcRun2_asymptotic_v17-v1/40000/018BA6E2-0AC3-9842-823D-FBE5950AFEAB.root"
+    ]
+}

@@ -1,0 +1,12 @@
+{
+    "TTToSemiLeptonic_28": [
+        "root://dcache-cms-xrootd.desy.de:1094//store/mc/RunIISummer20UL17NanoAODv9/TTToSemiLeptonic_TuneCP5_13TeV-powheg-pythia8/NANOAODSIM/106X_mc2017_realistic_v9-v1/280000/B28F826B-F564-754F-9AE2-7C02E546F683.root",
+        "root://eoscms.cern.ch//eos/cms/store/mc/RunIISummer20UL17NanoAODv9/TTToSemiLeptonic_TuneCP5_13TeV-powheg-pythia8/NANOAODSIM/106X_mc2017_realistic_v9-v1/280000/B42A12E7-9AA7-FF45-BE43-C538D2836A3A.root",
+        "root://maite.iihe.ac.be:1095//store/mc/RunIISummer20UL17NanoAODv9/TTToSemiLeptonic_TuneCP5_13TeV-powheg-pythia8/NANOAODSIM/106X_mc2017_realistic_v9-v1/280000/B43AC612-4AE4-0942-AB95-CFBFEB4AF628.root",
+        "root://maite.iihe.ac.be:1095//store/mc/RunIISummer20UL17NanoAODv9/TTToSemiLeptonic_TuneCP5_13TeV-powheg-pythia8/NANOAODSIM/106X_mc2017_realistic_v9-v1/280000/B6E6DADE-8977-1148-A083-B51ECFD5AC6A.root",
+        "root://maite.iihe.ac.be:1095//store/mc/RunIISummer20UL17NanoAODv9/TTToSemiLeptonic_TuneCP5_13TeV-powheg-pythia8/NANOAODSIM/106X_mc2017_realistic_v9-v1/280000/B864EF70-8D0A-8642-BAC0-BDDED18AB691.root",
+        "root://gaexrdoor.ciemat.es:1094//store/mc/RunIISummer20UL17NanoAODv9/TTToSemiLeptonic_TuneCP5_13TeV-powheg-pythia8/NANOAODSIM/106X_mc2017_realistic_v9-v1/280000/BAE9C69A-703F-0848-84D5-9E7ED5CBE4E1.root",
+        "root://maite.iihe.ac.be:1095//store/mc/RunIISummer20UL17NanoAODv9/TTToSemiLeptonic_TuneCP5_13TeV-powheg-pythia8/NANOAODSIM/106X_mc2017_realistic_v9-v1/280000/BB7404C5-5C27-1944-AAAC-C72D657ADA89.root",
+        "root://maite.iihe.ac.be:1095//store/mc/RunIISummer20UL17NanoAODv9/TTToSemiLeptonic_TuneCP5_13TeV-powheg-pythia8/NANOAODSIM/106X_mc2017_realistic_v9-v1/280000/BBC7E603-6B04-DD4F-B5D5-9286BB27E7B7.root"
+    ]
+}

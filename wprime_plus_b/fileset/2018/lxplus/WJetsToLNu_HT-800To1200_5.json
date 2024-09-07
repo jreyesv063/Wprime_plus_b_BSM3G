@@ -1,0 +1,6 @@
+{
+    "WJetsToLNu_HT-800To1200_5": [
+        "root://dcache-cms-xrootd.desy.de:1094//store/mc/RunIISummer20UL18NanoAODv9/WJetsToLNu_HT-800To1200_TuneCP5_13TeV-madgraphMLM-pythia8/NANOAODSIM/106X_upgrade2018_realistic_v16_L1v1-v1/280000/EAE6791B-A0E4-CB48-B8A3-D4DF5B368CDF.root",
+        "root://maite.iihe.ac.be:1095//store/mc/RunIISummer20UL18NanoAODv9/WJetsToLNu_HT-800To1200_TuneCP5_13TeV-madgraphMLM-pythia8/NANOAODSIM/106X_upgrade2018_realistic_v16_L1v1-v1/70000/A8890737-C23F-834A-B309-D3947E75EE68.root"
+    ]
+}

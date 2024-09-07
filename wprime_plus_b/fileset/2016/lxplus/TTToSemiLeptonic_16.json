@@ -1,0 +1,6 @@
+{
+    "TTToSemiLeptonic_16": [
+        "root://ccxrdcms.in2p3.fr:1094//store/mc/RunIISummer20UL16NanoAODv9/TTToSemiLeptonic_TuneCP5CR1_13TeV-powheg-pythia8/NANOAODSIM/106X_mcRun2_asymptotic_v17-v1/40000/81E1088D-10A7-9E44-A6FD-7080F8DAF605.root",
+        "root://xrootd-local.unl.edu:1094//store/mc/RunIISummer20UL16NanoAODv9/TTToSemiLeptonic_TuneCP5CR1_13TeV-powheg-pythia8/NANOAODSIM/106X_mcRun2_asymptotic_v17-v1/40000/83C1C3AC-E93E-D14B-B852-4AD76452B6BB.root"
+    ]
+}

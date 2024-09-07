@@ -1,0 +1,7 @@
+{
+    "DYJetsToLL_M-10to50_5": [
+        "root://se01.grid.nchc.org.tw//cms/store/mc/RunIISummer20UL16NanoAODAPVv9/DYJetsToLL_M-10to50_TuneCP5_13TeV-madgraphMLM-pythia8/NANOAODSIM/106X_mcRun2_asymptotic_preVFP_v11-v1/50000/EA6583B6-FF8A-504B-B5F1-6F51C998CB53.root",
+        "root://se01.grid.nchc.org.tw//cms/store/mc/RunIISummer20UL16NanoAODAPVv9/DYJetsToLL_M-10to50_TuneCP5_13TeV-madgraphMLM-pythia8/NANOAODSIM/106X_mcRun2_asymptotic_preVFP_v11-v1/50000/EB80FF84-1EBF-1E4B-B99E-F2D1D7CF8D09.root",
+        "root://cmsdcadisk.fnal.gov//dcache/uscmsdisk/store/mc/RunIISummer20UL16NanoAODAPVv9/DYJetsToLL_M-10to50_TuneCP5_13TeV-madgraphMLM-pythia8/NANOAODSIM/106X_mcRun2_asymptotic_preVFP_v11-v1/50000/FF12F5EF-BC71-A040-9EF0-523A7791AD82.root"
+    ]
+}

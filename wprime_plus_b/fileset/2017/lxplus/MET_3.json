@@ -1,0 +1,16 @@
+{
+    "MET_3": [
+        "root://dcache-cms-xrootd.desy.de:1094//store/data/Run2017B/MET/NANOAOD/UL2017_MiniAODv2_NanoAODv9-v1/70000/474DC0FB-BE5E-DB49-AF1D-8DBAF8F89BA7.root",
+        "root://dcache-cms-xrootd.desy.de:1094//store/data/Run2017B/MET/NANOAOD/UL2017_MiniAODv2_NanoAODv9-v1/70000/56F8C7E2-4E49-A647-BCA9-97E40AF89623.root",
+        "root://maite.iihe.ac.be:1095//store/data/Run2017B/MET/NANOAOD/UL2017_MiniAODv2_NanoAODv9-v1/70000/6BAF2E89-D34D-F042-9DBE-A5EE8416EA49.root",
+        "root://cmsdcadisk.fnal.gov//dcache/uscmsdisk/store/data/Run2017B/MET/NANOAOD/UL2017_MiniAODv2_NanoAODv9-v1/70000/6D0B288C-DE33-1944-9097-E31A5703B8C2.root",
+        "root://eoscms.cern.ch//eos/cms/store/data/Run2017B/MET/NANOAOD/UL2017_MiniAODv2_NanoAODv9-v1/70000/801F2E07-2FEE-3741-914A-DF6C70F5D76A.root",
+        "root://maite.iihe.ac.be:1095//store/data/Run2017B/MET/NANOAOD/UL2017_MiniAODv2_NanoAODv9-v1/70000/827BC658-B8AD-9B44-9D38-BD64860B89CD.root",
+        "root://eoscms.cern.ch//eos/cms/store/data/Run2017B/MET/NANOAOD/UL2017_MiniAODv2_NanoAODv9-v1/70000/88C2D7F5-EFA6-A441-A5CC-FBD80921DCBC.root",
+        "root://cmsdcadisk.fnal.gov//dcache/uscmsdisk/store/data/Run2017B/MET/NANOAOD/UL2017_MiniAODv2_NanoAODv9-v1/70000/91AA4E68-65D5-8240-A424-6734947F3345.root",
+        "root://maite.iihe.ac.be:1095//store/data/Run2017B/MET/NANOAOD/UL2017_MiniAODv2_NanoAODv9-v1/70000/AB335EFC-98E8-C649-AF07-3CC2CA87433A.root",
+        "root://dcache-cms-xrootd.desy.de:1094//store/data/Run2017B/MET/NANOAOD/UL2017_MiniAODv2_NanoAODv9-v1/70000/CE2E3BB3-DA17-1B47-9D04-AC36101B9928.root",
+        "root://maite.iihe.ac.be:1095//store/data/Run2017B/MET/NANOAOD/UL2017_MiniAODv2_NanoAODv9-v1/70000/D4B7F00E-9C36-4648-8D72-A5AF9F4D7A5B.root",
+        "root://maite.iihe.ac.be:1095//store/data/Run2017B/MET/NANOAOD/UL2017_MiniAODv2_NanoAODv9-v1/70000/D549B955-5D52-564C-9F0A-A1963C603606.root"
+    ]
+}

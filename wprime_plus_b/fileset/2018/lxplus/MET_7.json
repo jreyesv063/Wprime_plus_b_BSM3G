@@ -1,0 +1,13 @@
+{
+    "MET_7": [
+        "root://dcache-cms-xrootd.desy.de:1094//store/data/Run2018B/MET/NANOAOD/UL2018_MiniAODv2_NanoAODv9-v2/250000/A36CE3E9-2994-A64C-B3CC-F72EDA356796.root",
+        "root://dcache-cms-xrootd.desy.de:1094//store/data/Run2018B/MET/NANOAOD/UL2018_MiniAODv2_NanoAODv9-v2/250000/A49CF9DB-3D2C-A543-81E2-E171A08366B6.root",
+        "root://maite.iihe.ac.be:1095//store/data/Run2018B/MET/NANOAOD/UL2018_MiniAODv2_NanoAODv9-v2/250000/C41BD13E-4C6C-4E4F-B0D2-22D7F2DDC009.root",
+        "root://cmsxrootd.hep.wisc.edu:1094//store/data/Run2018B/MET/NANOAOD/UL2018_MiniAODv2_NanoAODv9-v2/250000/CF27AE30-974F-7C4F-BEFB-E9AA9BA7A71F.root",
+        "root://cmsxrootd.hep.wisc.edu:1094//store/data/Run2018B/MET/NANOAOD/UL2018_MiniAODv2_NanoAODv9-v2/250000/D0E3B3F2-8196-434D-BCB2-49C81F5097C5.root",
+        "root://xrootd-vanderbilt.sites.opensciencegrid.org:1094//store/data/Run2018B/MET/NANOAOD/UL2018_MiniAODv2_NanoAODv9-v2/250000/D96552BE-B242-B24C-BDE8-254371A1F8A8.root",
+        "root://xrootd-vanderbilt.sites.opensciencegrid.org:1094//store/data/Run2018B/MET/NANOAOD/UL2018_MiniAODv2_NanoAODv9-v2/250000/DF45A68A-79D2-B149-B1CC-8143953F8ED2.root",
+        "root://maite.iihe.ac.be:1095//store/data/Run2018B/MET/NANOAOD/UL2018_MiniAODv2_NanoAODv9-v2/250000/DFA7EC54-C523-4E4D-9BE0-B2986531F554.root",
+        "root://dcache-cms-xrootd.desy.de:1094//store/data/Run2018C/MET/NANOAOD/UL2018_MiniAODv2_NanoAODv9-v1/120000/0D063BBE-46D1-444D-9B51-410D55CB0716.root"
+    ]
+}

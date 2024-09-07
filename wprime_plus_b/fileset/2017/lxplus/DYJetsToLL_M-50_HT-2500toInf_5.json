@@ -1,0 +1,6 @@
+{
+    "DYJetsToLL_M-50_HT-2500toInf_5": [
+        "root://dcache-cms-xrootd.desy.de:1094//store/mc/RunIISummer20UL17NanoAODv9/DYJetsToLL_M-50_HT-2500toInf_TuneCP5_PSweights_13TeV-madgraphMLM-pythia8/NANOAODSIM/106X_mc2017_realistic_v9-v1/260000/DCDF04D1-BA49-DC4A-B931-7AD1CD2E8C33.root",
+        "root://cmsdcadisk.fnal.gov//dcache/uscmsdisk/store/mc/RunIISummer20UL17NanoAODv9/DYJetsToLL_M-50_HT-2500toInf_TuneCP5_PSweights_13TeV-madgraphMLM-pythia8/NANOAODSIM/106X_mc2017_realistic_v9-v1/260000/EACF3C5B-B242-FE40-A4AE-6F61D812A6B9.root"
+    ]
+}

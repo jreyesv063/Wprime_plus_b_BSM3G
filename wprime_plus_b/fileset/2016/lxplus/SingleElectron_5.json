@@ -1,0 +1,15 @@
+{
+    "SingleElectron_5": [
+        "root://dcache-cms-xrootd.desy.de:1094//store/data/Run2016G/SingleElectron/NANOAOD/UL2016_MiniAODv2_NanoAODv9-v1/260000/F54A04DC-57C2-0A4A-BC08-BE67B7D15D0C.root",
+        "root://dcache-cms-xrootd.desy.de:1094//store/data/Run2016G/SingleElectron/NANOAOD/UL2016_MiniAODv2_NanoAODv9-v1/260000/FCD59491-8863-0A4D-9F63-6E7457CACE01.root",
+        "root://dcache-cms-xrootd.desy.de:1094//store/data/Run2016G/SingleElectron/NANOAOD/UL2016_MiniAODv2_NanoAODv9-v1/260000/FDD8276A-7968-9C45-9D38-280DE9DDF650.root",
+        "root://eospublic.cern.ch//eos/opendata/cms/Run2016G/SingleElectron/NANOAOD/UL2016_MiniAODv2_NanoAODv9-v1/270000/19B10F2C-40CC-C245-A1C8-9A722EA672B6.root",
+        "root://eospublic.cern.ch//eos/opendata/cms/Run2016G/SingleElectron/NANOAOD/UL2016_MiniAODv2_NanoAODv9-v1/270000/1C9FE2CF-36A1-AD49-938D-26F24CA7D045.root",
+        "root://ccxrdcms.in2p3.fr:1094//store/data/Run2016G/SingleElectron/NANOAOD/UL2016_MiniAODv2_NanoAODv9-v1/270000/1D6931B7-A652-4A45-8984-3BFD9EE16D84.root",
+        "root://ccxrdcms.in2p3.fr:1094//store/data/Run2016G/SingleElectron/NANOAOD/UL2016_MiniAODv2_NanoAODv9-v1/270000/3661903C-9BE9-044B-91F9-6849FF39B6CA.root",
+        "root://dcache-cms-xrootd.desy.de:1094//store/data/Run2016G/SingleElectron/NANOAOD/UL2016_MiniAODv2_NanoAODv9-v1/270000/36D35EAC-3BDC-5044-BAE7-E79CB3791441.root",
+        "root://dcache-cms-xrootd.desy.de:1094//store/data/Run2016G/SingleElectron/NANOAOD/UL2016_MiniAODv2_NanoAODv9-v1/270000/51A0A604-31F5-3E48-B8FB-6C8B3F680ACF.root",
+        "root://ccxrdcms.in2p3.fr:1094//store/data/Run2016G/SingleElectron/NANOAOD/UL2016_MiniAODv2_NanoAODv9-v1/270000/54226DD5-CD7A-9A43-8B79-C6F6389D0C7F.root",
+        "root://ccxrdcms.in2p3.fr:1094//store/data/Run2016G/SingleElectron/NANOAOD/UL2016_MiniAODv2_NanoAODv9-v1/270000/5482B2CE-D532-074E-AAE9-D21372FA3A56.root"
+    ]
+}

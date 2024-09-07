@@ -1,0 +1,13 @@
+{
+    "SingleMuon_9": [
+        "root://dcache-cms-xrootd.desy.de:1094//store/data/Run2016C/SingleMuon/NANOAOD/HIPM_UL2016_MiniAODv2_NanoAODv9-v2/40000/2C44BCE0-E310-6B4A-B113-2825CEC5C034.root",
+        "root://dcache-cms-xrootd.desy.de:1094//store/data/Run2016C/SingleMuon/NANOAOD/HIPM_UL2016_MiniAODv2_NanoAODv9-v2/40000/520AD8B8-8986-A54E-AEBA-8724C4DBD5AE.root",
+        "root://gfe02.grid.hep.ph.ic.ac.uk:1094//pnfs/hep.ph.ic.ac.uk/data/cms/store/data/Run2016C/SingleMuon/NANOAOD/HIPM_UL2016_MiniAODv2_NanoAODv9-v2/40000/54E872E0-01BA-2042-96F0-4490A5EBCA58.root",
+        "root://gfe02.grid.hep.ph.ic.ac.uk:1094//pnfs/hep.ph.ic.ac.uk/data/cms/store/data/Run2016C/SingleMuon/NANOAOD/HIPM_UL2016_MiniAODv2_NanoAODv9-v2/40000/58C7E8F5-705C-084D-B38E-D9E2513E2950.root",
+        "root://cmsdcadisk.fnal.gov//dcache/uscmsdisk/store/data/Run2016C/SingleMuon/NANOAOD/HIPM_UL2016_MiniAODv2_NanoAODv9-v2/40000/5A882EED-F219-DC49-ABB0-375BF37A7793.root",
+        "root://gfe02.grid.hep.ph.ic.ac.uk:1094//pnfs/hep.ph.ic.ac.uk/data/cms/store/data/Run2016C/SingleMuon/NANOAOD/HIPM_UL2016_MiniAODv2_NanoAODv9-v2/40000/60B87FDA-CCFF-C64E-9124-3F7C185B90C1.root",
+        "root://dcache-cms-xrootd.desy.de:1094//store/data/Run2016C/SingleMuon/NANOAOD/HIPM_UL2016_MiniAODv2_NanoAODv9-v2/40000/7A795D90-4723-764D-B66F-E07D0BFC3D6D.root",
+        "root://eos.cms.rcac.purdue.edu//store/data/Run2016C/SingleMuon/NANOAOD/HIPM_UL2016_MiniAODv2_NanoAODv9-v2/40000/7F0737E4-DB76-D14B-A006-73F29A2234B0.root",
+        "root://eos.cms.rcac.purdue.edu//store/data/Run2016C/SingleMuon/NANOAOD/HIPM_UL2016_MiniAODv2_NanoAODv9-v2/40000/90BD81E3-C475-3F49-9EF0-179367EE3BF9.root"
+    ]
+}

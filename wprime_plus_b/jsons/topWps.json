@@ -1,0 +1,71 @@
+{
+    "2016": {
+        "jet_id": 3,
+        "jet_eta": 2.4,
+
+        "TvsQCD": {
+            "Loose":0.50,
+            "Medium": 0.73,
+            "Tight": 0.96
+        },
+
+        "WvsQCD": {
+            "Loose":0.68,
+            "Medium": 0.94,
+            "Tight": 0.97
+        }
+    },
+
+    "2016APV" : {
+        "jet_id": 3,
+        "jet_eta": 2.4,
+        
+        "TvsQCD": {
+            "Loose":0.49,
+            "Medium": 0.74,
+            "Tight": 0.96
+        },
+
+        "WvsQCD": {
+            "Loose":0.67,
+            "Medium": 0.93,
+            "Tight": 0.97
+        }
+    },
+
+    "2017": {
+        "jet_id": 2,
+        "jet_eta": 2.5,
+        
+        "TvsQCD": {
+            "Loose":0.58,
+            "Medium": 0.80,
+            "Tight": 0.97
+        },
+
+        "WvsQCD": {
+            "Loose":0.71,
+            "Medium": 0.94,
+            "Tight": 0.98
+        }
+    },
+
+    "2018": {
+        "jet_id": 2,
+        "jet_eta": 2.5,
+        
+        "TvsQCD": {
+            "Loose":0.58,
+            "Medium": 0.80,
+            "Tight": 0.97
+        },
+
+        "WvsQCD": {
+            "Loose":0.70,
+            "Medium": 0.94,
+            "Tight": 0.98
+        }
+    }
+
+
+}

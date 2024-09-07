@@ -1,0 +1,6 @@
+{
+    "TTToSemiLeptonic_20": [
+        "root://dcache-cms-xrootd.desy.de:1094//store/mc/RunIISummer20UL16NanoAODAPVv9/TTToSemiLeptonic_TuneCP5CR1_13TeV-powheg-pythia8/NANOAODSIM/106X_mcRun2_asymptotic_preVFP_v11-v1/250000/048BCC01-FE91-3B4E-A811-DC2D7F352578.root",
+        "root://cmsdcache-kit-disk.gridka.de:1094//store/mc/RunIISummer20UL16NanoAODAPVv9/TTToSemiLeptonic_TuneCP5CR1_13TeV-powheg-pythia8/NANOAODSIM/106X_mcRun2_asymptotic_preVFP_v11-v1/250000/1E94C9B5-17C3-8B49-ABAD-8CA5F7D072D1.root"
+    ]
+}

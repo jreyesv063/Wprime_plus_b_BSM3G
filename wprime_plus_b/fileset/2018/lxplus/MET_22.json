@@ -1,0 +1,12 @@
+{
+    "MET_22": [
+        "root://k8s-redir.ultralight.org:1094//store/data/Run2018D/MET/NANOAOD/UL2018_MiniAODv2_NanoAODv9-v1/130000/C8B96AD2-6523-804D-B985-162100A49D10.root",
+        "root://cmsxrootd.hep.wisc.edu:1094//store/data/Run2018D/MET/NANOAOD/UL2018_MiniAODv2_NanoAODv9-v1/130000/CB001C25-6BD2-F840-8361-EB8529402B15.root",
+        "root://k8s-redir.ultralight.org:1094//store/data/Run2018D/MET/NANOAOD/UL2018_MiniAODv2_NanoAODv9-v1/130000/CB48565F-1015-1D4E-9E9A-27BACC72A29A.root",
+        "root://eos.cms.rcac.purdue.edu//store/data/Run2018D/MET/NANOAOD/UL2018_MiniAODv2_NanoAODv9-v1/130000/CB492305-1627-D441-A488-4EF2E89F4A0D.root",
+        "root://cmsxrootd.hep.wisc.edu:1094//store/data/Run2018D/MET/NANOAOD/UL2018_MiniAODv2_NanoAODv9-v1/130000/D23B8D1E-EC8E-FD46-BA84-D1792FCF3B45.root",
+        "root://maite.iihe.ac.be:1095//store/data/Run2018D/MET/NANOAOD/UL2018_MiniAODv2_NanoAODv9-v1/130000/D637AA2A-2139-0645-8581-F22900553DF8.root",
+        "root://maite.iihe.ac.be:1095//store/data/Run2018D/MET/NANOAOD/UL2018_MiniAODv2_NanoAODv9-v1/130000/D997BD9F-3AA4-4142-A372-53AA3BD22E4A.root",
+        "root://cmsxrootd.hep.wisc.edu:1094//store/data/Run2018D/MET/NANOAOD/UL2018_MiniAODv2_NanoAODv9-v1/130000/DF74F021-A73F-1B4F-9E44-EC4ABCE7038E.root"
+    ]
+}

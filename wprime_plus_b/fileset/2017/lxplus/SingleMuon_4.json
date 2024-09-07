@@ -1,0 +1,22 @@
+{
+    "SingleMuon_4": [
+        "root://dcache-cms-xrootd.desy.de:1094//store/data/Run2017B/SingleMuon/NANOAOD/UL2017_MiniAODv2_NanoAODv9-v1/70000/39216339-55C6-454E-97C1-8442294ED3DF.root",
+        "root://eos.cms.rcac.purdue.edu//store/data/Run2017B/SingleMuon/NANOAOD/UL2017_MiniAODv2_NanoAODv9-v1/70000/4464C5CA-3330-514D-B6FA-EEE9A04CC875.root",
+        "root://gaexrdoor.ciemat.es:1094//store/data/Run2017B/SingleMuon/NANOAOD/UL2017_MiniAODv2_NanoAODv9-v1/70000/467EE4ED-3523-1A43-B3F9-A339718D6A97.root",
+        "root://dcache-cms-xrootd.desy.de:1094//store/data/Run2017B/SingleMuon/NANOAOD/UL2017_MiniAODv2_NanoAODv9-v1/70000/50CB6D48-4ECA-D04C-A4F2-2E7785B8E92F.root",
+        "root://cmsdcadisk.fnal.gov//dcache/uscmsdisk/store/data/Run2017B/SingleMuon/NANOAOD/UL2017_MiniAODv2_NanoAODv9-v1/70000/5204D1BD-16FC-3145-B722-BD7F95416DC2.root",
+        "root://cmsdcadisk.fnal.gov//dcache/uscmsdisk/store/data/Run2017B/SingleMuon/NANOAOD/UL2017_MiniAODv2_NanoAODv9-v1/70000/5AA6362A-539E-2347-96F6-EB8BB0FC7C3C.root",
+        "root://dcache-cms-xrootd.desy.de:1094//store/data/Run2017B/SingleMuon/NANOAOD/UL2017_MiniAODv2_NanoAODv9-v1/70000/5D5DB308-47CB-3440-A7B7-D96EB664E5A2.root",
+        "root://dcache-cms-xrootd.desy.de:1094//store/data/Run2017B/SingleMuon/NANOAOD/UL2017_MiniAODv2_NanoAODv9-v1/70000/6A5392CA-18BE-2441-B31D-63E180B08047.root",
+        "root://cmsdcadisk.fnal.gov//dcache/uscmsdisk/store/data/Run2017B/SingleMuon/NANOAOD/UL2017_MiniAODv2_NanoAODv9-v1/70000/7C8D3526-A40B-E84F-8025-980F997F447C.root",
+        "root://maite.iihe.ac.be:1095//store/data/Run2017B/SingleMuon/NANOAOD/UL2017_MiniAODv2_NanoAODv9-v1/70000/82C5CE8A-F9E8-A74E-856D-42BA216DC3EB.root",
+        "root://maite.iihe.ac.be:1095//store/data/Run2017B/SingleMuon/NANOAOD/UL2017_MiniAODv2_NanoAODv9-v1/70000/8A73FD45-B4EE-1940-B14C-5532CFF2FBAF.root",
+        "root://dcache-cms-xrootd.desy.de:1094//store/data/Run2017B/SingleMuon/NANOAOD/UL2017_MiniAODv2_NanoAODv9-v1/70000/8AA1D37D-F0CC-5E40-9A3A-1282A27369E0.root",
+        "root://eos.cms.rcac.purdue.edu//store/data/Run2017B/SingleMuon/NANOAOD/UL2017_MiniAODv2_NanoAODv9-v1/70000/92E0E0A7-AAF3-894D-B69A-E187805AD8B5.root",
+        "root://eos.cms.rcac.purdue.edu//store/data/Run2017B/SingleMuon/NANOAOD/UL2017_MiniAODv2_NanoAODv9-v1/70000/97A79621-DF51-0A46-A314-C407605A4AC5.root",
+        "root://eos.cms.rcac.purdue.edu//store/data/Run2017B/SingleMuon/NANOAOD/UL2017_MiniAODv2_NanoAODv9-v1/70000/98726FAE-264F-1843-A6C1-9C519ED5D69A.root",
+        "root://eos.cms.rcac.purdue.edu//store/data/Run2017B/SingleMuon/NANOAOD/UL2017_MiniAODv2_NanoAODv9-v1/70000/B1FE07B5-6054-F34D-A27C-BDBA619054CC.root",
+        "root://eos.cms.rcac.purdue.edu//store/data/Run2017B/SingleMuon/NANOAOD/UL2017_MiniAODv2_NanoAODv9-v1/70000/BF0E1B07-23D6-5347-ADE2-E9B6DE5A4BDA.root",
+        "root://cmsdcadisk.fnal.gov//dcache/uscmsdisk/store/data/Run2017B/SingleMuon/NANOAOD/UL2017_MiniAODv2_NanoAODv9-v1/70000/BFAC62AF-0525-4444-839B-7209BD20F404.root"
+    ]
+}

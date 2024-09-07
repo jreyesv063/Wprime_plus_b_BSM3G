@@ -1,0 +1,8 @@
+{
+    "MET_21": [
+        "root://dcache-cms-xrootd.desy.de:1094//store/data/Run2016E/MET/NANOAOD/HIPM_UL2016_MiniAODv2_NanoAODv9-v2/50000/B9FB6749-3059-A04E-A07C-2D575E9F1C78.root",
+        "root://dcache-cms-xrootd.desy.de:1094//store/data/Run2016E/MET/NANOAOD/HIPM_UL2016_MiniAODv2_NanoAODv9-v2/50000/BFC5E052-6355-454B-BECF-0206343EC4DB.root",
+        "root://eoscms.cern.ch//eos/cms/store/data/Run2016F/MET/NANOAOD/HIPM_UL2016_MiniAODv2_NanoAODv9-v2/40000/266B5E93-63C7-FF4B-AA7C-0EEF7D75D0A1.root",
+        "root://cmsdcadisk.fnal.gov//dcache/uscmsdisk/store/data/Run2016F/MET/NANOAOD/HIPM_UL2016_MiniAODv2_NanoAODv9-v2/40000/2EFFD207-A603-6A40-8AB1-ADEB8C4C2538.root"
+    ]
+}

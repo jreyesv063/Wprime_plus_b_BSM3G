@@ -1,0 +1,12 @@
+{
+    "MET_24": [
+        "root://cmsdcache-kit-disk.gridka.de:1094//store/data/Run2018D/MET/NANOAOD/UL2018_MiniAODv2_NanoAODv9-v1/130000/F8704E21-8C26-8C47-95D2-04C5ADD96CB8.root",
+        "root://cmsdcache-kit-disk.gridka.de:1094//store/data/Run2018D/MET/NANOAOD/UL2018_MiniAODv2_NanoAODv9-v1/130000/FBF41B7F-46E2-BE42-B7CE-E1ACA9CCA5A5.root",
+        "root://cmsxrootd.hep.wisc.edu:1094//store/data/Run2018D/MET/NANOAOD/UL2018_MiniAODv2_NanoAODv9-v1/130000/FFC987E4-253C-D247-8154-D7279B0C369C.root",
+        "root://eos.cms.rcac.purdue.edu//store/data/Run2018D/MET/NANOAOD/UL2018_MiniAODv2_NanoAODv9-v1/280000/0279AECA-5E0C-C144-9A9E-5D13D9BFA64D.root",
+        "root://k8s-redir.ultralight.org:1094//store/data/Run2018D/MET/NANOAOD/UL2018_MiniAODv2_NanoAODv9-v1/280000/0B7361E2-1BA8-3E45-B357-1D39B618CAE3.root",
+        "root://cmsxrootd.hep.wisc.edu:1094//store/data/Run2018D/MET/NANOAOD/UL2018_MiniAODv2_NanoAODv9-v1/280000/1DF0A219-09C1-6745-8D90-95235A4E77F2.root",
+        "root://cmsdcache-kit-disk.gridka.de:1094//store/data/Run2018D/MET/NANOAOD/UL2018_MiniAODv2_NanoAODv9-v1/280000/25C7F515-6C7E-6846-9E74-43BD085B672B.root",
+        "root://maite.iihe.ac.be:1095//store/data/Run2018D/MET/NANOAOD/UL2018_MiniAODv2_NanoAODv9-v1/280000/29E115E6-0BC0-EE40-804B-C4A60C5C1FCF.root"
+    ]
+}

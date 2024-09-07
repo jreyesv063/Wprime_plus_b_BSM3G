@@ -1,0 +1,12 @@
+{
+    "MET_25": [
+        "root://eos.cms.rcac.purdue.edu//store/data/Run2018D/MET/NANOAOD/UL2018_MiniAODv2_NanoAODv9-v1/280000/74E5ED9C-55E1-B84E-9400-3CC2CC7BE067.root",
+        "root://maite.iihe.ac.be:1095//store/data/Run2018D/MET/NANOAOD/UL2018_MiniAODv2_NanoAODv9-v1/280000/76EE5FC1-C3E6-D447-834E-F8CED00969EC.root",
+        "root://eos.cms.rcac.purdue.edu//store/data/Run2018D/MET/NANOAOD/UL2018_MiniAODv2_NanoAODv9-v1/280000/8D548550-2755-7C4F-B82B-E92A5BA7511D.root",
+        "root://k8s-redir.ultralight.org:1094//store/data/Run2018D/MET/NANOAOD/UL2018_MiniAODv2_NanoAODv9-v1/280000/97BCDD1A-545B-7040-BA44-119DF8A2E0AD.root",
+        "root://maite.iihe.ac.be:1095//store/data/Run2018D/MET/NANOAOD/UL2018_MiniAODv2_NanoAODv9-v1/280000/A18B9359-A9D2-1840-BB91-D8FD721D3F5E.root",
+        "root://k8s-redir.ultralight.org:1094//store/data/Run2018D/MET/NANOAOD/UL2018_MiniAODv2_NanoAODv9-v1/280000/A2DBA7DF-3360-6846-92DF-2C1D80E5596E.root",
+        "root://se02.grid.cyfronet.pl:11001//dpm/grid.cyfronet.pl/home/cms/store/data/Run2018D/MET/NANOAOD/UL2018_MiniAODv2_NanoAODv9-v1/280000/FAA2CA2A-5B26-894C-AE83-9985230C2E78.root",
+        "root://k8s-redir.ultralight.org:1094//store/data/Run2018D/MET/NANOAOD/UL2018_MiniAODv2_NanoAODv9-v1/70000/6673000F-BB5B-B94D-996D-7ACA61D60140.root"
+    ]
+}

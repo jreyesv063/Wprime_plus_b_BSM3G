@@ -1,0 +1,15 @@
+{
+    "SingleElectron_1": [
+        "root://xrootd-vanderbilt.sites.opensciencegrid.org:1094//store/data/Run2016F/SingleElectron/NANOAOD/UL2016_MiniAODv2_NanoAODv9-v1/130000/0F8521B0-5770-9244-915E-F643EDAA32D2.root",
+        "root://xrootd-vanderbilt.sites.opensciencegrid.org:1094//store/data/Run2016F/SingleElectron/NANOAOD/UL2016_MiniAODv2_NanoAODv9-v1/130000/31BADB98-BCD8-4B40-9825-7709B08299BD.root",
+        "root://cmsdcache-kit-disk.gridka.de:1094//store/data/Run2016F/SingleElectron/NANOAOD/UL2016_MiniAODv2_NanoAODv9-v1/130000/3E658EF7-F6B2-8542-AF10-304B350655F1.root",
+        "root://dcache-cms-xrootd.desy.de:1094//store/data/Run2016F/SingleElectron/NANOAOD/UL2016_MiniAODv2_NanoAODv9-v1/130000/5FC6D4C8-7C25-0D4B-9802-C89AA5F298AA.root",
+        "root://cmsdcache-kit-disk.gridka.de:1094//store/data/Run2016F/SingleElectron/NANOAOD/UL2016_MiniAODv2_NanoAODv9-v1/130000/A087F674-68BF-AF45-8E15-CCC6028B2576.root",
+        "root://ccxrdcms.in2p3.fr:1094//store/data/Run2016G/SingleElectron/NANOAOD/UL2016_MiniAODv2_NanoAODv9-v1/110000/43B00DA0-41AF-D042-9F41-7F95FBE5E59F.root",
+        "root://dcache-cms-xrootd.desy.de:1094//store/data/Run2016G/SingleElectron/NANOAOD/UL2016_MiniAODv2_NanoAODv9-v1/260000/0093A31E-1326-3145-926E-B7C57A48E0E8.root",
+        "root://dcache-cms-xrootd.desy.de:1094//store/data/Run2016G/SingleElectron/NANOAOD/UL2016_MiniAODv2_NanoAODv9-v1/260000/01EAD3EB-94BF-2D44-B6FF-7661E7503B77.root",
+        "root://dcache-cms-xrootd.desy.de:1094//store/data/Run2016G/SingleElectron/NANOAOD/UL2016_MiniAODv2_NanoAODv9-v1/260000/0D19EF2A-904C-5347-A8FA-8DCA87868F37.root",
+        "root://eospublic.cern.ch//eos/opendata/cms/Run2016G/SingleElectron/NANOAOD/UL2016_MiniAODv2_NanoAODv9-v1/260000/172C3AB6-A094-EA48-82C2-312C587F810B.root",
+        "root://eospublic.cern.ch//eos/opendata/cms/Run2016G/SingleElectron/NANOAOD/UL2016_MiniAODv2_NanoAODv9-v1/260000/19E16619-BDB5-FD46-9F16-8273ACFD5C0C.root"
+    ]
+}

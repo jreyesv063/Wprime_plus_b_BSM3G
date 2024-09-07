@@ -1,0 +1,233 @@
+{
+    "schema_version": 2,
+    "corrections": [
+        {
+            "name": "UL-Tau-HightPt-SF_2016APV",
+            "version": 0,
+            "inputs": [
+                {
+                    "name": "tau_pt",
+                    "type": "real",
+                    "description": "The value of Tau pt in GeV"
+                },
+                {
+                    "name": "weights",
+                    "type": "string",
+                    "description": "nominal, up, or down"
+                }
+            ],
+            "output": {
+                "name": "weight",
+                "type": "real",
+                "description": "Event weight for met trigger"
+            },
+            "data": {
+                "nodetype": "category",
+                "input": "weights",
+                "content": [
+                    {
+                        "key": "nominal",
+                        "value": {
+                            "nodetype": "binning",
+                            "input": "tau_pt",
+                            "flow": "clamp",
+                            "edges": [0.0, 140.0, 200.0, 10000.0],
+                            "content": [1.0, 0.853, 0.891]
+                        }
+                    },
+                    {
+                        "key": "up",
+                        "value": {
+                            "nodetype": "binning",
+                            "input": "tau_pt",
+                            "flow": "clamp",
+                            "edges": [0.0, 140.0, 200.0, 10000.0],
+                            "content": [1.0, 0.853, 0.891]
+                        }
+                    },
+                    {
+                        "key": "down",
+                        "value": {
+                            "nodetype": "binning",
+                            "input": "tau_pt",
+                            "flow": "clamp",
+                            "edges": [0.0, 140.0, 200.0, 10000.0],
+                            "content": [1.0, 0.853, 0.891]
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "name": "UL-Tau-HightPt-SF_2016",
+            "version": 0,
+            "inputs": [
+                {
+                    "name": "tau_pt",
+                    "type": "real",
+                    "description": "The value of Tau pt in GeV"
+                },
+                {
+                    "name": "weights",
+                    "type": "string",
+                    "description": "nominal, up, or down"
+                }
+            ],
+            "output": {
+                "name": "weight",
+                "type": "real",
+                "description": "Event weight for met trigger"
+            },
+            "data": {
+                "nodetype": "category",
+                "input": "weights",
+                "content": [
+                    {
+                        "key": "nominal",
+                        "value": {
+                            "nodetype": "binning",
+                            "input": "tau_pt",
+                            "flow": "clamp",
+                            "edges": [0.0, 140.0, 200.0, 10000.0],
+                            "content": [1.0, 0.954, 0.861]
+                        }
+                    },
+                    {
+                        "key": "up",
+                        "value": {
+                            "nodetype": "binning",
+                            "input": "tau_pt",
+                            "flow": "clamp",
+                            "edges": [0.0, 140.0, 200.0, 10000.0],
+                            "content": [1.0, 0.954, 0.861]
+                        }
+                    },
+                    {
+                        "key": "down",
+                        "value": {
+                            "nodetype": "binning",
+                            "input": "tau_pt",
+                            "flow": "clamp",
+                            "edges": [0.0, 140.0, 200.0, 10000.0],
+                            "content": [1.0, 0.954, 0.861]
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "name": "UL-Tau-HightPt-SF_2017",
+            "version": 0,
+            "inputs": [
+                {
+                    "name": "tau_pt",
+                    "type": "real",
+                    "description": "The value of Tau pt in GeV"
+                },
+                {
+                    "name": "weights",
+                    "type": "string",
+                    "description": "nominal, up, or down"
+                }
+            ],
+            "output": {
+                "name": "weight",
+                "type": "real",
+                "description": "Event weight for met trigger"
+            },
+            "data": {
+                "nodetype": "category",
+                "input": "weights",
+                "content": [
+                    {
+                        "key": "nominal",
+                        "value": {
+                            "nodetype": "binning",
+                            "input": "tau_pt",
+                            "flow": "clamp",
+                            "edges": [0.0, 140.0, 200.0, 10000.0],
+                            "content": [1.0, 0.994, 0.973]
+                        }
+                    },
+                    {
+                        "key": "up",
+                        "value": {
+                            "nodetype": "binning",
+                            "input": "tau_pt",
+                            "flow": "clamp",
+                            "edges": [0.0, 140.0, 200.0, 10000.0],
+                            "content": [1.0, 0.994, 0.973]
+                        }
+                    },
+                    {
+                        "key": "down",
+                        "value": {
+                            "nodetype": "binning",
+                            "input": "tau_pt",
+                            "flow": "clamp",
+                            "edges": [0.0, 140.0, 200.0, 10000.0],
+                            "content": [1.0, 0.994, 0.973]
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "name": "UL-Tau-HightPt-SF_2018",
+            "version": 0,
+            "inputs": [
+                {
+                    "name": "tau_pt",
+                    "type": "real",
+                    "description": "The value of Tau pt in GeV"
+                },
+                {
+                    "name": "weights",
+                    "type": "string",
+                    "description": "nominal, up, or down"
+                }
+            ],
+            "output": {
+                "name": "weight",
+                "type": "real",
+                "description": "Event weight for met trigger"
+            },
+            "data": {
+                "nodetype": "category",
+                "input": "weights",
+                "content": [
+                    {
+                        "key": "nominal",
+                        "value": {
+                            "nodetype": "binning",
+                            "input": "tau_pt",
+                            "flow": "clamp",
+                            "edges": [0.0, 140.0, 200.0, 10000.0],
+                            "content": [1.0, 0.968, 0.987]
+                        }
+                    },
+                    {
+                        "key": "up",
+                        "value": {
+                            "nodetype": "binning",
+                            "input": "tau_pt",
+                            "flow": "clamp",
+                            "edges": [0.0, 140.0, 200.0, 10000.0],
+                            "content": [1.0, 0.968, 0.987]
+                        }
+                    },
+                    {
+                        "key": "down",
+                        "value": {
+                            "nodetype": "binning",
+                            "input": "tau_pt",
+                            "flow": "clamp",
+                            "edges": [0.0, 140.0, 200.0, 10000.0],
+                            "content": [1.0, 0.968, 0.987]
+                        }
+                    }
+                ]
+            }
+        }
+    ]
+}

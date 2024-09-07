@@ -1,0 +1,12 @@
+{
+    "MET_15": [
+        "root://se02.grid.cyfronet.pl:11001//dpm/grid.cyfronet.pl/home/cms/store/data/Run2018D/MET/NANOAOD/UL2018_MiniAODv2_NanoAODv9-v1/130000/4C619B64-2A38-0B49-81EF-978568A0CB3D.root",
+        "root://cmsdcache-kit-disk.gridka.de:1094//store/data/Run2018D/MET/NANOAOD/UL2018_MiniAODv2_NanoAODv9-v1/130000/4DF68DC6-3E18-1E4F-9DBF-D49996495F51.root",
+        "root://cmsxrootd.hep.wisc.edu:1094//store/data/Run2018D/MET/NANOAOD/UL2018_MiniAODv2_NanoAODv9-v1/130000/5F6D5A27-518E-7941-9758-B8062B4747A8.root",
+        "root://k8s-redir.ultralight.org:1094//store/data/Run2018D/MET/NANOAOD/UL2018_MiniAODv2_NanoAODv9-v1/130000/5FB7A206-CF5E-AB4A-82F9-F9AE36ADCC00.root",
+        "root://k8s-redir.ultralight.org:1094//store/data/Run2018D/MET/NANOAOD/UL2018_MiniAODv2_NanoAODv9-v1/130000/63D666D5-6C47-CF49-A609-58DE0C8E8193.root",
+        "root://k8s-redir.ultralight.org:1094//store/data/Run2018D/MET/NANOAOD/UL2018_MiniAODv2_NanoAODv9-v1/130000/6A5CD299-6C28-0E40-80FE-AFD2134E325C.root",
+        "root://cmsxrootd.hep.wisc.edu:1094//store/data/Run2018D/MET/NANOAOD/UL2018_MiniAODv2_NanoAODv9-v1/130000/6BC24661-4BB7-B749-8300-AE751D253412.root",
+        "root://cmsxrootd.hep.wisc.edu:1094//store/data/Run2018D/MET/NANOAOD/UL2018_MiniAODv2_NanoAODv9-v1/130000/71535189-6296-5740-88D7-79D9CBE12745.root"
+    ]
+}

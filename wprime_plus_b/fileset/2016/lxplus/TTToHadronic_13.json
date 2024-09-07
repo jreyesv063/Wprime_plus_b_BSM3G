@@ -1,0 +1,6 @@
+{
+    "TTToHadronic_13": [
+        "root://eospublic.cern.ch//eos/opendata/cms/mc/RunIISummer20UL16NanoAODv9/TTToHadronic_TuneCP5CR1_13TeV-powheg-pythia8/NANOAODSIM/106X_mcRun2_asymptotic_v17-v1/270000/0F7F964E-C95D-3A47-9D1E-8F80C72206F7.root",
+        "root://xrootd-local.unl.edu:1094//store/mc/RunIISummer20UL16NanoAODv9/TTToHadronic_TuneCP5CR1_13TeV-powheg-pythia8/NANOAODSIM/106X_mcRun2_asymptotic_v17-v1/270000/6FD5E849-35E8-0A42-8DEE-E32AA30DEDF2.root"
+    ]
+}

@@ -1,0 +1,13 @@
+{
+    "SingleMuon_17": [
+        "root://gfe02.grid.hep.ph.ic.ac.uk:1094//pnfs/hep.ph.ic.ac.uk/data/cms/store/data/Run2016E/SingleMuon/NANOAOD/HIPM_UL2016_MiniAODv2_NanoAODv9-v2/2520000/5DA4640C-8869-4440-82DA-AADDEE16142F.root",
+        "root://cmsdcadisk.fnal.gov//dcache/uscmsdisk/store/data/Run2016E/SingleMuon/NANOAOD/HIPM_UL2016_MiniAODv2_NanoAODv9-v2/2520000/670157A2-4CDB-E940-93FA-739F0C931240.root",
+        "root://xrootd-local.unl.edu:1094//store/data/Run2016E/SingleMuon/NANOAOD/HIPM_UL2016_MiniAODv2_NanoAODv9-v2/2520000/69C7101C-512F-C846-9926-31CB23360175.root",
+        "root://gfe02.grid.hep.ph.ic.ac.uk:1094//pnfs/hep.ph.ic.ac.uk/data/cms/store/data/Run2016E/SingleMuon/NANOAOD/HIPM_UL2016_MiniAODv2_NanoAODv9-v2/2520000/7BD2EA46-8C5C-F043-8288-EEEDA99CFA15.root",
+        "root://eoscms.cern.ch//eos/cms/store/data/Run2016E/SingleMuon/NANOAOD/HIPM_UL2016_MiniAODv2_NanoAODv9-v2/2520000/7CAA8159-17EB-0443-AA13-59449D7CC0F1.root",
+        "root://dcache-cms-xrootd.desy.de:1094//store/data/Run2016E/SingleMuon/NANOAOD/HIPM_UL2016_MiniAODv2_NanoAODv9-v2/2520000/8A026C0F-66B1-A94E-97B7-46B868BBB40B.root",
+        "root://dcache-cms-xrootd.desy.de:1094//store/data/Run2016E/SingleMuon/NANOAOD/HIPM_UL2016_MiniAODv2_NanoAODv9-v2/2520000/9BCCB9B1-B389-E147-8ED8-F49E480617F3.root",
+        "root://cmsdcache-kit-disk.gridka.de:1094//store/data/Run2016E/SingleMuon/NANOAOD/HIPM_UL2016_MiniAODv2_NanoAODv9-v2/2520000/A15F073D-B3DA-294F-8138-7B816FA7970E.root",
+        "root://dcache-cms-xrootd.desy.de:1094//store/data/Run2016E/SingleMuon/NANOAOD/HIPM_UL2016_MiniAODv2_NanoAODv9-v2/2520000/A38B57B7-8336-0747-80FB-6232DEDB6E83.root"
+    ]
+}

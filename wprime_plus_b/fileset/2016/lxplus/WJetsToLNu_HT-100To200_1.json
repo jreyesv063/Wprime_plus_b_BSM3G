@@ -1,0 +1,6 @@
+{
+    "WJetsToLNu_HT-100To200_1": [
+        "root://xrootd-local.unl.edu:1094//store/mc/RunIISummer20UL16NanoAODv9/WJetsToLNu_HT-100To200_TuneCP5_13TeV-madgraphMLM-pythia8/NANOAODSIM/106X_mcRun2_asymptotic_v17-v1/120000/895AEAB6-4F60-CD40-B922-0A129A3DAC33.root",
+        "root://eoscms.cern.ch//eos/cms/store/mc/RunIISummer20UL16NanoAODv9/WJetsToLNu_HT-100To200_TuneCP5_13TeV-madgraphMLM-pythia8/NANOAODSIM/106X_mcRun2_asymptotic_v17-v1/120000/955A6075-C3B0-EE4B-A59C-5796B55D993C.root"
+    ]
+}

@@ -1,0 +1,48 @@
+{
+    "DeepTau2017": {
+
+        "deep_tau_jet": {
+
+            "VVVLoose": 1,
+            "VVLoose": 2,
+            "VLoose": 4,
+            "Loose": 8,
+            "Medium": 16,
+            "Tight": 32,
+            "VTight": 64,
+            "VVTight": 128
+
+        },
+
+        "deep_tau_electron": {
+
+            "VVVLoose": 1,
+            "VVLoose": 2,
+            "VLoose": 4,
+            "Loose": 8,
+            "Medium": 16,
+            "Tight": 32,
+            "VTight": 64,
+            "VVTight": 128
+
+        },    
+
+        "deep_tau_muon": {
+
+            "VLoose": 1,
+            "Loose": 2,
+            "Medium": 4,
+            "Tight": 8
+
+        }
+    },
+
+    "genPartFlav": {
+        "prompt_electron": 1, 
+        "prompt_muon": 2, 
+        "tau_e_decay": 3, 
+        "tau_mu_decay": 4, 
+        "hadronic_tau_decay": 5, 
+        "unknown": 0       
+    }
+}

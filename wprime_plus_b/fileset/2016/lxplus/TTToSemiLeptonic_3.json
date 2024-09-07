@@ -1,0 +1,6 @@
+{
+    "TTToSemiLeptonic_3": [
+        "root://eos.cms.rcac.purdue.edu//store/mc/RunIISummer20UL16NanoAODv9/TTToSemiLeptonic_TuneCP5CR1_13TeV-powheg-pythia8/NANOAODSIM/106X_mcRun2_asymptotic_v17-v1/2530000/D246BC4D-4484-4F44-BE9E-FEBE3EBD9F83.root",
+        "root://cmsdcache-kit-disk.gridka.de:1094//store/mc/RunIISummer20UL16NanoAODv9/TTToSemiLeptonic_TuneCP5CR1_13TeV-powheg-pythia8/NANOAODSIM/106X_mcRun2_asymptotic_v17-v1/2530000/EB6CDDAE-13DC-264C-A384-08C17A89DB3B.root"
+    ]
+}

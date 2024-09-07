@@ -1,0 +1,6 @@
+{
+    "ST_t-channel_antitop_5f_InclusiveDecays_9": [
+        "root://xrootd-local.unl.edu:1094//store/mc/RunIISummer20UL16NanoAODv9/ST_t-channel_antitop_5f_InclusiveDecays_TuneCP5_13TeV-powheg-pythia8/NANOAODSIM/106X_mcRun2_asymptotic_v17-v1/70000/ACECA182-39EE-8E40-A29B-969A6FE49606.root",
+        "root://eospublic.cern.ch//eos/opendata/cms/mc/RunIISummer20UL16NanoAODv9/ST_t-channel_antitop_5f_InclusiveDecays_TuneCP5_13TeV-powheg-pythia8/NANOAODSIM/106X_mcRun2_asymptotic_v17-v1/70000/BA3C9746-AFCF-2345-8266-1B41E40D6C20.root"
+    ]
+}

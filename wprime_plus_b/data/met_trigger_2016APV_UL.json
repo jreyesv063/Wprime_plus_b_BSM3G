@@ -1,0 +1,119 @@
+{
+    "schema_version": 2,
+    "corrections": [
+        {
+            "name": "UL-MET-Trigger-SF_TT",
+            "version": 0,
+            "inputs": [
+                {
+                    "name": "met_pt",
+                    "type": "real",
+                    "description": "The value of Momentum Transverse Energy (MET) in GeV"
+                },
+                {
+                    "name": "weights",
+                    "type": "string",
+                    "description": "nominal, up, or down"
+                }
+            ],
+            "output": {
+                "name": "weight",
+                "type": "real",
+                "description": "Event weight for met trigger"
+            },
+            "data": {
+                "nodetype": "category",
+                "input": "weights",
+                "content": [
+                    {
+                        "key": "nominal",
+                        "value": {
+                            "nodetype": "binning",
+                            "input": "met_pt",
+                            "flow": "clamp",
+                            "edges": [0.0, 180.0, 200.0, 250.0, 300.0, 350.0, 400.0, 450.0, 800.0, 4000.0],
+                            "content": [1.0, 0.972, 0.985, 0.996, 0.982, 1.016, 1.019, 1.052, 1.0]
+                        }
+                    },
+                    {
+                        "key": "up",
+                        "value": {
+                            "nodetype": "binning",
+                            "input": "met_pt",
+                            "flow": "clamp",
+                            "edges": [0.0, 180.0, 200.0, 250.0, 300.0, 350.0, 400.0, 450.0, 800.0, 4000.0],
+                            "content": [1.0, 0.972, 0.985, 0.996, 0.982, 1.016, 1.019, 1.052, 1.0]
+                        }
+                    },
+                    {
+                        "key": "down",
+                        "value": {
+                            "nodetype": "binning",
+                            "input": "met_pt",
+                            "flow": "clamp",
+                            "edges": [0.0, 180.0, 200.0, 250.0, 300.0, 350.0, 400.0, 450.0, 800.0, 4000.0],
+                            "content": [1.0, 0.972, 0.985, 0.996, 0.982, 1.016, 1.019, 1.052, 1.0]
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "name": "UL-MET-Trigger-SF_WJ",
+            "version": 0,
+            "inputs": [
+                {
+                    "name": "met_pt",
+                    "type": "real",
+                    "description": "The value of Momentum Transverse Energy (MET) in GeV"
+                },
+                {
+                    "name": "weights",
+                    "type": "string",
+                    "description": "nominal, up, or down"
+                }
+            ],
+            "output": {
+                "name": "weight",
+                "type": "real",
+                "description": "Event weight for met trigger"
+            },
+            "data": {
+                "nodetype": "category",
+                "input": "weights",
+                "content": [
+                    {
+                        "key": "nominal",
+                        "value": {
+                            "nodetype": "binning",
+                            "input": "met_pt",
+                            "flow": "clamp",
+                            "edges": [0.0, 180.0, 200.0, 250.0, 300.0, 350.0, 400.0, 450.0, 800.0, 4000.0],
+                            "content": [1.0, 0.957, 0.975, 0.981, 0.979, 0.966, 0.971, 0.914, 1.0]
+                        }
+                    },
+                    {
+                        "key": "up",
+                        "value": {
+                            "nodetype": "binning",
+                            "input": "met_pt",
+                            "flow": "clamp",
+                            "edges": [0.0, 180.0, 200.0, 250.0, 300.0, 350.0, 400.0, 450.0, 800.0, 4000.0],
+                            "content": [1.0, 0.957, 0.975, 0.981, 0.979, 0.966, 0.971, 0.914, 1.0]
+                        }
+                    },
+                    {
+                        "key": "down",
+                        "value": {
+                            "nodetype": "binning",
+                            "input": "met_pt",
+                            "flow": "clamp",
+                            "edges": [0.0, 180.0, 200.0, 250.0, 300.0, 350.0, 400.0, 450.0, 800.0, 4000.0],
+                            "content": [1.0, 0.957, 0.975, 0.981, 0.979, 0.966, 0.971, 0.914, 1.0]
+                        }
+                    }
+                ]
+            }
+        }
+    ]
+}

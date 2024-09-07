@@ -1,0 +1,9 @@
+{
+    "MET_13": [
+        "root://gfe02.grid.hep.ph.ic.ac.uk:1094//pnfs/hep.ph.ic.ac.uk/data/cms/store/data/Run2016D/MET/NANOAOD/HIPM_UL2016_MiniAODv2_NanoAODv9-v2/2430000/5A362A7A-54F7-B647-A525-3BF3DE3C30EE.root",
+        "root://gfe02.grid.hep.ph.ic.ac.uk:1094//pnfs/hep.ph.ic.ac.uk/data/cms/store/data/Run2016D/MET/NANOAOD/HIPM_UL2016_MiniAODv2_NanoAODv9-v2/2430000/5E0E96E4-FEBF-4E41-ABD5-66772BF1A2BC.root",
+        "root://gfe02.grid.hep.ph.ic.ac.uk:1094//pnfs/hep.ph.ic.ac.uk/data/cms/store/data/Run2016D/MET/NANOAOD/HIPM_UL2016_MiniAODv2_NanoAODv9-v2/2430000/64C727A3-1429-3441-83DF-26CE3C813742.root",
+        "root://cmsdcache-kit-disk.gridka.de:1094//store/data/Run2016D/MET/NANOAOD/HIPM_UL2016_MiniAODv2_NanoAODv9-v2/2430000/6DE8887B-4942-704A-B525-FDCBFFB88A36.root",
+        "root://dcache-cms-xrootd.desy.de:1094//store/data/Run2016D/MET/NANOAOD/HIPM_UL2016_MiniAODv2_NanoAODv9-v2/2430000/6F7F8C26-64FF-384A-9FC8-8D6EAE7FC4D8.root"
+    ]
+}

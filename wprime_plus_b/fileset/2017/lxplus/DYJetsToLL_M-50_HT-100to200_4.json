@@ -1,0 +1,6 @@
+{
+    "DYJetsToLL_M-50_HT-100to200_4": [
+        "root://eoscms.cern.ch//eos/cms/store/mc/RunIISummer20UL17NanoAODv9/DYJetsToLL_M-50_HT-100to200_TuneCP5_PSweights_13TeV-madgraphMLM-pythia8/NANOAODSIM/106X_mc2017_realistic_v9-v1/280000/0B19BA8D-3C74-A94E-8B28-22458111E69E.root",
+        "root://maite.iihe.ac.be:1095//store/mc/RunIISummer20UL17NanoAODv9/DYJetsToLL_M-50_HT-100to200_TuneCP5_PSweights_13TeV-madgraphMLM-pythia8/NANOAODSIM/106X_mc2017_realistic_v9-v1/280000/1DA1D5BE-1AD3-A340-A2DC-1AB161B91B5C.root"
+    ]
+}

@@ -1,0 +1,6 @@
+{
+    "WJetsToLNu_HT-70To100_9": [
+        "root://eospublic.cern.ch//eos/opendata/cms/mc/RunIISummer20UL16NanoAODv9/WJetsToLNu_HT-70To100_TuneCP5_13TeV-madgraphMLM-pythia8/NANOAODSIM/106X_mcRun2_asymptotic_v17-v1/70000/BA75F41F-E1CA-B546-AA72-41F40BD295C3.root",
+        "root://eospublic.cern.ch//eos/opendata/cms/mc/RunIISummer20UL16NanoAODv9/WJetsToLNu_HT-70To100_TuneCP5_13TeV-madgraphMLM-pythia8/NANOAODSIM/106X_mcRun2_asymptotic_v17-v1/70000/E99710B1-3D2F-7E4E-8CD0-CD2EFB0D575E.root"
+    ]
+}

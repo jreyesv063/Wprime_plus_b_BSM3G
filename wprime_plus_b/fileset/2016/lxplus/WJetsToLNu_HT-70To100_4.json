@@ -1,0 +1,6 @@
+{
+    "WJetsToLNu_HT-70To100_4": [
+        "root://xrootd-local.unl.edu:1094//store/mc/RunIISummer20UL16NanoAODv9/WJetsToLNu_HT-70To100_TuneCP5_13TeV-madgraphMLM-pythia8/NANOAODSIM/106X_mcRun2_asymptotic_v17-v1/130000/D8286FB4-69F2-7641-AA88-CB73892AE5E1.root",
+        "root://cmsdcache-kit-disk.gridka.de:1094//store/mc/RunIISummer20UL16NanoAODv9/WJetsToLNu_HT-70To100_TuneCP5_13TeV-madgraphMLM-pythia8/NANOAODSIM/106X_mcRun2_asymptotic_v17-v1/270000/1BE0CFF6-6A34-B048-9CCE-68D40E7EBA1E.root"
+    ]
+}

@@ -1,0 +1,96 @@
+DYJetsToLL_M-50_HT-100to200:
+  nsplit: 10
+DYJetsToLL_M-50_HT-1200to2500:
+  nsplit: 5
+DYJetsToLL_M-50_HT-200to400:
+  nsplit: 5
+DYJetsToLL_M-50_HT-2500toInf:
+  nsplit: 5
+DYJetsToLL_M-50_HT-400to600:
+  nsplit: 5
+DYJetsToLL_M-50_HT-600to800:
+  nsplit: 5
+DYJetsToLL_M-50_HT-70to100:
+  nsplit: 10
+DYJetsToLL_M-50_HT-800to1200:
+  nsplit: 5
+GluGluHToWWToLNuQQ:
+  nsplit: 1
+ST_s-channel_4f_leptonDecays:
+  nsplit: 10
+ST_t-channel_antitop_5f_InclusiveDecays:
+  nsplit: 10
+ST_t-channel_top_5f_InclusiveDecays:
+  nsplit: 10
+ST_tW_antitop_5f_inclusiveDecays:
+  nsplit: 4
+ST_tW_top_5f_inclusiveDecays:
+  nsplit: 5
+SingleElectron:
+  nsplit: 15
+SingleMuon:
+  nsplit: 25
+MET:
+  nsplit: 25
+Tau:
+  nsplit: 15
+TTTo2L2Nu:
+  nsplit: 15
+TTToHadronic:
+  nsplit: 15
+TTToSemiLeptonic:
+  nsplit: 35
+VBFHToWWTo2L2Nu:
+  nsplit: 1
+VBFHToWWToLNuQQ:
+  nsplit: 1
+WJetsToLNu_HT-70To100:
+  nsplit: 10
+WJetsToLNu_HT-100To200:
+  nsplit: 10
+WJetsToLNu_HT-1200To2500:
+  nsplit: 3
+WJetsToLNu_HT-200To400:
+  nsplit: 5
+WJetsToLNu_HT-2500ToInf:
+  nsplit: 5
+WJetsToLNu_HT-400To600:
+  nsplit: 5
+WJetsToLNu_HT-600To800:
+  nsplit: 5
+WJetsToLNu_HT-800To1200:
+  nsplit: 5
+WW:
+  nsplit: 2
+WZ:
+  nsplit: 2
+ZZ:
+  nsplit: 1
+SignalElectron_1TeV:
+  nsplit: 1
+SignalElectron_2TeV:
+  nsplit: 1
+SignalElectron_600GeV:
+  nsplit: 1
+SignalMuon_1TeV:
+  nsplit: 1
+SignalMuon_2TeV:
+  nsplit: 1
+SignalMuon_600GeV:
+  nsplit: 1
+SignalTau_600GeV:
+  nsplit: 1
+DYJetsToLL_M-50_inclusive:
+  nsplit: 10
+DYJetsToLL_M-50_ext:
+  nsplit: 5
+DYJetsToLL_M-10to50:
+  nsplit: 5
+WJetsToLNu_inclusive:
+  nsplit: 10
+WJetsToLNu_ext:
+  nsplit: 5
+DYJetsToLL_M-50_CH3:
+  nsplit: 10
+
+

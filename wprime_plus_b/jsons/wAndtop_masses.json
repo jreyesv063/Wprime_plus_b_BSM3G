@@ -1,0 +1,50 @@
+{
+    "pdg": {
+        "top_mass": 173.1,
+        "w_mass": 80.4,
+        "muon_mass": 0.10566,
+        "electron_mass": 0.511e-3
+    },
+
+    "boosted": {
+        "top_sigma" : 37.14,
+        "top_low_mass" : 100.0,
+        "top_up_mass": 300.00,
+        "w_sigma" : 0.00,
+        "w_low_mass": 0.00,
+        "w_up_mass": 0.00,
+        "chi2": 5
+    },
+
+    "Partially_boosted": {
+        "top_sigma" : 37.14,
+        "top_low_mass" : 100.00,
+        "top_up_mass": 300.00,
+        "w_sigma" : 20.09,
+        "w_low_mass": 40.00,
+        "w_up_mass": 200.00,
+        "chi2": 5
+    },
+
+    "hadronic": {
+        "top_sigma" : 35.02,
+        "top_low_mass" : 100.0,
+        "top_up_mass": 300.00,
+        "w_sigma" : 24.98,
+        "w_low_mass": 40.00,
+        "w_up_mass": 200.00,
+        "chi2": 5
+    },
+
+    "leptonic": {
+        "top_sigma" : 120.80,
+        "top_low_mass" : 100.00,
+        "top_up_mass": 300.00,
+        "w_sigma" : 127.20,
+        "w_low_mass": 40.00,
+        "w_up_mass": 600.00,
+        "chi2": 5
+    }
+
+
+}

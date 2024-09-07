@@ -1,0 +1,21 @@
+{
+    "SingleElectron_2": [
+        "root://maite.iihe.ac.be:1095//store/data/Run2017B/SingleElectron/NANOAOD/UL2017_MiniAODv2_NanoAODv9-v1/70000/58DEDA47-F6FE-634B-BD08-CBB2FCB3CF20.root",
+        "root://gaexrdoor.ciemat.es:1094//store/data/Run2017B/SingleElectron/NANOAOD/UL2017_MiniAODv2_NanoAODv9-v1/70000/788B2080-F7EC-E944-8698-335DCA191258.root",
+        "root://gaexrdoor.ciemat.es:1094//store/data/Run2017B/SingleElectron/NANOAOD/UL2017_MiniAODv2_NanoAODv9-v1/70000/7CDB46F2-1D54-9A4B-A32A-77A26959AF5B.root",
+        "root://gaexrdoor.ciemat.es:1094//store/data/Run2017B/SingleElectron/NANOAOD/UL2017_MiniAODv2_NanoAODv9-v1/70000/82339310-7AF1-B44B-80F0-B3AF60EB5B7E.root",
+        "root://cmsdcadisk.fnal.gov//dcache/uscmsdisk/store/data/Run2017B/SingleElectron/NANOAOD/UL2017_MiniAODv2_NanoAODv9-v1/70000/85456BF3-0112-FF47-B0A1-51EFC3593814.root",
+        "root://dcache-cms-xrootd.desy.de:1094//store/data/Run2017B/SingleElectron/NANOAOD/UL2017_MiniAODv2_NanoAODv9-v1/70000/9822C589-47F7-8C4D-969C-4B5207FAC5DC.root",
+        "root://cmsdcadisk.fnal.gov//dcache/uscmsdisk/store/data/Run2017B/SingleElectron/NANOAOD/UL2017_MiniAODv2_NanoAODv9-v1/70000/9A282799-A39E-A740-8172-DC9C02C19CF0.root",
+        "root://cmsdcadisk.fnal.gov//dcache/uscmsdisk/store/data/Run2017B/SingleElectron/NANOAOD/UL2017_MiniAODv2_NanoAODv9-v1/70000/9BB995B8-65EA-B74D-8137-4DAD140EFA06.root",
+        "root://dcache-cms-xrootd.desy.de:1094//store/data/Run2017B/SingleElectron/NANOAOD/UL2017_MiniAODv2_NanoAODv9-v1/70000/9D5A3632-23B3-5A46-ADD3-0B91493BD56E.root",
+        "root://maite.iihe.ac.be:1095//store/data/Run2017B/SingleElectron/NANOAOD/UL2017_MiniAODv2_NanoAODv9-v1/70000/AA0215EC-9E53-5D4C-A655-D54C667A38C1.root",
+        "root://eos.cms.rcac.purdue.edu//store/data/Run2017B/SingleElectron/NANOAOD/UL2017_MiniAODv2_NanoAODv9-v1/70000/AD35E5A4-D0A3-EA48-9068-605AFB7EF5F5.root",
+        "root://dcache-cms-xrootd.desy.de:1094//store/data/Run2017B/SingleElectron/NANOAOD/UL2017_MiniAODv2_NanoAODv9-v1/70000/C598FF4D-7F1F-1246-BA6B-371138420382.root",
+        "root://maite.iihe.ac.be:1095//store/data/Run2017B/SingleElectron/NANOAOD/UL2017_MiniAODv2_NanoAODv9-v1/70000/DB78E9F9-4596-E542-8893-F0B83D7A13A8.root",
+        "root://dcache-cms-xrootd.desy.de:1094//store/data/Run2017B/SingleElectron/NANOAOD/UL2017_MiniAODv2_NanoAODv9-v1/70000/DE3DCD5F-0ED5-1442-BF14-16B7F0E449C8.root",
+        "root://gaexrdoor.ciemat.es:1094//store/data/Run2017B/SingleElectron/NANOAOD/UL2017_MiniAODv2_NanoAODv9-v1/70000/FB58E5D3-9D64-524A-AFE6-BC804B2225A0.root",
+        "root://gaexrdoor.ciemat.es:1094//store/data/Run2017C/SingleElectron/NANOAOD/UL2017_MiniAODv2_NanoAODv9-v1/120000/090D7428-C0D1-7043-982A-C5E8811BD58D.root",
+        "root://maite.iihe.ac.be:1095//store/data/Run2017C/SingleElectron/NANOAOD/UL2017_MiniAODv2_NanoAODv9-v1/120000/0928E1A1-05E0-884F-826E-E5A18FA491BE.root"
+    ]
+}

@@ -1,0 +1,23 @@
+{
+    "DYJetsToLL_Pt-100To250": "93.61",
+    "DYJetsToLL_Pt-250To400": "3.67",
+    "DYJetsToLL_Pt-400To650": "0.5",
+    "DYJetsToLL_Pt-50To100": "398.8",
+    "DYJetsToLL_Pt-650ToInf": "0.04704",
+    "TTTo2L2Nu": "670.3 * 1.24088 * 0.333 * 0.333",
+    "TTToHadronic": "670.3 * 1.24088 * 0.667 * 0.667",
+    "TTToSemiLeptonic": "670.3 * 1.24088 * 2 * (0.667 * 0.333)",
+    "WJetsToLNu_HT-100To200": "1345 * 1.21",
+    "WJetsToLNu_HT-1200To2500": "1.329 * 1.21",
+    "WJetsToLNu_HT-200To400": "359.7 * 1.21",
+    "WJetsToLNu_HT-2500ToInf": "0.03216 * 1.21",
+    "WJetsToLNu_HT-400To600": "48.91 * 1.21",
+    "WJetsToLNu_HT-600To800": "12.05 * 1.21",
+    "WJetsToLNu_HT-600ToInf": "18.77 * 1.21",
+    "WJetsToLNu_HT-70To100": "1319 * 1.21",
+    "WJetsToLNu_HT-800To1200": "5.501 * 1.21",
+    "WW": "63.21 * 1.878",
+    "WZ": "47.13",
+    "ZZ": "16.523",
+    "ST_s-channel_4f_leptonDecays": "1.188915"
+}

@@ -1,0 +1,9 @@
+{
+    "MET_1": [
+        "root://xrootd-local.unl.edu:1094//store/data/Run2016B/MET/NANOAOD/ver1_HIPM_UL2016_MiniAODv2_NanoAODv9-v2/2530000/51EBF2FA-8EC4-BE4A-993E-C0376638A8C2.root",
+        "root://eoscms.cern.ch//eos/cms/store/data/Run2016B/MET/NANOAOD/ver2_HIPM_UL2016_MiniAODv2_NanoAODv9-v2/24310000/0DB82555-4433-BE44-8582-22E389553281.root",
+        "root://dcache-cms-xrootd.desy.de:1094//store/data/Run2016B/MET/NANOAOD/ver2_HIPM_UL2016_MiniAODv2_NanoAODv9-v2/2530000/01B686DD-E4F6-0D4B-B889-E99165F60A6A.root",
+        "root://cmsdcadisk.fnal.gov//dcache/uscmsdisk/store/data/Run2016B/MET/NANOAOD/ver2_HIPM_UL2016_MiniAODv2_NanoAODv9-v2/2530000/129B21F1-8179-114D-A8EF-585DD02A2252.root",
+        "root://dcache-cms-xrootd.desy.de:1094//store/data/Run2016B/MET/NANOAOD/ver2_HIPM_UL2016_MiniAODv2_NanoAODv9-v2/2530000/1BC02773-FF0C-EE49-81E9-1FCAD9ACA90C.root"
+    ]
+}

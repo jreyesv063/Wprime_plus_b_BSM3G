@@ -1,0 +1,20 @@
+{
+    "SingleMuon_11": [
+        "root://grid-cms-xrootd.physik.rwth-aachen.de:1094//store/data/Run2018C/SingleMuon/NANOAOD/UL2018_MiniAODv2_NanoAODv9-v2/110000/4F629567-5EC8-4F4D-BB49-21E68CE06370.root",
+        "root://cmsxrootd.hep.wisc.edu:1094//store/data/Run2018C/SingleMuon/NANOAOD/UL2018_MiniAODv2_NanoAODv9-v2/110000/56F64B44-A9B8-BE48-BDA8-6CA8DB74756C.root",
+        "root://dcache-cms-xrootd.desy.de:1094//store/data/Run2018C/SingleMuon/NANOAOD/UL2018_MiniAODv2_NanoAODv9-v2/110000/57B951E9-49F4-FF4A-BF17-91FF5EB77C54.root",
+        "root://cmsxrootd.hep.wisc.edu:1094//store/data/Run2018C/SingleMuon/NANOAOD/UL2018_MiniAODv2_NanoAODv9-v2/110000/58D9543D-A53A-A446-925A-64BBF68B56A3.root",
+        "root://grid-cms-xrootd.physik.rwth-aachen.de:1094//store/data/Run2018C/SingleMuon/NANOAOD/UL2018_MiniAODv2_NanoAODv9-v2/110000/5B551B27-A190-8547-B2B2-508B2E2DA17E.root",
+        "root://eos.cms.rcac.purdue.edu//store/data/Run2018C/SingleMuon/NANOAOD/UL2018_MiniAODv2_NanoAODv9-v2/110000/5C110521-599E-A444-9F03-C3A1C8DD2218.root",
+        "root://cmsxrootd.hep.wisc.edu:1094//store/data/Run2018C/SingleMuon/NANOAOD/UL2018_MiniAODv2_NanoAODv9-v2/110000/61CE59CD-46F3-F543-8376-78ECD223F5B9.root",
+        "root://grid-cms-xrootd.physik.rwth-aachen.de:1094//store/data/Run2018C/SingleMuon/NANOAOD/UL2018_MiniAODv2_NanoAODv9-v2/110000/63A8E394-15F5-2A48-AF46-9D3B230951FA.root",
+        "root://maite.iihe.ac.be:1095//store/data/Run2018C/SingleMuon/NANOAOD/UL2018_MiniAODv2_NanoAODv9-v2/110000/6ABAEFD6-B2CD-C24F-B575-86A3016D888F.root",
+        "root://eoscms.cern.ch//eos/cms/store/data/Run2018C/SingleMuon/NANOAOD/UL2018_MiniAODv2_NanoAODv9-v2/110000/6F90F7F3-C121-5340-A902-6C75FE1EDC05.root",
+        "root://grid-cms-xrootd.physik.rwth-aachen.de:1094//store/data/Run2018C/SingleMuon/NANOAOD/UL2018_MiniAODv2_NanoAODv9-v2/110000/70E8FC57-53F8-1B42-94D5-0227734E4229.root",
+        "root://eos.cms.rcac.purdue.edu//store/data/Run2018C/SingleMuon/NANOAOD/UL2018_MiniAODv2_NanoAODv9-v2/110000/7902F922-27A8-E846-A765-418CA40070C4.root",
+        "root://dcache-cms-xrootd.desy.de:1094//store/data/Run2018C/SingleMuon/NANOAOD/UL2018_MiniAODv2_NanoAODv9-v2/110000/7AC4E01A-84A2-5249-8A07-195D2882DF73.root",
+        "root://eos.cms.rcac.purdue.edu//store/data/Run2018C/SingleMuon/NANOAOD/UL2018_MiniAODv2_NanoAODv9-v2/110000/859F38B8-6302-B049-AD29-7E1317C3B79F.root",
+        "root://cmsxrootd.hep.wisc.edu:1094//store/data/Run2018C/SingleMuon/NANOAOD/UL2018_MiniAODv2_NanoAODv9-v2/110000/8C241B53-333C-7144-B3D9-E1A475F78EB1.root",
+        "root://eoscms.cern.ch//eos/cms/store/data/Run2018C/SingleMuon/NANOAOD/UL2018_MiniAODv2_NanoAODv9-v2/110000/91074C36-9816-9044-9638-775D4C4C6320.root"
+    ]
+}

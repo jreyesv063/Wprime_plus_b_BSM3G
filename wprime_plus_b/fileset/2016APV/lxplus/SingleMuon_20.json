@@ -1,0 +1,13 @@
+{
+    "SingleMuon_20": [
+        "root://gfe02.grid.hep.ph.ic.ac.uk:1094//pnfs/hep.ph.ic.ac.uk/data/cms/store/data/Run2016E/SingleMuon/NANOAOD/HIPM_UL2016_MiniAODv2_NanoAODv9-v2/40000/51B69D8E-91E8-AC45-A76A-426507AFA41D.root",
+        "root://gfe02.grid.hep.ph.ic.ac.uk:1094//pnfs/hep.ph.ic.ac.uk/data/cms/store/data/Run2016E/SingleMuon/NANOAOD/HIPM_UL2016_MiniAODv2_NanoAODv9-v2/40000/566C466D-6314-2142-A249-B62146F29684.root",
+        "root://eos.cms.rcac.purdue.edu//store/data/Run2016E/SingleMuon/NANOAOD/HIPM_UL2016_MiniAODv2_NanoAODv9-v2/40000/5B872437-8991-A54D-A5C5-4324443E4735.root",
+        "root://eos.cms.rcac.purdue.edu//store/data/Run2016E/SingleMuon/NANOAOD/HIPM_UL2016_MiniAODv2_NanoAODv9-v2/40000/67743093-CFB8-C74A-A4B8-5EA735763D0B.root",
+        "root://eos.cms.rcac.purdue.edu//store/data/Run2016E/SingleMuon/NANOAOD/HIPM_UL2016_MiniAODv2_NanoAODv9-v2/40000/84E08FF6-A113-5541-A0AF-190331A2AA3F.root",
+        "root://cmsdcache-kit-disk.gridka.de:1094//store/data/Run2016E/SingleMuon/NANOAOD/HIPM_UL2016_MiniAODv2_NanoAODv9-v2/40000/A4BB5C1D-16E2-8540-B3C8-8E3E832C1976.root",
+        "root://gfe02.grid.hep.ph.ic.ac.uk:1094//pnfs/hep.ph.ic.ac.uk/data/cms/store/data/Run2016E/SingleMuon/NANOAOD/HIPM_UL2016_MiniAODv2_NanoAODv9-v2/40000/A5907B76-B9CA-D648-BE93-4C0489B489BD.root",
+        "root://cmsdcache-kit-disk.gridka.de:1094//store/data/Run2016E/SingleMuon/NANOAOD/HIPM_UL2016_MiniAODv2_NanoAODv9-v2/40000/B0B99479-8AB8-B747-A117-ECBB5A52C349.root",
+        "root://grid-cms-xrootd.physik.rwth-aachen.de:1094//store/data/Run2016E/SingleMuon/NANOAOD/HIPM_UL2016_MiniAODv2_NanoAODv9-v2/40000/BA651E0D-8438-E047-8294-26FF8E972D3B.root"
+    ]
+}

@@ -1,0 +1,8 @@
+{
+    "MET_19": [
+        "root://gfe02.grid.hep.ph.ic.ac.uk:1094//pnfs/hep.ph.ic.ac.uk/data/cms/store/data/Run2016E/MET/NANOAOD/HIPM_UL2016_MiniAODv2_NanoAODv9-v2/40000/9969E2B8-5E1E-0441-BAD3-7F636ABC592E.root",
+        "root://gfe02.grid.hep.ph.ic.ac.uk:1094//pnfs/hep.ph.ic.ac.uk/data/cms/store/data/Run2016E/MET/NANOAOD/HIPM_UL2016_MiniAODv2_NanoAODv9-v2/40000/AF1006D6-0ACB-654C-9E52-3642C9392F82.root",
+        "root://eoscms.cern.ch//eos/cms/store/data/Run2016E/MET/NANOAOD/HIPM_UL2016_MiniAODv2_NanoAODv9-v2/40000/D1E229A9-C576-514D-8582-571F7A73AA89.root",
+        "root://cmsdcadisk.fnal.gov//dcache/uscmsdisk/store/data/Run2016E/MET/NANOAOD/HIPM_UL2016_MiniAODv2_NanoAODv9-v2/40000/D4674B3B-5329-2046-9165-0647EE2CB3A4.root"
+    ]
+}

@@ -98,7 +98,7 @@ class SignalProccessor(processor.ProcessorABC):
             "lepton_met_kin": histograms.ttbar_lepton_met_hist,
             "lepton_met_bjet_kin": histograms.ttbar_lepton_met_bjet_hist,
             "top_mrec": histograms.top_tagger_hist,
-            "HT": histograms.ht_hist,
+            "HT": histograms.st_ht_hist,
         }
         # define dictionary to store analysis variables
         self.features = {}

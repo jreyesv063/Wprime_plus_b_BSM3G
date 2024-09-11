@@ -38,15 +38,15 @@ cd "$SCRIPT_DIR"
 
 # Declarar variables
 processor="top_tagger"     # ttbar ; ztoll: top_tagger; signal; wjets; qcd_abcd
-channel=""        # wjets -> {1j1l, 1l0b};  ztoll-> {ll, ll_ISR}; qcd_abcd -> {1l0b; 1l0b_A; 1l0b_B; 1l0b_C; 1l0b_D}
+channel=""        # wjets -> {1j1l, 1l0b};  ztoll-> {ll, ll_ISR}; qcd_abcd -> {1l0b; 1l0b_A; 1l0b_B; 1l0b_C; 1l0b_D}; ttbar -> {2b1l, 1b1e1mu, 1b1l}
 
 
-lepton_flavor="tau"
+lepton_flavor="mu"
 year="2017" # 2016APV; 2016; 2017; 2018
 nfiles="-1"
 executor="futures"
 output_type="array" # hist/array
-nsample="" # Importante: Dejar nsample="" si no se quiere un nsample especifico, en caso de querer uno especifico nsample="3"
+nsample="1" # Importante: Dejar nsample="" si no se quiere un nsample especifico, en caso de querer uno especifico nsample="3"
 output_folder="2017_top_tagger" 
 
 
@@ -65,10 +65,10 @@ samples=(
   "DYJetsToLL_M-50_inclusive"
   "DYJetsToLL_M-50_HT-1200to2500"
   "DYJetsToLL_M-50_HT-2500toInf"
-# #  "SingleMuon"  
-  "MET" 
-# # #    "Tau"                       
-# # #    "SingleElectron"
+# # #  "SingleMuon"  
+   "MET" 
+#    "Tau"                       
+# # # #    "SingleElectron"
   "ST_s-channel_4f_leptonDecays"
   "ST_t-channel_antitop_5f_InclusiveDecays"
   "ST_t-channel_top_5f_InclusiveDecays"
@@ -86,7 +86,7 @@ samples=(
   "WJetsToLNu_HT-2500ToInf"
   "WW"
   "WZ"
-  "ZZ"                             
+ "ZZ"                             
 #  "SignalTau_600GeV"
 #    "DYJetsToLL_M-50_CH3"
 )

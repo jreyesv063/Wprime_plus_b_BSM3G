@@ -7,6 +7,7 @@ QCD_ABCD_tau_selection = {
                 "tau_vs_jet": "Tight",
                 "tau_vs_ele": "Tight", 
                 "tau_vs_mu": "Tight",
+                "tau_vs_fail": "Tight",
                 "prongs": 13,     
         }, 
     },

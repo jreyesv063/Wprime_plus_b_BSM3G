@@ -487,6 +487,7 @@ qcd_lepton_bjet_hist = hist.Hist(
     lepton_bjet_mass_axis,
     region_axis,
     hist.storage.Weight(),
+)
 
 
 

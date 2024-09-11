@@ -867,9 +867,9 @@ class QCD_ABCD_Proccessor(processor.ProcessorABC):
                 self.add_feature("lepton_met_delta_phi", lepton_met_delta_phi)
                 self.add_feature("lepton_met_bjet_mass", lepton_met_bjet_mass)
 
-                self.add_feature("njets", ak.num(region_jets))
+                #self.add_feature("njets", ak.num(region_jets))
                 self.add_feature("nbjets", ak.num(region_bjets))
-                self.add_feature("npvs", events.PV.npvsGood[mask])
+                self.add_feature("npvs", events.PV.npvsGood[region_selection])
                 self.add_feature("nmuons", ak.num(region_muons))
                 self.add_feature("nelectrons", ak.num(region_electrons))
                 self.add_feature("ntaus", ak.num(region_taus))

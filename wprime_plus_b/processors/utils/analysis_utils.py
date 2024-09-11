@@ -520,7 +520,7 @@ def histograms_output(
 
     region_HT = jet_pt_addition + bjet_pt_addition 
     region_ST = lepton_pt_addition+ region_HT
-    region_ST_met = lepton_pt_addition + region_HT + region_met
+    region_ST_met = lepton_pt_addition + region_HT + region_met.pt
     region_ST_full = region_ST + muon_pt_addition + electron_pt_addition + tau_pt_addition 
     
     # Add features to the object (assumed to have a method `add_feature`)

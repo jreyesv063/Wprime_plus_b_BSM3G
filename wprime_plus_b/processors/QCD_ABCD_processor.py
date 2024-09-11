@@ -709,6 +709,7 @@ class QCD_ABCD_Proccessor(processor.ProcessorABC):
                         "electron_veto",
                         "muon_veto",
                         f"one_tau_{tau_wp_vs_jet}",
+                        f"mt_cut_min_{min_mt}_and_max_{max_mt}_invert_{invert_mt}"
                     ],
                 },
                 "1l0b_B":{
@@ -725,6 +726,7 @@ class QCD_ABCD_Proccessor(processor.ProcessorABC):
                         "muon_veto",
                         f"one_tau_{tau_wp_vs_jet}",
                         f"tau_fail_{fail_tau_wp}",
+                        f"mt_cut_min_{min_mt}_and_max_{max_mt}_invert_{invert_mt}"
                     ],
                 },
                 "1l0b_C":{

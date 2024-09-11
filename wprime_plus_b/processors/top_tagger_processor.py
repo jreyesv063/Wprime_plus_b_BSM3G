@@ -98,6 +98,7 @@ class TopTaggerProccessor(processor.ProcessorABC):
             "lepton_met_kin": histograms.ttbar_lepton_met_hist,
             "lepton_met_bjet_kin": histograms.ttbar_lepton_met_bjet_hist,
             "top_mrec": histograms.top_tagger_hist,
+            "ST_HT": histograms.st_ht_hist,
         }
         # define dictionary to store analysis variables
         self.features = {}
@@ -364,12 +365,6 @@ class TopTaggerProccessor(processor.ProcessorABC):
                 tau_corrector.add_id_weight_DeepTau2017v2p1VSmu()
                 tau_corrector.add_id_weight_DeepTau2017v2p1VSjet()
 
-                add_tau_high_pt_corrections(taus=events.Tau, 
-                                            weights=weights_container, 
-                                            year=self.year,
-                                            variation=syst_var
-                )
-
 
                 add_QCD_vs_Top_weight(
                         fatjets = events.FatJet,
@@ -390,12 +385,14 @@ class TopTaggerProccessor(processor.ProcessorABC):
                 )
 
                 if self.lepton_flavor == "tau":
-                    
+                    # It is not necessary. Hight pt corrections are inside add_id_weight_DeepTau2017v2p1VSjet("pt")
+                    """
                     add_tau_high_pt_corrections(taus=events.Tau, 
                             weights=weights_container, 
                             year=self.year,
                             variation=syst_var
                     )
+                    """
 
                     with importlib.resources.path("wprime_plus_b.data", "triggers.json") as path:
                         with open(path, "r") as handle:

@@ -508,22 +508,57 @@ def histograms_output(
         - (region_leptons + leading_bjets + region_met).pt ** 2
     )
 
+
+    # HT and  ST variables
+    jet_pt_addition = ak.sum(region_jets.pt, axis=1)
+    bjet_pt_addition = ak.sum(region_bjets.pt, axis=1)
+    tau_pt_addition = ak.sum(region_taus.pt, axis=1)
+    lepton_pt_addition = ak.sum(region_leptons.pt, axis = 1)  # Depending of the channel, we will have muons, taus, or electrons.
+    muon_pt_addition = ak.sum(region_muons.pt, axis=1)
+    electron_pt_addition = ak.sum(region_electrons.pt, axis=1)
+
+    region_HT = jet_pt_addition + bjet_pt_addition 
+    region_ST = lepton_pt_addition+ region_HT
+    region_ST_met = lepton_pt_addition + region_HT + region_met
+    region_ST_full = region_ST + muon_pt_addition + electron_pt_addition + tau_pt_addition 
+    
     # Add features to the object (assumed to have a method `add_feature`)
     self.add_feature("lepton_pt", region_leptons.pt)
     self.add_feature("lepton_eta", region_leptons.eta)
     self.add_feature("lepton_phi", region_leptons.phi)
-    self.add_feature("jet_pt", leading_bjets.pt)
-    self.add_feature("jet_eta", leading_bjets.eta)
-    self.add_feature("jet_phi", leading_bjets.phi)
+    
+    self.add_feature("bjet_pt", region_bjets.pt)
+    self.add_feature("bjet_eta", region_bjets.eta)
+    self.add_feature("bjet_phi", region_bjets.phi)
+
+    self.add_feature("jet_pt", region_jets.pt)
+    self.add_feature("jet_eta", region_jets.eta)
+    self.add_feature("jet_phi", region_jets.phi)
+    
+    
     self.add_feature("met", region_met.pt)
     self.add_feature("met_phi", region_met.phi)
+    
     self.add_feature("lepton_bjet_dr", lepton_bjet_dr)
     self.add_feature("lepton_bjet_mass", lepton_bjet_mass)
+    
     self.add_feature("lepton_met_mass", lepton_met_mass)
     self.add_feature("lepton_met_delta_phi", lepton_met_delta_phi)
     self.add_feature("lepton_met_bjet_mass", lepton_met_bjet_mass)
+    
     self.add_feature("njets", ak.num(region_jets))
+    self.add_feature("nbjets", ak.num(region_bjets))
     self.add_feature("npvs", events.PV.npvsGood[mask])
+    self.add_feature("nmuons", ak.num(region_muons))
+    self.add_feature("nelectrons", ak.num(region_electrons))
+    self.add_feature("ntaus", ak.num(region_taus))
+
+    self.add_feature("HT", region_HT)    
+    self.add_feature("ST", region_ST)  
+    self.add_feature("ST_met", region_ST_met)  
+    self.add_feature("ST_full", region_ST_full)
+
+    
     self.add_feature("top_mrec", region_tops)
 
 

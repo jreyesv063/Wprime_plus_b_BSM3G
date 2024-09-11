@@ -92,6 +92,7 @@ class TopTaggerProccessor(processor.ProcessorABC):
         self.hist_dict[self.region] = {
             "n_kin": histograms.ttbar_n_hist,
             "jet_kin": histograms.ttbar_jet_hist,
+            "bjet_kin": histograms.ttbar_bjet_hist,
             "met_kin": histograms.ttbar_met_hist,
             "lepton_kin": histograms.ttbar_lepton_hist,
             "lepton_bjet_kin": histograms.ttbar_lepton_bjet_hist,
@@ -99,6 +100,7 @@ class TopTaggerProccessor(processor.ProcessorABC):
             "lepton_met_bjet_kin": histograms.ttbar_lepton_met_bjet_hist,
             "top_mrec": histograms.top_tagger_hist,
             "ST_HT": histograms.st_ht_hist,
+            "tau_kin": histograms.ttbar_tau_hist,
         }
         # define dictionary to store analysis variables
         self.features = {}

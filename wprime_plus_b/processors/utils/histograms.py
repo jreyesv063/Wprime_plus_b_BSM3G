@@ -123,6 +123,40 @@ lepton_reliso = hist.axis.Regular(
     name="lepton_reliso",
 )
 
+# ---------
+#  Tau
+# ---------
+tau_genPartFlav_axis = hist.axis.Regular(
+    bins = 7,
+    start = 0,
+    stop = 7,
+    name="genPartFlav",
+)
+
+tau_decayMode_axis = hist.axis.Regular(
+    bins = 12,
+    start = 0,
+    stop = 12,
+    name="decayMode",
+)
+
+# [lower, upper)
+tau_isolation_electrons_axis = hist.axis.Variable(
+    edges=[0, 1, 3, 7, 15, 31, 63, 127, 255, 300],
+    name="isolation_electrons",
+)
+
+tau_isolation_jets_axis = hist.axis.Variable(
+    edges=[0, 1, 3, 7, 15, 31, 63, 127, 255, 300],
+    name="isolation_jets",
+)
+
+tau_isolation_muons_axis = hist.axis.Variable(
+    edges=[0, 1, 3, 7, 15, 20],
+    name="isolation_muons",
+)
+
+
 # ------------------
 # lepton + bjet axes
 # ------------------
@@ -307,6 +341,7 @@ ttbar_met_hist = hist.Hist(
     syst_axis,
     hist.storage.Weight(),
 )
+
 # lepton histogram
 ttbar_lepton_hist = hist.Hist(
     lepton_pt_axis,            # lepton_pt
@@ -315,6 +350,19 @@ ttbar_lepton_hist = hist.Hist(
     syst_axis,
     hist.storage.Weight(),
 )
+
+
+# tau histogram
+ttbar_tau_hist = hist.Hist(
+    tau_genPartFlav_axis,         # genPartFlav
+    tau_decayMode_axis,           # decayMode
+    tau_isolation_electrons_axis, # isolation_electrons
+    tau_isolation_jets_axis,      # isolation_jets
+    tau_isolation_muons_axis,     # isolation_muons
+    syst_axis,
+    hist.storage.Weight(),
+)
+
 # lepton + bjet histogram
 ttbar_lepton_bjet_hist = hist.Hist(
     lepton_bjet_dr_axis,        # lepton_bjet_dr

@@ -208,7 +208,8 @@ class TtbarAnalysis(processor.ProcessorABC):
             weights_container = Weights(len(events), storeIndividual=True)
             if self.is_mc:
                 # add gen weigths
-                weights_container.add("genweight", events.genWeight)
+                gen_weights = np.sign(events.genWeight)
+                weights_container.add("genweight", gen_weights)
                 # add l1prefiring weigths
                 add_l1prefiring_weight(events, weights_container, self.year, syst_var)
                 # add pileup weigths
@@ -237,7 +238,8 @@ class TtbarAnalysis(processor.ProcessorABC):
                     variation=syst_var,
                 )
                 # add b-tagging weights
-                btag_corrector.add_btag_weights(flavor="bc")
+                btag_corrector.add_btag_weights(flavor="b")
+                btag_corrector.add_btag_weights(flavor="c")
                 btag_corrector.add_btag_weights(flavor="light")
                 # electron corrector
                 electron_corrector = ElectronCorrector(
@@ -252,7 +254,9 @@ class TtbarAnalysis(processor.ProcessorABC):
                     ]["electron_id_wp"]
                 )
                 # add electron reco weights
-                electron_corrector.add_reco_weight()
+                electron_corrector.add_reco_weight("Above")
+                electron_corrector.add_reco_weight("Below")
+
                 # add trigger weights
                 if self.lepton_flavor == "ele":
                     """
@@ -283,6 +287,9 @@ class TtbarAnalysis(processor.ProcessorABC):
                         "muon_iso_wp"
                     ],
                 )
+
+                # add muon RECO weights
+                muon_corrector.add_reco_weight()
                 # add muon ID weights
                 muon_corrector.add_id_weight()
                 # add muon iso weights

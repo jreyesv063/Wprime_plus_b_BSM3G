@@ -881,7 +881,7 @@ class TopTaggerProccessor(processor.ProcessorABC):
                     histograms_output(self, selected_objects["bjets"], selected_objects["jets"], 
                                     selected_objects["electrons"], selected_objects["muons"], 
                                     selected_objects["taus"], selected_objects["met"], 
-                                    tops, mask_top, self.lepton_flavor, selected_objects["events"])
+                                    tops, mask_top, self.lepton_flavor, self.is_mc, selected_objects["events"])
 
 
                     if syst_var == "nominal":

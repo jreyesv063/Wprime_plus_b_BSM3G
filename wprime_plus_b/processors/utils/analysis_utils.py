@@ -467,6 +467,7 @@ def histograms_output(
     tops,
     mask, 
     lepton_flavor, 
+    is_mc,
     events
 ):
     # Select region objects
@@ -527,7 +528,9 @@ def histograms_output(
     self.add_feature("lepton_eta", region_leptons.eta)
     self.add_feature("lepton_phi", region_leptons.phi)
 
-    self.add_feature("genPartFlav", region_taus.genPartFlav)
+    if is_mc:
+        # genPartFlav is only defined in MC samples
+        self.add_feature("genPartFlav", region_taus.genPartFlav)
     self.add_feature("decayMode", region_taus.decayMode)
     self.add_feature("isolation_electrons", region_taus.idDeepTau2017v2p1VSe)
     self.add_feature("isolation_jets", region_taus.idDeepTau2017v2p1VSjet)

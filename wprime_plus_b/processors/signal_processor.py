@@ -51,7 +51,7 @@ from wprime_plus_b.processors.utils.topXfinder import topXfinder
 
 
 
-from wprime_plus_b.processors.utils.analysis_utils import delta_r_mask, normalize, trigger_match, top_tagger, output_metadata, histograms_output_v2
+from wprime_plus_b.processors.utils.analysis_utils import delta_r_mask, normalize, trigger_match, top_tagger, output_metadata, histograms_output
 
 
 class SignalProccessor(processor.ProcessorABC):
@@ -836,11 +836,11 @@ class SignalProccessor(processor.ProcessorABC):
 
                 if nevents_top_tagger > 0:
                     # Histograms
-                    histograms_output_v2(self, 
+                    histograms_output(self, 
                                    pre_bjets, pre_jets, 
                                    pre_electrons, pre_muons, pre_taus, 
                                    pre_met, tops, 
-                                   final_mask, self.lepton_flavor, 
+                                   final_mask, self.lepton_flavor, self.is_mc,
                                    events)
 
                     if syst_var == "nominal":

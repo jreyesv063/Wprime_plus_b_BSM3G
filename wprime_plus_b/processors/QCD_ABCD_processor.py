@@ -840,7 +840,11 @@ class QCD_ABCD_Proccessor(processor.ProcessorABC):
                 self.add_feature("lepton_eta", region_leptons.eta)
                 self.add_feature("lepton_phi", region_leptons.phi)
 
-                self.add_feature("genPartFlav", region_taus.genPartFlav)
+
+                if self.is_mc:
+                    # genPartFlav is only defined in MC samples
+                    self.add_feature("genPartFlav", region_taus.genPartFlav)
+
                 self.add_feature("decayMode", region_taus.decayMode)
                 self.add_feature("isolation_electrons", region_taus.idDeepTau2017v2p1VSe)
                 self.add_feature("isolation_jets", region_taus.idDeepTau2017v2p1VSjet)

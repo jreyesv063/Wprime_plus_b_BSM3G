@@ -78,6 +78,8 @@ class QCD_ABCD_Proccessor(processor.ProcessorABC):
             "lepton_bjet_kin": histograms.ttbar_lepton_bjet_hist,
             "lepton_met_kin": histograms.ttbar_lepton_met_hist,
             "lepton_met_bjet_kin": histograms.ttbar_lepton_met_bjet_hist,
+            "bjet_kin": histograms.ttbar_bjet_hist,
+            "tau_kin": histograms.ttbar_tau_hist,
         }
         # define dictionary to store analysis variables
         self.features = {}
@@ -337,12 +339,14 @@ class QCD_ABCD_Proccessor(processor.ProcessorABC):
                 tau_corrector.add_id_weight_DeepTau2017v2p1VSjet()
 
                 if self.lepton_flavor == "tau":
-                    
+                    # It is not necessary: Hight pt corrections are inside add_id_weight_DeepTau2017v2p1VSjet("pt")
+                    """
                     add_tau_high_pt_corrections(taus=events.Tau, 
                             weights=weights_container, 
                             year=self.year,
                             variation=syst_var
                     )
+                    """
 
                     with importlib.resources.path("wprime_plus_b.data", "triggers.json") as path:
                         with open(path, "r") as handle:
@@ -835,9 +839,17 @@ class QCD_ABCD_Proccessor(processor.ProcessorABC):
                 self.add_feature("lepton_pt", region_leptons.pt)
                 self.add_feature("lepton_eta", region_leptons.eta)
                 self.add_feature("lepton_phi", region_leptons.phi)
-                self.add_feature("jet_pt", leading_bjets.pt)
-                self.add_feature("jet_eta", leading_bjets.eta)
-                self.add_feature("jet_phi", leading_bjets.phi)
+
+                self.add_feature("genPartFlav", region_taus.genPartFlav)
+                self.add_feature("decayMode", region_taus.decayMode)
+                self.add_feature("isolation_electrons", region_taus.idDeepTau2017v2p1VSe)
+                self.add_feature("isolation_jets", region_taus.idDeepTau2017v2p1VSjet)
+                self.add_feature("isolation_muons", region_taus.idDeepTau2017v2p1VSmu)
+
+                
+                self.add_feature("bjet_pt", region_bjets.pt)
+                self.add_feature("bjet_eta", region_bjets.eta)
+                self.add_feature("bjet_phi", region_bjets.phi)
 
 
                 self.add_feature("met",  region_met.pt)
@@ -851,8 +863,12 @@ class QCD_ABCD_Proccessor(processor.ProcessorABC):
                 self.add_feature("lepton_met_delta_phi", lepton_met_delta_phi)
                 self.add_feature("lepton_met_bjet_mass", lepton_met_bjet_mass)
 
-                self.add_feature("njets", ak.num(region_bjets))
-                self.add_feature("npvs", events.PV.npvsGood[region_selection])
+                self.add_feature("njets", ak.num(region_jets))
+                self.add_feature("nbjets", ak.num(region_bjets))
+                self.add_feature("npvs", events.PV.npvsGood[mask])
+                self.add_feature("nmuons", ak.num(region_muons))
+                self.add_feature("nelectrons", ak.num(region_electrons))
+                self.add_feature("ntaus", ak.num(region_taus))
 
 
 

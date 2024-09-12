@@ -9,8 +9,8 @@ from coffea.nanoevents.methods.base import NanoEventsArray
 def select_good_mt(
     events: ak.Array,
     lepton: ak.Array,
-    mt_min: str,
-    mt_max: str,
+    mt_min: float,
+    mt_max: float,
     invert_mt_cut: bool,
 ) -> ak.highlevel.Array:
 
@@ -27,11 +27,11 @@ def select_good_mt(
 
     # Determine the mask of events that meet the mt_min and mt_max conditions
     good_mt = (
-        (lepton_met_mass > mt_min)
-        & (lepton_met_mass < mt_max)
+        (lepton_met_mass >= mt_min)
+        & (lepton_met_mass <= mt_max)
     )
 
-    # Check if at least one of the values in each event meets the condition
+    # Check if at least one of the values in each event has the condition
     good_mt_any = ak.any(good_mt, axis=-1)
 
     # Invert the mask if necessary

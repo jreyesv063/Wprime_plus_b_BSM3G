@@ -8,7 +8,6 @@ from coffea.nanoevents.methods.base import NanoEventsArray
 
 def select_good_ditaus(
     taus: ak.Array,
-    charge_selection: str = "LS",
     passing_first_tau: str = "Tight",
     passing_second_tau: str = "Loose",
     failing_second_tau: str = "Tight",
@@ -59,18 +58,6 @@ def select_good_ditaus(
     subleading_tau = ak.pad_none(taus, 2)[:, 1]
     
 
-    # Determine the charge of the taus
-    charge = {
-        "OS": leading_tau.charge * subleading_tau.charge < 0,
-        "LS": leading_tau.charge * subleading_tau.charge > 0
-    }
-    
-    if charge_selection not in charge:
-        raise ValueError("Charge selection must be 'LS' or 'OS'.")
-
-    Ql_Ql = charge[charge_selection]
-
-
     if failing_second_tau == "None":
          good_ditau = (
             (leading_tau.idDeepTau2017v2p1VSjet > first_lepton_wp_pass)
@@ -87,7 +74,9 @@ def select_good_ditaus(
                 & (subleading_tau.idDeepTau2017v2p1VSjet > second_lepton_wp_pass)
                 & (subleading_tau.idDeepTau2017v2p1VSjet < second_lepton_wp_fail)
             )
-            |
+            
+            ^  # XOR operation: output True when either of the operands is True and the other one is False, but False when both operands are True or False (the same).
+            
             # Case 2: Subleading tau passes Tight and leading tau passes Loose but fails Tight
             (
                 (subleading_tau.idDeepTau2017v2p1VSjet > first_lepton_wp_pass)
@@ -96,4 +85,4 @@ def select_good_ditaus(
             )
         )
 
-    return good_ditau & Ql_Ql
+    return good_ditau 

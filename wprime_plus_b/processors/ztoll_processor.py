@@ -23,6 +23,7 @@ from wprime_plus_b.corrections.muon_highpt import MuonHighPtCorrector
 from wprime_plus_b.corrections.tau import TauCorrector
 from wprime_plus_b.corrections.electron import ElectronCorrector
 from wprime_plus_b.corrections.jetvetomaps import jetvetomaps_mask
+from wprime_plus_b.corrections.ISR import ISR_weight
 
 # Selections: Config
 from wprime_plus_b.selections.ztoll.bjet_config import ztoll_bjet_selection
@@ -231,8 +232,17 @@ class ZToLLProcessor(processor.ProcessorABC):
                 add_l1prefiring_weight(events, weights_container, self.year, syst_var)
                 # add pileup weigths
                 add_pileup_weight(events, weights_container, self.year, syst_var)
+
+
+                # ISR weights
+                ISR_weight(
+                    events=events, 
+                    dataset=dataset, 
+                    weights=weights_container, 
+                    year=self.year, 
+                    variation=syst_var)
+                
                 # add pujetid weigths
-                 
                 add_pujetid_weight(
                     jets=events.Jet,
                     weights=weights_container,

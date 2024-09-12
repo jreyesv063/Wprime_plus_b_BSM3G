@@ -28,35 +28,3 @@ def select_good_Z(
 
     return good_Z & Ql_Ql
     
-
-    # open and load btagDeepFlavB working point
-    with importlib.resources.open_text("wprime_plus_b.data", "btagWPs.json") as file:
-        btag_threshold = json.load(file)["deepJet"][year][btag_working_point]
-
-    # break up selection for low and high pT jets
-    low_pt_jets_mask = (
-        (jets.pt > jet_pt_threshold)
-        & (jets.pt < 50)
-        & (np.abs(jets.eta) < jet_eta_threshold)
-        & (jets.jetId == jet_id)
-        & (jets.puId == puid_wps[jet_pileup_id])
-        & (jets.btagDeepFlavB < btag_threshold )
-    )
-
-    high_pt_jets_mask = (
-        (jets.pt >= 50)
-        & (np.abs(jets.eta) < jet_eta_threshold)
-        & (jets.jetId == jet_id)
-        & (jets.btagDeepFlavB < btag_threshold )
-    )
-
-    return ak.where(
-        (jets.pt > jet_pt_threshold) & (jets.pt < 50),
-        low_pt_jets_mask,
-        high_pt_jets_mask,
-    )
-
-
-
-
-

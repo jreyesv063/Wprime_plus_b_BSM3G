@@ -78,6 +78,9 @@ from wprime_plus_b.selections.QCD_ABCD.mt_config import QCD_ABCD_mt_selection
 from wprime_plus_b.selections.QCD_ABCD.met_config import QCD_ABCD_met_selection
 from wprime_plus_b.selections.QCD_ABCD.muon_config import QCD_ABCD_muon_selection
 from wprime_plus_b.selections.QCD_ABCD.tau_config import QCD_ABCD_tau_selection
+from wprime_plus_b.selections.QCD_ABCD.dilepton_config import QCD_ABCD_dilepton_selection
+from wprime_plus_b.selections.QCD_ABCD.ditau_config import QCD_ABCD_ditau_selection
+
 
 # Ztoll configs
 from wprime_plus_b.selections.ztoll.bjet_config import ztoll_bjet_selection
@@ -470,9 +473,6 @@ def main(args):
                     "met_selection": QCD_ABCD_met_selection[args["channel"]][
                         args["lepton_flavor"]
                     ],
-                    "mt_selection": QCD_ABCD_mt_selection[args["channel"]][
-                        args["lepton_flavor"]
-                    ],
                     "cross_cleaning_selection": QCD_ABCD_cross_cleaning_selection[args["channel"]][
                         args["lepton_flavor"]
                     ],
@@ -480,6 +480,18 @@ def main(args):
                         args["lepton_flavor"]
                     ],
                 }
+                if args["channel"] in ["1l0b_C", "1l0b_D"]:
+                    selections["dilepton_selection"] = QCD_ABCD_dilepton_selection[args["channel"]][
+                        args["lepton_flavor"]
+                    ],
+                    selections["ditau_selection"] = QCD_ABCD_ditau_selection[args["channel"]][
+                        args["lepton_flavor"]
+                    ],
+                elif args["channel"] in ["1l0b_A", "1l0b_B"]:
+                    selections["mt_selection"] = QCD_ABCD_mt_selection[args["channel"]][
+                        args["lepton_flavor"]
+                    ],
+                
                 metadata.update({"selections": selections})
 
             # save ztoll selectios to metadata

@@ -24,6 +24,7 @@ from wprime_plus_b.corrections.electron import ElectronCorrector
 from wprime_plus_b.corrections.jetvetomaps import jetvetomaps_mask
 from wprime_plus_b.corrections.wjets_topjets import add_QCD_vs_W_weight, add_QCD_vs_Top_weight
 from wprime_plus_b.corrections.tau_high_pt import add_tau_high_pt_corrections
+from wprime_plus_b.corrections.ISR import ISR_weight
 
 # Selections: Config
 from wprime_plus_b.selections.signal.bjet_config import signal_bjet_selection
@@ -262,8 +263,18 @@ class SignalProccessor(processor.ProcessorABC):
                 add_l1prefiring_weight(events, weights_container, self.year, syst_var)
                 # add pileup weigths
                 add_pileup_weight(events, weights_container, self.year, syst_var)
-                # add pujetid weigths
+
+
+                # ISR weights
+                ISR_weight(
+                    events=events, 
+                    dataset=dataset, 
+                    weights=weights_container, 
+                    year=self.year, 
+                    variation=syst_var)
                 
+
+                # add pujetid weigths
                 add_pujetid_weight(
                     jets=events.Jet,
                     weights=weights_container,
@@ -366,12 +377,6 @@ class SignalProccessor(processor.ProcessorABC):
                 tau_corrector.add_id_weight_DeepTau2017v2p1VSjet()
 
 
-                add_tau_high_pt_corrections(taus=events.Tau, 
-                                            weights=weights_container, 
-                                            year=self.year,
-                                            variation=syst_var
-                )
-
                 add_QCD_vs_Top_weight(
                         fatjets = events.FatJet,
                         weights = weights_container,
@@ -392,6 +397,14 @@ class SignalProccessor(processor.ProcessorABC):
 
                 if self.lepton_flavor == "tau":
 
+                    """
+                    add_tau_high_pt_corrections(taus=events.Tau, 
+                            weights=weights_container, 
+                            year=self.year,
+                            variation=syst_var
+                    )
+                    """
+                    
                     with importlib.resources.path("wprime_plus_b.data", "triggers.json") as path:
                         with open(path, "r") as handle:
                             trigger_names = json.load(handle)[self.year]

@@ -3,21 +3,21 @@ QCD_ABCD_mt_selection = {
         "tau": {
             "min_mt": 0.0,
             "max_mt": 120.0,
-            "invert": True,
+            "invert": False,
         },    
     },
     "1l0b_A": {
         "tau": {
             "min_mt": 0.0,
             "max_mt": 120.0,
-            "invert": True,
+            "invert": False,
         },    
     },
     "1l0b_B": {
         "tau": {
             "min_mt": 0.0,
             "max_mt": 120.0,
-            "invert": True,
+            "invert": False,
         },    
     },
     "1l0b_C": {

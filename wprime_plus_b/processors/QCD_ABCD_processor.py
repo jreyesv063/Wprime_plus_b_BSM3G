@@ -23,7 +23,6 @@ from wprime_plus_b.corrections.muon_highpt import MuonHighPtCorrector
 from wprime_plus_b.corrections.tau import TauCorrector
 from wprime_plus_b.corrections.electron import ElectronCorrector
 from wprime_plus_b.corrections.jetvetomaps import jetvetomaps_mask
-from wprime_plus_b.corrections.tau_high_pt import add_tau_high_pt_corrections
 from wprime_plus_b.corrections.ISR import ISR_weight
 
 # Selections: Config
@@ -34,6 +33,7 @@ from wprime_plus_b.selections.QCD_ABCD.met_config import QCD_ABCD_met_selection
 from wprime_plus_b.selections.QCD_ABCD.muon_config import QCD_ABCD_muon_selection
 from wprime_plus_b.selections.QCD_ABCD.tau_config import QCD_ABCD_tau_selection
 from wprime_plus_b.selections.QCD_ABCD.ditau_config import QCD_ABCD_ditau_selection
+from wprime_plus_b.selections.QCD_ABCD.dilepton_config import QCD_ABCD_dilepton_selection 
 from wprime_plus_b.selections.QCD_ABCD.mt_config import QCD_ABCD_mt_selection 
 
 
@@ -43,6 +43,7 @@ from wprime_plus_b.selections.QCD_ABCD.electron_selection import select_good_ele
 from wprime_plus_b.selections.QCD_ABCD.muon_selection import select_good_muons
 from wprime_plus_b.selections.QCD_ABCD.tau_selection import select_good_taus
 from wprime_plus_b.selections.QCD_ABCD.ditau_selection import select_good_ditaus
+from wprime_plus_b.selections.QCD_ABCD.dilepton_selection import select_good_dilepton
 from wprime_plus_b.selections.QCD_ABCD.mt_selection import select_good_mt
 
 
@@ -81,6 +82,7 @@ class QCD_ABCD_Proccessor(processor.ProcessorABC):
             "lepton_met_bjet_kin": histograms.ttbar_lepton_met_bjet_hist,
             "bjet_kin": histograms.ttbar_bjet_hist,
             "tau_kin": histograms.ttbar_tau_hist,
+            "Z_kin": histograms.Ztoll_hist
         }
         # define dictionary to store analysis variables
         self.features = {}
@@ -510,14 +512,20 @@ class QCD_ABCD_Proccessor(processor.ProcessorABC):
 
             good_ditaus = select_good_ditaus(
                     taus = taus,
-                    charge_selection =  QCD_ABCD_ditau_selection[self.channel][self.lepton_flavor]["charge_tau_tau"],
                     passing_first_tau = QCD_ABCD_ditau_selection[self.channel][self.lepton_flavor]["Pass_first_tau"],
                     passing_second_tau = QCD_ABCD_ditau_selection[self.channel][self.lepton_flavor]["Pass_second_tau"],
                     failing_second_tau = QCD_ABCD_ditau_selection[self.channel][self.lepton_flavor]["Fail_second_tau"],
 
             )
 
-            
+            good_dilepton= select_good_dilepton(            
+                leptons = taus,
+                mass_min = QCD_ABCD_dilepton_selection[self.channel][self.lepton_flavor]["m_min"],
+                mass_max = QCD_ABCD_dilepton_selection[self.channel][self.lepton_flavor]["m_max"],
+                charge_selection = QCD_ABCD_dilepton_selection[self.channel][self.lepton_flavor]["Charge_ll"],
+            )
+
+
 
             if self.year in ["2016APV", "2016", "2018"]:
                 vetomask = jetvetomaps_mask(jets=events.Jet, year=self.year, mapname="jetvetomap")
@@ -682,13 +690,23 @@ class QCD_ABCD_Proccessor(processor.ProcessorABC):
             # --------------------------
             #  Di Tau
             # --------------------------
-            Q_ll =  QCD_ABCD_ditau_selection[self.channel][self.lepton_flavor]["charge_tau_tau"],
             l1pass = QCD_ABCD_ditau_selection[self.channel][self.lepton_flavor]["Pass_first_tau"],
             l2pass = QCD_ABCD_ditau_selection[self.channel][self.lepton_flavor]["Pass_second_tau"],
             l2fail = QCD_ABCD_ditau_selection[self.channel][self.lepton_flavor]["Fail_second_tau"],
     
-            self.selections.add(f"l1P_{l1pass}_l2P_{l2pass}_l2F_{l2fail}_charge_{Q_ll}", good_ditaus)
+            self.selections.add(f"l1P_{l1pass}_l2P_{l2pass}_l2F_{l2fail}", good_ditaus)
 
+            # --------------------------
+            # Mass cut
+            # --------------------------
+
+            mass_min = QCD_ABCD_dilepton_selection[self.channel][self.lepton_flavor]["m_min"],
+            mass_max = QCD_ABCD_dilepton_selection[self.channel][self.lepton_flavor]["m_max"],
+            Q_ll = QCD_ABCD_dilepton_selection[self.channel][self.lepton_flavor]["Charge_ll"],
+            
+            self.selections.add(f"dilepton_min_{mass_min}_max_{mass_max}_Q_{Q_ll}", good_dilepton)
+
+ 
             
 
             # define selection regions for each channel
@@ -755,8 +773,8 @@ class QCD_ABCD_Proccessor(processor.ProcessorABC):
                         "electron_veto",
                         "muon_veto",
                         f"two_taus_{tau_wp_vs_jet}",
-                        f"l1P_{l1pass}_l2P_{l2pass}_l2F_{l2fail}_charge_{Q_ll}", # DiTau cut
-                        f"mt_cut_min_{min_mt}_and_max_{max_mt}_invert_{invert_mt}"
+                        f"l1P_{l1pass}_l2P_{l2pass}_l2F_{l2fail}", # DiTau cut
+                        f"dilepton_min_{mass_min}_max_{mass_max}_Q_{Q_ll}" # Dilepton mass
                     ],
                 },
                 "1l0b_D":{
@@ -772,8 +790,8 @@ class QCD_ABCD_Proccessor(processor.ProcessorABC):
                         "electron_veto",
                         "muon_veto",
                         f"two_taus_{tau_wp_vs_jet}",
-                        f"l1P_{l1pass}_l2P_{l2pass}_l2F_{l2fail}_charge_{Q_ll}", # DiTau cut
-                        f"mt_cut_min_{min_mt}_and_max_{max_mt}_invert_{invert_mt}"
+                        f"l1P_{l1pass}_l2P_{l2pass}_l2F_{l2fail}", # DiTau cut
+                        f"dilepton_min_{mass_min}_max_{mass_max}_Q_{Q_ll}" # Dilepton mass
                     ],
                 }                
             }
@@ -884,6 +902,18 @@ class QCD_ABCD_Proccessor(processor.ProcessorABC):
                 self.add_feature("nelectrons", ak.num(region_electrons))
                 self.add_feature("ntaus", ak.num(region_taus))
 
+                if self.channel is ["1l0b_C", "1l0b_D"]:
+                    leading_lepton = ak.pad_none(region_taus, 2)[:, 0]
+                    subleading_lepton = ak.pad_none(region_taus, 2)[:, 1]
+
+                    dilepton = leading_lepton + subleading_lepton
+
+                    self.add_feature("Z_mrec_pt", dilepton.pt)
+                    self.add_feature("Z_mrec_mass", dilepton.mass)
+                    self.add_feature("Z_charge", dilepton.charge)
+                    self.add_feature("lepton_one_pt", leading_lepton.pt)
+                    self.add_feature("lepton_two_pt", subleading_lepton.pt)
+                    
 
 
                 if syst_var == "nominal":

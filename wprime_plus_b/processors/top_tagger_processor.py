@@ -24,6 +24,7 @@ from wprime_plus_b.corrections.electron import ElectronCorrector
 from wprime_plus_b.corrections.jetvetomaps import jetvetomaps_mask
 from wprime_plus_b.corrections.wjets_topjets import add_QCD_vs_W_weight, add_QCD_vs_Top_weight
 from wprime_plus_b.corrections.tau_high_pt import add_tau_high_pt_corrections
+from wprime_plus_b.corrections.ISR import ISR_weight
 
 # Selections: Config
 from wprime_plus_b.selections.top_tagger.bjet_config import top_tagger_bjet_selection
@@ -265,6 +266,15 @@ class TopTaggerProccessor(processor.ProcessorABC):
                 add_l1prefiring_weight(events, weights_container, self.year, syst_var)
                 # add pileup weigths
                 add_pileup_weight(events, weights_container, self.year, syst_var)
+
+                # ISR weights
+                ISR_weight(
+                    events=events, 
+                    dataset=dataset, 
+                    weights=weights_container, 
+                    year=self.year, 
+                    variation=syst_var)
+                
                 # add pujetid weigths
                 add_pujetid_weight(
                     jets=events.Jet,

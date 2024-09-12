@@ -24,6 +24,7 @@ from wprime_plus_b.corrections.tau import TauCorrector
 from wprime_plus_b.corrections.electron import ElectronCorrector
 from wprime_plus_b.corrections.jetvetomaps import jetvetomaps_mask
 from wprime_plus_b.corrections.tau_high_pt import add_tau_high_pt_corrections
+from wprime_plus_b.corrections.ISR import ISR_weight
 
 # Selections: Config
 from wprime_plus_b.selections.wjets.bjet_config import wjet_bjet_selection
@@ -243,8 +244,17 @@ class WjetsProccessor(processor.ProcessorABC):
                 add_l1prefiring_weight(events, weights_container, self.year, syst_var)
                 # add pileup weigths
                 add_pileup_weight(events, weights_container, self.year, syst_var)
-                # add pujetid weigths
                 
+                
+                # ISR weights
+                ISR_weight(
+                    events=events, 
+                    dataset=dataset, 
+                    weights=weights_container, 
+                    year=self.year, 
+                    variation=syst_var)
+                
+                # add pujetid weigths               
                 add_pujetid_weight(
                     jets=events.Jet,
                     weights=weights_container,
@@ -347,11 +357,14 @@ class WjetsProccessor(processor.ProcessorABC):
 
                 if self.lepton_flavor == "tau":
                     
+                    # It is not necessary. Hight pt corrections are inside add_id_weight_DeepTau2017v2p1VSjet("pt")
+                    """
                     add_tau_high_pt_corrections(taus=events.Tau, 
                             weights=weights_container, 
                             year=self.year,
                             variation=syst_var
                     )
+                    """
 
                     with importlib.resources.path("wprime_plus_b.data", "triggers.json") as path:
                         with open(path, "r") as handle:

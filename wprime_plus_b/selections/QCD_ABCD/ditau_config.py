@@ -35,8 +35,8 @@ QCD_ABCD_ditau_selection = {
         "tau": {
                 "charge_tau_tau": "LS",   
                 "Pass_first_tau": "Tight",
-                "Pass_second_tau": "Loose",
-                "Fail_second_tau": "Tight",
+                "Pass_second_tau": "Tight",
+                "Fail_second_tau": "None",
         }, 
     },
 }

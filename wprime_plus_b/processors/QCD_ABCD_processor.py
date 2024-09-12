@@ -24,6 +24,7 @@ from wprime_plus_b.corrections.tau import TauCorrector
 from wprime_plus_b.corrections.electron import ElectronCorrector
 from wprime_plus_b.corrections.jetvetomaps import jetvetomaps_mask
 from wprime_plus_b.corrections.tau_high_pt import add_tau_high_pt_corrections
+from wprime_plus_b.corrections.ISR import ISR_weight
 
 # Selections: Config
 from wprime_plus_b.selections.QCD_ABCD.bjet_config import QCD_ABCD_bjet_selection
@@ -236,8 +237,16 @@ class QCD_ABCD_Proccessor(processor.ProcessorABC):
                 add_l1prefiring_weight(events, weights_container, self.year, syst_var)
                 # add pileup weigths
                 add_pileup_weight(events, weights_container, self.year, syst_var)
-                # add pujetid weigths
                 
+                # ISR weights
+                ISR_weight(
+                    events=events, 
+                    dataset=dataset, 
+                    weights=weights_container, 
+                    year=self.year, 
+                    variation=syst_var)
+
+                # add pujetid weigths
                 add_pujetid_weight(
                     jets=events.Jet,
                     weights=weights_container,
@@ -578,7 +587,7 @@ class QCD_ABCD_Proccessor(processor.ProcessorABC):
             self.selections.add("at_least_one_muon", ak.num(muons) >= 1)
 
             self.selections.add(f"one_tau_{tau_wp_vs_jet}", ak.num(taus) == 1)
-            self.selections.add(f"two_taus_{tau_wp_vs_jet}", ak.num(taus) == 1)
+            self.selections.add(f"two_taus_{tau_wp_vs_jet}", ak.num(taus) == 2)
             self.selections.add("tau_veto", ak.num(taus) == 0)
 
 
@@ -678,7 +687,7 @@ class QCD_ABCD_Proccessor(processor.ProcessorABC):
             l2pass = QCD_ABCD_ditau_selection[self.channel][self.lepton_flavor]["Pass_second_tau"],
             l2fail = QCD_ABCD_ditau_selection[self.channel][self.lepton_flavor]["Fail_second_tau"],
     
-            self.selections.add(f"l1P_{l1pass}_l2P_{l2pass}_l2F_{l2fail}_charge_{Q_ll}", good_mt)
+            self.selections.add(f"l1P_{l1pass}_l2P_{l2pass}_l2F_{l2fail}_charge_{Q_ll}", good_ditaus)
 
             
 
@@ -746,7 +755,7 @@ class QCD_ABCD_Proccessor(processor.ProcessorABC):
                         "electron_veto",
                         "muon_veto",
                         f"two_taus_{tau_wp_vs_jet}",
-                        f"l1P_{l1pass}_l2P_{l2pass}_l2F_{l2fail}_charge_{Q_ll}",
+                        f"l1P_{l1pass}_l2P_{l2pass}_l2F_{l2fail}_charge_{Q_ll}", # DiTau cut
                         f"mt_cut_min_{min_mt}_and_max_{max_mt}_invert_{invert_mt}"
                     ],
                 },
@@ -763,6 +772,7 @@ class QCD_ABCD_Proccessor(processor.ProcessorABC):
                         "electron_veto",
                         "muon_veto",
                         f"two_taus_{tau_wp_vs_jet}",
+                        f"l1P_{l1pass}_l2P_{l2pass}_l2F_{l2fail}_charge_{Q_ll}", # DiTau cut
                         f"mt_cut_min_{min_mt}_and_max_{max_mt}_invert_{invert_mt}"
                     ],
                 }                

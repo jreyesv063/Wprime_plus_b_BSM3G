@@ -40,9 +40,14 @@ def select_good_ditaus(
     with importlib.resources.open_text("wprime_plus_b.data", "tau_wps.json") as file:
         taus_wps = json.load(file)
 
-    first_lepton_wp_pass = taus_wps["DeepTau2017"]["deep_tau_jet"][passing_first_tau]
-    second_lepton_wp_pass = taus_wps["DeepTau2017"]["deep_tau_jet"][passing_second_tau]
-    second_lepton_wp_fail = taus_wps["DeepTau2017"]["deep_tau_jet"][failing_second_tau]
+
+    if failing_second_tau == "None":
+        first_lepton_wp_pass = taus_wps["DeepTau2017"]["deep_tau_jet"][passing_first_tau]
+        second_lepton_wp_pass = taus_wps["DeepTau2017"]["deep_tau_jet"][passing_second_tau]
+    else:
+        first_lepton_wp_pass = taus_wps["DeepTau2017"]["deep_tau_jet"][passing_first_tau]
+        second_lepton_wp_pass = taus_wps["DeepTau2017"]["deep_tau_jet"][passing_second_tau]
+        second_lepton_wp_fail = taus_wps["DeepTau2017"]["deep_tau_jet"][failing_second_tau]
 
 
     # Ensure there are at least two taus
@@ -66,22 +71,29 @@ def select_good_ditaus(
     Ql_Ql = charge[charge_selection]
 
 
-    # Apply WP criteria for all possible cases
-    good_ditau = (
-
-        # Case 1: Leading tau passes Tight and subleading tau passes Loose but fails Tight
-        (
+    if failing_second_tau == "None":
+         good_ditau = (
             (leading_tau.idDeepTau2017v2p1VSjet > first_lepton_wp_pass)
             & (subleading_tau.idDeepTau2017v2p1VSjet > second_lepton_wp_pass)
-            & (subleading_tau.idDeepTau2017v2p1VSjet < second_lepton_wp_fail)
+         )
+
+    else:
+    # Apply WP criteria for all possible cases
+        good_ditau = (
+
+            # Case 1: Leading tau passes Tight and subleading tau passes Loose but fails Tight
+            (
+                (leading_tau.idDeepTau2017v2p1VSjet > first_lepton_wp_pass)
+                & (subleading_tau.idDeepTau2017v2p1VSjet > second_lepton_wp_pass)
+                & (subleading_tau.idDeepTau2017v2p1VSjet < second_lepton_wp_fail)
+            )
+            |
+            # Case 2: Subleading tau passes Tight and leading tau passes Loose but fails Tight
+            (
+                (subleading_tau.idDeepTau2017v2p1VSjet > first_lepton_wp_pass)
+                & (leading_tau.idDeepTau2017v2p1VSjet > second_lepton_wp_pass)
+                & (leading_tau.idDeepTau2017v2p1VSjet < second_lepton_wp_fail)
+            )
         )
-        |
-        # Case 2: Subleading tau passes Tight and leading tau passes Loose but fails Tight
-        (
-            (subleading_tau.idDeepTau2017v2p1VSjet > first_lepton_wp_pass)
-            & (leading_tau.idDeepTau2017v2p1VSjet > second_lepton_wp_pass)
-            & (leading_tau.idDeepTau2017v2p1VSjet < second_lepton_wp_fail)
-        )
-    )
 
     return good_ditau & Ql_Ql

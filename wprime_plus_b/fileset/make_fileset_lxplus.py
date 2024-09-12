@@ -57,7 +57,7 @@ SITES = {
     ],
     "2017": [
         "T2_BE_UCL",
-        "T2_ES_CIEMAT", 
+#        "T2_ES_CIEMAT", 
         "T3_FR_IPNL",
 #        "T3_US_Baylor",
 #        "T2_UK_London_IC",
@@ -73,7 +73,7 @@ SITES = {
 #        "T1_RU_JINR_Disk", # 11/08/2024
        "T3_US_FNALLPC", # 04/07/2024
        "T1_US_FNAL_Disk",  # 29/08/2024 (root://cmseos.fnal.gov/)
-#       "T2_US_Vanderbilt",   # 11/08/2024
+       "T2_US_Vanderbilt",   # 11/08/2024
        "T2_US_Purdue", # 3/07/2024
        "T2_BE_IIHE",  # 3/07/2024
 #       "T3_IT_Trieste", # 12/08/2024

@@ -57,6 +57,14 @@
          "MET/Run2016D-HIPM_UL2016_MiniAODv2_NanoAODv9-v2/NANOAOD",
          "MET/Run2016E-HIPM_UL2016_MiniAODv2_NanoAODv9-v2/NANOAOD",
          "MET/Run2016F-HIPM_UL2016_MiniAODv2_NanoAODv9-v2/NANOAOD"
+     ],
+     "Tau": [
+         "Tau/Run2016B-ver1_HIPM_UL2016_MiniAODv2_NanoAODv9-v2/NANOAOD",
+         "Tau/Run2016B-ver2_HIPM_UL2016_MiniAODv2_NanoAODv9-v2/NANOAOD",
+         "Tau/Run2016C-HIPM_UL2016_MiniAODv2_NanoAODv9-v2/NANOAOD",
+         "Tau/Run2016D-HIPM_UL2016_MiniAODv2_NanoAODv9-v2/NANOAOD",
+         "Tau/Run2016E-HIPM_UL2016_MiniAODv2_NanoAODv9-v2/NANOAOD",
+         "Tau/Run2016F-HIPM_UL2016_MiniAODv2_NanoAODv9-v2/NANOAOD"
      ]
    },
    "2016_UL":{
@@ -108,6 +116,11 @@
          "MET/Run2016F-UL2016_MiniAODv2_NanoAODv9-v2/NANOAOD",
          "MET/Run2016G-UL2016_MiniAODv2_NanoAODv9-v1/NANOAOD",
          "MET/Run2016H-UL2016_MiniAODv2_NanoAODv9-v1/NANOAOD"
+     ],
+     "Tau": [
+         "Tau/Run2016F-UL2016_MiniAODv2_NanoAODv9-v1/NANOAOD",
+         "Tau/Run2016G-UL2016_MiniAODv2_NanoAODv9-v1/NANOAOD",
+         "Tau/Run2016H-UL2016_MiniAODv2_NanoAODv9-v1/NANOAOD"
      ]
    },
    "2017_UL":{
@@ -167,6 +180,13 @@
          "MET/Run2017D-UL2017_MiniAODv2_NanoAODv9-v1/NANOAOD",
          "MET/Run2017E-UL2017_MiniAODv2_NanoAODv9-v1/NANOAOD",
          "MET/Run2017F-UL2017_MiniAODv2_NanoAODv9-v1/NANOAOD"
+     ],
+     "Tau": [
+         "Tau/Run2017B-UL2017_MiniAODv2_NanoAODv9-v1/NANOAOD",
+         "Tau/Run2017C-UL2017_MiniAODv2_NanoAODv9-v1/NANOAOD",
+         "Tau/Run2017D-UL2017_MiniAODv2_NanoAODv9-v1/NANOAOD",
+         "Tau/Run2017E-UL2017_MiniAODv2_NanoAODv9-v2/NANOAOD",
+         "Tau/Run2017F-UL2017_MiniAODv2_NanoAODv9-v1/NANOAOD"
      ]
    },
    "2018_UL":{
@@ -222,6 +242,12 @@
          "MET/Run2018B-UL2018_MiniAODv2_NanoAODv9-v2/NANOAOD",
          "MET/Run2018C-UL2018_MiniAODv2_NanoAODv9-v1/NANOAOD",
          "MET/Run2018D-UL2018_MiniAODv2_NanoAODv9-v1/NANOAOD"
+     ],
+     "Tau": [
+         "Tau/Run2018A-UL2018_MiniAODv2_NanoAODv9-v2/NANOAOD",
+         "Tau/Run2018B-UL2018_MiniAODv2_NanoAODv9-v1/NANOAOD",
+         "Tau/Run2018C-UL2018_MiniAODv2_NanoAODv9-v1/NANOAOD",
+         "Tau/Run2018D-UL2018_MiniAODv2_NanoAODv9-v2/NANOAOD"
      ]
    }
 }

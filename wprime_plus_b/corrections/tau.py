@@ -353,14 +353,14 @@ class TauCorrector:
             )
             # add scale factors to weights container
             self.weights.add(
-                name=f"trigger_{trigtype}",
+                name=f"trigger_{trigtype}_{wp}",
                 weight=nominal_sf,
                 weightUp=up_sf,
                 weightDown=down_sf,
             )
         else:
             self.weights.add(
-                name=f"trigger_{trigtype}",
+                name=f"trigger_{trigtype}_{wp}",
                 weight=nominal_sf,
             )
         return nominal_sf

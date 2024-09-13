@@ -199,7 +199,7 @@ class QCD_ABCD_Proccessor(processor.ProcessorABC):
             }
             trigger_match_mask = np.zeros(nevents, dtype="bool")
                      
-            if self.lepton_flavor != "tau":
+            if self.lepton_flavor not in ["tau", "ditau"]:
                 lepton_id_config = {
                     "ele": QCD_ABCD_electron_selection[self.channel][self.lepton_flavor]["electron_id_wp"],
                     "mu": QCD_ABCD_muon_selection[self.channel][self.lepton_flavor]["muon_id_wp"]
@@ -321,8 +321,8 @@ class QCD_ABCD_Proccessor(processor.ProcessorABC):
                 muon_corrector.add_id_weight()
                 # add muon iso weights
                 muon_corrector.add_iso_weight()
-                # add trigger weights
-                
+
+                # add trigger weights 
                 if self.lepton_flavor == "mu":
                     muon_corrector.add_triggeriso_weight(
                         trigger_mask=trigger_mask,
@@ -349,6 +349,9 @@ class QCD_ABCD_Proccessor(processor.ProcessorABC):
                 tau_corrector.add_id_weight_DeepTau2017v2p1VSmu()
                 tau_corrector.add_id_weight_DeepTau2017v2p1VSjet()
 
+                if self.lepton_flavor == "ditau":
+                    tau_corrector.add_id_weight_diTauTrigger(mask_trigger = trigger_mask, trigger = "ditau", info = "sf", dm = -1)
+
                 if self.lepton_flavor == "tau":
                     # It is not necessary: Hight pt corrections are inside add_id_weight_DeepTau2017v2p1VSjet("pt")
                     """
@@ -357,7 +360,7 @@ class QCD_ABCD_Proccessor(processor.ProcessorABC):
                             year=self.year,
                             variation=syst_var
                     )
-                    """
+                    
 
                     with importlib.resources.path("wprime_plus_b.data", "triggers.json") as path:
                         with open(path, "r") as handle:
@@ -366,8 +369,9 @@ class QCD_ABCD_Proccessor(processor.ProcessorABC):
                     trigger_name = trigger_names[self.lepton_flavor][0]
 
                     mask_trigger = (events.HLT[trigger_name])
+                    """
                     # add met trigger SF
-                    add_met_trigger_corrections(mask_trigger, dataset, events.MET, weights_container, self.year, "", syst_var) 
+                    add_met_trigger_corrections(trigger_mask, dataset, events.MET, weights_container, self.year, "", syst_var) 
 
 
             if syst_var == "nominal":
@@ -496,7 +500,8 @@ class QCD_ABCD_Proccessor(processor.ProcessorABC):
             region_map = {
                 "ele": electrons,
                 "mu": muons,
-                "tau": taus
+                "tau": taus,
+                "ditau": taus,
             }
             #leptons = ak.firsts(region_map[self.lepton_flavor])
             leptons = region_map[self.lepton_flavor]
@@ -578,7 +583,7 @@ class QCD_ABCD_Proccessor(processor.ProcessorABC):
             self.selections.add("goodvertex", events.PV.npvsGood > 0)
 
             # select events with at least one matched trigger object
-            if self.lepton_flavor != "tau":
+            if self.lepton_flavor  not in ["tau", "ditau"]:
                 self.selections.add(
                     "trigger_match", ak.sum(trigger_match_mask, axis=-1) > 0
                 )
@@ -776,9 +781,39 @@ class QCD_ABCD_Proccessor(processor.ProcessorABC):
                         f"l1P_{l1pass}_l2P_{l2pass}_l2F_{l2fail}", # DiTau cut
                         f"dilepton_min_{mass_min}_max_{mass_max}_Q_{Q_ll}" # Dilepton mass
                     ],
+                    "ditau": [
+                        "goodvertex",
+                        "Stitching",
+                        "lumi",
+                        "metfilters",
+                        f"trigger_{trigger_option}",
+                        "HEMCleaning",
+                        f"met_{met_threshold}",
+                        "bjet_veto",
+                        "electron_veto",
+                        "muon_veto",
+                        f"two_taus_{tau_wp_vs_jet}",
+                        f"l1P_{l1pass}_l2P_{l2pass}_l2F_{l2fail}", # DiTau cut
+                        f"dilepton_min_{mass_min}_max_{mass_max}_Q_{Q_ll}" # Dilepton mass
+                    ],
                 },
                 "1l0b_D":{
                     "tau": [
+                        "goodvertex",
+                        "Stitching",
+                        "lumi",
+                        "metfilters",
+                        f"trigger_{trigger_option}",
+                        "HEMCleaning",
+                        f"met_{met_threshold}",
+                        "bjet_veto",
+                        "electron_veto",
+                        "muon_veto",
+                        f"two_taus_{tau_wp_vs_jet}",
+                        f"l1P_{l1pass}_l2P_{l2pass}_l2F_{l2fail}", # DiTau cut
+                        f"dilepton_min_{mass_min}_max_{mass_max}_Q_{Q_ll}" # Dilepton mass
+                    ],
+                    "ditau": [
                         "goodvertex",
                         "Stitching",
                         "lumi",
@@ -836,7 +871,8 @@ class QCD_ABCD_Proccessor(processor.ProcessorABC):
                 lepton_region_map = {
                     "ele": region_electrons,
                     "mu": region_muons,
-                    "tau": region_taus
+                    "tau": region_taus,
+                    "ditau": region_taus,
                 }
 
                 region_leptons = lepton_region_map[self.lepton_flavor]

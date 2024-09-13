@@ -25,10 +25,20 @@ QCD_ABCD_mt_selection = {
             "min_mt": 60.0,
             "max_mt": 120.0,
             "invert": False,
+        },   
+        "ditau": {
+            "min_mt": 60.0,
+            "max_mt": 120.0,
+            "invert": False,
         },    
     },
     "1l0b_D": {
         "tau": {
+            "min_mt": 60.0,
+            "max_mt": 120.0,
+            "invert": False,
+        },  
+        "ditau": {
             "min_mt": 60.0,
             "max_mt": 120.0,
             "invert": False,

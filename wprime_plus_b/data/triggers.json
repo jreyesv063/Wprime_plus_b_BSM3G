@@ -68,7 +68,12 @@
             "TkMu100"
          ]
       },
-      "tau": ["PFMETNoMu120_PFMHTNoMu120_IDTight"]
+      "tau": ["PFMETNoMu120_PFMHTNoMu120_IDTight"],
+      "ditau":[
+         "DoubleTightChargedIsoPFTau35_Trk1_TightID_eta2p1_Reg",
+         "DoubleMediumChargedIsoPFTau40_Trk1_TightID_eta2p1_Reg",
+         "DoubleTightChargedIsoPFTau40_Trk1_eta2p1_Reg"
+      ]
    },
    "2018":{
       "ele":{
@@ -89,6 +94,12 @@
             "TkMu100"
          ]
       },
-      "tau": ["PFMETNoMu120_PFMHTNoMu120_IDTight"]
+      "tau": ["PFMETNoMu120_PFMHTNoMu120_IDTight"],
+      "ditau": [
+         "DoubleTightChargedIsoPFTau35_Trk1_TightID_eta2p1_Reg",
+         "DoubleMediumChargedIsoPFTau40_Trk1_TightID_eta2p1_Reg",
+         "DoubleTightChargedIsoPFTau40_Trk1_eta2p1_Reg",
+         "DoubleMediumChargedIsoPFTauHPS35_Trk1_eta2p1_Reg"
+      ]
    }
 }

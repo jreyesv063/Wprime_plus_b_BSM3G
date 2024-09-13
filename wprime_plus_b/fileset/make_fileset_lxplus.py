@@ -12,92 +12,125 @@ ERAS = {
 
 SITES = {
     "2016APV": [
-        "T3_US_FNALLPC",
         "T1_US_FNAL_Disk",
-#        "T2_US_Vanderbilt", # 26/07/2024
+        "T1_FR_CCIN2P3_Tape",
+        "T1_FR_CCIN2P3_Disk",
+        "T1_DE_KIT_Disk",
+        "T1_ES_PIC_Disk",
+        "T1_US_FNAL_Disk",
+        "T1_UK_RAL_Disk",
+        "T1_RU_JINR_Disk",
+#       "T1_RU_JINR_Disk",
         "T2_US_Purdue",
         "T2_US_Nebraska",
         "T2_DE_DESY",
- #       "T2_BE_IIHE",  # 26/07/2024
+        "T2_TW_NCHC",   
         "T2_CH_CERN",
-        "T1_DE_KIT_Disk",
         "T2_DE_RWTH",
-
-        "T1_FR_CCIN2P3_Tape",
- #       "T2_IT_Legnaro",  # 18/07/2024
- #       "T2_IT_Rome",     # 18/07/2024
-        "T2_TW_NCHC",      
-        "T3_FR_IPNL",
- #       "T3_IT_Trieste",  # 18/07/2024
         "T2_UK_London_IC",
- #       "T1_RU_JINR_Disk",
-
+        "T2_IN_TIFR",
+        "T2_US_MIT",
+        "T2_BR_UERJ",
+        "T2_FR_IPHC",
+#        "T2_BE_IIHE",  
+#        "T2_US_Vanderbilt",
+#        "T2_IT_Legnaro",  
+#        "T2_IT_Rome",     
+        "T3_US_FNALLPC",  
+        "T3_FR_IPNL",
+        "T3_KR_UOS",
+        "T3_CH_CERN_OpenData",
+ #       "T3_IT_Trieste",  
+ 
     ],
     "2016": [
-        "T3_US_FNALLPC",
-#        "T1_US_FNAL_Disk",  # 05/08/2024
-        "T2_US_Vanderbilt",
+        "T1_US_FNAL_Disk",
+        "T1_FR_CCIN2P3_Tape",
+        "T1_FR_CCIN2P3_Disk",
+        "T1_DE_KIT_Disk",
+        "T1_ES_PIC_Disk",
+        "T1_US_FNAL_Disk",
+        "T1_UK_RAL_Disk",
+        "T1_RU_JINR_Disk",
+#       "T1_RU_JINR_Disk",
         "T2_US_Purdue",
         "T2_US_Nebraska",
         "T2_DE_DESY",
-#        "T2_BE_IIHE",  # 27/07/2024
+        "T2_TW_NCHC",   
         "T2_CH_CERN",
-        "T1_DE_KIT_Disk",
-#        "T2_DE_RWTH", # 05/08/2024: (.rwth-aachen.de)
-        "T2_BE_UCL",
-#        "T1_UK_RAL_Disk",
-        "T1_FR_CCIN2P3_Disk",
-
+        "T2_DE_RWTH",
+        "T2_UK_London_IC",
+        "T2_IN_TIFR",
+        "T2_US_MIT",
+        "T2_BR_UERJ",
+        "T2_FR_IPHC",
+#        "T2_BE_IIHE",  
+#        "T2_US_Vanderbilt", 
+#        "T2_IT_Legnaro",  
+#        "T2_IT_Rome",     
+        "T3_US_FNALLPC",  
         "T3_FR_IPNL",
-#        "T3_IT_Trieste", # 27/07/2024
-        "T1_FR_CCIN2P3_Disk",
-        "T1_FR_CCIN2P3_Tape",
+        "T3_KR_UOS",
         "T3_CH_CERN_OpenData",
-#        "T1_RU_JINR_Disk",
+ #       "T3_IT_Trieste",  
     ],
     "2017": [
-        "T2_BE_UCL",
-#        "T2_ES_CIEMAT", 
-        "T3_FR_IPNL",
-#        "T3_US_Baylor",
-#        "T2_UK_London_IC",
-#        "T2_US_Nebraska",  # 31/07/2024 root://xrootd-local.unl.edu:1094
-        "T2_DE_DESY",  # 01/08/2024
-        "T2_CH_CERN", 
         "T1_FR_CCIN2P3_Tape",  
-#        "T2_EE_Estonia", # 14/07/2024 
-#        "T3_CH_PSI", # 02/08/2024
-#        "T3_KR_KISTI", # 04/07/2024
-#        "T3_KR_UOS", # 01/08/2024
-#        "T3_US_NotreDame", # crc.nd.edu 01/08/2024
-#        "T1_RU_JINR_Disk", # 11/08/2024
-       "T3_US_FNALLPC", # 04/07/2024
-       "T1_US_FNAL_Disk",  # 29/08/2024 (root://cmseos.fnal.gov/)
-       "T2_US_Vanderbilt",   # 11/08/2024
-       "T2_US_Purdue", # 3/07/2024
-       "T2_BE_IIHE",  # 3/07/2024
-#       "T3_IT_Trieste", # 12/08/2024
+        "T1_US_FNAL_Disk",
+#        "T1_RU_JINR_Disk", 
+        "T3_US_FNALLPC",
+        "T1_US_FNAL_Disk",  
+        "T2_US_Purdue", 
+        "T2_BE_IIHE",  
+        "T2_BE_UCL",
+        "T2_DE_DESY",  
+        "T2_DE_RWTH",
+        "T2_CH_CERN", 
+        "T2_HU_Budapest",
+        "T2_DE_RWTH",
+        "T2_FR_IPHC",
+#        "T2_US_Vanderbilt", 
+#        "T2_ES_CIEMAT", 
+#        "T2_UK_London_IC",
+#        "T2_US_Nebraska",  
+#        "T2_EE_Estonia", 
+        "T3_FR_IPNL",
+#        "T3_IT_Trieste", 
+#        "T3_CH_PSI", 
+#        "T3_KR_KISTI", 
+#        "T3_KR_UOS", 
+#        "T3_US_NotreDame",
+#        "T3_US_Baylor",
     ],
     "2018": [
-#        "T3_US_FNALLPC", # 17/07/2024
-#        "T1_US_FNAL_Disk", # 17/07/2024
-        "T2_US_Vanderbilt", # 27/07/2024
-        "T2_US_Purdue",
-#        "T2_US_Nebraska",  # 04/08/2024
-        "T2_DE_DESY",
-        "T2_BE_IIHE", # 27/07/2024
-        "T2_CH_CERN",
         "T1_DE_KIT_Disk",
+        "T1_IT_CNAF_Disk",
+        "T1_RU_JINR_Disk",
+        "T1_UK_RAL_Disk",
+        "T1_US_FNAL_Disk",
+        "T1_FR_CCIN2P3_Tape",
+        "T1_FR_CCIN2P3_Disk",
+#        "T1_FR_CCIN2P3_Disk", 
+#        "T1_US_FNAL_Disk",
+#        "T1_FR_CCIN2P3_Tape", 
+        "T2_US_Vanderbilt", 
+        "T2_US_Purdue",
+        "T2_DE_DESY",
+        "T2_BE_IIHE", 
+        "T2_CH_CERN",
         "T2_DE_RWTH",
-
-#        "T1_FR_CCIN2P3_Tape", # 14/07/2024
         "T2_US_Wisconsin",
-#        "T3_IT_Trieste",      # 15/07/2024
-#        "T1_FR_CCIN2P3_Disk", # 14/07/2024
         "T2_BE_UCL",
-#        "T2_FR_IPHC",
         "T2_PL_Cyfronet",
-        "T2_US_Caltech",        
+        "T2_US_Caltech",    
+        "T2_BR_SPRACE",
+        "T2_UK_London_IC",
+        "T2_HU_Budapest",
+        "T2_IT_Rome",
+#        "T2_FR_IPHC",
+#        "T2_US_Nebraska",  
+#        "T3_US_FNALLPC",  
+#        "T3_IT_Trieste",     
     ],
 }
 

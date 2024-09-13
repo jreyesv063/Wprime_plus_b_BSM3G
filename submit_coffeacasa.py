@@ -38,7 +38,7 @@ if __name__ == "__main__":
         dest="lepton_flavor",
         type=str,
         default="",
-        help="lepton flavor to be processed {'mu', 'ele', 'tau'}",
+        help="lepton flavor to be processed {'mu', 'ele', 'tau', 'ditau'}",
     )
     parser.add_argument(
         "--sample",

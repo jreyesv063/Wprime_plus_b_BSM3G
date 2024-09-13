@@ -25,6 +25,7 @@ from wprime_plus_b.corrections.jetvetomaps import jetvetomaps_mask
 from wprime_plus_b.corrections.wjets_topjets import add_QCD_vs_W_weight, add_QCD_vs_Top_weight
 from wprime_plus_b.corrections.tau_high_pt import add_tau_high_pt_corrections
 from wprime_plus_b.corrections.ISR import ISR_weight
+from wprime_plus_b.corrections.top_boost import add_top_boost_corrections
 
 # Selections: Config
 from wprime_plus_b.selections.top_tagger.bjet_config import top_tagger_bjet_selection
@@ -612,7 +613,23 @@ class TopTaggerProccessor(processor.ProcessorABC):
             wjets = events.FatJet[good_wjets]
             
 
-
+            # -------------------------
+            # ST correction
+            # -------------------------
+            if self.lepton_flavor == "tau":
+                add_top_boost_corrections(
+                        jets = jets,
+                        bjets = bjets,
+                        muons = muons,
+                        electrons = electrons,
+                        taus = taus,
+                        met = events.MET,
+                        lepton_flavor = self.lepton_flavor,
+                        dataset = dataset,
+                        weights = weights_container,
+                        year = self.year,
+                        variation = syst_var,
+                ) 
 
             # -------------------------------------------------------------
             # event selection
@@ -722,6 +739,7 @@ class TopTaggerProccessor(processor.ProcessorABC):
                 self.selections.add("HEMCleaning", np.ones(len(events), dtype="bool"))
             else:
                 self.selections.add("HEMCleaning", np.ones(len(events), dtype="bool"))
+
 
 
             # --------------------------

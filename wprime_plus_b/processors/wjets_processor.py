@@ -366,25 +366,8 @@ class WjetsProccessor(processor.ProcessorABC):
                 tau_corrector.add_id_weight_DeepTau2017v2p1VSjet()
 
                 if self.lepton_flavor == "tau":
-                    
-                    # It is not necessary. Hight pt corrections are inside add_id_weight_DeepTau2017v2p1VSjet("pt")
-                    """
-                    add_tau_high_pt_corrections(taus=events.Tau, 
-                            weights=weights_container, 
-                            year=self.year,
-                            variation=syst_var
-                    )
-                    """
-
-                    with importlib.resources.path("wprime_plus_b.data", "triggers.json") as path:
-                        with open(path, "r") as handle:
-                            trigger_names = json.load(handle)[self.year]
-
-                    trigger_name = trigger_names[self.lepton_flavor][0]
-
-                    mask_trigger = (events.HLT[trigger_name])
                     # add met trigger SF
-                    add_met_trigger_corrections(mask_trigger, dataset, events.MET, weights_container, self.year, "", syst_var) 
+                    add_met_trigger_corrections(trigger_mask, dataset, events.MET, weights_container, self.year, "", syst_var) 
 
 
             if syst_var == "nominal":

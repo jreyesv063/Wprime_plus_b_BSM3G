@@ -274,6 +274,12 @@ ht_axis = hist.axis.Regular(
     name="HT",
 )
 
+ht_gen_axis = hist.axis.Regular(
+    bins = 1000,
+    start = 0,
+    stop = 2000,
+    name="HT_gen",
+)
 
 st_axis = hist.axis.Regular(
     bins = 1000,
@@ -332,8 +338,9 @@ leading_jet_hist = hist.Hist(
 # ST and HT histogram
 st_ht_hist = hist.Hist(
     ht_axis,            # "HT"
+    ht_gen_axis,        # "HT_gen"
     st_axis,            # "ST"
-    st_met_axis,       # "ST_met"
+    st_met_axis,        # "ST_met"
     st_full_axis,       # "ST_full"
     syst_axis,                 # "variation"
     hist.storage.Weight(),

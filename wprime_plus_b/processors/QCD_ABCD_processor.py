@@ -83,6 +83,7 @@ class QCD_ABCD_Proccessor(processor.ProcessorABC):
             "bjet_kin": histograms.ttbar_bjet_hist,
             "tau_kin": histograms.ttbar_tau_hist,
             "Z_kin": histograms.Ztoll_hist,
+            "HT_kin": histograms.st_ht_hist,
         }
         # define dictionary to store analysis variables
         self.features = {}
@@ -364,34 +365,9 @@ class QCD_ABCD_Proccessor(processor.ProcessorABC):
                     tau_corrector.add_id_weight_diTauTrigger(mask_trigger = trigger_mask, trigger = "ditau", info = "sf", dm = -1)
 
                 if self.lepton_flavor == "tau":
-                    # It is not necessary: Hight pt corrections are inside add_id_weight_DeepTau2017v2p1VSjet("pt")
-                    """
-                    add_tau_high_pt_corrections(taus=events.Tau, 
-                            weights=weights_container, 
-                            year=self.year,
-                            variation=syst_var
-                    )
-                    
-
-                    with importlib.resources.path("wprime_plus_b.data", "triggers.json") as path:
-                        with open(path, "r") as handle:
-                            trigger_names = json.load(handle)[self.year]
-
-                    trigger_name = trigger_names[self.lepton_flavor][0]
-
-                    mask_trigger = (events.HLT[trigger_name])
-                    """
                     # add met trigger SF
                     add_met_trigger_corrections(trigger_mask, dataset, events.MET, weights_container, self.year, "", syst_var) 
 
-
-            if syst_var == "nominal":
-                # save sum of weights before selections
-                output["metadata"].update({"sumw": ak.sum(weights_container.weight())})
-                # save weights statistics
-                output["metadata"].update({"weight_statistics": {}})
-                for weight, statistics in weights_container.weightStatistics.items():
-                    output["metadata"]["weight_statistics"][weight] = statistics
                     
             # -------------------------------------------------------------
             # object selection
@@ -682,14 +658,13 @@ class QCD_ABCD_Proccessor(processor.ProcessorABC):
                 taus_wps = json.load(file)
 
             fail_tau_wp = QCD_ABCD_tau_selection[self.channel][self.lepton_flavor]["tau_vs_fail"]
-            fail_tau_wp_mask = taus.idDeepTau2017v2p1VSjet < taus_wps["DeepTau2017"]["deep_tau_jet"][fail_tau_wp]
+            fail_tau_wp_mask = ak.firsts(taus).idDeepTau2017v2p1VSjet < taus_wps["DeepTau2017"]["deep_tau_jet"][fail_tau_wp]
 
             self.selections.add(f"tau_fail_{fail_tau_wp}", ak.any(fail_tau_wp_mask, axis=1))
             
             # --------------------------
             #  mt(lepton, met) cut
             # --------------------------
-         
             min_mt = QCD_ABCD_mt_selection[self.channel][self.lepton_flavor]["min_mt"]
             max_mt = QCD_ABCD_mt_selection[self.channel][self.lepton_flavor]["max_mt"]
             invert_mt = QCD_ABCD_mt_selection[self.channel][self.lepton_flavor]["invert"]
@@ -836,8 +811,21 @@ class QCD_ABCD_Proccessor(processor.ProcessorABC):
                 }              
             }
 
+
+
+            # ----------------------------
+            # Save weights statistics
+            # ----------------------------    
+            if syst_var == "nominal":
+                # save sum of weights before selections
+                output["metadata"].update({"sumw": ak.sum(weights_container.weight())})
+                # save weights statistics
+                output["metadata"].update({"weight_statistics": {}})
+                for weight, statistics in weights_container.weightStatistics.items():
+                    output["metadata"]["weight_statistics"][weight] = statistics
+
             # --------------
-            # save cutflow before the top tagger
+            # save cutflow
             # --------------
             if syst_var == "nominal":
                 cut_names = region_selection[self.channel][self.lepton_flavor]
@@ -913,6 +901,11 @@ class QCD_ABCD_Proccessor(processor.ProcessorABC):
                 if self.is_mc:
                     # genPartFlav is only defined in MC samples
                     self.add_feature("genPartFlav", region_taus.genPartFlav)
+
+                # Check if the sample has LHE and HT attributes
+                if hasattr(events, 'LHE') and hasattr(events.LHE, 'HT'):
+                    self.add_feature("HT", events.LHE.HT[region_selection])
+
 
                 self.add_feature("decayMode", region_taus.decayMode)
                 self.add_feature("isolation_electrons", region_taus.idDeepTau2017v2p1VSe)

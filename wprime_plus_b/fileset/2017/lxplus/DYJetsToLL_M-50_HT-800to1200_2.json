@@ -1,7 +1,0 @@
-{
-    "DYJetsToLL_M-50_HT-800to1200_2": [
-        "root://maite.iihe.ac.be:1095//store/mc/RunIISummer20UL17NanoAODv9/DYJetsToLL_M-50_HT-800to1200_TuneCP5_PSweights_13TeV-madgraphMLM-pythia8/NANOAODSIM/106X_mc2017_realistic_v9-v1/120000/93159D45-0DCB-994E-AE43-9D448E52E9EB.root",
-        "root://dcache-cms-xrootd.desy.de:1094//store/mc/RunIISummer20UL17NanoAODv9/DYJetsToLL_M-50_HT-800to1200_TuneCP5_PSweights_13TeV-madgraphMLM-pythia8/NANOAODSIM/106X_mc2017_realistic_v9-v1/120000/967D83A3-32C4-0448-8F51-BAFDE483E271.root",
-        "root://cmsdcadisk.fnal.gov//dcache/uscmsdisk/store/mc/RunIISummer20UL17NanoAODv9/DYJetsToLL_M-50_HT-800to1200_TuneCP5_PSweights_13TeV-madgraphMLM-pythia8/NANOAODSIM/106X_mc2017_realistic_v9-v1/120000/AC3866C1-DCD6-F24D-8050-4BCC0EA15607.root"
-    ]
-}

@@ -1,7 +1,0 @@
-{
-    "WJetsToLNu_HT-70To100_8": [
-        "root://cmsdcadisk.fnal.gov//dcache/uscmsdisk/store/mc/RunIISummer20UL17NanoAODv9/WJetsToLNu_HT-70To100_TuneCP5_13TeV-madgraphMLM-pythia8/NANOAODSIM/106X_mc2017_realistic_v9-v1/270000/B72C600D-8D6E-C847-8E89-6297C958ED89.root",
-        "root://dcache-cms-xrootd.desy.de:1094//store/mc/RunIISummer20UL17NanoAODv9/WJetsToLNu_HT-70To100_TuneCP5_13TeV-madgraphMLM-pythia8/NANOAODSIM/106X_mc2017_realistic_v9-v1/270000/D7857160-61D7-6641-A510-45309676D447.root",
-        "root://maite.iihe.ac.be:1095//store/mc/RunIISummer20UL17NanoAODv9/WJetsToLNu_HT-70To100_TuneCP5_13TeV-madgraphMLM-pythia8/NANOAODSIM/106X_mc2017_realistic_v9-v1/270000/D9EF9E9C-21B3-E743-9B84-A4BA0663097B.root"
-    ]
-}

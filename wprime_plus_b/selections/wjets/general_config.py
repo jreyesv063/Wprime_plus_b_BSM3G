@@ -1,7 +1,7 @@
 wjet_trigger_selection = {
     "1j1l": {
         "mu": {
-            "trigger": "highpt",
+            "trigger": "tight",
             "trigger_eff": "",
         },    
     },

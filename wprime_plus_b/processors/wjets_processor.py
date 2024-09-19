@@ -365,19 +365,11 @@ class WjetsProccessor(processor.ProcessorABC):
                 tau_corrector.add_id_weight_DeepTau2017v2p1VSmu()
                 tau_corrector.add_id_weight_DeepTau2017v2p1VSjet()
 
-                if self.lepton_flavor == "tau":
-                    # add met trigger SF
-                    add_met_trigger_corrections(trigger_mask, dataset, events.MET, weights_container, self.year, "", syst_var) 
+                if self.channel != "1j1l":
+                    if self.lepton_flavor == "tau":
+                        # add met trigger SF
+                        add_met_trigger_corrections(trigger_mask, dataset, events.MET, weights_container, self.year, "", syst_var) 
 
-
-            if syst_var == "nominal":
-                # save sum of weights before selections
-                output["metadata"].update({"sumw": ak.sum(weights_container.weight())})
-                # save weights statistics
-                output["metadata"].update({"weight_statistics": {}})
-                for weight, statistics in weights_container.weightStatistics.items():
-                    output["metadata"]["weight_statistics"][weight] = statistics
-                    
             # -------------------------------------------------------------
             # object selection
             # -------------------------------------------------------------
@@ -743,6 +735,18 @@ class WjetsProccessor(processor.ProcessorABC):
                     ],
                 }
             }
+
+
+            # ----------------------------
+            # Save weights statistics
+            # ----------------------------    
+            if syst_var == "nominal":
+                # save sum of weights before selections
+                output["metadata"].update({"sumw": ak.sum(weights_container.weight())})
+                # save weights statistics
+                output["metadata"].update({"weight_statistics": {}})
+                for weight, statistics in weights_container.weightStatistics.items():
+                    output["metadata"]["weight_statistics"][weight] = statistics
 
             # --------------
             # save cutflow before the top tagger

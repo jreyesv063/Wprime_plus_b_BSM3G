@@ -64,10 +64,10 @@ def add_top_boost_corrections(
 
         if variation == "nominal":
             # get 'up' and 'down' scale factors
-            sf_up = cset[f"Top_boost_weight_{year}_UL"].evaluate(njet, st_pt ,"up")
+            sf_up = cset[f"Top_boost_weight_{year}_UL_{lepton_flavor}"].evaluate(njet, st_pt ,"up")
             up_sf = np.where(in_st_mask, sf_up, 1.0)
             
-            sf_down =  cset[f"Top_boost_weight_{year}_UL"].evaluate(njet, st_pt ,"down")
+            sf_down =  cset[f"Top_boost_weight_{year}_UL_{lepton_flavor}"].evaluate(njet, st_pt ,"down")
             down_sf = np.where(in_st_mask, sf_down, 1.0)
                     
             # add scale factors to weights container

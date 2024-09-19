@@ -220,6 +220,15 @@ class ZToLLProcessor(processor.ProcessorABC):
                         
                 trigger_match_mask = np.ones(len(events), dtype="bool")
 
+            # -------------------------------------------------------------
+            # Veto Jets
+            # -------------------------------------------------------------
+            jet_veto_mask = jetvetomaps_mask(events.Jet, self.year, "jetvetomap")
+            jets_veto = events.Jet[jet_veto_mask]
+
+            # -------------------------------------------------------------
+            # Weights
+            # ------------------------------------------------------------
             # set weights container
             weights_container = Weights(len(events), storeIndividual=True)
 
@@ -244,7 +253,7 @@ class ZToLLProcessor(processor.ProcessorABC):
                 
                 # add pujetid weigths
                 add_pujetid_weight(
-                    jets=events.Jet,
+                    jets=jets_veto,
                     weights=weights_container,
                     year=self.year,
                     working_point=ztoll_bjet_selection[self.channel][self.lepton_flavor][
@@ -255,7 +264,7 @@ class ZToLLProcessor(processor.ProcessorABC):
                 
                 # b-tagging corrector
                 btag_corrector = BTagCorrector(
-                    jets=events.Jet,
+                    jets=jets_veto,
                     weights=weights_container,
                     sf_type="comb",
                     worging_point=ztoll_bjet_selection[self.channel][self.lepton_flavor][
@@ -268,8 +277,8 @@ class ZToLLProcessor(processor.ProcessorABC):
                 )
                 # add b-tagging weights
                 btag_corrector.add_btag_weights(flavor="b")
-                #btag_corrector.add_btag_weights(flavor="c")
-                #btag_corrector.add_btag_weights(flavor="light")
+                btag_corrector.add_btag_weights(flavor="c")
+                btag_corrector.add_btag_weights(flavor="light")
                 # electron corrector
                 electron_corrector = ElectronCorrector(
                     electrons=events.Electron,
@@ -342,15 +351,6 @@ class ZToLLProcessor(processor.ProcessorABC):
                 tau_corrector.add_id_weight_DeepTau2017v2p1VSmu()
                 tau_corrector.add_id_weight_DeepTau2017v2p1VSjet()
                 
-
-            if syst_var == "nominal":
-                # save sum of weights before selections
-                output["metadata"].update({"sumw": ak.sum(weights_container.weight())})
-                # save weights statistics
-                output["metadata"].update({"weight_statistics": {}})
-                for weight, statistics in weights_container.weightStatistics.items():
-                    output["metadata"]["weight_statistics"][weight] = statistics
-                    
             # -------------------------------------------------------------
             # object selection
             # -------------------------------------------------------------
@@ -432,7 +432,7 @@ class ZToLLProcessor(processor.ProcessorABC):
 
             # select good bjets
             good_bjets = select_good_bjets(
-                jets=events.Jet,
+                jets=jets_veto,
                 year=self.year,
                 btag_working_point=ztoll_bjet_selection[self.channel][
                     self.lepton_flavor
@@ -452,16 +452,16 @@ class ZToLLProcessor(processor.ProcessorABC):
             )
             good_bjets = (
                 good_bjets
-                & (delta_r_mask(events.Jet, electrons, threshold=cc))
-                & (delta_r_mask(events.Jet, muons, threshold=cc))
-                & (delta_r_mask(events.Jet, taus, threshold=cc))
+                & (delta_r_mask(jets_veto, electrons, threshold=cc))
+                & (delta_r_mask(jets_veto, muons, threshold=cc))
+                & (delta_r_mask(jets_veto, taus, threshold=cc))
             )
 
-            bjets = events.Jet[good_bjets]
+            bjets = jets_veto[good_bjets]
 
             # select good jets
             good_jets = select_good_jets(
-                jets=events.Jet,
+                jets=jets_veto,
                 year=self.year,
                 btag_working_point=ztoll_jet_selection[self.channel][
                     self.lepton_flavor
@@ -481,13 +481,13 @@ class ZToLLProcessor(processor.ProcessorABC):
             )
             good_jets = (
                 good_jets
-                & (delta_r_mask(events.Jet, electrons, threshold=cc))
-                & (delta_r_mask(events.Jet, muons, threshold=cc))
-                & (delta_r_mask(events.Jet, taus, threshold=cc))
-                & (delta_r_mask(events.Jet, bjets, threshold=cc))
+                & (delta_r_mask(jets_veto, electrons, threshold=cc))
+                & (delta_r_mask(jets_veto, muons, threshold=cc))
+                & (delta_r_mask(jets_veto, taus, threshold=cc))
+                & (delta_r_mask(jets_veto, bjets, threshold=cc))
             )
 
-            jets = events.Jet[good_jets]
+            jets = jets_veto[good_jets]
 
 
             # Selec good leading Jets
@@ -560,11 +560,6 @@ class ZToLLProcessor(processor.ProcessorABC):
             )
 
             leading_jet =  leading_jets[good_leading_jets]
-
-
-            if self.year in ["2016APV", "2016", "2018"]:
-                vetomask = jetvetomaps_mask(jets=events.Jet, year=self.year, mapname="jetvetomap")
-                #good_bjets = good_bjets & vetomask
 
 
             # -------------------------------------------------------------
@@ -709,8 +704,6 @@ class ZToLLProcessor(processor.ProcessorABC):
                 self.selections.add("Stitching", np.ones(len(events), dtype="bool"))
             
                 
-            trigger_mask = ak.fill_none(events.HLT["PFMETNoMu120_PFMHTNoMu120_IDTight"], False)  
-            self.selections.add("trigger_met",  trigger_mask)
 
             met_filter_v2 = events.Flag.METFilters
             self.selections.add("met_filters_v2",  met_filter_v2)
@@ -751,6 +744,17 @@ class ZToLLProcessor(processor.ProcessorABC):
                     ]
                 }
             }
+
+            # ----------------------------
+            # Save weights statistics
+            # ----------------------------    
+            if syst_var == "nominal":
+                # save sum of weights before selections
+                output["metadata"].update({"sumw": ak.sum(weights_container.weight())})
+                # save weights statistics
+                output["metadata"].update({"weight_statistics": {}})
+                for weight, statistics in weights_container.weightStatistics.items():
+                    output["metadata"]["weight_statistics"][weight] = statistics
 
             # --------------
             # save cutflow before the top tagger

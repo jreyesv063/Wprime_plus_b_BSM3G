@@ -23,8 +23,8 @@ from wprime_plus_b.corrections.tau import TauCorrector
 from wprime_plus_b.corrections.electron import ElectronCorrector
 from wprime_plus_b.corrections.jetvetomaps import jetvetomaps_mask
 from wprime_plus_b.corrections.wjets_topjets import add_QCD_vs_W_weight, add_QCD_vs_Top_weight
-from wprime_plus_b.corrections.tau_high_pt import add_tau_high_pt_corrections
 from wprime_plus_b.corrections.ISR import ISR_weight
+from wprime_plus_b.corrections.top_boost import add_top_boost_corrections
 
 # Selections: Config
 from wprime_plus_b.selections.signal.bjet_config import signal_bjet_selection
@@ -250,6 +250,16 @@ class SignalProccessor(processor.ProcessorABC):
                         
                 trigger_match_mask = np.ones(len(events), dtype="bool")
 
+            # -------------------------------------------------------------
+            # Veto Jets
+            # -------------------------------------------------------------
+            jet_veto_mask = jetvetomaps_mask(events.Jet, self.year, "jetvetomap")
+            jets_veto = events.Jet[jet_veto_mask]
+
+
+            # -------------------------------------------------------------
+            # Weights
+            # -------------------------------------------------------------
             # set weights container
             weights_container = Weights(len(events), storeIndividual=True)
 
@@ -276,7 +286,7 @@ class SignalProccessor(processor.ProcessorABC):
 
                 # add pujetid weigths
                 add_pujetid_weight(
-                    jets=events.Jet,
+                    jets=jets_veto,
                     weights=weights_container,
                     year=self.year,
                     working_point=signal_bjet_selection[self.lepton_flavor][
@@ -287,7 +297,7 @@ class SignalProccessor(processor.ProcessorABC):
                 
                 # b-tagging corrector
                 btag_corrector = BTagCorrector(
-                    jets=events.Jet,
+                    jets=jets_veto,
                     weights=weights_container,
                     sf_type="comb",
                     worging_point=signal_bjet_selection[self.lepton_flavor][
@@ -396,33 +406,9 @@ class SignalProccessor(processor.ProcessorABC):
                 )
 
                 if self.lepton_flavor == "tau":
-
-                    """
-                    add_tau_high_pt_corrections(taus=events.Tau, 
-                            weights=weights_container, 
-                            year=self.year,
-                            variation=syst_var
-                    )
-                    """
-                    
-                    with importlib.resources.path("wprime_plus_b.data", "triggers.json") as path:
-                        with open(path, "r") as handle:
-                            trigger_names = json.load(handle)[self.year]
-
-                    trigger_name = trigger_names[self.lepton_flavor][0]
-
-                    mask_trigger = (events.HLT[trigger_name])
                     # add met trigger SF
-                    add_met_trigger_corrections(mask_trigger, dataset, events.MET, weights_container, self.year, "", syst_var)                    
+                    add_met_trigger_corrections(trigger_mask, dataset, events.MET, weights_container, self.year, "", syst_var)                    
                 
-                
-            if syst_var == "nominal":
-                # save sum of weights before selections
-                output["metadata"].update({"sumw": ak.sum(weights_container.weight())})
-                # save weights statistics
-                output["metadata"].update({"weight_statistics": {}})
-                for weight, statistics in weights_container.weightStatistics.items():
-                    output["metadata"]["weight_statistics"][weight] = statistics
                     
             # -------------------------------------------------------------
             # object selection
@@ -505,7 +491,7 @@ class SignalProccessor(processor.ProcessorABC):
 
             # select good bjets
             good_bjets = select_good_bjets(
-                jets=events.Jet,
+                jets=jets_veto,
                 year=self.year,
                 btag_working_point=signal_bjet_selection[
                     self.lepton_flavor
@@ -525,14 +511,15 @@ class SignalProccessor(processor.ProcessorABC):
             )
             good_bjets = (
                 good_bjets
-                & (delta_r_mask(events.Jet, electrons, threshold=cc))
-                & (delta_r_mask(events.Jet, muons, threshold=cc))
-                & (delta_r_mask(events.Jet, taus, threshold=cc))
+                & (delta_r_mask(jets_veto, electrons, threshold=cc))
+                & (delta_r_mask(jets_veto, muons, threshold=cc))
+                & (delta_r_mask(jets_veto, taus, threshold=cc))
             )
+            bjets = jets_veto[good_bjets]
 
             # select good jets
             good_jets = select_good_jets(
-                jets=events.Jet,
+                jets=jets_veto,
                 year=self.year,
                 btag_working_point=signal_jet_selection[
                     self.lepton_flavor
@@ -552,17 +539,12 @@ class SignalProccessor(processor.ProcessorABC):
             )
             good_jets = (
                 good_jets
-                & (delta_r_mask(events.Jet, electrons, threshold=cc))
-                & (delta_r_mask(events.Jet, muons, threshold=cc))
-                & (delta_r_mask(events.Jet, taus, threshold=cc))
+                & (delta_r_mask(jets_veto, electrons, threshold=cc))
+                & (delta_r_mask(jets_veto, muons, threshold=cc))
+                & (delta_r_mask(jets_veto, taus, threshold=cc))
+                & (delta_r_mask(jets_veto, bjets, threshold=cc))
             )
-
-            if self.year in ["2016APV", "2016", "2018"]:
-                vetomask = jetvetomaps_mask(jets=events.Jet, year=self.year, mapname="jetvetomap")
-                #good_bjets = good_bjets & vetomask
-                
-            bjets = events.Jet[good_bjets]
-            jets = events.Jet[good_jets]
+            jets = jets_veto[good_jets]
 
 
             # select good fatjets: cc = 0.8
@@ -584,6 +566,8 @@ class SignalProccessor(processor.ProcessorABC):
                 & (delta_r_mask(events.FatJet, electrons, threshold = 2*cc))
                 & (delta_r_mask(events.FatJet, muons, threshold = 2*cc))
                 & (delta_r_mask(events.FatJet, taus, threshold = 2*cc))
+                & (delta_r_mask(events.FatJet, bjets, threshold = 2*cc))
+                & (delta_r_mask(events.FatJet, jets, threshold = 2*cc))
             )   
             fatjets = events.FatJet[good_fatjets]
             
@@ -607,11 +591,30 @@ class SignalProccessor(processor.ProcessorABC):
                 & (delta_r_mask(events.FatJet, electrons, threshold = 2*cc))
                 & (delta_r_mask(events.FatJet, muons, threshold = 2*cc))
                 & (delta_r_mask(events.FatJet, taus, threshold = 2*cc))
+                & (delta_r_mask(events.FatJet, bjets, threshold = 2*cc))
+                & (delta_r_mask(events.FatJet, jets, threshold = 2*cc))
+                & (delta_r_mask(events.FatJet, fatjets, threshold = 2*cc))
             )   
             wjets = events.FatJet[good_wjets]
             
-
-
+            # -------------------------
+            # ST correction
+            # -------------------------
+            if self.lepton_flavor == "tau":
+                add_top_boost_corrections(
+                        jets = jets,
+                        bjets = bjets,
+                        muons = muons,
+                        electrons = electrons,
+                        taus = taus,
+                        met = events.MET,
+                        lepton_flavor = self.lepton_flavor,
+                        dataset = dataset,
+                        weights = weights_container,
+                        year = self.year,
+                        variation = syst_var,
+                ) 
+            
 
             # -------------------------------------------------------------
             # event selection
@@ -772,6 +775,17 @@ class SignalProccessor(processor.ProcessorABC):
                 ],
             }
 
+            # ----------------------------
+            # Save weights statistics
+            # ----------------------------    
+            if syst_var == "nominal":
+                # save sum of weights before selections
+                output["metadata"].update({"sumw": ak.sum(weights_container.weight())})
+                # save weights statistics
+                output["metadata"].update({"weight_statistics": {}})
+                for weight, statistics in weights_container.weightStatistics.items():
+                    output["metadata"]["weight_statistics"][weight] = statistics
+                    
             # --------------
             # save cutflow before the top tagger
             # --------------

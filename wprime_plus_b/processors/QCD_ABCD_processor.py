@@ -82,7 +82,7 @@ class QCD_ABCD_Proccessor(processor.ProcessorABC):
             "lepton_met_bjet_kin": histograms.ttbar_lepton_met_bjet_hist,
             "bjet_kin": histograms.ttbar_bjet_hist,
             "tau_kin": histograms.ttbar_tau_hist,
-            "Z_kin": histograms.Ztoll_hist
+            "Z_kin": histograms.Ztoll_hist,
         }
         # define dictionary to store analysis variables
         self.features = {}
@@ -227,6 +227,17 @@ class QCD_ABCD_Proccessor(processor.ProcessorABC):
                         
                 trigger_match_mask = np.ones(len(events), dtype="bool")
 
+            # -------------------------------------------------------------
+            # Veto Jets
+            # -------------------------------------------------------------
+            jet_veto_mask = jetvetomaps_mask(events.Jet,self.year, "jetvetomap")
+            jets_veto = events.Jet[jet_veto_mask]
+
+
+            
+            # -------------------------------------------------------------
+            # Weights
+            # -------------------------------------------------------------
             # set weights container
             weights_container = Weights(len(events), storeIndividual=True)
 
@@ -250,7 +261,7 @@ class QCD_ABCD_Proccessor(processor.ProcessorABC):
 
                 # add pujetid weigths
                 add_pujetid_weight(
-                    jets=events.Jet,
+                    jets=jets_veto,
                     weights=weights_container,
                     year=self.year,
                     working_point=QCD_ABCD_bjet_selection[self.channel][self.lepton_flavor][
@@ -261,7 +272,7 @@ class QCD_ABCD_Proccessor(processor.ProcessorABC):
                 
                 # b-tagging corrector
                 btag_corrector = BTagCorrector(
-                    jets=events.Jet,
+                    jets=jets_veto,
                     weights=weights_container,
                     sf_type="comb",
                     worging_point=QCD_ABCD_bjet_selection[self.channel][self.lepton_flavor][
@@ -466,7 +477,7 @@ class QCD_ABCD_Proccessor(processor.ProcessorABC):
 
             # select good bjets
             good_bjets = select_good_bjets(
-                jets=events.Jet,
+                jets=jets_veto,
                 year=self.year,
                 btag_working_point=QCD_ABCD_bjet_selection[self.channel][
                     self.lepton_flavor
@@ -486,12 +497,12 @@ class QCD_ABCD_Proccessor(processor.ProcessorABC):
             )
             good_bjets = (
                 good_bjets
-                & (delta_r_mask(events.Jet, electrons, threshold=cc))
-                & (delta_r_mask(events.Jet, muons, threshold=cc))
-                & (delta_r_mask(events.Jet, taus, threshold=cc))
+                & (delta_r_mask(jets_veto, electrons, threshold=cc))
+                & (delta_r_mask(jets_veto, muons, threshold=cc))
+                & (delta_r_mask(jets_veto, taus, threshold=cc))
             )
 
-            bjets = events.Jet[good_bjets]
+            bjets = jets_veto[good_bjets]
 
 
             # --------------------------
@@ -529,12 +540,6 @@ class QCD_ABCD_Proccessor(processor.ProcessorABC):
                 mass_max = QCD_ABCD_dilepton_selection[self.channel][self.lepton_flavor]["m_max"],
                 charge_selection = QCD_ABCD_dilepton_selection[self.channel][self.lepton_flavor]["Charge_ll"],
             )
-
-
-
-            if self.year in ["2016APV", "2016", "2018"]:
-                vetomask = jetvetomaps_mask(jets=events.Jet, year=self.year, mapname="jetvetomap")
-                #good_bjets = good_bjets & vetomask
 
 
             # -------------------------------------------------------------
@@ -761,7 +766,7 @@ class QCD_ABCD_Proccessor(processor.ProcessorABC):
                         "electron_veto",
                         "muon_veto",
                         f"one_tau_{tau_wp_vs_jet}",
-                        f"tau_fail_{fail_tau_wp}",
+ #                       f"tau_fail_{fail_tau_wp}",
                         f"mt_cut_min_{min_mt}_and_max_{max_mt}_invert_{invert_mt}"
                     ],
                 },
@@ -796,7 +801,7 @@ class QCD_ABCD_Proccessor(processor.ProcessorABC):
                         f"l1P_{l1pass}_l2P_{l2pass}_l2F_{l2fail}", # DiTau cut
                         f"dilepton_min_{mass_min}_max_{mass_max}_Q_{Q_ll}" # Dilepton mass
                     ],
-                },
+                }, 
                 "1l0b_D":{
                     "tau": [
                         "goodvertex",
@@ -828,7 +833,7 @@ class QCD_ABCD_Proccessor(processor.ProcessorABC):
                         f"l1P_{l1pass}_l2P_{l2pass}_l2F_{l2fail}", # DiTau cut
                         f"dilepton_min_{mass_min}_max_{mass_max}_Q_{Q_ll}" # Dilepton mass
                     ],
-                }                
+                }              
             }
 
             # --------------

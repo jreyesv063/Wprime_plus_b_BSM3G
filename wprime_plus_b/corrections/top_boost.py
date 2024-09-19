@@ -31,6 +31,7 @@ def add_top_boost_corrections(
 
         jet_pt = ak.sum(jets.pt, axis=1)
         bjet_pt = ak.sum(bjets.pt, axis=1)
+        njet = ak.num(jets)
         electron_pt = ak.sum(electrons.pt, axis=1)
         muon_pt = ak.sum(muons.pt, axis=1)
         tau_pt = ak.sum(taus.pt, axis=1)
@@ -45,45 +46,44 @@ def add_top_boost_corrections(
 
         # ST range
         in_st_mask = (
-            (st >= 250.0)
-            & (st <= 2000.0)
+            (st >= 200.0)
+            & (st <= 9000.0)
         )
         
+        
         st_masked = st.mask[in_st_mask]
-
+        
         st_pt = ak.fill_none(st_masked, 250)
         
-        sf = cset[f"Top_boost_weight_{year}_UL"].evaluate(st_pt, "nominal")
+
+        sf = cset[f"Top_boost_weight_{year}_UL_{lepton_flavor}"].evaluate(njet, st_pt ,"nominal")
 
 
         nominal_sf = np.where(in_st_mask, sf, 1.0)
     
-       
-        
+
         if variation == "nominal":
             # get 'up' and 'down' scale factors
-            sf_up = cset[f"Top_boost_weight_{year}_UL"].evaluate(st_pt, "up")
+            sf_up = cset[f"Top_boost_weight_{year}_UL"].evaluate(njet, st_pt ,"up")
             up_sf = np.where(in_st_mask, sf_up, 1.0)
             
-            sf_down =  cset[f"Top_boost_weight_{year}_UL"].evaluate(st_pt, "down")
+            sf_down =  cset[f"Top_boost_weight_{year}_UL"].evaluate(njet, st_pt ,"down")
             down_sf = np.where(in_st_mask, sf_down, 1.0)
                     
-            print(f"{nominal_sf = }")
-            print(f"{up_sf = }")
-            print(f"{down_sf =}")
             # add scale factors to weights container
             weights.add(
-                name=f"gatooooo",
+                name=f"top_boost_weight_{year}",
                 weight=nominal_sf,
                 weightUp=up_sf,
                 weightDown=down_sf,
             )
-            print(weights.weightStatistics.items())
 
         else:
             weights.add(
                 name=f"top_boost_weight_{year}",
                 weight=nominal_sf,
             )
+
     else:
         return
+    

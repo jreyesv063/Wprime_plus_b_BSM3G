@@ -240,7 +240,10 @@ class TauCorrector:
         # GenMatch = 0 or 6 = unmatched or jet, 1 or 3 = electron, 2 or 4 = muon, 5 = real tau
         tau_genMatch_mask = self.taus_genMatch == 5
         # Only taus passing the wp stablished
-        tau_wp_mask = self.taus_wp_jet > self.tau_vs_jet_wp
+        tau_wp_mask = (
+            (self.taus_wp_jet > self.tau_vs_jet_wp)  # vs Jet mask
+            & (self.taus_wp_jet > self.tau_vs_ele_wp) # vs Ele mask
+        )
         in_tau_mask = tau_dm_mask & tau_genMatch_mask & tau_wp_mask
         # get 'in-limits' taus
         in_limit_taus = self.taus.mask[in_tau_mask]

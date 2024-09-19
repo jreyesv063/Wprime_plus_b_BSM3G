@@ -228,6 +228,16 @@ class WjetsProccessor(processor.ProcessorABC):
                         
                 trigger_match_mask = np.ones(len(events), dtype="bool")
 
+            # -------------------------------------------------------------
+            # Veto Jets
+            # -------------------------------------------------------------
+            jet_veto_mask = jetvetomaps_mask(events.Jet, self.year, "jetvetomap")
+            jets_veto = events.Jet[jet_veto_mask]
+
+
+            # -------------------------------------------------------------
+            # Weights
+            # -------------------------------------------------------------
             # set weights container
             weights_container = Weights(len(events), storeIndividual=True)
 
@@ -256,7 +266,7 @@ class WjetsProccessor(processor.ProcessorABC):
                 
                 # add pujetid weigths               
                 add_pujetid_weight(
-                    jets=events.Jet,
+                    jets=jets_veto,
                     weights=weights_container,
                     year=self.year,
                     working_point=wjet_bjet_selection[self.channel][self.lepton_flavor][
@@ -267,7 +277,7 @@ class WjetsProccessor(processor.ProcessorABC):
                 
                 # b-tagging corrector
                 btag_corrector = BTagCorrector(
-                    jets=events.Jet,
+                    jets=jets_veto,
                     weights=weights_container,
                     sf_type="comb",
                     worging_point=wjet_bjet_selection[self.channel][self.lepton_flavor][
@@ -466,7 +476,7 @@ class WjetsProccessor(processor.ProcessorABC):
 
             # select good bjets
             good_bjets = select_good_bjets(
-                jets=events.Jet,
+                jets=jets_veto,
                 year=self.year,
                 btag_working_point=wjet_bjet_selection[self.channel][
                     self.lepton_flavor
@@ -486,16 +496,16 @@ class WjetsProccessor(processor.ProcessorABC):
             )
             good_bjets = (
                 good_bjets
-                & (delta_r_mask(events.Jet, electrons, threshold=cc))
-                & (delta_r_mask(events.Jet, muons, threshold=cc))
-                & (delta_r_mask(events.Jet, taus, threshold=cc))
+                & (delta_r_mask(jets_veto, electrons, threshold=cc))
+                & (delta_r_mask(jets_veto, muons, threshold=cc))
+                & (delta_r_mask(jets_veto, taus, threshold=cc))
             )
 
-            bjets = events.Jet[good_bjets]
+            bjets = jets_veto[good_bjets]
 
             # select good jets
             good_jets = select_good_jets(
-                jets=events.Jet,
+                jets=jets_veto,
                 year=self.year,
                 btag_working_point=wjet_jet_selection[self.channel][
                     self.lepton_flavor
@@ -515,13 +525,13 @@ class WjetsProccessor(processor.ProcessorABC):
             )
             good_jets = (
                 good_jets
-                & (delta_r_mask(events.Jet, electrons, threshold=cc))
-                & (delta_r_mask(events.Jet, muons, threshold=cc))
-                & (delta_r_mask(events.Jet, taus, threshold=cc))
-                & (delta_r_mask(events.Jet, bjets, threshold=cc))
+                & (delta_r_mask(jets_veto, electrons, threshold=cc))
+                & (delta_r_mask(jets_veto, muons, threshold=cc))
+                & (delta_r_mask(jets_veto, taus, threshold=cc))
+                & (delta_r_mask(jets_veto, bjets, threshold=cc))
             )
 
-            jets = events.Jet[good_jets]
+            jets = jets_veto[good_jets]
 
 
             # Selec good leading Jets
@@ -548,12 +558,6 @@ class WjetsProccessor(processor.ProcessorABC):
             )
 
             leading_jet =  leading_jets[good_leading_jets]
-
-
-
-            if self.year in ["2016APV", "2016", "2018"]:
-                vetomask = jetvetomaps_mask(jets=events.Jet, year=self.year, mapname="jetvetomap")
-                #good_bjets = good_bjets & vetomask
 
 
             # -------------------------------------------------------------

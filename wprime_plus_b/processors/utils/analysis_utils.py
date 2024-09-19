@@ -554,7 +554,9 @@ def histograms_output(
     self.add_feature("lepton_met_mass", lepton_met_mass)
     self.add_feature("lepton_met_delta_phi", lepton_met_delta_phi)
     self.add_feature("lepton_met_bjet_mass", lepton_met_bjet_mass)
-    
+
+
+    self.add_feature("njets_full", ak.num(region_jets) + ak.num(region_bjets))
     self.add_feature("njets", ak.num(region_jets))
     self.add_feature("nbjets", ak.num(region_bjets))
     self.add_feature("npvs", events.PV.npvsGood[mask])

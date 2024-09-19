@@ -76,7 +76,7 @@ SITES = {
     ],
     "2017": [
         "T1_FR_CCIN2P3_Tape",  
-        "T1_US_FNAL_Disk",
+#        "T1_US_FNAL_Disk",
 #        "T1_RU_JINR_Disk", 
         "T3_US_FNALLPC",
         "T1_US_FNAL_Disk",  

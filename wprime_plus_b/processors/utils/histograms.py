@@ -211,6 +211,12 @@ n_jets_axis = hist.axis.Regular(
     name="njets",
 )
 
+n_jets_all_axis = hist.axis.Regular(
+    bins=15,
+    start=0,
+    stop=15,
+    name="njets_full",
+)
 # number of bjets 
 n_bjets_axis = hist.axis.Regular(
     bins=15,
@@ -386,6 +392,7 @@ ttbar_lepton_met_bjet_hist = hist.Hist(
 
 # n objects
 ttbar_n_hist = hist.Hist(
+    n_jets_all_axis,           # njets_full
     n_jets_axis,               # njets
     n_bjets_axis,              # nbjets
     n_vertices_axis,           # npvs
@@ -401,6 +408,7 @@ top_tagger_hist = hist.Hist(
     syst_axis,                 # "variation"
     hist.storage.Weight(),
 )
+
 
 
 

@@ -31,5 +31,5 @@ def select_good_dilepton(
 
     Ql_Ql = charge[charge_selection]
 
-    return good_mass  & Ql_Ql
+    return Ql_Ql #good_mass  & Ql_Ql
     

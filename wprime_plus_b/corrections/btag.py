@@ -172,12 +172,14 @@ class BTagCorrector:
             "c": f"{self._tagger}_{self._sf}",
             "light": f"{self._tagger}_incl",
         }
+            
         # until correctionlib handles jagged data natively we have to flatten and unflatten
         j, nj = ak.flatten(self._jet_map[flavor]), ak.num(self._jet_map[flavor])
 
         # get 'in-limits' jets
         jet_eta_mask = np.abs(j.eta) < 2.499
-        in_jet_mask = jet_eta_mask
+        jet_btag_wp_mask = j.btagDeepFlavB > self._btagwp
+        in_jet_mask = jet_eta_mask & jet_btag_wp_mask 
         in_jets = j.mask[in_jet_mask]
 
         # get jet transverse momentum, abs pseudorapidity and hadron flavour (replace None values with some 'in-limit' value)

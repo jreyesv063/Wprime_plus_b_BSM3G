@@ -179,3 +179,50 @@ def add_met_trigger_corrections(
             weight=nominal_sf,
         )
              
+
+def update_met_jet_veto(events: ak.Array, jets_veto) -> None:
+    """
+    helper function to compute new MET after lepton pT correction. 
+    It uses the 'pt_raw' and 'pt' fields from 'leptons' to update MET 'pt' and 'phi' fields
+    
+    Parameters:
+        - events:
+            Events array
+        - lepton:
+            Lepton name {'Muon', 'Tau'}
+
+    https://github.com/columnflow/columnflow/blob/16d35bb2f25f62f9110a8f1089e8dc5c62b29825/columnflow/calibration/util.py#L42
+    https://github.com/Katsch21/hh2bbtautau/blob/e268752454a0ce0089ff08cc6c373a353be77679/hbt/calibration/tau.py#L117
+    """
+   
+    # Raw MET
+    met_pt = events.MET.pt
+    met_phi = events.MET.phi
+
+
+    # Jet veto pt(x,y) per event
+    jet_veto_pt_x = jets_veto.pt * np.cos(jets_veto.phi)
+    jet_veto_pt_y = jets_veto.pt * np.sin(jets_veto.phi)
+
+    # events.Jet.pt
+    jet_pt_x = events.Jet.pt * np.cos(events.Jet.phi)
+    jet_pt_y = events.Jet.pt * np.sin(events.Jet.phi)
+    
+
+    # get x and y changes
+    delta_x =  ak.sum(jet_pt_x , axis =-1) - ak.sum(jet_veto_pt_x , axis =-1) 
+    delta_y =  ak.sum(jet_pt_y , axis =-1) - ak.sum(jet_veto_pt_y , axis =-1) 
+
+    
+    # propagate changes to MET (x, y) components:Problematic samples y TTToSemiLeptonic and SingleMuon
+    met_px = met_pt * np.cos(met_phi) - delta_x
+    met_py = met_pt * np.sin(met_phi) - delta_y
+    
+
+    # propagate changes to MET (pT, phi) components
+    new_met_pt = np.sqrt((met_px ** 2.0 + met_py ** 2.0))
+    new_met_phi = np.arctan2(met_py, met_px)
+    
+    # update MET fields
+    events["MET", "pt"] = new_met_pt
+    events["MET", "phi"] = new_met_phi

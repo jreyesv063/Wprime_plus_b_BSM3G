@@ -37,77 +37,96 @@ EOF
 cd "$SCRIPT_DIR"
 
 # Declarar variables
-processor="top_tagger"     # ttbar ; ztoll: top_tagger; signal; wjets; qcd_abcd
-channel=""        # wjets -> {1j1l, 1l0b};  ztoll-> {ll, ll_ISR}; qcd_abcd -> {1l0b; 1l0b_A; 1l0b_B; 1l0b_C; 1l0b_D}; ttbar -> {2b1l, 1b1e1mu, 1b1l}
+processor="qcd_hadronic"     # ttbar ; ztoll: top_tagger; signal; wjets; qcd_abcd; qcd_hadronic
+channel="wjets"        # wjets -> {1j1l, 1l0b}; wplusjets -> {wjets, cr_b, cr_c, cr_d}, ztoll-> {ll, ll_ISR}; qcd_abcd -> {1l0b; 1l0b_A; 1l0b_B; 1l0b_C; 1l0b_D}; ttbar -> {2b1l, 1b1e1mu, 1b1l}
 
 
-lepton_flavor="mu"
+lepton_flavor="tau"
 year="2017" # 2016APV; 2016; 2017; 2018
 nfiles="-1"
 executor="futures"
 output_type="array" # hist/array
-nsample="1" # Importante: Dejar nsample="" si no se quiere un nsample especifico, en caso de querer uno especifico nsample="3"
-output_folder="2017_top_tagger" 
+nsample="" # Importante: Dejar nsample="" si no se quiere un nsample especifico, en caso de querer uno especifico nsample="3"
+output_folder="2017_top_tagger"
 
 
 samples=(
- "TTToSemiLeptonic"
-  "TTTo2L2Nu"   
-  "TTToHadronic"
-  "DYJetsToLL_M-10to50"
-  "DYJetsToLL_M-50_HT-70to100"
-  "DYJetsToLL_M-50_HT-100to200"
-  "DYJetsToLL_M-50_ext"
-  "DYJetsToLL_M-50_HT-200to400"
-  "DYJetsToLL_M-50_HT-400to600"
-  "DYJetsToLL_M-50_HT-600to800"
-  "DYJetsToLL_M-50_HT-800to1200"
-  "DYJetsToLL_M-50_inclusive"
-  "DYJetsToLL_M-50_HT-1200to2500"
-  "DYJetsToLL_M-50_HT-2500toInf"
-# # #  "SingleMuon"  
-   "MET" 
-#    "Tau"                       
-# # # #    "SingleElectron"
-  "ST_s-channel_4f_leptonDecays"
-  "ST_t-channel_antitop_5f_InclusiveDecays"
-  "ST_t-channel_top_5f_InclusiveDecays"
-  "ST_tW_antitop_5f_inclusiveDecays"
-  "ST_tW_top_5f_inclusiveDecays"
-  "WJetsToLNu_HT-70To100"
-  "WJetsToLNu_HT-100To200"
-  "WJetsToLNu_HT-200To400"
-  "WJetsToLNu_inclusive"
-  "WJetsToLNu_HT-400To600"
-  "WJetsToLNu_HT-600To800"
-  "WJetsToLNu_ext"  
-  "WJetsToLNu_HT-800To1200"
-  "WJetsToLNu_HT-1200To2500"
-  "WJetsToLNu_HT-2500ToInf"
-  "WW"
-  "WZ"
- "ZZ"                             
-#  "SignalTau_600GeV"
-#    "DYJetsToLL_M-50_CH3"
+#   "TTToSemiLeptonic"
+#    "TTTo2L2Nu"
+#    "TTToHadronic"
+#   "DYJetsToLL_nlo_M-10to50"
+#   "DYJetsToLL_nlo_M-50"
+# # # #   # "SingleMuon"
+#     "MET"
+# # # # # # # # # # # # # # # #   "Tau"
+# # # # # # # # # # # # # # # #   "SingleElectron"
+#    "ST_s-channel_4f_leptonDecays"
+#    "ST_t-channel_antitop_5f_InclusiveDecays"
+#    "ST_t-channel_top_5f_InclusiveDecays"
+#    "ST_tW_antitop_5f_inclusiveDecays"
+#    "ST_tW_top_5f_inclusiveDecays"
+#    "WJetsToLNu_HT-70To100"
+#    "WJetsToLNu_HT-100To200"
+#    "WJetsToLNu_HT-200To400"
+#    "WJetsToLNu_inclusive"
+#    "WJetsToLNu_HT-400To600"
+#    "WJetsToLNu_HT-600To800"
+#    "WJetsToLNu_ext"
+#     "WJetsToLNu_HT-800To1200"
+#    "WJetsToLNu_HT-1200To2500"
+#    "WJetsToLNu_HT-2500ToInf"
+#    "WW"
+#    "WZ"
+   "ZZ"
+  # "QCD_HT50to100"
+  # "QCD_HT100to200"
+  # "QCD_HT200to300"
+  # "QCD_HT300to500"
+  # "QCD_HT500to700"
+  # "QCD_HT700to1000"
+  # "QCD_HT1000to1500"
+  #  "QCD_HT1500to2000"
+  # "QCD_HT2000toInf"
+  # "GluGluHToWWToLNuQQ"
+  # "VBFHToWWTo2L2Nu"
+  # "VBFHToWWToLNuQQ"
+  # "SignalTau_600GeV"
+  # "SignalTau_1TeV"
+  # "SignalTau_2TeV"
+  # "SignalTau_3TeV"
+#  "DYJetsToLL_M-50_CH3"
+#  "DYJetsToLL_M-10to50"
+#  "DYJetsToLL_M-50_HT-70to100"
+#  "DYJetsToLL_M-50_HT-100to200"
+#  "DYJetsToLL_M-50_ext"
+#  "DYJetsToLL_M-50_HT-200to400"
+#  "DYJetsToLL_M-50_HT-400to600"
+#  "DYJetsToLL_M-50_HT-600to800"
+#  "DYJetsToLL_M-50_HT-800to1200"
+#  "DYJetsToLL_M-50_inclusive"
+#  "DYJetsToLL_M-50_HT-1200to2500"
+#  "DYJetsToLL_M-50_HT-2500toInf"
 )
 
 
 
-if [ $processor == "ttbar" ] || [ $processor == "wjets" ] || [ $processor == "ztoll" ] || [ $processor == "qcd_abcd" ]; then
-    for sample in "${samples[@]}"; do 
+if [ $processor == "ttbar" ] || [ $processor == "wjets" ] || [ $processor == "ztoll" ] || [ $processor == "qcd_abcd" ] || [ $processor == "wplusjets" ] ; then
+    for sample in "${samples[@]}"; do
       python3 submit_lxplus.py --processor "$processor" --channel "$channel" --lepton_flavor "$lepton_flavor" --sample "$sample" --year "$year" --nfiles "$nfiles" --executor "$executor" --output_type "$output_type" --nsample "$nsample"
-      sleep 90 #  Wait for 90 seconds before sending the next sample
+      sleep 60 #  Wait for 90 seconds before sending the next sample
     done
 
-elif [ $processor == "top_tagger" ] || [ $processor == "signal" ]; then
-    for sample in "${samples[@]}"; do 
+elif [ $processor == "top_tagger" ] || [ $processor == "signal" ] || [ $processor == "qcd_hadronic" ]; then
+    for sample in "${samples[@]}"; do
       python3 submit_lxplus.py --processor "$processor" --lepton_flavor "$lepton_flavor" --sample "$sample" --year "$year" --nfiles "$nfiles" --executor "$executor" --output_type "$output_type" --nsample "$nsample"
-      sleep 90 #  Wait for 90 seconds before sending the next sample
+      sleep 60 #  Wait for 90 seconds before sending the next sample
     done
 fi
-    
+
+
 
 
 echo "########################################################################################################################"
 echo "###  The jobs have been sent, don't forget to run lxplus_test.sh file once they finish to complete the missing ones  ###"
 echo "########################################################################################################################"
+

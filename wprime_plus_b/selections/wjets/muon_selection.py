@@ -31,7 +31,10 @@ def select_good_muons(
         An Awkward Array mask containing the selected "good" muons that satisfy the specified criteria.
     """
     # muon pT threshold
-    muon_pt_mask = events.Muon.pt >= muon_pt_threshold
+    muon_pt_mask = (
+        (events.Muon.pt >= muon_pt_threshold)
+#        & (events.Muon.pt < 120.0)
+    )
 
     # electron pseudorapidity mask
     muon_eta_mask = np.abs(events.Muon.eta) < muon_eta_threshold

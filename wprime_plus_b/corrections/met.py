@@ -165,7 +165,7 @@ def add_met_trigger_corrections(
             
         up_sf = np.where(mask_trigger, sf_up, 1.0)
         down_sf = np.where(mask_trigger, sf_down, 1.0)
-        
+
         # add scale factors to weights container
         weights.add(
             name=f"met_trigger_{type_weight}",
@@ -195,7 +195,7 @@ def update_met_jet_veto(events: ak.Array, jets_veto) -> None:
     https://github.com/Katsch21/hh2bbtautau/blob/e268752454a0ce0089ff08cc6c373a353be77679/hbt/calibration/tau.py#L117
     """
    
-    # Raw MET
+    # MET
     met_pt = events.MET.pt
     met_phi = events.MET.phi
 
@@ -226,3 +226,107 @@ def update_met_jet_veto(events: ak.Array, jets_veto) -> None:
     # update MET fields
     events["MET", "pt"] = new_met_pt
     events["MET", "phi"] = new_met_phi
+
+
+def met_noMu_cal(events: ak.Array, muons) -> None:
+
+    # MET
+    met_pt = events.MET.pt
+    met_phi = events.MET.phi
+
+    # Muon
+    muons_pt = muons.pt
+    muons_phi = muons.phi
+
+    
+    # propagate changes to MET (x, y) 
+    met_px = met_pt * np.cos(met_phi) -  ak.sum(muons_pt*np.cos(muons_phi) , axis =-1)
+    met_py = met_pt * np.sin(met_phi) - ak.sum(muons_pt*np.sin(muons_phi) , axis =-1)   
+
+    # propagate changes to MET (pT, phi) components
+    new_met_pt = np.sqrt((met_px ** 2.0 + met_py ** 2.0))
+    new_met_phi = np.arctan2(met_py, met_px)
+    
+    # update MET fields
+    events["MET", "pt_nomu"] = new_met_pt
+    events["MET", "phi_nomu"] = new_met_phi
+
+
+# New functions: MET definitions
+def met_noMu_minus(events: ak.Array, muons) -> None:
+
+    # MET
+    met_pt = events.MET.pt
+    met_phi = events.MET.phi
+
+    # Muon
+    muons_pt = muons.pt
+    muons_phi = muons.phi
+
+    
+    # propagate changes to MET (x, y) 
+    met_px = met_pt * np.cos(met_phi) -  ak.sum(muons_pt*np.cos(muons_phi) , axis =-1)
+    met_py = met_pt * np.sin(met_phi) - ak.sum(muons_pt*np.sin(muons_phi) , axis =-1)   
+
+    # propagate changes to MET (pT, phi) components
+    new_met_pt = np.sqrt((met_px ** 2.0 + met_py ** 2.0))
+    new_met_phi = np.arctan2(met_py, met_px)
+    
+    # update MET fields
+    events["MET", "pt_nomu_minus"] = new_met_pt
+    events["MET", "phi_nomu_minus"] = new_met_phi
+
+def met_noMu_plus(events: ak.Array, muons) -> None:
+
+    # MET
+    met_pt = events.MET.pt
+    met_phi = events.MET.phi
+
+    # Muon
+    muons_pt = muons.pt
+    muons_phi = muons.phi
+
+    
+    # propagate changes to MET (x, y) 
+    met_px = met_pt * np.cos(met_phi) + ak.sum(muons_pt*np.cos(muons_phi) , axis =-1)
+    met_py = met_pt * np.sin(met_phi) + ak.sum(muons_pt*np.sin(muons_phi) , axis =-1)   
+
+    # propagate changes to MET (pT, phi) components
+    new_met_pt = np.sqrt((met_px ** 2.0 + met_py ** 2.0))
+    new_met_phi = np.arctan2(met_py, met_px)
+    
+    # update MET fields
+    events["MET", "pt_nomu_plus"] = new_met_pt
+    events["MET", "phi_nomu_plus"] = new_met_phi
+
+
+
+def met_recoil(events: ak.Array, muons, electrons, taus) -> None:
+
+    # MET
+    met_pt = events.MET.pt
+    met_phi = events.MET.phi
+
+    # Muons
+    muons_pt = muons.pt
+    muons_phi = muons.phi
+
+    # Electrons
+    electrons_pt = electrons.pt
+    electrons_phi = electrons.phi
+
+    # Taus
+    taus_pt = taus.pt
+    taus_phi = taus.phi
+    
+    # propagate changes to MET (x, y) 
+    recoil_px = met_pt * np.cos(met_phi) + (ak.sum(muons_pt*np.cos(muons_phi) , axis =-1) + ak.sum(electrons_pt*np.cos(electrons_phi) , axis =-1) + ak.sum(taus_pt*np.cos(taus_phi) , axis =-1))
+    recoil_py = met_pt * np.sin(met_phi) + (ak.sum(muons_pt*np.sin(muons_phi) , axis =-1) + ak.sum(electrons_pt*np.sin(electrons_phi) , axis =-1) + ak.sum(taus_pt*np.sin(taus_phi) , axis =-1)) 
+
+    # propagate changes to MET (pT, phi) components
+    recoil_pt = np.sqrt((recoil_px ** 2.0 + recoil_py ** 2.0))
+    recoil_phi = np.arctan2(recoil_py, recoil_px)
+    
+    # update MET fields
+    events["MET", "pt_recoil"] = recoil_pt
+    events["MET", "phi_recoil"] = recoil_phi

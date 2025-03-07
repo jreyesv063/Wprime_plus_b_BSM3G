@@ -522,6 +522,10 @@ def histograms_output(
     region_ST = lepton_pt_addition+ region_HT
     region_ST_met = lepton_pt_addition + region_HT + region_met.pt
     region_ST_full = region_ST + muon_pt_addition + electron_pt_addition + tau_pt_addition 
+
+
+    region_delta_phi_met_jet = region_jets.delta_phi(region_met)
+    region_delta_phi_met_lepton = region_leptons.delta_phi(region_met)
     
     # Add features to the object (assumed to have a method `add_feature`)
     self.add_feature("lepton_pt", region_leptons.pt)
@@ -546,7 +550,20 @@ def histograms_output(
     
     
     self.add_feature("met", region_met.pt)
+    self.add_feature("met_raw", region_met.pt_raw)
     self.add_feature("met_phi", region_met.phi)
+
+    # Recoil
+    self.add_feature("recoil_pt", region_met.pt_recoil)
+    self.add_feature("recoil_phi", region_met.phi_recoil)
+
+
+    # New met variables
+    self.add_feature("pt_nomu_minus",  region_met.pt_nomu_minus)
+    self.add_feature("phi_nomu_minus",  region_met.phi_nomu_minus)
+    self.add_feature("pt_nomu_plus",  region_met.pt_nomu_plus)
+    self.add_feature("phi_nomu_plus",  region_met.phi_nomu_plus)
+
     
     self.add_feature("lepton_bjet_dr", lepton_bjet_dr)
     self.add_feature("lepton_bjet_mass", lepton_bjet_mass)
@@ -571,6 +588,10 @@ def histograms_output(
 
     
     self.add_feature("top_mrec", region_tops)
+
+    # QCD rejection
+    self.add_feature("delta_phi_met_jet", region_delta_phi_met_jet)
+    self.add_feature("delta_phi_met_lepton", region_delta_phi_met_lepton)
 
 
 

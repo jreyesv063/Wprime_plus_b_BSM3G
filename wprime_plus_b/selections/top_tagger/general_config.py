@@ -4,7 +4,7 @@ top_tagger_trigger_selection = {
             "trigger_eff": "",
         },  
         "mu": {
-            "trigger": "tight",
+            "trigger": "mu",
             "trigger_eff": "",
         },    
         "ele": {

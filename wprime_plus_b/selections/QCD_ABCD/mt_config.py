@@ -9,7 +9,7 @@ QCD_ABCD_mt_selection = {
     "1l0b_A": {
         "tau": {
             "min_mt": 0.0,
-            "max_mt": 120.0,
+            "max_mt": 160.0,
             "invert": False,
         },    
     },

@@ -11,7 +11,7 @@ from wprime_plus_b.processors.utils import histograms
 
 # Corrections
 from wprime_plus_b.corrections.jec import apply_jet_corrections, apply_fatjet_corrections
-from wprime_plus_b.corrections.met import apply_met_phi_corrections, add_met_trigger_corrections
+from wprime_plus_b.corrections.met import apply_met_phi_corrections, add_met_trigger_corrections, update_met_jet_veto, met_recoil
 from wprime_plus_b.corrections.rochester import apply_rochester_corrections
 from wprime_plus_b.corrections.tau_energy import apply_tau_energy_scale_corrections
 from wprime_plus_b.corrections.pileup import add_pileup_weight
@@ -24,6 +24,7 @@ from wprime_plus_b.corrections.tau import TauCorrector
 from wprime_plus_b.corrections.electron import ElectronCorrector
 from wprime_plus_b.corrections.jetvetomaps import jetvetomaps_mask
 from wprime_plus_b.corrections.ISR import ISR_weight
+from wprime_plus_b.corrections.ttbar_boost import add_ttbar_boost_corrections
 
 # Selections: Config
 from wprime_plus_b.selections.QCD_ABCD.bjet_config import QCD_ABCD_bjet_selection
@@ -36,9 +37,12 @@ from wprime_plus_b.selections.QCD_ABCD.ditau_config import QCD_ABCD_ditau_select
 from wprime_plus_b.selections.QCD_ABCD.dilepton_config import QCD_ABCD_dilepton_selection 
 from wprime_plus_b.selections.QCD_ABCD.mt_config import QCD_ABCD_mt_selection 
 
+from wprime_plus_b.selections.wjets.jet_config import wjet_jet_selection
+from wprime_plus_b.selections.wjets.jet_selection import select_good_jets
 
 # Selections: objects
 from wprime_plus_b.selections.QCD_ABCD.bjet_selection import select_good_bjets
+from wprime_plus_b.selections.QCD_ABCD.jet_selection import select_good_jets
 from wprime_plus_b.selections.QCD_ABCD.electron_selection import select_good_electrons
 from wprime_plus_b.selections.QCD_ABCD.muon_selection import select_good_muons
 from wprime_plus_b.selections.QCD_ABCD.tau_selection import select_good_taus
@@ -223,9 +227,18 @@ class QCD_ABCD_Proccessor(processor.ProcessorABC):
                 trigger_paths = self._triggers
 
                 for tp in trigger_paths:
-                    if tp in events.HLT.fields:
-                        trigger_mask = trigger_mask | events.HLT[tp]
-                        
+                    if self.is_mc:
+                        if tp in events.HLT.fields:
+                            print(tp)
+                            trigger_mask = trigger_mask | events.HLT[tp]              
+                    else:     
+                        if tp == "PFMETNoMu120_PFMHTNoMu120_IDTight_PFHT60":
+                            continue 
+                        else:
+                            if tp in events.HLT.fields:
+                                print(tp)
+                                trigger_mask = trigger_mask | events.HLT[tp]  
+                                                        
                 trigger_match_mask = np.ones(len(events), dtype="bool")
 
             # -------------------------------------------------------------
@@ -363,11 +376,12 @@ class QCD_ABCD_Proccessor(processor.ProcessorABC):
 
                 if self.lepton_flavor == "ditau":
                     tau_corrector.add_id_weight_diTauTrigger(mask_trigger = trigger_mask, trigger = "ditau", info = "sf", dm = -1)
-
+                
+                
                 if self.lepton_flavor == "tau":
                     # add met trigger SF
                     add_met_trigger_corrections(trigger_mask, dataset, events.MET, weights_container, self.year, "", syst_var) 
-
+                
                     
             # -------------------------------------------------------------
             # object selection
@@ -480,6 +494,35 @@ class QCD_ABCD_Proccessor(processor.ProcessorABC):
 
             bjets = jets_veto[good_bjets]
 
+            
+            # select good jets
+            good_jets = select_good_jets(
+                jets=jets_veto,
+                year=self.year,
+                btag_working_point="L",
+                jet_pt_threshold=QCD_ABCD_bjet_selection[self.channel][
+                    self.lepton_flavor
+                ]["bjet_pt_threshold"],
+                jet_eta_threshold =QCD_ABCD_bjet_selection[self.channel][
+                    self.lepton_flavor
+                ]["bjet_eta_threshold"],
+                jet_id_wp=QCD_ABCD_bjet_selection[self.channel][
+                    self.lepton_flavor
+                ]["bjet_id_wp"],
+                jet_pileup_id=QCD_ABCD_bjet_selection[self.channel][
+                    self.lepton_flavor
+                ]["bjet_pileup_id"],
+            )
+            good_jets = (
+                good_jets
+                & (delta_r_mask(jets_veto, electrons, threshold=cc))
+                & (delta_r_mask(jets_veto, muons, threshold=cc))
+                & (delta_r_mask(jets_veto, taus, threshold=cc))
+                & (delta_r_mask(jets_veto, bjets, threshold=cc))
+            )
+
+            jets = jets_veto[good_jets]
+            
 
             # --------------------------
             #  mt(lepton, met) cut
@@ -517,6 +560,29 @@ class QCD_ABCD_Proccessor(processor.ProcessorABC):
                 charge_selection = QCD_ABCD_dilepton_selection[self.channel][self.lepton_flavor]["Charge_ll"],
             )
 
+            # -------------------------
+            # p_T^{miss} correction
+            # -------------------------
+            update_met_jet_veto(events = events, jets_veto = jets_veto) 
+            met_recoil(events = events, muons = muons, electrons = electrons, taus = taus)
+
+
+            # -------------------------
+            # ST correction
+            # -------------------------
+            add_ttbar_boost_corrections(
+                    jets = jets,
+                    bjets = bjets,
+                    muons = muons,
+                    electrons = electrons,
+                    taus = taus,
+                    met = events.MET,
+                    lepton_flavor = self.lepton_flavor,
+                    dataset = dataset,
+                    weights = weights_container,
+                    year = self.year,
+                    variation = syst_var,
+            )            
 
             # -------------------------------------------------------------
             # event selection
@@ -559,6 +625,8 @@ class QCD_ABCD_Proccessor(processor.ProcessorABC):
             # check that there be a minimum MET greater than 50 GeV
             met_threshold =  QCD_ABCD_met_selection[self.channel][self.lepton_flavor]["met_threshold"]
             self.selections.add(f"met_{met_threshold}", events.MET.pt > met_threshold)
+
+            self.selections.add(f"met_recoil_{met_threshold}", events.MET.pt_recoil > met_threshold)           
             
             # select events with at least one good vertex
             self.selections.add("goodvertex", events.PV.npvsGood > 0)
@@ -580,20 +648,18 @@ class QCD_ABCD_Proccessor(processor.ProcessorABC):
             self.selections.add("muon_veto", ak.num(muons) == 0)
             self.selections.add("at_least_one_muon", ak.num(muons) >= 1)
 
-            self.selections.add(f"one_tau_{tau_wp_vs_jet}", ak.num(taus) == 1)
+            self.selections.add(f"one_tau", ak.num(taus) == 1)
             self.selections.add(f"two_taus_{tau_wp_vs_jet}", ak.num(taus) == 2)
             self.selections.add("tau_veto", ak.num(taus) == 0)
 
 
             self.selections.add("bjet_veto", ak.num(bjets) == 0)
 
-         
-
-
+        
             if self.year == "2018":
                 # hem-cleaning selection
                 # https://hypernews.cern.ch/HyperNews/CMS/get/JetMET/2000.html
-                # Due to the HEM issue in year 2018, we veto the events with jets and electrons in the 
+                # Due to the HEM issue in year 2018, we veto the events with jets and electrons in the
                 # region -3 < eta <-1.3 and -1.57 < phi < -0.87 to remove fake MET
                 hem_veto = ak.any(
                     (
@@ -614,13 +680,14 @@ class QCD_ABCD_Proccessor(processor.ProcessorABC):
                     -1,
                 )
                 hem_cleaning = (
-                    ((events.run >= 319077) & (not self.is_mc))  # if data check if in Runs C or D
+                    (
+                        (events.run >= 319077) & (not self.is_mc)
+                    )  # if data check if in Runs C or D
                     # else for MC randomly cut based on lumi fraction of C&D
                     | ((np.random.rand(len(events)) < 0.632) & self.is_mc)
                 ) & (hem_veto)
 
-                #self.selections.add("HEMCleaning", ~hem_cleaning)
-                self.selections.add("HEMCleaning", np.ones(len(events), dtype="bool"))
+                self.selections.add("HEMCleaning", ~hem_cleaning)
             else:
                 self.selections.add("HEMCleaning", np.ones(len(events), dtype="bool"))
             
@@ -651,16 +718,66 @@ class QCD_ABCD_Proccessor(processor.ProcessorABC):
             else: 
                 self.selections.add("Stitching", np.ones(len(events), dtype="bool"))
 
+
+            # --------- Triggers: OR ---------------
+            # Reference trigger
+            reference_trigger =  QCD_ABCD_trigger_selection[self.channel][self.lepton_flavor]["trigger"]
+            if self.lepton_flavor == "mu":
+                mu_id = QCD_ABCD_muon_selection[self.channel][self.lepton_flavor]["muon_id_wp"]
+                with importlib.resources.path(
+                    "wprime_plus_b.data", "triggers.json"
+                ) as path:
+                    with open(path, "r") as handle:
+                        ref_trigger = json.load(handle)[self.year][reference_trigger][mu_id]
+                        print(ref_trigger, type(ref_trigger))
+            
+            elif self.lepton_flavor ==  "ele":
+                ele_id = QCD_ABCD_electron_selection[self.channel][self.lepton_flavor]["electron_id_wp"]
+                with importlib.resources.path(
+                    "wprime_plus_b.data", "triggers.json"
+                ) as path:
+                    with open(path, "r") as handle:
+                        ref_trigger = json.load(handle)[self.year][reference_trigger][ele_id]
+                        print(ref_trigger, type(ref_trigger)) 
+                          
+            elif self.lepton_flavor ==  "tau":
+                with importlib.resources.path(
+                    "wprime_plus_b.data", "triggers.json"
+                ) as path:
+                    with open(path, "r") as handle:
+                        ref_trigger = json.load(handle)[self.year][reference_trigger]
+                        print(ref_trigger, type(ref_trigger))    
+
+            reference_triggers = [
+                trigger for trigger in events.HLT.fields if any(trigger.startswith(r) for r in ref_trigger)
+            ]
+            
+            mask_reference_trigger = np.zeros(len(events), dtype="bool")
+            
+            for trigger_reference in reference_triggers:
+                if trigger_reference in events.HLT.fields:
+                    print(f"Reference trigger: {trigger_reference}")
+                    mask_reference_trigger = mask_reference_trigger | events.HLT[trigger_reference]
+
+            self.selections.add(f"trigger_{reference_trigger}", mask_reference_trigger)
+
             # --------------------------
             # Fail tauvsJet wp
             # --------------------------
             with importlib.resources.open_text("wprime_plus_b.data", "tau_wps.json") as file:
                 taus_wps = json.load(file)
 
+            
             fail_tau_wp = QCD_ABCD_tau_selection[self.channel][self.lepton_flavor]["tau_vs_fail"]
-            fail_tau_wp_mask = ak.firsts(taus).idDeepTau2017v2p1VSjet < taus_wps["DeepTau2017"]["deep_tau_jet"][fail_tau_wp]
 
-            self.selections.add(f"tau_fail_{fail_tau_wp}", ak.any(fail_tau_wp_mask, axis=1))
+            
+            # Pass VVVLoose, fail Tight
+            fail_tau_wp_mask = (
+                (ak.firsts(taus).idDeepTau2017v2p1VSjet < taus_wps["DeepTau2017"]["deep_tau_jet"][fail_tau_wp])
+            )
+
+            self.selections.add(f"tau_fail", fail_tau_wp_mask)
+            
             
             # --------------------------
             #  mt(lepton, met) cut
@@ -692,7 +809,31 @@ class QCD_ABCD_Proccessor(processor.ProcessorABC):
             self.selections.add(f"dilepton_min_{mass_min}_max_{mass_max}_Q_{Q_ll}", good_dilepton)
 
  
+            # --------------------------
+            # deltaphi_cut cut
+            # --------------------------     
+            delta_phi_met_jet = jets.delta_phi(events.MET)       
+            delta_phi_jet_met_pass = ak.all(np.abs(delta_phi_met_jet) > 0.7, axis=1)
+            self.selections.add("delta_phi_jet_met_0.7", delta_phi_jet_met_pass)
+
+            # --------------------------
+            #  mt(lepton, met) cut
+            # --------------------------
+            lepton_met_mass = np.sqrt(
+                2.0
+                * ak.firsts(taus).pt
+                * events.MET.pt
+                * (
+                    ak.ones_like(events.MET.pt)
+                    - np.cos(ak.firsts(taus).phi - events.MET.phi)
+                )
+            )
+
+            self.selections.add("mt_less_than_120", lepton_met_mass < 120)
+            self.selections.add("mt_greater_than_120", lepton_met_mass >= 120)
+
             
+
 
             # define selection regions for each channel
             region_selection = {
@@ -708,7 +849,7 @@ class QCD_ABCD_Proccessor(processor.ProcessorABC):
                         "bjet_veto",
                         "electron_veto",
                         "muon_veto",
-                        f"one_tau_{tau_wp_vs_jet}",
+                        f"one_tau",
                         f"mt_cut_min_{min_mt}_and_max_{max_mt}_invert_{invert_mt}"
                     ],
                 },
@@ -718,14 +859,15 @@ class QCD_ABCD_Proccessor(processor.ProcessorABC):
                         "Stitching",
                         "lumi",
                         "metfilters",
-                        f"trigger_{trigger_option}",
+                        f"trigger_{reference_trigger}",
                         "HEMCleaning",
                         f"met_{met_threshold}",
+                        "delta_phi_jet_met_0.7",
                         "bjet_veto",
                         "electron_veto",
                         "muon_veto",
-                        f"one_tau_{tau_wp_vs_jet}",
-                        f"mt_cut_min_{min_mt}_and_max_{max_mt}_invert_{invert_mt}"
+                        f"one_tau",
+                        "mt_less_than_120"
                     ],
                 },
                 "1l0b_B":{
@@ -737,12 +879,13 @@ class QCD_ABCD_Proccessor(processor.ProcessorABC):
                         f"trigger_{trigger_option}",
                         "HEMCleaning",
                         f"met_{met_threshold}",
+                        "delta_phi_jet_met_0.7",
                         "bjet_veto",
                         "electron_veto",
                         "muon_veto",
-                        f"one_tau_{tau_wp_vs_jet}",
- #                       f"tau_fail_{fail_tau_wp}",
-                        f"mt_cut_min_{min_mt}_and_max_{max_mt}_invert_{invert_mt}"
+                        f"one_tau",
+                        f"tau_fail",
+                        "mt_less_than_120"
                     ],
                 },
                 "1l0b_C":{
@@ -754,12 +897,13 @@ class QCD_ABCD_Proccessor(processor.ProcessorABC):
                         f"trigger_{trigger_option}",
                         "HEMCleaning",
                         f"met_{met_threshold}",
+                        "delta_phi_jet_met_0.7",
                         "bjet_veto",
                         "electron_veto",
                         "muon_veto",
-                        f"two_taus_{tau_wp_vs_jet}",
-                        f"l1P_{l1pass}_l2P_{l2pass}_l2F_{l2fail}", # DiTau cut
-                        f"dilepton_min_{mass_min}_max_{mass_max}_Q_{Q_ll}" # Dilepton mass
+                        f"one_tau",
+                        f"tau_fail",
+                        "mt_greater_than_120"
                     ],
                     "ditau": [
                         "goodvertex",
@@ -786,12 +930,12 @@ class QCD_ABCD_Proccessor(processor.ProcessorABC):
                         f"trigger_{trigger_option}",
                         "HEMCleaning",
                         f"met_{met_threshold}",
+                        "delta_phi_jet_met_0.7",
                         "bjet_veto",
                         "electron_veto",
                         "muon_veto",
-                        f"two_taus_{tau_wp_vs_jet}",
-                        f"l1P_{l1pass}_l2P_{l2pass}_l2F_{l2fail}", # DiTau cut
-                        f"dilepton_min_{mass_min}_max_{mass_max}_Q_{Q_ll}" # Dilepton mass
+                        f"one_tau",
+                        "mt_greater_than_120"
                     ],
                     "ditau": [
                         "goodvertex",
@@ -856,6 +1000,7 @@ class QCD_ABCD_Proccessor(processor.ProcessorABC):
             if nevents_after > 0:
                 # select region objects
                 region_bjets = bjets[region_selection]
+                region_jets = jets[region_selection]
                 region_electrons = electrons[region_selection]
                 region_muons = muons[region_selection]
                 region_taus = taus[region_selection]
@@ -886,11 +1031,23 @@ class QCD_ABCD_Proccessor(processor.ProcessorABC):
                     )
                 )
                 lepton_met_delta_phi = np.abs(region_leptons.delta_phi(region_met))
+
                 # lepton-bJet-MET total transverse mass
                 lepton_met_bjet_mass = np.sqrt(
                     (region_leptons.pt + leading_bjets.pt + region_met.pt) ** 2
                     - (region_leptons + leading_bjets + region_met).pt ** 2
                 )
+
+                # Delta phi
+                region_delta_phi_met_jet = region_jets.delta_phi(region_met)
+                region_delta_phi_met_lepton = region_leptons.delta_phi(region_met)
+                region_delta_phi_jet_lepton = region_jets.delta_phi(ak.firsts(region_leptons))
+
+                # Delta R
+                #region_delta_R_jet_leptons = region_leptons.metric_table(region_jets)
+                #region_delta_R_bjet_leptons = region_leptons.metric_table(region_bjets)
+                #region_delta_R_bjet_jets = region_jets.metric_table(region_bjets)
+                
 
                 # Histograms
                 self.add_feature("lepton_pt", region_leptons.pt)
@@ -898,28 +1055,47 @@ class QCD_ABCD_Proccessor(processor.ProcessorABC):
                 self.add_feature("lepton_phi", region_leptons.phi)
 
 
-                if self.is_mc:
-                    # genPartFlav is only defined in MC samples
-                    self.add_feature("genPartFlav", region_taus.genPartFlav)
+                if self.lepton_flavor == "tau":
+                    if self.is_mc:
+                        # genPartFlav is only defined in MC samples
+                        self.add_feature("genPartFlav", ak.firsts(region_leptons).genPartFlav)
+                    self.add_feature("tau_pt", ak.firsts(region_leptons).decayMode)
+                    self.add_feature("tau_eta", ak.firsts(region_leptons).decayMode)
+                    self.add_feature("tau_phi", ak.firsts(region_leptons).decayMode)
+                    self.add_feature("decayMode", ak.firsts(region_leptons).decayMode)
+                    self.add_feature("isolation_electrons", ak.firsts(region_leptons).idDeepTau2017v2p1VSe)
+                    self.add_feature("isolation_jets", ak.firsts(region_leptons).idDeepTau2017v2p1VSjet)
+                    self.add_feature("isolation_muons", ak.firsts(region_leptons).idDeepTau2017v2p1VSmu)
+                    self.add_feature("tau_dz", ak.firsts(region_leptons).dz)
+
+                # QCD rejection
+                self.add_feature("delta_phi_met_jet", region_delta_phi_met_jet)
+                self.add_feature("delta_phi_met_lepton", region_delta_phi_met_lepton)
+                self.add_feature("delta_phi_jet_lepton", region_delta_phi_jet_lepton)
+                
+                # Delta R
+                #self.add_feature("delta_R_jet_lepton",region_delta_R_jet_leptons)
+                #self.add_feature("delta_R_bjet_lepton",region_delta_R_bjet_leptons)
+                #self.add_feature("delta_R_bjet_jet",region_delta_R_bjet_jets)
+
 
                 # Check if the sample has LHE and HT attributes
                 if hasattr(events, 'LHE') and hasattr(events.LHE, 'HT'):
                     self.add_feature("HT", events.LHE.HT[region_selection])
 
 
-                self.add_feature("decayMode", region_taus.decayMode)
-                self.add_feature("isolation_electrons", region_taus.idDeepTau2017v2p1VSe)
-                self.add_feature("isolation_jets", region_taus.idDeepTau2017v2p1VSjet)
-                self.add_feature("isolation_muons", region_taus.idDeepTau2017v2p1VSmu)
-
                 
-                self.add_feature("bjet_pt", region_bjets.pt)
-                self.add_feature("bjet_eta", region_bjets.eta)
-                self.add_feature("bjet_phi", region_bjets.phi)
+                self.add_feature("bjet_pt", leading_bjets.pt)
+                self.add_feature("bjet_eta", leading_bjets.eta)
+                self.add_feature("bjet_phi", leading_bjets.phi)
 
 
                 self.add_feature("met",  region_met.pt)
                 self.add_feature("met_phi",  region_met.phi)
+
+                self.add_feature("recoil_pt", region_met.pt_recoil)
+                self.add_feature("recoil_phi", region_met.phi_recoil)
+                
 
                 self.add_feature("lepton_bjet_dr", lepton_bjet_dr)
                 self.add_feature("lepton_bjet_mass", lepton_bjet_mass)
@@ -929,7 +1105,7 @@ class QCD_ABCD_Proccessor(processor.ProcessorABC):
                 self.add_feature("lepton_met_delta_phi", lepton_met_delta_phi)
                 self.add_feature("lepton_met_bjet_mass", lepton_met_bjet_mass)
 
-                #self.add_feature("njets", ak.num(region_jets))
+                self.add_feature("njets", ak.num(region_jets))
                 self.add_feature("nbjets", ak.num(region_bjets))
                 self.add_feature("npvs", events.PV.npvsGood[region_selection])
                 self.add_feature("nmuons", ak.num(region_muons))
@@ -1022,13 +1198,66 @@ class QCD_ABCD_Proccessor(processor.ProcessorABC):
                                 weight=region_weight,
                             )
                 elif self.output_type == "array":
+                    """
+                    variations = ["nominal"] + list(weights_container.variations)
+                    region_weight = weights_container.weight()[region_selection]
+                    for variation in variations:
+                        print(f"{variation =}: {weights_container.weight(modifier=variation)}")
+                        if variation == "nominal":
+                            region_weight = weights_container.weight()[region_selection]
+                        else:
+                            region_weight = weights_container.weight(
+                                modifier=variation
+                            )[region_selection]
+                    """        
+
+
                     array_dict = {}
                     self.add_feature(
                         "weights", weights_container.weight()[region_selection]
                     )
+                    # Agregar variaciones de peso
+                    if self.is_mc == True:
+
+                        for variation_case, weights_case in weights_container._modifiers.items():
+                            array_dict[f"{variation_case}"] = processor.column_accumulator(
+                                weights_case[region_selection]
+                            )
+                        
+                    """
+                    for variation_name in weights_container.variations:
+                        if self.is_mc == True:
+                            variation_weights = weights_container.partial_weight(include=[variation_name])
+                            self.add_feature(
+                                f"weights_{variation_name}", variation_weights[region_selection]
+                            )
+
+                            # Guardar en array_dict
+                            array_dict[f"{variation_name}"] = processor.column_accumulator(
+                                variation_weights[region_selection]
+                            )
+                    """
+                    """
+                    else:
+                        # Si no es MC, usar una lista de unos
+                        variation_weights = np.ones_like(region_selection, dtype=float)
+                        self.add_feature(
+                            f"weights_{variation_name}", variation_weights
+                        )
+                        array_dict[f"weights_{variation_name}"] = processor.column_accumulator(
+                            variation_weights
+                        )
+                    """
+
+                    # Guardar pesos individuales filtrados por region_selection
+                    for weight in weights_container.weightStatistics:
+                        filtered_weight = weights_container.partial_weight(include=[weight])[region_selection]
+                        self.add_feature(weight, filtered_weight)
+
                     # uncoment next two lines to save individual weights
-                    # for weight in weights_container.weightStatistics:
+                    #for weight in weights_container.weightStatistics:
                     #    self.add_feature(weight, weights_container.partial_weight(include=[weight]))
+
                     if syst_var == "nominal":
                         # select variables and put them in column accumulators
                         array_dict.update(
@@ -1039,6 +1268,7 @@ class QCD_ABCD_Proccessor(processor.ProcessorABC):
                                 for feature_name, feature_array in self.features.items()
                             }
                         )
+
         # define output dictionary accumulator
         if self.output_type == "hist":
             output["histograms"] = hist_dict[self.region]

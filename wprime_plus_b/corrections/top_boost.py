@@ -26,12 +26,12 @@ def add_top_boost_corrections(
     if dataset.startswith('TTTo'):
         # get top boost correction, using the ST variable
         cset = correctionlib.CorrectionSet.from_file(
-            "wprime_plus_b/data/top_boost.json"
+            f"wprime_plus_b/data/top_boost_{lepton_flavor}_{year}.json"
         )
 
         jet_pt = ak.sum(jets.pt, axis=1)
         bjet_pt = ak.sum(bjets.pt, axis=1)
-        njet = ak.num(jets)
+        njets = ak.num(jets) + ak.num(bjets)
         electron_pt = ak.sum(electrons.pt, axis=1)
         muon_pt = ak.sum(muons.pt, axis=1)
         tau_pt = ak.sum(taus.pt, axis=1)
@@ -46,12 +46,19 @@ def add_top_boost_corrections(
 
         # ST range
         in_st_mask = (
-            (st >= 200.0)
+            (st >= 100.0)
             & (st <= 9000.0)
         )
+        # njets range
+        in_nt_mask = (
+             (njets >= 0)
+            & (njets <= 16)
+        )
         
+        mask = in_st_mask & in_nt_mask
         
-        st_masked = st.mask[in_st_mask]
+        st_masked = st.mask[mask]
+        njet = ak.fill_none(njets.mask[mask],0)
         
         st_pt = ak.fill_none(st_masked, 250)
         
@@ -72,7 +79,7 @@ def add_top_boost_corrections(
                     
             # add scale factors to weights container
             weights.add(
-                name=f"top_boost_weight_{year}",
+                name=f"top_boost_weight_{year}_{lepton_flavor}",
                 weight=nominal_sf,
                 weightUp=up_sf,
                 weightDown=down_sf,
@@ -80,10 +87,11 @@ def add_top_boost_corrections(
 
         else:
             weights.add(
-                name=f"top_boost_weight_{year}",
+                name=f"top_boost_weight_{year}_{lepton_flavor}",
                 weight=nominal_sf,
             )
 
     else:
         return
+    
     

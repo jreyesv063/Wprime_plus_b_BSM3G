@@ -10,7 +10,7 @@ wjet_electron_selection = {
     "1l0b": {
         "tau": {
             "electron_pt_threshold": 10,
-            "electron_eta_threshold": 2.1,
+            "electron_eta_threshold": 2.5,
             "electron_id_wp": "wp90iso",
             "electron_iso_wp": "tight",              
         },

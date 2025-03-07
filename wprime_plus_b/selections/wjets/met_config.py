@@ -6,7 +6,7 @@ wjet_met_selection = {
     },
     "1l0b": {
         "tau": {
-            "met_threshold": 180,
+            "met_threshold": 50,
         },
     }
 

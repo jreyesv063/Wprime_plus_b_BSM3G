@@ -4,6 +4,11 @@ ztoll_charges_selection = {
             "Charge_ll": "OS",
         },
     },
+    "ll+c": {
+        "mu":{
+            "Charge_ll": "OS",
+        },
+    },
     "ll_ISR": {
         "mu":{
             "Charge_ll": "OS", 
@@ -17,6 +22,12 @@ ztoll_mrec_ll_selection = {
         "mu":{
             "m_Z_min": 80.0, 
             "m_Z_max": 100.0,
+        },
+    },
+    "ll+c": {
+        "mu":{
+            "m_Z_min": 71.0, 
+            "m_Z_max": 111.0,
         },
     },
     "ll_ISR": {

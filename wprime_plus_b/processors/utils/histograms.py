@@ -418,6 +418,235 @@ top_tagger_hist = hist.Hist(
 
 
 
+############################# Z boson ############################
+# mll axis
+mll_axis = hist.axis.Regular(
+    bins=40,
+    start=71,
+    stop=111,
+    name="mll",
+)
+# mll histogram
+z_boson_histogram = hist.Hist(
+    mll_axis,
+    syst_axis,
+    hist.storage.Weight(),
+)
+
+############################ C-Jet ####################################
+ztoll_cjet_pt_axis = hist.axis.Regular(
+    bins=200,
+    start=0,
+    stop=1000,
+    name="cjet_pt",
+)
+ztoll_cjet_eta_axis = hist.axis.Regular(
+    bins=50,
+    start=-2.4,
+    stop=2.4,
+    name="cjet_eta",
+)
+ztoll_cjet_phi_axis = hist.axis.Regular(
+    bins=50,
+    start=-np.pi,
+    stop=np.pi,
+    name="cjet_phi",
+)
+ztoll_cjet_histogram = hist.Hist(
+    ztoll_cjet_pt_axis,
+    ztoll_cjet_eta_axis,
+    ztoll_cjet_phi_axis,
+    syst_axis,
+    hist.storage.Weight(),
+)
+
+############################ General ################################
+ztoll_lepton_pt_axis = hist.axis.Regular(
+    bins=200,
+    start=0,
+    stop=1000,
+    name="lepton_pt",
+)
+ztoll_lepton_eta_axis = hist.axis.Regular(
+    bins=50,
+    start=-2.4,
+    stop=2.4,
+    name="lepton_eta",
+)
+ztoll_lepton_phi_axis = hist.axis.Regular(
+    bins=50,
+    start=-np.pi,
+    stop=np.pi,
+    name="lepton_phi",
+)
+
+ztoll_lepton_histogram = hist.Hist(
+    ztoll_lepton_pt_axis,
+    ztoll_lepton_eta_axis,
+    ztoll_lepton_phi_axis,
+    syst_axis,
+    hist.storage.Weight(),
+)
+
+############################ Leading Lepton ############################
+
+ztoll_ptl1_axis = hist.axis.Regular(
+    bins=200, 
+    start=0, 
+    stop=1000, 
+    name="ptl1",
+)
+ztoll_ptl1_eta_axis = hist.axis.Regular(
+    bins=50,
+    start=-2.4,
+    stop=2.4,
+    name="ptl1_eta",
+)
+ztoll_ptl1_phi_axis = hist.axis.Regular(
+    bins=50,
+    start=-np.pi,
+    stop=np.pi,
+    name="ptl1_phi",
+)
+ztoll_leading_lepton_histogram = hist.Hist(
+    ztoll_ptl1_axis,
+    ztoll_ptl1_eta_axis,
+    ztoll_ptl1_phi_axis,
+    syst_axis,
+    hist.storage.Weight(), 
+)
+############################# Subleading Lepton ##########################
+
+ztoll_ptl2_axis = hist.axis.Regular(
+    bins=200, 
+    start=0, 
+    stop=1000, 
+    name="ptl2",
+)
+ztoll_ptl2_eta_axis = hist.axis.Regular(
+    bins=50,
+    start=-2.4,
+    stop=2.4,
+    name="ptl2_eta",
+)
+ztoll_ptl2_phi_axis = hist.axis.Regular(
+    bins=50,
+    start=-np.pi,
+    stop=np.pi,
+    name="ptl2_phi",
+)
+ztoll_subleading_lepton_histogram = hist.Hist(
+    ztoll_ptl2_axis,
+    ztoll_ptl2_eta_axis,
+    ztoll_ptl2_phi_axis,
+    syst_axis,
+    hist.storage.Weight(), 
+)
+
+############################## Di-lepton  #############################
+# ptll 
+ztoll_dilepton_pt_axis = hist.axis.Regular(
+    bins=200, 
+    start=0, 
+    stop=1000, 
+    name="ptll", 
+)
+
+ztoll_dilepton_eta_axis = hist.axis.Regular(
+    bins=50,
+    start=-2.4,
+    stop=2.4,
+    name="dilepton_eta",
+)
+ztoll_dilepton_phi_axis = hist.axis.Regular(
+    bins=50,
+    start=-np.pi,
+    stop=np.pi,
+    name="dilepton_phi",
+)
+
+
+ztoll_di_lepton_histogram = hist.Hist(
+    ztoll_dilepton_pt_axis,
+    ztoll_dilepton_eta_axis,
+    ztoll_dilepton_phi_axis,
+    syst_axis,
+    hist.storage.Weight(), 
+)
+
+############################ Jet ####################################
+ztoll_jet_pt_axis = hist.axis.Regular(
+    bins=200, 
+    start=0, 
+    stop=1000, 
+    name="jet_pt",
+)
+ztol_jet_ht_axis = hist.axis.Regular(
+    bins=100,
+    start=0,
+    stop=1000,
+    name="jet_ht",
+)
+ztoll_jet_eta_axis = hist.axis.Regular(
+    bins=50,
+    start=-2.4,
+    stop=2.4,
+    name="jet_eta",
+)
+ztoll_jet_phi_axis = hist.axis.Regular(
+    bins=50,
+    start=-np.pi,
+    stop=np.pi,
+    name="jet_phi",
+)
+ztoll_jet_histogram = hist.Hist(
+    ztoll_jet_pt_axis,
+    ztol_jet_ht_axis,
+    ztoll_jet_eta_axis,
+    ztoll_jet_phi_axis,
+    syst_axis,
+    hist.storage.Weight(),
+)
+# number of jets and primary vertices
+ztoll_n_jets_axis = hist.axis.Regular(
+    bins=30,
+    start=0,
+    stop=30,
+    name="njets",
+)
+ztoll_n_vertices_axis = hist.axis.Regular(
+    bins=60,
+    start=0,
+    stop=60,
+    name="npvs",
+)
+ztoll_n_histogram = hist.Hist(
+    ztoll_n_jets_axis,
+    ztoll_n_vertices_axis,
+    syst_axis,
+    hist.storage.Weight(),
+)
+
+
+############################ MET ####################################
+ztoll_met_axis = hist.axis.Regular(
+    bins=200,
+    start=0,
+    stop=1000,
+    name="met",
+)
+ztoll_met_phi_axis = hist.axis.Regular(
+    bins=50,
+    start=-np.pi,
+    stop=np.pi,
+    name="met_phi",
+)
+ztoll_met_histogram = hist.Hist(
+    ztoll_met_axis,
+    ztoll_met_phi_axis,
+    syst_axis,
+    hist.storage.Weight(),
+)
 
 # -------------------------------
 # ztoll control region histogram

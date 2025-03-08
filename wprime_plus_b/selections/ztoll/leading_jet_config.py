@@ -8,6 +8,15 @@ ztoll_leading_jet_selection = {
             "jet_pileup_id": "T"
         },
     },
+    "ll+c": {
+        "mu": {
+            "jet_pt_threshold": 100,
+            "jet_eta_threshold": 2.4,
+            "fail_btag_working_point": "L",
+            "jet_id_wp": "tightLepVeto",
+            "jet_pileup_id": "T"
+        },
+    },
     "ll_ISR": {
         "mu": {
             "jet_pt_threshold": 100,

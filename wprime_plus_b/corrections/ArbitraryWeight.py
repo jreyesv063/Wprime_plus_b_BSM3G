@@ -6,8 +6,8 @@ from typing import Type, Tuple  # Import Type for type hints and Tuple for retur
 from coffea.analysis_tools import Weights  # Import Weights class from Coffea for managing event weights
 
 # Define the function to add ISR weights to the events
-def ISR_weight(
-    events,  # The collection of events to be weighted
+def ArbitraryWeight(
+    muons,  # The collection of events to be weighted
     jets,  # The collection of jets in the events
     dataset,  # The name of the dataset being analyzed
     weights: Type[Weights],  # A Weights object from Coffea to which the ISR weights will be added
@@ -27,23 +27,20 @@ def ISR_weight(
         elif channel == "ll+c":
             json_correction = "wprime_plus_b/data/ISR_Z+c_weight.json"
 
-        # Determine the pdgId based on the dataset
-        if dataset.startswith('WJetsToLNu'):
-            pdgId = 24  # W boson
-        else:
-            pdgId = 23  # Z boson
-
-        # get correction
+        # get met trigger correction
         cset = correctionlib.CorrectionSet.from_file(json_correction)
 
-        general_mask = (np.abs(events.GenPart.pdgId) == pdgId) & (events.GenPart.status == 62)
-        ISR_Z_bosons = events.GenPart[general_mask]  # Select bosons from GenPart
+        leading_muon = ak.pad_none(muons, 2)[:, 0]
+        subleading_muon = ak.pad_none(muons, 2)[:, 1]
+
+
+        ISR_Z_bosons = (leading_muon  +  subleading_muon)  # Select bosons from GenPart
         
-        Z_pt = ak.firsts(ISR_Z_bosons.pt)  # Get the pt of the first boson in each event
+        Z_pt = ISR_Z_bosons.pt  # Get the pt of the first boson in each event
         Z_pt = ak.fill_none(Z_pt,2000)
         Z_njets = ak.num(jets)
-        
 
+    
         # Calculate the ISR weight using the mother pt
         sf = cset[f"ISR_weight_{year}_UL"].evaluate("nominal", Z_njets, Z_pt)  # Calculate the ISR weight using the weight_ISR function
         

@@ -194,6 +194,45 @@ def delta_r_mask(first: ak.Array, second: ak.Array, threshold: float) -> ak.Arra
     mval = first.metric_table(second)
     return ak.all(mval > threshold, axis=-1)
 
+def delta_r(first: ak.Array, second: ak.Array, threshold: float):
+    """
+    Calculates the delta R between two arrays of objects and returns a mask
+    indicating which objects pass a given threshold.
+
+    Parameters:
+    -----------
+    first: ak.Array
+        First array of objects
+    second: ak.Array
+        Second array of objects
+    threshold: float
+        Threshold value for delta R
+
+    Returns:
+    --------
+    delta_R_mask: ak.Array
+        Boolean array indicating which objects pass the threshold
+    """
+    # Extract eta and phi values from the first array
+    eta_1 = first.eta
+    phi_1 = first.phi
+    
+    # Extract eta and phi values from the second array
+    eta_2 = second.eta
+    phi_2 = second.phi
+    
+    # Calculate the difference in eta and phi
+    delta_eta = eta_2 - eta_1
+    delta_phi = phi_2 - phi_1
+    
+    # Calculate the delta R
+    delta_R = np.sqrt(delta_eta**2 + delta_phi**2)
+    
+    # Create a mask indicating which objects pass the threshold
+    delta_R_mask = (delta_R > threshold)
+    
+    return delta_R_mask
+
 
 def trigger_match(leptons: ak.Array, trigobjs: ak.Array, trigger_path: str):
     """

@@ -37,11 +37,11 @@ EOF
 cd "$SCRIPT_DIR"
 
 # Declarar variables
-processor="qcd_hadronic"     # ttbar ; ztoll: top_tagger; signal; wjets; qcd_abcd; qcd_hadronic
-channel="wjets"        # wjets -> {1j1l, 1l0b}; wplusjets -> {wjets, cr_b, cr_c, cr_d}, ztoll-> {ll, ll_ISR}; qcd_abcd -> {1l0b; 1l0b_A; 1l0b_B; 1l0b_C; 1l0b_D}; ttbar -> {2b1l, 1b1e1mu, 1b1l}
+processor="ztoll"     # ttbar ; ztoll: top_tagger; signal; wjets; qcd_abcd; qcd_hadronic
+channel="ll_ISR"        # wjets -> {1j1l, 1l0b}; wplusjets -> {wjets, cr_b, cr_c, cr_d}, ztoll-> {ll, ll+c, ll_ISR}; qcd_abcd -> {1l0b; 1l0b_A; 1l0b_B; 1l0b_C; 1l0b_D}; ttbar -> {2b1l, 1b1e1mu, 1b1l}
 
 
-lepton_flavor="tau"
+lepton_flavor="mu"
 year="2017" # 2016APV; 2016; 2017; 2018
 nfiles="-1"
 executor="futures"

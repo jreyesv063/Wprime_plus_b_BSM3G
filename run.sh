@@ -24,7 +24,7 @@ cd wprime_plus_b/fileset/
 singularity shell -B /afs -B /eos -B /cvmfs /cvmfs/unpacked.cern.ch/registry.hub.docker.com/coffeateam/coffea-dask:latest-py3.10 << EOF
 
 # Ejecutar el script 'make_fileset_lxplus.py' dentro de Singularity
-#python make_fileset_lxplus.py
+python make_fileset_lxplus.py
 
 
 # Salir del shell de Singularity
@@ -77,7 +77,7 @@ samples=(
 #    "WJetsToLNu_HT-2500ToInf"
 #    "WW"
 #    "WZ"
-   "ZZ"
+#   "ZZ"
   # "QCD_HT50to100"
   # "QCD_HT100to200"
   # "QCD_HT200to300"

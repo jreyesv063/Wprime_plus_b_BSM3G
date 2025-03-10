@@ -1,0 +1,14 @@
+{
+    "Tau_4": [
+        "root://cmsdcadisk.fnal.gov//dcache/uscmsdisk/store/data/Run2018A/Tau/NANOAOD/UL2018_MiniAODv2_NanoAODv9-v2/2810000/EAEB2660-855A-1C43-9215-AC0693F81518.root",
+        "root://xrootd01.jinr-t1.ru:1094//pnfs/jinr-t1.ru/data/cms/store/data/Run2018A/Tau/NANOAOD/UL2018_MiniAODv2_NanoAODv9-v2/2810000/EFFC9D3E-A005-CD46-8D94-D8697297C3E2.root",
+        "root://cmsdcadisk.fnal.gov//dcache/uscmsdisk/store/data/Run2018B/Tau/NANOAOD/UL2018_MiniAODv2_NanoAODv9-v1/120000/81C87FA7-F5CD-2F45-BBA3-15FC3F9E986A.root",
+        "root://grid143.kfki.hu:1094//store/data/Run2018B/Tau/NANOAOD/UL2018_MiniAODv2_NanoAODv9-v1/270000/028967E0-488F-3041-9B11-17C57DB3F9C3.root",
+        "root://xrootd01.jinr-t1.ru:1094//pnfs/jinr-t1.ru/data/cms/store/data/Run2018B/Tau/NANOAOD/UL2018_MiniAODv2_NanoAODv9-v1/270000/06CAECA2-3302-0846-9611-6EA381BBA9CC.root",
+        "root://cmsdcadisk.fnal.gov//dcache/uscmsdisk/store/data/Run2018B/Tau/NANOAOD/UL2018_MiniAODv2_NanoAODv9-v1/270000/073206E3-26FA-AA47-B4FD-054EC33CA0B1.root",
+        "root://maite.iihe.ac.be:1095//store/data/Run2018B/Tau/NANOAOD/UL2018_MiniAODv2_NanoAODv9-v1/270000/0D065982-F849-AF4F-970A-8F9557ECC53A.root",
+        "root://cmsdcadisk.fnal.gov//dcache/uscmsdisk/store/data/Run2018B/Tau/NANOAOD/UL2018_MiniAODv2_NanoAODv9-v1/270000/2AA4576A-20B8-DD48-BF5D-12F5C739E4F5.root",
+        "root://cmsdcadisk.fnal.gov//dcache/uscmsdisk/store/data/Run2018B/Tau/NANOAOD/UL2018_MiniAODv2_NanoAODv9-v1/270000/2D384795-5EDE-3D4F-9230-8AAC1812AE8E.root",
+        "root://maite.iihe.ac.be:1095//store/data/Run2018B/Tau/NANOAOD/UL2018_MiniAODv2_NanoAODv9-v1/270000/35A5E583-26A8-334B-9944-ABE7145832D9.root"
+    ]
+}

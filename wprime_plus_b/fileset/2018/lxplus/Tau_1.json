@@ -1,0 +1,15 @@
+{
+    "Tau_1": [
+        "root://gfe02.grid.hep.ph.ic.ac.uk:1094//pnfs/hep.ph.ic.ac.uk/data/cms/store/data/Run2018A/Tau/NANOAOD/UL2018_MiniAODv2_NanoAODv9-v2/2810000/0075950B-3B06-844E-86D0-7900E3A78B52.root",
+        "root://osg-se.sprace.org.br:1094//store/data/Run2018A/Tau/NANOAOD/UL2018_MiniAODv2_NanoAODv9-v2/2810000/0766ACDD-6389-7C47-B629-D652805315AB.root",
+        "root://xrootd01.jinr-t1.ru:1094//pnfs/jinr-t1.ru/data/cms/store/data/Run2018A/Tau/NANOAOD/UL2018_MiniAODv2_NanoAODv9-v2/2810000/07A6032B-BBE8-5145-9941-5A2E0F773522.root",
+        "root://xrootd01.jinr-t1.ru:1094//pnfs/jinr-t1.ru/data/cms/store/data/Run2018A/Tau/NANOAOD/UL2018_MiniAODv2_NanoAODv9-v2/2810000/0B468602-F5C2-094B-B457-7799D0176D61.root",
+        "root://gfe02.grid.hep.ph.ic.ac.uk:1094//pnfs/hep.ph.ic.ac.uk/data/cms/store/data/Run2018A/Tau/NANOAOD/UL2018_MiniAODv2_NanoAODv9-v2/2810000/0FDCB253-CAFE-E245-ABEB-A410719650AB.root",
+        "root://cmsdcadisk.fnal.gov//dcache/uscmsdisk/store/data/Run2018A/Tau/NANOAOD/UL2018_MiniAODv2_NanoAODv9-v2/2810000/10B4F8EB-E9AA-DF45-A714-D06B20F64D30.root",
+        "root://xrootd-cms.infn.it:1194//store/data/Run2018A/Tau/NANOAOD/UL2018_MiniAODv2_NanoAODv9-v2/2810000/15CE8775-8B07-7D4C-8C96-F023D4F8EC8E.root",
+        "root://osg-se.sprace.org.br:1094//store/data/Run2018A/Tau/NANOAOD/UL2018_MiniAODv2_NanoAODv9-v2/2810000/19C65634-21EE-6E40-9378-6AA5C72B8FB2.root",
+        "root://xrootd-cms.infn.it:1194//store/data/Run2018A/Tau/NANOAOD/UL2018_MiniAODv2_NanoAODv9-v2/2810000/22581DE8-535B-4546-A9EB-9D4FFDDDDAFB.root",
+        "root://xrootd01.jinr-t1.ru:1094//pnfs/jinr-t1.ru/data/cms/store/data/Run2018A/Tau/NANOAOD/UL2018_MiniAODv2_NanoAODv9-v2/2810000/2F848C3A-9654-C740-8D0D-1E1FD3124485.root",
+        "root://xrootd01.jinr-t1.ru:1094//pnfs/jinr-t1.ru/data/cms/store/data/Run2018A/Tau/NANOAOD/UL2018_MiniAODv2_NanoAODv9-v2/2810000/33077F8D-616E-E846-A27F-290E76F55BE7.root"
+    ]
+}

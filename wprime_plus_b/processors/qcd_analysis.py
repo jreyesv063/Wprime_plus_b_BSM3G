@@ -196,7 +196,7 @@ class QcdAnalysis(processor.ProcessorABC):
                 tau_corrector.add_id_weight_DeepTau2017v2p1VSmu()
                 tau_corrector.add_id_weight_DeepTau2017v2p1VSjet()
 
-                """
+                
                 # electron corrector
                 electron_corrector = ElectronCorrector(
                     electrons=events.Electron,
@@ -232,7 +232,7 @@ class QcdAnalysis(processor.ProcessorABC):
                 # add trigger weights
                 if self._lepton_flavor == "mu":
                     muon_corrector.add_triggeriso_weight()
-                """
+                
             # save sum of weights before selections
             output["metadata"][region]["sumw"] = ak.sum(weights_container.weight())
         

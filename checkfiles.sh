@@ -18,28 +18,36 @@ SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
 # Configuración de opciones
 considerar_SingleElectron=false 
-considerar_Tau=false  
+considerar_Tau=false 
 considerar_higgs=false
 
 considerar_MET=true
 considerar_SingleMuon=false
 
-considerar_wj=true
-considerar_tt=true
 
-considerar_dy=true
+considerar_inclusive_wj=true
+considerar_inclusive_ext_wj=true
+considerar_inclusive_dy_nlo=true
+considerar_tt=true
 considerar_st=true
 considerar_vv=true
+considerar_qcd=true
+
+
+
+
 
 considerar_signal_tau=false
 considerar_signal_ele=false
 considerar_signal_mu=false
 
-considerar_inclusive=true
-considerar_inclusive_ext=true
 
 
+considerar_wj=false
+considerar_inclusive_dy=false
+considerar_inclusive_ext_dy=false
 considerar_inclusive_ch3=false
+considerar_dy=false
 
 
 # Carpeta donde está el resultado de la corrida
@@ -83,6 +91,7 @@ while IFS= read -r nombre_archivo && IFS= read -r divisiones; do
     nombre_archivo=$(echo "$nombre_archivo" | sed 's/:$//')  # Eliminar los dos puntos al final del nombre del archivo
     divisiones=$(echo "$divisiones" | awk '{print $2}')
     mapa["$nombre_archivo"]=$divisiones
+
 
 done < datasets_configs.yaml 
 
@@ -149,6 +158,9 @@ fi
 
 if ! $considerar_signal_tau; then
     unset mapa["SignalTau_600GeV"]  
+    unset mapa["SignalTau_1TeV"]  
+    unset mapa["SignalTau_2TeV"]  
+    unset mapa["SignalTau_3TeV"]  
 fi
 if ! $considerar_signal_ele; then
     unset mapa["SignalElectron_1TeV"]
@@ -160,17 +172,36 @@ if ! $considerar_signal_mu; then
     unset mapa["SignalMuon_2TeV"]
     unset mapa["SignalMuon_600GeV"]    
 fi
-if ! $considerar_inclusive; then
+if ! $considerar_inclusive_dy; then
     unset mapa["DYJetsToLL_M-50_inclusive"]
     unset mapa["DYJetsToLL_M-10to50"]    
+fi
+if ! $considerar_inclusive_wj; then
     unset mapa["WJetsToLNu_inclusive"]
 fi
-if ! $considerar_inclusive_ext; then
-    unset mapa["WJetsToLNu_ext"]
+if ! $considerar_inclusive_ext_dy; then
     unset mapa["DYJetsToLL_M-50_ext"]
+fi
+if ! $considerar_inclusive_ext_wj; then
+    unset mapa["WJetsToLNu_ext"]
 fi
 if ! $considerar_inclusive_ch3; then
     unset mapa["DYJetsToLL_M-50_CH3"]
+fi
+if ! $considerar_inclusive_dy_nlo; then
+    unset mapa["DYJetsToLL_nlo_M-10to50"]
+    unset mapa["DYJetsToLL_nlo_M-50"]
+fi
+if ! $considerar_qcd; then
+    unset mapa["QCD_HT50to100"]
+    unset mapa["QCD_HT100to200"]
+    unset mapa["QCD_HT200to300"]
+    unset mapa["QCD_HT300to500"]
+    unset mapa["QCD_HT500to700"]
+    unset mapa["QCD_HT700to1000"]
+    unset mapa["QCD_HT1000to1500"]
+    unset mapa["QCD_HT1500to2000"]
+    unset mapa["QCD_HT2000toInf"]
 fi
 
 
@@ -185,11 +216,11 @@ for nombre_base in "${!mapa[@]}"; do
     contador=0
 
     # Cambiar al directorio con los archivos de salida
-    if [ $processor == "ttbar" ] || [ $processor == "wjets" ] || [ "$processor" == "ztoll" ]  || [ "$processor" == "qcd_abcd" ] ; then
+    if [ $processor == "ttbar" ] || [ $processor == "wjets" ] || [ "$processor" == "ztoll" ]  || [ "$processor" == "qcd_abcd" ] || [ $processor == "wplusjets" ]; then
         cd $SCRIPT_DIR/wprime_plus_b/$outfolder/$processor/$channel/$lepton_flavor/$year/metadata
         #cd ~/wprime_plus_b_new/wprime_plus_b/wprime_plus_b/$outfolder/$processor/$channel/$lepton_flavor/$year/metadata
 
-    elif [ "$processor" == "top_tagger" ]  || [ "$processor" == "signal" ]; then
+    elif [ "$processor" == "top_tagger" ]  || [ "$processor" == "signal" ] || [ $processor == "qcd_hadronic" ]; then
         cd $SCRIPT_DIR/wprime_plus_b/$outfolder/$processor/$lepton_flavor/$year/metadata
         #cd ~/wprime_plus_b_new/wprime_plus_b/wprime_plus_b/$outfolder/$processor/$lepton_flavor/$year/metadata
     fi
@@ -249,6 +280,7 @@ EOF
 # Directorio principal
 cd $SCRIPT_DIR
 
+
 # Iterar sobre cada archivo faltante
 for archivo_faltante in "${archivos_faltantes[@]}"; do
     # Extraer el nombre base y el número de muestra del archivo faltante
@@ -258,11 +290,11 @@ for archivo_faltante in "${archivos_faltantes[@]}"; do
 
 
 
-    if [ "$processor" == "ttbar" ] || [ "$processor" == "wjets" ] || [ "$processor" == "ztoll" ] || [ "$processor" == "qcd_abcd" ]; then
+    if [ "$processor" == "ttbar" ] || [ "$processor" == "wjets" ] || [ "$processor" == "ztoll" ] || [ "$processor" == "qcd_abcd" ] || [ $processor == "wplusjets" ]; then
         # Construir el comando python
         comando="python3 submit_lxplus.py --processor \"$processor\" --channel \"$channel\" --lepton_flavor \"$lepton_flavor\" --sample $nombre_base --year \"$year\" --nfiles \"$nfiles\" --executor \"$executor\" --output_type \"$output_type\" --nsample $nsample"
 
-    elif [ "$processor" == "top_tagger" ] || [ "$processor" == "signal" ]; then
+    elif [ "$processor" == "top_tagger" ] || [ "$processor" == "signal" ] || [ "$processor" == "qcd_hadronic" ]; then
         comando="python3 submit_lxplus.py --processor \"$processor\" --lepton_flavor \"$lepton_flavor\" --sample $nombre_base --year \"$year\" --nfiles \"$nfiles\" --executor \"$executor\" --output_type \"$output_type\" --nsample $nsample"
     fi
     

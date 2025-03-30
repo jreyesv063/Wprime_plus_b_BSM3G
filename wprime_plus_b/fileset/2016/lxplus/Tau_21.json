@@ -1,0 +1,8 @@
+{
+    "Tau_21": [
+        "root://ccxrdcms.in2p3.fr:1094//store/data/Run2016H/Tau/NANOAOD/UL2016_MiniAODv2_NanoAODv9-v1/260000/A20DBB52-54A5-5F4B-B0E0-1F99D0906C04.root",
+        "root://t2-xrdcms.lnl.infn.it:7070//store/data/Run2016H/Tau/NANOAOD/UL2016_MiniAODv2_NanoAODv9-v1/260000/A26B7833-F99A-5640-91BC-02248AF59976.root",
+        "root://maite.iihe.ac.be:1094//store/data/Run2016H/Tau/NANOAOD/UL2016_MiniAODv2_NanoAODv9-v1/260000/A8F55682-E1CF-144F-BFF3-CC98FDA503E1.root",
+        "root://eospublic.cern.ch//eos/opendata/cms/Run2016H/Tau/NANOAOD/UL2016_MiniAODv2_NanoAODv9-v1/260000/AC294007-A82E-BF4B-9E93-F912695FEB4B.root"
+    ]
+}

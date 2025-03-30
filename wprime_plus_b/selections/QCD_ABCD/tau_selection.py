@@ -57,7 +57,7 @@ def select_good_taus(
         & (np.abs(events.Tau.dz) < tau_dz_threshold)
         & (
             events.Tau.idDeepTau2017v2p1VSjet
-            > taus_wps["DeepTau2017"]["deep_tau_jet"][tau_vs_jet]
+            >  taus_wps["DeepTau2017"]["deep_tau_jet"][tau_vs_jet] # 0
         )
         & (
             events.Tau.idDeepTau2017v2p1VSe

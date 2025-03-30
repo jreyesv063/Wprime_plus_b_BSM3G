@@ -23,6 +23,7 @@ POG_JSONS = {
     "tau": ["TAU", "tau.json.gz"],
     "pileup": ["LUM", "puWeights.json.gz"],
     "btag": ["BTV", "btagging.json.gz"],
+    "ctag": ["BTV", "ctagging.json.gz"],
     "met": ["JME", "met.json.gz"],
     "pujetid": ["JME", "jmar.json.gz"],
     "jetvetomaps": ["JME", "jetvetomaps.json.gz"]

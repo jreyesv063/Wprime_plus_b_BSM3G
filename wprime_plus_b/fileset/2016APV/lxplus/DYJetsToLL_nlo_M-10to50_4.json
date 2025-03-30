@@ -1,0 +1,8 @@
+{
+    "DYJetsToLL_nlo_M-10to50_4": [
+        "root://maite.iihe.ac.be:1095//store/mc/RunIISummer20UL16NanoAODAPVv9/DYJetsToLL_M-10to50_TuneCP5_13TeV-amcatnloFXFX-pythia8/NANOAODSIM/106X_mcRun2_asymptotic_preVFP_v11-v1/80000/B60AFF13-9B6E-F84D-8D64-7476B48FA603.root",
+        "root://maite.iihe.ac.be:1095//store/mc/RunIISummer20UL16NanoAODAPVv9/DYJetsToLL_M-10to50_TuneCP5_13TeV-amcatnloFXFX-pythia8/NANOAODSIM/106X_mcRun2_asymptotic_preVFP_v11-v1/80000/B8F0B452-B43C-9648-B12D-281FB21A9380.root",
+        "root://maite.iihe.ac.be:1095//store/mc/RunIISummer20UL16NanoAODAPVv9/DYJetsToLL_M-10to50_TuneCP5_13TeV-amcatnloFXFX-pythia8/NANOAODSIM/106X_mcRun2_asymptotic_preVFP_v11-v1/80000/BD373000-9FC1-7D47-8D40-714462747F82.root",
+        "root://cmsdcadisk.fnal.gov//dcache/uscmsdisk/store/mc/RunIISummer20UL16NanoAODAPVv9/DYJetsToLL_M-10to50_TuneCP5_13TeV-amcatnloFXFX-pythia8/NANOAODSIM/106X_mcRun2_asymptotic_preVFP_v11-v1/80000/CB6CAACB-B120-9041-A61E-068F3B2FFB15.root"
+    ]
+}

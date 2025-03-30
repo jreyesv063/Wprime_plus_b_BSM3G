@@ -1,0 +1,10 @@
+{
+    "Tau_24": [
+        "root://cmsdcache-kit-disk.gridka.de:1094//store/data/Run2016F/Tau/NANOAOD/HIPM_UL2016_MiniAODv2_NanoAODv9-v2/50000/7AA75162-6217-A443-9A6C-59DAC46A31DD.root",
+        "root://eoscms.cern.ch//eos/cms/store/data/Run2016F/Tau/NANOAOD/HIPM_UL2016_MiniAODv2_NanoAODv9-v2/50000/808F88D3-FF20-7A43-B99B-1EDB08BD2D1A.root",
+        "root://xrootd-cmst1-door.pic.es:1094//pnfs/pic.es/data/cms/disk/store/data/Run2016F/Tau/NANOAOD/HIPM_UL2016_MiniAODv2_NanoAODv9-v2/50000/81976C54-775F-144D-9B3B-41220E524976.root",
+        "root://maite.iihe.ac.be:1095//store/data/Run2016F/Tau/NANOAOD/HIPM_UL2016_MiniAODv2_NanoAODv9-v2/50000/9780A5B7-739C-FA4C-A6CA-7A02CDB9C5E4.root",
+        "root://maite.iihe.ac.be:1095//store/data/Run2016F/Tau/NANOAOD/HIPM_UL2016_MiniAODv2_NanoAODv9-v2/50000/9BA13B70-3F09-4C44-BD6D-B129E2360371.root",
+        "root://cmsdcadisk.fnal.gov//dcache/uscmsdisk/store/data/Run2016F/Tau/NANOAOD/HIPM_UL2016_MiniAODv2_NanoAODv9-v2/50000/B3299AA9-0813-E44C-8724-BDEDE42E2828.root"
+    ]
+}

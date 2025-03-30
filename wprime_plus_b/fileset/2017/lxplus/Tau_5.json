@@ -1,0 +1,12 @@
+{
+    "Tau_5": [
+        "root://grid-cms-xrootd.physik.rwth-aachen.de:1094//store/data/Run2017C/Tau/NANOAOD/UL2017_MiniAODv2_NanoAODv9-v1/270000/0302C33C-C4F0-3545-BBE2-20AC8064F6A3.root",
+        "root://grid-cms-xrootd.physik.rwth-aachen.de:1094//store/data/Run2017C/Tau/NANOAOD/UL2017_MiniAODv2_NanoAODv9-v1/270000/0A8C80D0-972F-234E-AF17-5F7E0D2830F1.root",
+        "root://cmsdcadisk.fnal.gov//dcache/uscmsdisk/store/data/Run2017C/Tau/NANOAOD/UL2017_MiniAODv2_NanoAODv9-v1/270000/0C028CF6-C6D3-C441-9B4F-92A76BD79EDA.root",
+        "root://xrootd-local.unl.edu:1094//store/data/Run2017C/Tau/NANOAOD/UL2017_MiniAODv2_NanoAODv9-v1/270000/125E562A-983C-1540-8C2D-32F495D8F27D.root",
+        "root://grid-cms-xrootd.physik.rwth-aachen.de:1094//store/data/Run2017C/Tau/NANOAOD/UL2017_MiniAODv2_NanoAODv9-v1/270000/2D00406C-9796-6B41-99F6-95B230D7B632.root",
+        "root://cmsdcadisk.fnal.gov//dcache/uscmsdisk/store/data/Run2017C/Tau/NANOAOD/UL2017_MiniAODv2_NanoAODv9-v1/270000/391F559F-2BCB-634E-AEAE-6E8F179FBC63.root",
+        "root://xrootd-local.unl.edu:1094//store/data/Run2017C/Tau/NANOAOD/UL2017_MiniAODv2_NanoAODv9-v1/270000/432F9EE4-AB10-174B-89DA-45F3B63EFBF4.root",
+        "root://grid-cms-xrootd.physik.rwth-aachen.de:1094//store/data/Run2017C/Tau/NANOAOD/UL2017_MiniAODv2_NanoAODv9-v1/270000/4560E713-1868-AE4E-AE56-C73F3A716597.root"
+    ]
+}

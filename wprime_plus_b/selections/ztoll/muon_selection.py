@@ -7,7 +7,7 @@ from coffea.nanoevents.methods.base import NanoEventsArray
 
 
 def select_good_muons(
-    events: ak.Array, muon_pt_threshold: int, muon_eta_threshold: float, muon_id_wp: str, muon_iso_wp: str
+    events: ak.Array, muon_pt_threshold: int, muon_eta_threshold: float, muon_id_wp: str, muon_iso_wp: str, year: str
 ) -> ak.highlevel.Array:
     """
     return mask from a collection of events based on specified criteria.
@@ -30,9 +30,11 @@ def select_good_muons(
     --------
         An Awkward Array mask containing the selected "good" muons that satisfy the specified criteria.
     """
-    # muon pT threshold
-    muon_pt_mask = events.Muon.pt >= muon_pt_threshold
-
+    # muon pT threshold. Conditional depending on the year. For 2016, 2016APV, and 2018, the threshold is 27 GeV. For 2017, it is 30 GeV.
+    if year in ["2016APV", "2016", "2018"]:
+        muon_pt_mask = events.Muon.pt >= 27.0
+    else:
+        muon_pt_mask = events.Muon.pt >= muon_pt_threshold
     # electron pseudorapidity mask
     muon_eta_mask = np.abs(events.Muon.eta) < muon_eta_threshold
 
@@ -64,10 +66,6 @@ def select_good_muons(
             else events.Muon.pfRelIso03_all < 0.15
         ),
     }
-    #muon_dz_mask = (np.abs(events.Muon.dz) < 0.2)
-    #muon_dxy_mask = (np.abs(events.Muon.dz) < 0.045)
-    
-       
     muon_iso_mask = iso_wps[muon_iso_wp]
 
-    return (muon_pt_mask) & (muon_eta_mask) & (muon_id_mask) & (muon_iso_mask) #& (muon_dz_mask) & (muon_dxy_mask)
+    return (muon_pt_mask) & (muon_eta_mask) & (muon_id_mask) & (muon_iso_mask)

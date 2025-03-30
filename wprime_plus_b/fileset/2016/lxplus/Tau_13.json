@@ -1,0 +1,8 @@
+{
+    "Tau_13": [
+        "root://ccxrdcms.in2p3.fr:1094//store/data/Run2016H/Tau/NANOAOD/UL2016_MiniAODv2_NanoAODv9-v1/260000/13899FDF-0B41-414B-B98B-D5BE9A6097F0.root",
+        "root://ccxrdcms.in2p3.fr:1094//store/data/Run2016H/Tau/NANOAOD/UL2016_MiniAODv2_NanoAODv9-v1/260000/1A969E3A-5024-3E45-950F-5694E571F543.root",
+        "root://eospublic.cern.ch//eos/opendata/cms/Run2016H/Tau/NANOAOD/UL2016_MiniAODv2_NanoAODv9-v1/260000/1BF09077-3B5A-D84A-BE7D-21C96137D7B8.root",
+        "root://cmsdcadisk.fnal.gov//dcache/uscmsdisk/store/data/Run2016H/Tau/NANOAOD/UL2016_MiniAODv2_NanoAODv9-v1/260000/1F6DEC6B-F397-4543-BC7E-BADA6D853636.root"
+    ]
+}

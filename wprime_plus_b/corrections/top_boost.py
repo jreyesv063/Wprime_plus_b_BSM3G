@@ -26,11 +26,12 @@ def add_top_boost_corrections(
     if dataset.startswith('TTTo'):
         # get top boost correction, using the ST variable
         cset = correctionlib.CorrectionSet.from_file(
-            "wprime_plus_b/data/top_boost.json"
+            f"wprime_plus_b/data/top_boost_{lepton_flavor}_{year}.json"
         )
 
         jet_pt = ak.sum(jets.pt, axis=1)
         bjet_pt = ak.sum(bjets.pt, axis=1)
+        njets = ak.num(jets) + ak.num(bjets)
         electron_pt = ak.sum(electrons.pt, axis=1)
         muon_pt = ak.sum(muons.pt, axis=1)
         tau_pt = ak.sum(taus.pt, axis=1)
@@ -45,45 +46,52 @@ def add_top_boost_corrections(
 
         # ST range
         in_st_mask = (
-            (st >= 250.0)
-            & (st <= 2000.0)
+            (st >= 100.0)
+            & (st <= 9000.0)
+        )
+        # njets range
+        in_nt_mask = (
+             (njets >= 0)
+            & (njets <= 16)
         )
         
-        st_masked = st.mask[in_st_mask]
-
+        mask = in_st_mask & in_nt_mask
+        
+        st_masked = st.mask[mask]
+        njet = ak.fill_none(njets.mask[mask],0)
+        
         st_pt = ak.fill_none(st_masked, 250)
         
-        sf = cset[f"Top_boost_weight_{year}_UL"].evaluate(st_pt, "nominal")
+
+        sf = cset[f"Top_boost_weight_{year}_UL_{lepton_flavor}"].evaluate(njet, st_pt ,"nominal")
 
 
         nominal_sf = np.where(in_st_mask, sf, 1.0)
     
-       
-        
+
         if variation == "nominal":
             # get 'up' and 'down' scale factors
-            sf_up = cset[f"Top_boost_weight_{year}_UL"].evaluate(st_pt, "up")
+            sf_up = cset[f"Top_boost_weight_{year}_UL_{lepton_flavor}"].evaluate(njet, st_pt ,"up")
             up_sf = np.where(in_st_mask, sf_up, 1.0)
             
-            sf_down =  cset[f"Top_boost_weight_{year}_UL"].evaluate(st_pt, "down")
+            sf_down =  cset[f"Top_boost_weight_{year}_UL_{lepton_flavor}"].evaluate(njet, st_pt ,"down")
             down_sf = np.where(in_st_mask, sf_down, 1.0)
                     
-            print(f"{nominal_sf = }")
-            print(f"{up_sf = }")
-            print(f"{down_sf =}")
             # add scale factors to weights container
             weights.add(
-                name=f"gatooooo",
+                name=f"top_boost_weight_{year}_{lepton_flavor}",
                 weight=nominal_sf,
                 weightUp=up_sf,
                 weightDown=down_sf,
             )
-            print(weights.weightStatistics.items())
 
         else:
             weights.add(
-                name=f"top_boost_weight_{year}",
+                name=f"top_boost_weight_{year}_{lepton_flavor}",
                 weight=nominal_sf,
             )
+
     else:
         return
+    
+    

@@ -1,0 +1,11 @@
+{
+    "Tau_7": [
+        "root://maite.iihe.ac.be:1095//store/data/Run2016C/Tau/NANOAOD/HIPM_UL2016_MiniAODv2_NanoAODv9-v2/2430000/2347A5BA-89B2-864E-BE7A-86800A10889C.root",
+        "root://rdr.echo.stfc.ac.uk//store/data/Run2016C/Tau/NANOAOD/HIPM_UL2016_MiniAODv2_NanoAODv9-v2/2430000/29AC9652-74CF-C94A-9283-D6431407078A.root",
+        "root://grid-cms-xrootd.physik.rwth-aachen.de:1094//store/data/Run2016C/Tau/NANOAOD/HIPM_UL2016_MiniAODv2_NanoAODv9-v2/2430000/356572DF-333D-FA41-B559-BFBF4E084C8B.root",
+        "root://rdr.echo.stfc.ac.uk//store/data/Run2016C/Tau/NANOAOD/HIPM_UL2016_MiniAODv2_NanoAODv9-v2/2430000/3DE92C95-1911-BE45-B74D-31823C14C8A4.root",
+        "root://cmsdcadisk.fnal.gov//dcache/uscmsdisk/store/data/Run2016C/Tau/NANOAOD/HIPM_UL2016_MiniAODv2_NanoAODv9-v2/2430000/3EC30A29-EDA3-5D4B-BDFA-3632FD4138A6.root",
+        "root://cmsdcadisk.fnal.gov//dcache/uscmsdisk/store/data/Run2016C/Tau/NANOAOD/HIPM_UL2016_MiniAODv2_NanoAODv9-v2/2430000/77E974DE-22C6-C04B-8D69-F05AD820D7A8.root",
+        "root://cms.sscc.uos.ac.kr:1094//store/data/Run2016C/Tau/NANOAOD/HIPM_UL2016_MiniAODv2_NanoAODv9-v2/2430000/83595E57-8596-734E-ACF5-6C5E5C395DFD.root"
+    ]
+}

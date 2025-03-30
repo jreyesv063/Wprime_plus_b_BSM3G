@@ -1,0 +1,6 @@
+{
+    "TTToSemiLeptonic_95": [
+        "root://gaexrdoor.ciemat.es:1094//store/mc/RunIISummer20UL17NanoAODv9/TTToSemiLeptonic_TuneCP5_13TeV-powheg-pythia8/NANOAODSIM/106X_mc2017_realistic_v9-v1/280000/BFD25B22-4164-4D4F-99CE-DD7E75E6874E.root",
+        "root://gaexrdoor.ciemat.es:1094//store/mc/RunIISummer20UL17NanoAODv9/TTToSemiLeptonic_TuneCP5_13TeV-powheg-pythia8/NANOAODSIM/106X_mc2017_realistic_v9-v1/280000/BFDD9898-F533-6C43-B134-48A31BBEF6C9.root"
+    ]
+}

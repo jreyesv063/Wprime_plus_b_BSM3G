@@ -1,0 +1,8 @@
+{
+    "Tau_10": [
+        "root://eos.cms.rcac.purdue.edu//store/data/Run2016G/Tau/NANOAOD/UL2016_MiniAODv2_NanoAODv9-v1/280000/7498A2E0-D2EA-204C-ADB0-E1993C28FB66.root",
+        "root://cmsdcadisk.fnal.gov//dcache/uscmsdisk/store/data/Run2016G/Tau/NANOAOD/UL2016_MiniAODv2_NanoAODv9-v1/280000/77B99925-3F23-664D-8C96-7193196066A2.root",
+        "root://maite.iihe.ac.be:1094//store/data/Run2016G/Tau/NANOAOD/UL2016_MiniAODv2_NanoAODv9-v1/280000/84DCE440-AFBB-2647-9CB5-6BEED433DD65.root",
+        "root://rdr.echo.stfc.ac.uk//store/data/Run2016G/Tau/NANOAOD/UL2016_MiniAODv2_NanoAODv9-v1/280000/9C5F1F6F-5896-3A44-B52B-A31C4198A5FC.root"
+    ]
+}

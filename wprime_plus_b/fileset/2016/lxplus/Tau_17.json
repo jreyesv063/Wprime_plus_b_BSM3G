@@ -1,0 +1,8 @@
+{
+    "Tau_17": [
+        "root://grid-cms-xrootd.physik.rwth-aachen.de:1094//store/data/Run2016H/Tau/NANOAOD/UL2016_MiniAODv2_NanoAODv9-v1/260000/60D1E52F-199E-2543-9BD7-B5AEED804D6C.root",
+        "root://eospublic.cern.ch//eos/opendata/cms/Run2016H/Tau/NANOAOD/UL2016_MiniAODv2_NanoAODv9-v1/260000/62451EFF-8C75-034C-8699-FC798D4CDAB0.root",
+        "root://eospublic.cern.ch//eos/opendata/cms/Run2016H/Tau/NANOAOD/UL2016_MiniAODv2_NanoAODv9-v1/260000/64C0EEB7-0C1C-BF4A-9C0B-B8A22FB366CF.root",
+        "root://cmsdcadisk.fnal.gov//dcache/uscmsdisk/store/data/Run2016H/Tau/NANOAOD/UL2016_MiniAODv2_NanoAODv9-v1/260000/72A0BB70-1339-0245-BE82-EBD96E08AD73.root"
+    ]
+}

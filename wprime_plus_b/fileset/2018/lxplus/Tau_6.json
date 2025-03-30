@@ -1,0 +1,14 @@
+{
+    "Tau_6": [
+        "root://maite.iihe.ac.be:1095//store/data/Run2018B/Tau/NANOAOD/UL2018_MiniAODv2_NanoAODv9-v1/270000/83316177-4E20-B24D-BACB-8E80FC901B32.root",
+        "root://grid-cms-xrootd.physik.rwth-aachen.de:1094//store/data/Run2018B/Tau/NANOAOD/UL2018_MiniAODv2_NanoAODv9-v1/270000/9463AC23-3DB7-7043-9A61-6D18B6513A01.root",
+        "root://maite.iihe.ac.be:1095//store/data/Run2018B/Tau/NANOAOD/UL2018_MiniAODv2_NanoAODv9-v1/270000/948B9979-3122-1C44-BE67-053C081084FC.root",
+        "root://grid143.kfki.hu:1094//store/data/Run2018B/Tau/NANOAOD/UL2018_MiniAODv2_NanoAODv9-v1/270000/988CA456-22E8-624B-AC3D-D7564DF5973C.root",
+        "root://cmsdcadisk.fnal.gov//dcache/uscmsdisk/store/data/Run2018B/Tau/NANOAOD/UL2018_MiniAODv2_NanoAODv9-v1/270000/99934DC7-54B9-3E43-BA0D-F7B4FEE39477.root",
+        "root://xrootd-local.unl.edu:1094//store/data/Run2018B/Tau/NANOAOD/UL2018_MiniAODv2_NanoAODv9-v1/270000/A6075E3F-7C49-8045-BFC0-74CD1D07AA6A.root",
+        "root://maite.iihe.ac.be:1095//store/data/Run2018B/Tau/NANOAOD/UL2018_MiniAODv2_NanoAODv9-v1/270000/AB82B68F-4539-654B-9C27-8DA113E66260.root",
+        "root://cmsdcadisk.fnal.gov//dcache/uscmsdisk/store/data/Run2018B/Tau/NANOAOD/UL2018_MiniAODv2_NanoAODv9-v1/270000/C1E7223D-3F44-C647-BDFE-24DE3D77B62F.root",
+        "root://k8s-redir.ultralight.org:1094//store/data/Run2018B/Tau/NANOAOD/UL2018_MiniAODv2_NanoAODv9-v1/270000/C67A84E7-81B1-CB42-A42F-05AD33F06FE2.root",
+        "root://grid143.kfki.hu:1094//store/data/Run2018B/Tau/NANOAOD/UL2018_MiniAODv2_NanoAODv9-v1/270000/CBA2325F-AE08-C049-B699-6A060F980BAA.root"
+    ]
+}

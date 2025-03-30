@@ -1,0 +1,6 @@
+{
+    "TTToSemiLeptonic_98": [
+        "root://t3se01.psi.ch:1094//store/mc/RunIISummer20UL17NanoAODv9/TTToSemiLeptonic_TuneCP5_13TeV-powheg-pythia8/NANOAODSIM/106X_mc2017_realistic_v9-v1/280000/C555C62F-7080-5F47-871B-1F24824DBB27.root",
+        "root://eoscms.cern.ch//eos/cms/store/mc/RunIISummer20UL17NanoAODv9/TTToSemiLeptonic_TuneCP5_13TeV-powheg-pythia8/NANOAODSIM/106X_mc2017_realistic_v9-v1/280000/C5D6F17C-652E-C840-8623-3C55ECC8D1C4.root"
+    ]
+}

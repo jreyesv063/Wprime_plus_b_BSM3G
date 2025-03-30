@@ -140,7 +140,7 @@ def manage_processor_args(args: dict) -> dict:
 
 def run_checker(args: dict) -> None:
     # check processor
-    available_processors = ["ttbar", "ztoll", "qcd", "btag_eff", "trigger_eff", "top_tagger", "signal", "wjets", "qcd_abcd"] 
+    available_processors = ["ttbar", "ztoll", "qcd", "btag_eff", "trigger_eff", "top_tagger", "signal", "wjets", "qcd_abcd", "qcd_hadronic", "wplusjets"]
     if args["processor"] not in available_processors:
         raise ValueError(
             f"Incorrect processor. Available processors are: {available_processors}"

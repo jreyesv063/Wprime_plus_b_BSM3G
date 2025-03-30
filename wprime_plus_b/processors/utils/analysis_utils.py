@@ -194,6 +194,45 @@ def delta_r_mask(first: ak.Array, second: ak.Array, threshold: float) -> ak.Arra
     mval = first.metric_table(second)
     return ak.all(mval > threshold, axis=-1)
 
+def delta_r(first: ak.Array, second: ak.Array, threshold: float):
+    """
+    Calculates the delta R between two arrays of objects and returns a mask
+    indicating which objects pass a given threshold.
+
+    Parameters:
+    -----------
+    first: ak.Array
+        First array of objects
+    second: ak.Array
+        Second array of objects
+    threshold: float
+        Threshold value for delta R
+
+    Returns:
+    --------
+    delta_R_mask: ak.Array
+        Boolean array indicating which objects pass the threshold
+    """
+    # Extract eta and phi values from the first array
+    eta_1 = first.eta
+    phi_1 = first.phi
+    
+    # Extract eta and phi values from the second array
+    eta_2 = second.eta
+    phi_2 = second.phi
+    
+    # Calculate the difference in eta and phi
+    delta_eta = eta_2 - eta_1
+    delta_phi = phi_2 - phi_1
+    
+    # Calculate the delta R
+    delta_R = np.sqrt(delta_eta**2 + delta_phi**2)
+    
+    # Create a mask indicating which objects pass the threshold
+    delta_R_mask = (delta_R > threshold)
+    
+    return delta_R_mask
+
 
 def trigger_match(leptons: ak.Array, trigobjs: ak.Array, trigger_path: str):
     """
@@ -522,6 +561,10 @@ def histograms_output(
     region_ST = lepton_pt_addition+ region_HT
     region_ST_met = lepton_pt_addition + region_HT + region_met.pt
     region_ST_full = region_ST + muon_pt_addition + electron_pt_addition + tau_pt_addition 
+
+
+    region_delta_phi_met_jet = region_jets.delta_phi(region_met)
+    region_delta_phi_met_lepton = region_leptons.delta_phi(region_met)
     
     # Add features to the object (assumed to have a method `add_feature`)
     self.add_feature("lepton_pt", region_leptons.pt)
@@ -546,7 +589,20 @@ def histograms_output(
     
     
     self.add_feature("met", region_met.pt)
+    self.add_feature("met_raw", region_met.pt_raw)
     self.add_feature("met_phi", region_met.phi)
+
+    # Recoil
+    self.add_feature("recoil_pt", region_met.pt_recoil)
+    self.add_feature("recoil_phi", region_met.phi_recoil)
+
+
+    # New met variables
+    self.add_feature("pt_nomu_minus",  region_met.pt_nomu_minus)
+    self.add_feature("phi_nomu_minus",  region_met.phi_nomu_minus)
+    self.add_feature("pt_nomu_plus",  region_met.pt_nomu_plus)
+    self.add_feature("phi_nomu_plus",  region_met.phi_nomu_plus)
+
     
     self.add_feature("lepton_bjet_dr", lepton_bjet_dr)
     self.add_feature("lepton_bjet_mass", lepton_bjet_mass)
@@ -554,7 +610,9 @@ def histograms_output(
     self.add_feature("lepton_met_mass", lepton_met_mass)
     self.add_feature("lepton_met_delta_phi", lepton_met_delta_phi)
     self.add_feature("lepton_met_bjet_mass", lepton_met_bjet_mass)
-    
+
+
+    self.add_feature("njets_full", ak.num(region_jets) + ak.num(region_bjets))
     self.add_feature("njets", ak.num(region_jets))
     self.add_feature("nbjets", ak.num(region_bjets))
     self.add_feature("npvs", events.PV.npvsGood[mask])
@@ -569,6 +627,10 @@ def histograms_output(
 
     
     self.add_feature("top_mrec", region_tops)
+
+    # QCD rejection
+    self.add_feature("delta_phi_met_jet", region_delta_phi_met_jet)
+    self.add_feature("delta_phi_met_lepton", region_delta_phi_met_lepton)
 
 
 

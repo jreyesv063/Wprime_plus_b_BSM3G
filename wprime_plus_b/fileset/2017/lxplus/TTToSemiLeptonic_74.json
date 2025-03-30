@@ -1,0 +1,6 @@
+{
+    "TTToSemiLeptonic_74": [
+        "root://eoscms.cern.ch//eos/cms/store/mc/RunIISummer20UL17NanoAODv9/TTToSemiLeptonic_TuneCP5_13TeV-powheg-pythia8/NANOAODSIM/106X_mc2017_realistic_v9-v1/280000/9D63303C-BF47-904A-BA3A-6C2B205EF903.root",
+        "root://eos.cms.rcac.purdue.edu//store/mc/RunIISummer20UL17NanoAODv9/TTToSemiLeptonic_TuneCP5_13TeV-powheg-pythia8/NANOAODSIM/106X_mc2017_realistic_v9-v1/280000/9E423420-12B8-D848-AACE-2F6AFAEA17DA.root"
+    ]
+}

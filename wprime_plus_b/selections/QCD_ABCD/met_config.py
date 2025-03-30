@@ -25,7 +25,7 @@ QCD_ABCD_met_selection = {
     },
     "1l0b_C": {
         "tau": {
-            "met_threshold": 30,
+            "met_threshold": 180,
         },
         "ditau": {
             "met_threshold": 30,
@@ -33,7 +33,7 @@ QCD_ABCD_met_selection = {
     },
     "1l0b_D": {
         "tau": {
-            "met_threshold": 30,
+            "met_threshold": 180,
         },
         "ditau": {
             "met_threshold": 30,

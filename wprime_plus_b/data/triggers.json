@@ -68,7 +68,9 @@
             "TkMu100"
          ]
       },
-      "tau": ["PFMETNoMu120_PFMHTNoMu120_IDTight"],
+      "tau": [
+         "PFMETNoMu120_PFMHTNoMu120_IDTight"
+      ],
       "ditau":[
          "DoubleTightChargedIsoPFTau35_Trk1_TightID_eta2p1_Reg",
          "DoubleMediumChargedIsoPFTau40_Trk1_TightID_eta2p1_Reg",
@@ -94,7 +96,9 @@
             "TkMu100"
          ]
       },
-      "tau": ["PFMETNoMu120_PFMHTNoMu120_IDTight"],
+      "tau": [
+         "PFMETNoMu120_PFMHTNoMu120_IDTight"
+      ],
       "ditau": [
          "DoubleTightChargedIsoPFTau35_Trk1_TightID_eta2p1_Reg",
          "DoubleMediumChargedIsoPFTau40_Trk1_TightID_eta2p1_Reg",

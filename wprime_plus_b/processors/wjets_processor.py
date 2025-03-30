@@ -11,7 +11,7 @@ from wprime_plus_b.processors.utils import histograms
 
 # Corrections
 from wprime_plus_b.corrections.jec import apply_jet_corrections, apply_fatjet_corrections
-from wprime_plus_b.corrections.met import apply_met_phi_corrections, add_met_trigger_corrections
+from wprime_plus_b.corrections.met import apply_met_phi_corrections, add_met_trigger_corrections, update_met_jet_veto, met_noMu_cal, met_recoil, met_noMu_minus, met_noMu_plus
 from wprime_plus_b.corrections.rochester import apply_rochester_corrections
 from wprime_plus_b.corrections.tau_energy import apply_tau_energy_scale_corrections
 from wprime_plus_b.corrections.pileup import add_pileup_weight
@@ -23,8 +23,8 @@ from wprime_plus_b.corrections.muon_highpt import MuonHighPtCorrector
 from wprime_plus_b.corrections.tau import TauCorrector
 from wprime_plus_b.corrections.electron import ElectronCorrector
 from wprime_plus_b.corrections.jetvetomaps import jetvetomaps_mask
-from wprime_plus_b.corrections.tau_high_pt import add_tau_high_pt_corrections
 from wprime_plus_b.corrections.ISR import ISR_weight
+from wprime_plus_b.corrections.ttbar_boost import add_ttbar_boost_corrections
 
 # Selections: Config
 from wprime_plus_b.selections.wjets.bjet_config import wjet_bjet_selection
@@ -228,24 +228,30 @@ class WjetsProccessor(processor.ProcessorABC):
                         
                 trigger_match_mask = np.ones(len(events), dtype="bool")
 
+            # -------------------------------------------------------------
+            # Veto Jets
+            # -------------------------------------------------------------
+            jet_veto_mask = jetvetomaps_mask(events.Jet, self.year, "jetvetomap")
+            jets_veto = events.Jet[jet_veto_mask]
+
+
+            # -------------------------------------------------------------
+            # Weights
+            # -------------------------------------------------------------
             # set weights container
             weights_container = Weights(len(events), storeIndividual=True)
 
             if self.is_mc:
                 # add gen weigths
-                #genweight_values = lambda events: np.where(events.genWeight > 0, 1, -1)
-                #weights_container.add("genweight", genweight_values(events))
+                genweight_values = lambda events: np.where(events.genWeight > 0, 1, -1)
+                weights_container.add("genweight", genweight_values(events))
 
-                # add gen weigths
-                gen_weights = np.sign(events.genWeight)
-                weights_container.add("genweight", gen_weights)
-                
                 # add l1prefiring weigths
                 add_l1prefiring_weight(events, weights_container, self.year, syst_var)
                 # add pileup weigths
                 add_pileup_weight(events, weights_container, self.year, syst_var)
                 
-                
+                """
                 # ISR weights
                 ISR_weight(
                     events=events, 
@@ -253,10 +259,11 @@ class WjetsProccessor(processor.ProcessorABC):
                     weights=weights_container, 
                     year=self.year, 
                     variation=syst_var)
+                """
                 
                 # add pujetid weigths               
                 add_pujetid_weight(
-                    jets=events.Jet,
+                    jets=jets_veto,
                     weights=weights_container,
                     year=self.year,
                     working_point=wjet_bjet_selection[self.channel][self.lepton_flavor][
@@ -267,7 +274,7 @@ class WjetsProccessor(processor.ProcessorABC):
                 
                 # b-tagging corrector
                 btag_corrector = BTagCorrector(
-                    jets=events.Jet,
+                    jets=jets_veto,
                     weights=weights_container,
                     sf_type="comb",
                     worging_point=wjet_bjet_selection[self.channel][self.lepton_flavor][
@@ -354,37 +361,7 @@ class WjetsProccessor(processor.ProcessorABC):
                 tau_corrector.add_id_weight_DeepTau2017v2p1VSe()
                 tau_corrector.add_id_weight_DeepTau2017v2p1VSmu()
                 tau_corrector.add_id_weight_DeepTau2017v2p1VSjet()
-
-                if self.lepton_flavor == "tau":
-                    
-                    # It is not necessary. Hight pt corrections are inside add_id_weight_DeepTau2017v2p1VSjet("pt")
-                    """
-                    add_tau_high_pt_corrections(taus=events.Tau, 
-                            weights=weights_container, 
-                            year=self.year,
-                            variation=syst_var
-                    )
-                    """
-
-                    with importlib.resources.path("wprime_plus_b.data", "triggers.json") as path:
-                        with open(path, "r") as handle:
-                            trigger_names = json.load(handle)[self.year]
-
-                    trigger_name = trigger_names[self.lepton_flavor][0]
-
-                    mask_trigger = (events.HLT[trigger_name])
-                    # add met trigger SF
-                    add_met_trigger_corrections(mask_trigger, dataset, events.MET, weights_container, self.year, "", syst_var) 
-
-
-            if syst_var == "nominal":
-                # save sum of weights before selections
-                output["metadata"].update({"sumw": ak.sum(weights_container.weight())})
-                # save weights statistics
-                output["metadata"].update({"weight_statistics": {}})
-                for weight, statistics in weights_container.weightStatistics.items():
-                    output["metadata"]["weight_statistics"][weight] = statistics
-                    
+                
             # -------------------------------------------------------------
             # object selection
             # -------------------------------------------------------------
@@ -466,7 +443,7 @@ class WjetsProccessor(processor.ProcessorABC):
 
             # select good bjets
             good_bjets = select_good_bjets(
-                jets=events.Jet,
+                jets=jets_veto,
                 year=self.year,
                 btag_working_point=wjet_bjet_selection[self.channel][
                     self.lepton_flavor
@@ -486,16 +463,16 @@ class WjetsProccessor(processor.ProcessorABC):
             )
             good_bjets = (
                 good_bjets
-                & (delta_r_mask(events.Jet, electrons, threshold=cc))
-                & (delta_r_mask(events.Jet, muons, threshold=cc))
-                & (delta_r_mask(events.Jet, taus, threshold=cc))
+                & (delta_r_mask(jets_veto, electrons, threshold=cc))
+                & (delta_r_mask(jets_veto, muons, threshold=cc))
+                & (delta_r_mask(jets_veto, taus, threshold=cc))
             )
 
-            bjets = events.Jet[good_bjets]
+            bjets = jets_veto[good_bjets]
 
             # select good jets
             good_jets = select_good_jets(
-                jets=events.Jet,
+                jets=jets_veto,
                 year=self.year,
                 btag_working_point=wjet_jet_selection[self.channel][
                     self.lepton_flavor
@@ -515,16 +492,16 @@ class WjetsProccessor(processor.ProcessorABC):
             )
             good_jets = (
                 good_jets
-                & (delta_r_mask(events.Jet, electrons, threshold=cc))
-                & (delta_r_mask(events.Jet, muons, threshold=cc))
-                & (delta_r_mask(events.Jet, taus, threshold=cc))
-                & (delta_r_mask(events.Jet, bjets, threshold=cc))
+                & (delta_r_mask(jets_veto, electrons, threshold=cc))
+                & (delta_r_mask(jets_veto, muons, threshold=cc))
+                & (delta_r_mask(jets_veto, taus, threshold=cc))
+                & (delta_r_mask(jets_veto, bjets, threshold=cc))
             )
 
-            jets = events.Jet[good_jets]
+            jets = jets_veto[good_jets]
 
 
-            # Selec good leading Jets
+            # Select good leading Jets
             leading_jets = ak.firsts(jets)
 
             good_leading_jets = select_good_leading_jets(
@@ -549,12 +526,15 @@ class WjetsProccessor(processor.ProcessorABC):
 
             leading_jet =  leading_jets[good_leading_jets]
 
-
-
-            if self.year in ["2016APV", "2016", "2018"]:
-                vetomask = jetvetomaps_mask(jets=events.Jet, year=self.year, mapname="jetvetomap")
-                #good_bjets = good_bjets & vetomask
-
+            # -------------------------
+            # p_T^{miss} correction: Recoil variable.
+            # -------------------------
+            update_met_jet_veto(events = events, jets_veto = jets_veto)  
+         
+            met_noMu_cal(events = events, muons = muons)
+            met_noMu_plus(events = events, muons = muons)
+            met_noMu_minus(events = events, muons = muons)
+            met_recoil(events = events, muons = muons, electrons = electrons, taus = taus)
 
             # -------------------------------------------------------------
             # event selection
@@ -574,11 +554,6 @@ class WjetsProccessor(processor.ProcessorABC):
             else:
                 lumi_mask = np.ones(len(events), dtype="bool")
             self.selections.add("lumi", lumi_mask)
-
-            # add lepton triggers masks
-            trigger_option =  wjet_trigger_selection[self.channel][self.lepton_flavor]["trigger"]
-            self.selections.add(f"trigger_{trigger_option}", trigger_mask)
-
 
 
             # add MET filters mask
@@ -624,7 +599,8 @@ class WjetsProccessor(processor.ProcessorABC):
 
             self.selections.add("bjet_veto", ak.num(bjets) == 0)
 
-            self.selections.add("at_least_one_jet", ak.num(jets) >= 1)
+            self.selections.add("at_least_one_jet", ak.num(jets_veto) >= 1)
+#            self.selections.add("at_least_one_jet", ak.num(jets_veto) >= 1)
             self.selections.add("leading_jet", good_leading_jets) 
           
 
@@ -632,7 +608,7 @@ class WjetsProccessor(processor.ProcessorABC):
             if self.year == "2018":
                 # hem-cleaning selection
                 # https://hypernews.cern.ch/HyperNews/CMS/get/JetMET/2000.html
-                # Due to the HEM issue in year 2018, we veto the events with jets and electrons in the 
+                # Due to the HEM issue in year 2018, we veto the events with jets and electrons in the
                 # region -3 < eta <-1.3 and -1.57 < phi < -0.87 to remove fake MET
                 hem_veto = ak.any(
                     (
@@ -653,18 +629,19 @@ class WjetsProccessor(processor.ProcessorABC):
                     -1,
                 )
                 hem_cleaning = (
-                    ((events.run >= 319077) & (not self.is_mc))  # if data check if in Runs C or D
+                    (
+                        (events.run >= 319077) & (not self.is_mc)
+                    )  # if data check if in Runs C or D
                     # else for MC randomly cut based on lumi fraction of C&D
                     | ((np.random.rand(len(events)) < 0.632) & self.is_mc)
                 ) & (hem_veto)
 
-                #self.selections.add("HEMCleaning", ~hem_cleaning)
-                self.selections.add("HEMCleaning", np.ones(len(events), dtype="bool"))
+                self.selections.add("HEMCleaning", ~hem_cleaning)
             else:
                 self.selections.add("HEMCleaning", np.ones(len(events), dtype="bool"))
             
-
-           #     Stitiching  
+            # -------------------------
+            #     Stitiching  
             # -------------------------
             # List of patterns for the datasets that should have the HT filter
             ht_filtered_datasets = [
@@ -690,33 +667,101 @@ class WjetsProccessor(processor.ProcessorABC):
             else: 
                 self.selections.add("Stitching", np.ones(len(events), dtype="bool"))
 
-            
+
+
+            # ---------------------------------------------
+            # --------- New cuts: AN conveners ------------
+            # ---------------------------------------------
+
             # --------------------------
             #  mt(lepton, met) cut
             # --------------------------
-            region_map = {
-                "ele": electrons,
-                "mu": muons,
-                "tau": taus
-            }
-            leptons = ak.firsts(region_map[self.lepton_flavor])
-
-            lepton_met_mass_all = np.sqrt(
+            lepton_met_mass = np.sqrt(
                 2.0
-                * leptons.pt
+                * ak.firsts(muons).pt
                 * events.MET.pt
                 * (
-                    ak.ones_like(events.MET.pt)
-                    - np.cos(leptons.delta_phi(events.MET))
+                    ak.ones_like(events.MET.pt_recoil)
+                    - np.cos(ak.firsts(muons).phi - events.MET.phi_recoil)
                 )
             )
 
-            passing_mt_mask =  lepton_met_mass_all > 120  #(lepton_met_mass_all > 120) #ak.any(lepton_met_mass_all > 120, axis=-1)
-            failing_mt_mask  = np.logical_not(passing_mt_mask)
+            self.selections.add("mt_less_than_160", lepton_met_mass < 160)
 
-            self.selections.add("Passing_mt_120", passing_mt_mask)
-            self.selections.add("Failing_mt_mask", failing_mt_mask)
+            delta_phi_met_jet = jets.delta_phi(events.MET)
+            cal_pf = (events.CaloMET.pt - events.MET.pt)/events.MET.pt_recoil 
+
+            # Selecciona eventos donde todos los jets cumplen con delta_phi > 0.7
+            delta_phi_jet_met_pass =ak.all(np.abs(delta_phi_met_jet) > 0.7, axis=1)
+
+            # Jets no alineados con el met.
+            self.selections.add("delta_phi_jet_met_0.7", delta_phi_jet_met_pass)
+
+            # Reducir discrepancias entre el met medido en el calorimetro y el calculado usando las partículas.
+            self.selections.add("cal_PF_met", cal_pf  < 0.5)
+    
+
+            # --------- Triggers: OR ---------------
+            # Reference trigger
+            reference_trigger =  wjet_trigger_selection[self.channel][self.lepton_flavor]["trigger"]
+            if self.lepton_flavor == "mu":
+                mu_id = wjet_muon_selection[self.channel][self.lepton_flavor]["muon_id_wp"]
+                with importlib.resources.path(
+                    "wprime_plus_b.data", "triggers.json"
+                ) as path:
+                    with open(path, "r") as handle:
+                        ref_trigger = json.load(handle)[self.year][reference_trigger][mu_id]
+                        print(ref_trigger, type(ref_trigger))
             
+            elif self.lepton_flavor ==  "ele":
+                ele_id = wjet_electron_selection[self.channel][self.lepton_flavor]["electron_id_wp"]
+                with importlib.resources.path(
+                    "wprime_plus_b.data", "triggers.json"
+                ) as path:
+                    with open(path, "r") as handle:
+                        ref_trigger = json.load(handle)[self.year][reference_trigger][ele_id]
+                        print(ref_trigger, type(ref_trigger))                
+
+            #reference_triggers =  [trigger for trigger in events.HLT.fields if trigger.startswith(ref_trigger)]
+            reference_triggers = [
+                trigger for trigger in events.HLT.fields if any(trigger.startswith(r) for r in ref_trigger)
+            ]
+            
+            mask_reference_trigger = np.zeros(len(events), dtype="bool")
+            
+            for trigger_reference in reference_triggers:
+                if trigger_reference in events.HLT.fields:
+                    print(f"Reference trigger: {trigger_reference}")
+                    mask_reference_trigger = mask_reference_trigger | events.HLT[trigger_reference]
+
+            self.selections.add(f"trigger_{reference_trigger}", mask_reference_trigger)
+
+
+            # Trigger under study
+            study_trigger =  wjet_trigger_selection[self.channel][self.lepton_flavor]["trigger_eff"]    
+
+            if study_trigger == "tau":
+                with importlib.resources.path(
+                    "wprime_plus_b.data", "triggers.json"
+                ) as path:
+                    with open(path, "r") as handle:
+                        stu_trigger = json.load(handle)[self.year][study_trigger]
+                        print(stu_trigger, type(stu_trigger)) 
+
+            #triggers_under_study = [trigger for trigger in events.HLT.fields if trigger.startswith(stu_trigger)]
+            triggers_under_study = [
+                trigger for trigger in events.HLT.fields if any(trigger.startswith(prefix) for prefix in stu_trigger)
+            ]
+            mask_under_study = np.zeros(len(events), dtype="bool")
+
+            for trigger_under_study in triggers_under_study:
+                if trigger_under_study in events.HLT.fields:
+                    print(f"Study trigger: {trigger_under_study}")
+                    mask_under_study = mask_under_study | events.HLT[trigger_under_study]
+
+            self.selections.add(f"trigger_{study_trigger}", mask_under_study)
+            
+            # -----------------------------------
 
             # define selection regions for each channel
             region_selection = {
@@ -726,16 +771,18 @@ class WjetsProccessor(processor.ProcessorABC):
                         "Stitching",
                         "lumi",
                         "metfilters",
-                        f"trigger_{trigger_option}",
-                        "trigger_match",
                         "HEMCleaning",
+                        f"trigger_{reference_trigger}",
                         f"met_{met_threshold}",
                         "bjet_veto",
                         "electron_veto",
                         "tau_veto",
-                        "at_least_one_muon",
+                        "one_muon",
                         "at_least_one_jet",
+                        "delta_phi_jet_met_0.7",
                         "leading_jet",
+                        "mt_less_than_160",
+                        f"trigger_{study_trigger}"
                     ],
                 },
                 "1l0b":{
@@ -744,21 +791,36 @@ class WjetsProccessor(processor.ProcessorABC):
                         "Stitching",
                         "lumi",
                         "metfilters",
-                        f"trigger_{trigger_option}",
+                        f"trigger_{reference_trigger}",
                         "HEMCleaning",
                         f"met_{met_threshold}",
                         "bjet_veto",
                         "electron_veto",
-                        "muon_veto",
-                        "one_tau",
-                      #  "Passing_mt_120",
-                        "Failing_mt_mask"
-                    ],
+                        "tau_veto",
+                        "one_muon",
+                        "at_least_one_jet",
+                        "delta_phi_jet_met_0.7",
+                        "cal_PF_met",
+                        "leading_jet",
+                        "mt_less_than_160",
+                      ],
                 }
             }
 
+
+            # ----------------------------
+            # Save weights statistics
+            # ----------------------------    
+            if syst_var == "nominal":
+                # save sum of weights before selections
+                output["metadata"].update({"sumw": ak.sum(weights_container.weight())})
+                # save weights statistics
+                output["metadata"].update({"weight_statistics": {}})
+                for weight, statistics in weights_container.weightStatistics.items():
+                    output["metadata"]["weight_statistics"][weight] = statistics
+
             # --------------
-            # save cutflow before the top tagger
+            # save cutflow 
             # --------------
             if syst_var == "nominal":
                 cut_names = region_selection[self.channel][self.lepton_flavor]
@@ -785,191 +847,185 @@ class WjetsProccessor(processor.ProcessorABC):
 
 
             if nevents_after > 0:
-                # Eff studies                
-                trigger_eff =  wjet_trigger_selection[self.channel][self.lepton_flavor]["trigger_eff"]
 
-                pre_weights = weights_container.weight()
+                # select region objects
+                region_bjets = bjets[region_selection]
+                region_jets = jets[region_selection]
+                region_electrons = electrons[region_selection]
+                region_muons = muons[region_selection]
+                region_taus = taus[region_selection]
+                region_met = events.MET[region_selection]
+                region_leading_jet = ak.pad_none(region_jets, 2)[:, 0]
+                region_subleading_jet = ak.pad_none(region_jets, 2)[:, 1]
 
-                if self.channel == "1j1l":
-                    if trigger_eff == "tau":
-                        # Trigger mask
-                        trigger_mask = ak.fill_none(events.HLT["PFMETNoMu120_PFMHTNoMu120_IDTight"], False)            
+                lepton_region_map = {
+                    "ele": region_electrons,
+                    "mu": region_muons,
+                    "tau": region_taus
+                }
 
+                region_leptons = lepton_region_map[self.lepton_flavor]
+
+                # leading bjets
+                leading_lepton = ak.firsts(region_leptons)
                 
-                        # Apply trigger mask to region selection
-                        region_selection = region_selection & trigger_mask
+                # Histograms
+                self.add_feature("lepton_pt", leading_lepton.pt)
+                self.add_feature("lepton_eta", leading_lepton.eta)
+                self.add_feature("lepton_phi", leading_lepton.phi)
 
-                        # Update cutflow for trigger efficiency
-                        output["metadata"]["cutflow"][f"trigger_eff_{trigger_eff}"] = ak.sum(pre_weights[region_selection])
+                self.add_feature("leading_jet_pt", region_leading_jet.pt)
+                self.add_feature("leading_jet_eta", region_leading_jet.eta)
+                self.add_feature("leading_jet_phi", region_leading_jet.phi)
+                self.add_feature("btag_leading_jet", region_leading_jet.btagDeepFlavB)
 
-              
 
-                # Number of events after top tagger/efficiency
-                nevents_after = ak.sum(region_selection)
-            
+                self.add_feature("jet_pt", region_subleading_jet.pt)
+                self.add_feature("jet_eta", region_subleading_jet.eta)
+                self.add_feature("jet_phi", region_subleading_jet.phi)
+                self.add_feature("btag_jet", region_subleading_jet.btagDeepFlavB)
 
-                if nevents_after > 0:
 
-                    # select region objects
-                    region_bjets = bjets[region_selection]
-                    region_jets = jets[region_selection]
-                    region_electrons = electrons[region_selection]
-                    region_muons = muons[region_selection]
-                    region_taus = taus[region_selection]
-                    region_met = events.MET[region_selection]
-                    region_leading_jet = ak.firsts(region_jets)
-                    #region_mt = lepton_met_mass_all[region_selection]
+                self.add_feature("met",  region_met.pt)
+                self.add_feature("met_raw",  region_met.pt_raw)
+                self.add_feature("met_phi",  region_met.phi)
+                self.add_feature("met_phi_raw",  region_met.phi_raw)
 
-                    #selected_objects = apply_selection(selected_objects_tmp, region_selection)
+                # By default, minus sign is used
+                self.add_feature("met_pt_nomu",  region_met.pt_nomu)
+                self.add_feature("met_phi_nomu",  region_met.phi_nomu)
 
-                    lepton_region_map = {
-                        "ele": region_electrons,
-                        "mu": region_muons,
-                        "tau": region_taus
-                    }
 
-                    region_leptons = lepton_region_map[self.lepton_flavor]
+                self.add_feature("pt_nomu_minus",  region_met.pt_nomu_minus)
+                self.add_feature("phi_nomu_minus",  region_met.phi_nomu_minus)
+                self.add_feature("pt_nomu_plus",  region_met.pt_nomu_plus)
+                self.add_feature("phi_nomu_plus",  region_met.phi_nomu_plus)
 
-                    # leading bjets
-                    leading_bjets = ak.firsts(region_bjets)
-                    # lepton-bjet deltaR and invariant mass
-                    lepton_bjet_dr = leading_bjets.delta_r(region_leptons)
-                    lepton_bjet_mass = (region_leptons + leading_bjets).mass
-                    # lepton-MET transverse mass and deltaPhi
-                    lepton_met_mass = np.sqrt(
-                        2.0
-                        * region_leptons.pt
-                        * region_met.pt
-                        * (
-                            ak.ones_like(region_met.pt)
-                            - np.cos(region_leptons.delta_phi(region_met))
-                        )
+
+                # Recoil
+                self.add_feature("recoil_pt", region_met.pt_recoil)
+                self.add_feature("recoil_phi", region_met.phi_recoil)
+                
+
+                # mt
+                region_lepton_met_mass = np.sqrt(
+                    2.0
+                    * leading_lepton.pt
+                    * region_met.pt
+                    * (
+                        ak.ones_like(region_met.pt)
+                        - np.cos(leading_lepton.delta_phi(region_met))
                     )
-                    lepton_met_delta_phi = np.abs(region_leptons.delta_phi(region_met))
-                    # lepton-bJet-MET total transverse mass
-                    lepton_met_bjet_mass = np.sqrt(
-                        (region_leptons.pt + leading_bjets.pt + region_met.pt) ** 2
-                        - (region_leptons + leading_bjets + region_met).pt ** 2
-                    )
-
-                    # Histograms
-                    self.add_feature("lepton_pt", region_leptons.pt)
-                    self.add_feature("lepton_eta", region_leptons.eta)
-                    self.add_feature("lepton_phi", region_leptons.phi)
-                    self.add_feature("jet_pt", leading_bjets.pt)
-                    self.add_feature("jet_eta", leading_bjets.eta)
-                    self.add_feature("jet_phi", leading_bjets.phi)
-
-                    self.add_feature("leading_jet_pt", region_leading_jet.pt)
-                    self.add_feature("leading_jet_eta", region_leading_jet.eta)
-                    self.add_feature("leading_jet_phi", region_leading_jet.phi)
+                )
+                self.add_feature("mt_lepton_met", region_lepton_met_mass)
 
 
-                    self.add_feature("met",  region_met.pt)
-                    self.add_feature("met_phi",  region_met.phi)
-
-                    self.add_feature("lepton_bjet_dr", lepton_bjet_dr)
-                    self.add_feature("lepton_bjet_mass", lepton_bjet_mass)
+                #deltaphi_met_JET
+                region_delta_phi_met_jet = region_jets.delta_phi(region_met)
+                self.add_feature("delta_met_jet", region_delta_phi_met_jet)
 
 
-                    self.add_feature("lepton_met_mass", lepton_met_mass)
-                    self.add_feature("lepton_met_delta_phi", lepton_met_delta_phi)
-                    self.add_feature("lepton_met_bjet_mass", lepton_met_bjet_mass)
-
-                    self.add_feature("njets", ak.num(region_jets))
-                    self.add_feature("npvs", events.PV.npvsGood[region_selection])
+                self.add_feature("njets", ak.num(region_jets))
+                self.add_feature("nbjets", ak.num(region_bjets))
+                self.add_feature("ntaus", ak.num(region_taus))
+                self.add_feature("nmuons", ak.num(region_muons))
+                self.add_feature("nelectrons", ak.num(region_electrons))
 
 
 
-                    if syst_var == "nominal":
-                        # save weighted events to metadata
-                        output["metadata"].update({
-                                "weighted_final_nevents": ak.sum(pre_weights[region_selection]),
-                                "raw_final_nevents": nevents_after,
-                        })
-                    # -------------------------------------------------------------
-                    # histogram filling
-                    # -------------------------------------------------------------
-                    if self.output_type == "hist":
-                        # break up the histogram filling for event-wise variations and object-wise variations
-                        # apply event-wise variations only for nominal
-                        if self.is_mc and syst_var == "nominal":
-                            # get event weight systematic variations for MC samples
-                            variations = ["nominal"] + list(weights_container.variations)
-                            for variation in variations:
-                                if variation == "nominal":
-                                    region_weight = pre_weights[region_selection]
-                                else:
-                                    region_weight = weights_container.weight(
-                                        modifier=variation
-                                    )[region_selection]
-                                for kin in hist_dict[self.region]:
-                                    fill_args = {
-                                        feature: normalize(self.features[feature])
-                                        for feature in hist_dict[self.region][
-                                            kin
-                                        ].axes.name
-                                        if feature not in ["variation"]
-                                    }
-                                    hist_dict[self.region][kin].fill(
-                                        **fill_args,
-                                        variation=variation,
-                                        weight=region_weight,
-                                    )
-                        elif self.is_mc and syst_var != "nominal":
-                            # object-wise variations
-                            region_weight = pre_weights[region_selection]
+                if syst_var == "nominal":
+                    # save weighted events to metadata
+                    output["metadata"].update({
+                            "weighted_final_nevents": ak.sum(
+                                weights_container.weight()[region_selection]
+                            ),
+                            "raw_final_nevents": nevents_after,
+                    })
+                # -------------------------------------------------------------
+                # histogram filling
+                # -------------------------------------------------------------
+                if self.output_type == "hist":
+                    # break up the histogram filling for event-wise variations and object-wise variations
+                    # apply event-wise variations only for nominal
+                    if self.is_mc and syst_var == "nominal":
+                        # get event weight systematic variations for MC samples
+                        variations = ["nominal"] + list(weights_container.variations)
+                        for variation in variations:
+                            if variation == "nominal":
+                                region_weight = weights_container.weight()[
+                                    region_selection
+                                ]
+                            else:
+                                region_weight = weights_container.weight(
+                                    modifier=variation
+                                )[region_selection]
                             for kin in hist_dict[self.region]:
-                                # get filling arguments
                                 fill_args = {
                                     feature: normalize(self.features[feature])
-                                    for feature in hist_dict[self.region][kin].axes.name[
-                                        :-1
-                                    ]
+                                    for feature in hist_dict[self.region][
+                                        kin
+                                    ].axes.name
                                     if feature not in ["variation"]
                                 }
-                                # fill histograms
                                 hist_dict[self.region][kin].fill(
                                     **fill_args,
-                                    variation=syst_var,
+                                    variation=variation,
                                     weight=region_weight,
                                 )
-                        elif not self.is_mc and syst_var == "nominal":
-                            # object-wise variations
-                            region_weight = pre_weights[region_selection]
-                            for kin in hist_dict[self.region]:
-                                # get filling arguments
-                                fill_args = {
-                                    feature: normalize(self.features[feature])
-                                    for feature in hist_dict[self.region][kin].axes.name[
-                                        :-1
-                                    ]
-                                    if feature not in ["variation"]
-                                }
-                                # fill histograms
-                                hist_dict[self.region][kin].fill(
-                                    **fill_args,
-                                    variation=syst_var,
-                                    weight=region_weight,
-                                )
-                    elif self.output_type == "array":
-                        array_dict = {}
-                        self.add_feature(
-                            "weights", pre_weights[region_selection]
-                        )
-                        # uncoment next two lines to save individual weights
-                        # for weight in weights_container.weightStatistics:
-                        #    self.add_feature(weight, weights_container.partial_weight(include=[weight]))
-                        if syst_var == "nominal":
-                            # select variables and put them in column accumulators
-                            array_dict.update(
-                                {
-                                    feature_name: processor.column_accumulator(
-                                        normalize(feature_array)
-                                    )
-                                    for feature_name, feature_array in self.features.items()
-                                }
+                    elif self.is_mc and syst_var != "nominal":
+                        # object-wise variations
+                        region_weight = weights_container.weight()[region_selection]
+                        for kin in hist_dict[self.region]:
+                            # get filling arguments
+                            fill_args = {
+                                feature: normalize(self.features[feature])
+                                for feature in hist_dict[self.region][kin].axes.name[
+                                    :-1
+                                ]
+                                if feature not in ["variation"]
+                            }
+                            # fill histograms
+                            hist_dict[self.region][kin].fill(
+                                **fill_args,
+                                variation=syst_var,
+                                weight=region_weight,
                             )
+                    elif not self.is_mc and syst_var == "nominal":
+                        # object-wise variations
+                        region_weight = weights_container.weight()[region_selection]
+                        for kin in hist_dict[self.region]:
+                            # get filling arguments
+                            fill_args = {
+                                feature: normalize(self.features[feature])
+                                for feature in hist_dict[self.region][kin].axes.name[
+                                    :-1
+                                ]
+                                if feature not in ["variation"]
+                            }
+                            # fill histograms
+                            hist_dict[self.region][kin].fill(
+                                **fill_args,
+                                variation=syst_var,
+                                weight=region_weight,
+                            )
+                elif self.output_type == "array":
+                    array_dict = {}
+                    self.add_feature(
+                        "weights", weights_container.weight()[region_selection]
+                    )
+                    # uncoment next two lines to save individual weights
+                    # for weight in weights_container.weightStatistics:
+                    #    self.add_feature(weight, weights_container.partial_weight(include=[weight]))
+                    if syst_var == "nominal":
+                        # select variables and put them in column accumulators
+                        array_dict.update(
+                            {
+                                feature_name: processor.column_accumulator(
+                                    normalize(feature_array)
+                                )
+                                for feature_name, feature_array in self.features.items()
+                            }
+                        )
         # define output dictionary accumulator
         if self.output_type == "hist":
             output["histograms"] = hist_dict[self.region]

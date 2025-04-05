@@ -37,17 +37,18 @@ EOF
 cd "$SCRIPT_DIR"
 
 # Declarar variables
-processor="qcd_hadronic"     # ttbar ; ztoll: top_tagger; signal; wjets; qcd_abcd; qcd_hadronic
+processor="top_tagger"     # ttbar ; ztoll: top_tagger; signal; wjets; qcd_abcd; qcd_hadronic
 channel=""        # wjets -> {1j1l, 1l0b}; wplusjets -> {wjets, cr_b, cr_c, cr_d}, ztoll-> {ll, ll+c, ll_ISR}; qcd_abcd -> {1l0b; 1l0b_A; 1l0b_B; 1l0b_C; 1l0b_D}; ttbar -> {2b1l, 1b1e1mu, 1b1l}
 
 
 lepton_flavor="tau"
-year="2016" # 2016APV; 2016; 2017; 2018
+year="2018" # 2016APV; 2016; 2017; 2018
 nfiles="-1"
 executor="futures"
 output_type="array" # hist/array
 nsample="" # Importante: Dejar nsample="" si no se quiere un nsample especifico, en caso de querer uno especifico nsample="3"
 output_folder="2017_top_tagger"
+run_systematics="false" # Cambiar a "true" para activar sistemáticos
 
 
 samples=(
@@ -55,11 +56,11 @@ samples=(
      "TTTo2L2Nu"
      "TTToHadronic"
     "DYJetsToLL_nlo_M-10to50"
-    "DYJetsToLL_nlo_M-50"
-# # #    "SingleMuon"
-        "MET"
-# # # # # # # # # # # # # # # # # # #   "Tau"
-# # # # # # # # # # # # # # # # # # # #   "SingleElectron"
+     "DYJetsToLL_nlo_M-50"
+# # # #    "SingleMuon"
+     "MET"
+# # # # # # # # # # # # # # # # # # # #   "Tau"
+# # # # # # # # # # # # # # # # # # # # #   "SingleElectron"
     "ST_s-channel_4f_leptonDecays"
     "ST_t-channel_antitop_5f_InclusiveDecays"
     "ST_t-channel_top_5f_InclusiveDecays"
@@ -112,13 +113,13 @@ samples=(
 
 if [ $processor == "ttbar" ] || [ $processor == "wjets" ] || [ $processor == "ztoll" ] || [ $processor == "qcd_abcd" ] || [ $processor == "wplusjets" ] ; then
     for sample in "${samples[@]}"; do
-      python3 submit_lxplus.py --processor "$processor" --channel "$channel" --lepton_flavor "$lepton_flavor" --sample "$sample" --year "$year" --nfiles "$nfiles" --executor "$executor" --output_type "$output_type" --nsample "$nsample"
+      python3 submit_lxplus.py --processor "$processor" --channel "$channel" --lepton_flavor "$lepton_flavor" --sample "$sample" --year "$year" --nfiles "$nfiles" --executor "$executor" --output_type "$output_type" --nsample "$nsample" --run_systematics "$run_systematics"
       sleep 60 #  Wait for 90 seconds before sending the next sample
     done
 
 elif [ $processor == "top_tagger" ] || [ $processor == "signal" ] || [ $processor == "qcd_hadronic" ]; then
     for sample in "${samples[@]}"; do
-      python3 submit_lxplus.py --processor "$processor" --lepton_flavor "$lepton_flavor" --sample "$sample" --year "$year" --nfiles "$nfiles" --executor "$executor" --output_type "$output_type" --nsample "$nsample"
+      python3 submit_lxplus.py --processor "$processor" --lepton_flavor "$lepton_flavor" --sample "$sample" --year "$year" --nfiles "$nfiles" --executor "$executor" --output_type "$output_type" --nsample "$nsample" --run_systematics "$run_systematics"
       sleep 60 #  Wait for 90 seconds before sending the next sample
     done
 fi

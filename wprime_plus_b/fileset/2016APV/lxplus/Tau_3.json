@@ -1,11 +1,11 @@
 {
     "Tau_3": [
         "root://cmsdcadisk.fnal.gov//dcache/uscmsdisk/store/data/Run2016B/Tau/NANOAOD/ver2_HIPM_UL2016_MiniAODv2_NanoAODv9-v2/2430000/E1077F9A-D03E-4C4B-8755-A7DDF06B3376.root",
-        "root://maite.iihe.ac.be:1095//store/data/Run2016B/Tau/NANOAOD/ver2_HIPM_UL2016_MiniAODv2_NanoAODv9-v2/2430000/E9DEAA95-DE02-B540-812F-BC118A7D6AA5.root",
-        "root://cmsdcadisk.fnal.gov//dcache/uscmsdisk/store/data/Run2016B/Tau/NANOAOD/ver2_HIPM_UL2016_MiniAODv2_NanoAODv9-v2/2430000/EFF46A62-4594-814F-B00C-29394A199AC9.root",
-        "root://grid-cms-xrootd.physik.rwth-aachen.de:1094//store/data/Run2016B/Tau/NANOAOD/ver2_HIPM_UL2016_MiniAODv2_NanoAODv9-v2/50000/117FB6F9-5B5E-FA45-9D55-0D05E1F56F7D.root",
-        "root://dcache-cms-xrootd.desy.de:1094//store/data/Run2016B/Tau/NANOAOD/ver2_HIPM_UL2016_MiniAODv2_NanoAODv9-v2/50000/1C6DFC0C-5044-284C-BF32-0D99F5705045.root",
-        "root://xrootd-local.unl.edu:1094//store/data/Run2016B/Tau/NANOAOD/ver2_HIPM_UL2016_MiniAODv2_NanoAODv9-v2/50000/1FAC21B8-515D-0943-8C78-FD517FE73837.root",
-        "root://dcache-cms-xrootd.desy.de:1094//store/data/Run2016B/Tau/NANOAOD/ver2_HIPM_UL2016_MiniAODv2_NanoAODv9-v2/50000/25EC7EAF-5736-8944-8CB9-60DEBC50F333.root"
+        "root://grid-cms-xrootd.physik.rwth-aachen.de:1094//store/data/Run2016B/Tau/NANOAOD/ver2_HIPM_UL2016_MiniAODv2_NanoAODv9-v2/2430000/E9DEAA95-DE02-B540-812F-BC118A7D6AA5.root",
+        "root://eoscms.cern.ch//eos/cms/store/data/Run2016B/Tau/NANOAOD/ver2_HIPM_UL2016_MiniAODv2_NanoAODv9-v2/2430000/EFF46A62-4594-814F-B00C-29394A199AC9.root",
+        "root://xrootd-local.unl.edu:1094//store/data/Run2016B/Tau/NANOAOD/ver2_HIPM_UL2016_MiniAODv2_NanoAODv9-v2/50000/117FB6F9-5B5E-FA45-9D55-0D05E1F56F7D.root",
+        "root://maite.iihe.ac.be:1094//store/data/Run2016B/Tau/NANOAOD/ver2_HIPM_UL2016_MiniAODv2_NanoAODv9-v2/50000/1C6DFC0C-5044-284C-BF32-0D99F5705045.root",
+        "root://grid-cms-xrootd.physik.rwth-aachen.de:1094//store/data/Run2016B/Tau/NANOAOD/ver2_HIPM_UL2016_MiniAODv2_NanoAODv9-v2/50000/1FAC21B8-515D-0943-8C78-FD517FE73837.root",
+        "root://cms.sscc.uos.ac.kr:1094//store/data/Run2016B/Tau/NANOAOD/ver2_HIPM_UL2016_MiniAODv2_NanoAODv9-v2/50000/25EC7EAF-5736-8944-8CB9-60DEBC50F333.root"
     ]
 }

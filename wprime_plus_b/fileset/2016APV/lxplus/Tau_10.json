@@ -1,11 +1,11 @@
 {
     "Tau_10": [
         "root://gfe02.grid.hep.ph.ic.ac.uk:1094//pnfs/hep.ph.ic.ac.uk/data/cms/store/data/Run2016D/Tau/NANOAOD/HIPM_UL2016_MiniAODv2_NanoAODv9-v2/50000/2B3D215D-2218-E340-A2C9-BFE28F5ED374.root",
-        "root://cms.sscc.uos.ac.kr:1094//store/data/Run2016D/Tau/NANOAOD/HIPM_UL2016_MiniAODv2_NanoAODv9-v2/50000/317CF7A7-5F7F-7049-94FA-430B3569E00A.root",
-        "root://xrootd-local.unl.edu:1094//store/data/Run2016D/Tau/NANOAOD/HIPM_UL2016_MiniAODv2_NanoAODv9-v2/50000/350B03D1-A5EB-EA4B-9D59-C7EA9E7196E9.root",
+        "root://cmsdcadisk.fnal.gov//dcache/uscmsdisk/store/data/Run2016D/Tau/NANOAOD/HIPM_UL2016_MiniAODv2_NanoAODv9-v2/50000/317CF7A7-5F7F-7049-94FA-430B3569E00A.root",
+        "root://cmsdcadisk.fnal.gov//dcache/uscmsdisk/store/data/Run2016D/Tau/NANOAOD/HIPM_UL2016_MiniAODv2_NanoAODv9-v2/50000/350B03D1-A5EB-EA4B-9D59-C7EA9E7196E9.root",
         "root://xrootd-local.unl.edu:1094//store/data/Run2016D/Tau/NANOAOD/HIPM_UL2016_MiniAODv2_NanoAODv9-v2/50000/38C8B17D-4A83-6041-8298-9A5EBA6FBE14.root",
-        "root://cmsdcadisk.fnal.gov//dcache/uscmsdisk/store/data/Run2016D/Tau/NANOAOD/HIPM_UL2016_MiniAODv2_NanoAODv9-v2/50000/4F137F88-4F24-8C41-9871-33FFE1140809.root",
-        "root://cmsdcadisk.fnal.gov//dcache/uscmsdisk/store/data/Run2016D/Tau/NANOAOD/HIPM_UL2016_MiniAODv2_NanoAODv9-v2/50000/50EF97AB-B5A3-BF40-8B0C-8A7507B110EA.root",
-        "root://gfe02.grid.hep.ph.ic.ac.uk:1094//pnfs/hep.ph.ic.ac.uk/data/cms/store/data/Run2016D/Tau/NANOAOD/HIPM_UL2016_MiniAODv2_NanoAODv9-v2/50000/5DEDB15F-DC85-D04C-82AF-2D122CFAC546.root"
+        "root://gfe02.grid.hep.ph.ic.ac.uk:1094//pnfs/hep.ph.ic.ac.uk/data/cms/store/data/Run2016D/Tau/NANOAOD/HIPM_UL2016_MiniAODv2_NanoAODv9-v2/50000/4F137F88-4F24-8C41-9871-33FFE1140809.root",
+        "root://xrootd-local.unl.edu:1094//store/data/Run2016D/Tau/NANOAOD/HIPM_UL2016_MiniAODv2_NanoAODv9-v2/50000/50EF97AB-B5A3-BF40-8B0C-8A7507B110EA.root",
+        "root://xrootd-local.unl.edu:1094//store/data/Run2016D/Tau/NANOAOD/HIPM_UL2016_MiniAODv2_NanoAODv9-v2/50000/5DEDB15F-DC85-D04C-82AF-2D122CFAC546.root"
     ]
 }

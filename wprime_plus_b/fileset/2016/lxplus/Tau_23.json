@@ -1,8 +1,8 @@
 {
     "Tau_23": [
-        "root://eospublic.cern.ch//eos/opendata/cms/Run2016H/Tau/NANOAOD/UL2016_MiniAODv2_NanoAODv9-v1/260000/C5A267B3-EC39-E94A-9DC0-4C801DAF04E6.root",
+        "root://cmsdcadisk.fnal.gov//dcache/uscmsdisk/store/data/Run2016H/Tau/NANOAOD/UL2016_MiniAODv2_NanoAODv9-v1/260000/C5A267B3-EC39-E94A-9DC0-4C801DAF04E6.root",
         "root://cmsdcadisk.fnal.gov//dcache/uscmsdisk/store/data/Run2016H/Tau/NANOAOD/UL2016_MiniAODv2_NanoAODv9-v1/260000/C672C26B-1CD0-BA40-85EA-387782570946.root",
-        "root://grid-cms-xrootd.physik.rwth-aachen.de:1094//store/data/Run2016H/Tau/NANOAOD/UL2016_MiniAODv2_NanoAODv9-v1/260000/C87AE5B4-9F9C-674F-8599-F91D7EA8A5EB.root",
-        "root://eospublic.cern.ch//eos/opendata/cms/Run2016H/Tau/NANOAOD/UL2016_MiniAODv2_NanoAODv9-v1/260000/C894F318-AB66-B140-8239-4E2E0E210F90.root"
+        "root://xrootd-vanderbilt.sites.opensciencegrid.org:1094//store/data/Run2016H/Tau/NANOAOD/UL2016_MiniAODv2_NanoAODv9-v1/260000/C87AE5B4-9F9C-674F-8599-F91D7EA8A5EB.root",
+        "root://grid-cms-xrootd.physik.rwth-aachen.de:1094//store/data/Run2016H/Tau/NANOAOD/UL2016_MiniAODv2_NanoAODv9-v1/260000/C894F318-AB66-B140-8239-4E2E0E210F90.root"
     ]
 }

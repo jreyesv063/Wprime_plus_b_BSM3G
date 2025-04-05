@@ -1,6 +1,6 @@
 {
     "TTToHadronic_4": [
-        "root://cmsdcadisk.fnal.gov//dcache/uscmsdisk/store/mc/RunIISummer20UL16NanoAODAPVv9/TTToHadronic_TuneCP5CR1_13TeV-powheg-pythia8/NANOAODSIM/106X_mcRun2_asymptotic_preVFP_v11-v1/100000/4423135B-D8CA-6F4B-990C-AABDBCA7913A.root",
-        "root://cmsdcache-kit-disk.gridka.de:1094//store/mc/RunIISummer20UL16NanoAODAPVv9/TTToHadronic_TuneCP5CR1_13TeV-powheg-pythia8/NANOAODSIM/106X_mcRun2_asymptotic_preVFP_v11-v1/100000/50276DD9-F5F2-C54B-BCC0-146BCBAF5FF7.root"
+        "root://xrootd-cmst1-door.pic.es:1094//pnfs/pic.es/data/cms/disk/store/mc/RunIISummer20UL16NanoAODAPVv9/TTToHadronic_TuneCP5CR1_13TeV-powheg-pythia8/NANOAODSIM/106X_mcRun2_asymptotic_preVFP_v11-v1/100000/4423135B-D8CA-6F4B-990C-AABDBCA7913A.root",
+        "root://cms.sscc.uos.ac.kr:1094//store/mc/RunIISummer20UL16NanoAODAPVv9/TTToHadronic_TuneCP5CR1_13TeV-powheg-pythia8/NANOAODSIM/106X_mcRun2_asymptotic_preVFP_v11-v1/100000/50276DD9-F5F2-C54B-BCC0-146BCBAF5FF7.root"
     ]
 }

@@ -214,5 +214,16 @@ if __name__ == "__main__":
         default="",
         help="partitions to run (--nsample 1,2,3 will only run partitions 1,2 and 3)",
     )
+
+    parser.add_argument(
+        "--run_systematics",
+        dest="run_systematics",
+        type=str,
+        default="false",
+        help="Run systematics (true/false)",
+    )
+
+
     args = parser.parse_args()
+
     main(args)

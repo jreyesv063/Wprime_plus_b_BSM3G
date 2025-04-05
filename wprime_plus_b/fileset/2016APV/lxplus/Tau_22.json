@@ -1,10 +1,10 @@
 {
     "Tau_22": [
-        "root://cmsdcadisk.fnal.gov//dcache/uscmsdisk/store/data/Run2016F/Tau/NANOAOD/HIPM_UL2016_MiniAODv2_NanoAODv9-v2/2530000/7D680472-C1D5-FB4A-B798-3F306A7BC147.root",
-        "root://maite.iihe.ac.be:1095//store/data/Run2016F/Tau/NANOAOD/HIPM_UL2016_MiniAODv2_NanoAODv9-v2/2530000/A4F20283-8610-F645-8929-7995E5BD38F2.root",
-        "root://eoscms.cern.ch//eos/cms/store/data/Run2016F/Tau/NANOAOD/HIPM_UL2016_MiniAODv2_NanoAODv9-v2/40000/1179549F-E283-F740-97DE-983F84C77853.root",
-        "root://grid-cms-xrootd.physik.rwth-aachen.de:1094//store/data/Run2016F/Tau/NANOAOD/HIPM_UL2016_MiniAODv2_NanoAODv9-v2/40000/74686D10-99B4-0A48-8B4C-09095507A528.root",
-        "root://eoscms.cern.ch//eos/cms/store/data/Run2016F/Tau/NANOAOD/HIPM_UL2016_MiniAODv2_NanoAODv9-v2/50000/125B3481-7F51-314A-B69F-A65917183DEF.root",
-        "root://se01.grid.nchc.org.tw//cms/store/data/Run2016F/Tau/NANOAOD/HIPM_UL2016_MiniAODv2_NanoAODv9-v2/50000/14FD4AEA-DA3B-E04E-8DDB-CB7D7F90B712.root"
+        "root://cms.sscc.uos.ac.kr:1094//store/data/Run2016F/Tau/NANOAOD/HIPM_UL2016_MiniAODv2_NanoAODv9-v2/2530000/7D680472-C1D5-FB4A-B798-3F306A7BC147.root",
+        "root://cmsdcadisk.fnal.gov//dcache/uscmsdisk/store/data/Run2016F/Tau/NANOAOD/HIPM_UL2016_MiniAODv2_NanoAODv9-v2/2530000/A4F20283-8610-F645-8929-7995E5BD38F2.root",
+        "root://xrootd-cmst1-door.pic.es:1094//pnfs/pic.es/data/cms/disk/store/data/Run2016F/Tau/NANOAOD/HIPM_UL2016_MiniAODv2_NanoAODv9-v2/40000/1179549F-E283-F740-97DE-983F84C77853.root",
+        "root://eoscms.cern.ch//eos/cms/store/data/Run2016F/Tau/NANOAOD/HIPM_UL2016_MiniAODv2_NanoAODv9-v2/40000/74686D10-99B4-0A48-8B4C-09095507A528.root",
+        "root://xrootd-cmst1-door.pic.es:1094//pnfs/pic.es/data/cms/disk/store/data/Run2016F/Tau/NANOAOD/HIPM_UL2016_MiniAODv2_NanoAODv9-v2/50000/125B3481-7F51-314A-B69F-A65917183DEF.root",
+        "root://cmsdcadisk.fnal.gov//dcache/uscmsdisk/store/data/Run2016F/Tau/NANOAOD/HIPM_UL2016_MiniAODv2_NanoAODv9-v2/50000/14FD4AEA-DA3B-E04E-8DDB-CB7D7F90B712.root"
     ]
 }

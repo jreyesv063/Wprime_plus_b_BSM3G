@@ -80,7 +80,9 @@ class TopTaggerProccessor(processor.ProcessorABC):
         year: str = "2017",
         syst: str = "nominal",
         output_type: str = "hist",
+        run_systematics: str = "false",
     ):
+        self.run_systematics = (run_systematics.lower() == "true")
         self.year = year
         self.lepton_flavor = lepton_flavor
         self.syst = syst
@@ -165,36 +167,7 @@ class TopTaggerProccessor(processor.ProcessorABC):
                 # Jet corrections
                 apply_jet_corrections(events, self.year)
 
-                """
-                pt_shift_jes = {
-                    "JET": {"nominal": events.Jet.pt,
-                            "up":  events.Jet.JES_jes.up,
-                            "down": events.Jet.JES_jes.down
-                    },
-                    "MET": {"nominal": events.MET.pt,
-                            "up":  events.MET.JES_jes.up,
-                            "down": events.MET.JES_jes.down
-                    }
-                }
-
-                pt_shift_jer = {
-                    "JET": {"nominal": events.Jet.pt,
-                    "up":  events.Jet.JER.up,
-                    "down": events.Jet.JER.down
-                    },  
-                    "MET": {"nominal": events.MET.pt,
-                    "up":  events.MET.JER.up,   
-                    "down": events.MET.JER.down
-                    }
-                }
-
-                met_shift_ues = {
-                    "nominal": events.MET.pt,
-                    "up":  events.MET.MET_UnclusteredEnergy.up,
-                    "down": events.MET.MET_UnclusteredEnergy.down
-                }
-                """
-
+                
                 # Apply corrections only if there are jets present in at least one event
                 if ak.any(ak.num(events.FatJet) > 0):
                     # fatjets
@@ -286,16 +259,6 @@ class TopTaggerProccessor(processor.ProcessorABC):
                 add_l1prefiring_weight(events, weights_container, self.year, syst_var)
                 # add pileup weigths
                 add_pileup_weight(events, weights_container, self.year, syst_var)
-
-                """
-                # ISR weights
-                ISR_weight(
-                    events=events, 
-                    dataset=dataset, 
-                    weights=weights_container, 
-                    year=self.year, 
-                    variation=syst_var)
-                """
 
                 # add pujetid weigths
                 add_pujetid_weight(
@@ -477,18 +440,7 @@ class TopTaggerProccessor(processor.ProcessorABC):
                 delta_r_mask(events.Muon, electrons, threshold=cc)
             )
             muons = events.Muon[good_muons]
-            if self.is_mc:
-                good_muons_up = (good_muons_masks["up"]) & (
-                    delta_r_mask(events.Muon, electrons, threshold=cc)
-                )
-                muons_up = events.Muon[good_muons_up]
-                good_muons_down = (good_muons_masks["down"]) & (
-                    delta_r_mask(events.Muon, electrons, threshold=cc)
-                )
-                muons_down = events.Muon[good_muons_down]
-
-
-
+           
 
             # select good taus
             good_taus_masks = select_good_taus(
@@ -522,21 +474,6 @@ class TopTaggerProccessor(processor.ProcessorABC):
                 & (delta_r_mask(events.Tau, muons, threshold=cc))
             )
             taus = events.Tau[good_taus]
-            if self.is_mc:
-                good_taus_up = (
-                    (good_taus_masks["up"])
-                    & (delta_r_mask(events.Tau, electrons, threshold=cc))
-                    & (delta_r_mask(events.Tau, muons, threshold=cc))
-                )
-                taus_up = events.Tau[good_taus_up]
-                good_taus_down = (
-                    (good_taus_masks["down"])
-                    & (delta_r_mask(events.Tau, electrons, threshold=cc))
-                    & (delta_r_mask(events.Tau, muons, threshold=cc))
-                )
-                taus_down = events.Tau[good_taus_down]
-
-
 
 
             # select good bjets
@@ -567,37 +504,7 @@ class TopTaggerProccessor(processor.ProcessorABC):
                 & (delta_r_mask(jets_veto, taus, threshold=cc))
             )
             bjets = jets_veto[good_bjets]
-            if self.is_mc:
-                good_bjets_jes_up = (
-                    good_bjets_masks["JES_up"]
-                    & (delta_r_mask(jets_veto, electrons, threshold=cc))
-                    & (delta_r_mask(jets_veto, muons, threshold=cc))
-                    & (delta_r_mask(jets_veto, taus, threshold=cc))
-                )
-                bjets_jes_up = jets_veto[good_bjets_jes_up]
-                good_bjets_jes_down = (
-                    good_bjets_masks["JES_down"]
-                    & (delta_r_mask(jets_veto, electrons, threshold=cc))
-                    & (delta_r_mask(jets_veto, muons, threshold=cc))
-                    & (delta_r_mask(jets_veto, taus, threshold=cc))
-                )
-                bjets_jes_down = jets_veto[good_bjets_jes_down]
-                good_bjets_jer_up = (
-                    good_bjets_masks["JER_up"]
-                    & (delta_r_mask(jets_veto, electrons, threshold=cc))
-                    & (delta_r_mask(jets_veto, muons, threshold=cc))
-                    & (delta_r_mask(jets_veto, taus, threshold=cc))
-                )
-                bjets_jer_up = jets_veto[good_bjets_jer_up]
-                good_bjets_jer_down = (
-                    good_bjets_masks["JER_down"]
-                    & (delta_r_mask(jets_veto, electrons, threshold=cc))
-                    & (delta_r_mask(jets_veto, muons, threshold=cc))
-                    & (delta_r_mask(jets_veto, taus, threshold=cc))
-                )
-                bjets_jer_down = jets_veto[good_bjets_jer_down]
-
-
+            
             # select good jets
             good_jets_masks = select_good_jets(
                 jets=jets_veto,
@@ -626,36 +533,6 @@ class TopTaggerProccessor(processor.ProcessorABC):
                 & (delta_r_mask(jets_veto, taus, threshold=cc))
             )
             jets = jets_veto[good_jets]
-            if self.is_mc:
-                good_jets_jes_up = (
-                    good_jets_masks["JES_up"]
-                    & (delta_r_mask(jets_veto, electrons, threshold=cc))
-                    & (delta_r_mask(jets_veto, muons, threshold=cc))
-                    & (delta_r_mask(jets_veto, taus, threshold=cc))
-                )
-                jets_jes_up = jets_veto[good_jets_jes_up]
-                good_jets_jes_down = (
-                    good_jets_masks["JES_down"]
-                    & (delta_r_mask(jets_veto, electrons, threshold=cc))
-                    & (delta_r_mask(jets_veto, muons, threshold=cc))
-                    & (delta_r_mask(jets_veto, taus, threshold=cc))
-                )
-                jets_jes_down = jets_veto[good_jets_jes_down]
-                good_jets_jer_up = (
-                    good_jets_masks["JER_up"]
-                    & (delta_r_mask(jets_veto, electrons, threshold=cc))
-                    & (delta_r_mask(jets_veto, muons, threshold=cc))
-                    & (delta_r_mask(jets_veto, taus, threshold=cc))
-                )
-                jets_jer_up = jets_veto[good_jets_jer_up]
-                good_jets_jer_down = (
-                    good_jets_masks["JER_down"]
-                    & (delta_r_mask(jets_veto, electrons, threshold=cc))
-                    & (delta_r_mask(jets_veto, muons, threshold=cc))
-                    & (delta_r_mask(jets_veto, taus, threshold=cc))
-                )
-                jets_jer_down = jets_veto[good_jets_jer_down]
-
 
             # select good fatjets: cc = 0.8
             good_fatjets_masks = select_good_fatjets(
@@ -681,46 +558,8 @@ class TopTaggerProccessor(processor.ProcessorABC):
                 & (delta_r_mask(events.FatJet, jets, threshold = 2*cc))
             )   
             fatjets = events.FatJet[good_fatjets]
-            if self.is_mc:
-                good_fatjets_jes_up = (
-                    good_fatjets_masks["JES_up"]
-                    & (delta_r_mask(events.FatJet, electrons, threshold = 2*cc))
-                    & (delta_r_mask(events.FatJet, muons, threshold = 2*cc))
-                    & (delta_r_mask(events.FatJet, taus, threshold = 2*cc))
-                    & (delta_r_mask(events.FatJet, bjets, threshold = 2*cc))
-                    & (delta_r_mask(events.FatJet, jets, threshold = 2*cc))
-                )   
-                fatjets_jes_up = events.FatJet[good_fatjets_jes_up]
-                good_fatjets_jes_down = (
-                    good_fatjets_masks["JES_down"]
-                    & (delta_r_mask(events.FatJet, electrons, threshold = 2*cc))
-                    & (delta_r_mask(events.FatJet, muons, threshold = 2*cc))
-                    & (delta_r_mask(events.FatJet, taus, threshold = 2*cc))
-                    & (delta_r_mask(events.FatJet, bjets, threshold = 2*cc))
-                    & (delta_r_mask(events.FatJet, jets, threshold = 2*cc))
-                )   
-                fatjets_jes_down = events.FatJet[good_fatjets_jes_down]
-                good_fatjets_jer_up = (
-                    good_fatjets_masks["JER_up"]
-                    & (delta_r_mask(events.FatJet, electrons, threshold = 2*cc))
-                    & (delta_r_mask(events.FatJet, muons, threshold = 2*cc))
-                    & (delta_r_mask(events.FatJet, taus, threshold = 2*cc))
-                    & (delta_r_mask(events.FatJet, bjets, threshold = 2*cc))
-                    & (delta_r_mask(events.FatJet, jets, threshold = 2*cc))
-                )   
-                fatjets_jer_up = events.FatJet[good_fatjets_jer_up]
-                good_fatjets_jer_down = (
-                    good_fatjets_masks["JER_down"]
-                    & (delta_r_mask(events.FatJet, electrons, threshold = 2*cc))
-                    & (delta_r_mask(events.FatJet, muons, threshold = 2*cc))
-                    & (delta_r_mask(events.FatJet, taus, threshold = 2*cc))
-                    & (delta_r_mask(events.FatJet, bjets, threshold = 2*cc))
-                    & (delta_r_mask(events.FatJet, jets, threshold = 2*cc))
-                )   
-                fatjets_jer_down = events.FatJet[good_fatjets_jer_down]
 
-            
-
+          
             # select good W jets
             good_wjets_masks = select_good_wjets(
                 wjets = events.FatJet,
@@ -746,47 +585,177 @@ class TopTaggerProccessor(processor.ProcessorABC):
                 & (delta_r_mask(events.FatJet, fatjets, threshold = 2*cc))
             )   
             wjets = events.FatJet[good_wjets]
-            if self.is_mc:
-                good_wjets_jes_up = (
-                    good_wjets_masks["JES_up"]
-                    & (delta_r_mask(events.FatJet, electrons, threshold = 2*cc))
-                    & (delta_r_mask(events.FatJet, muons, threshold = 2*cc))
-                    & (delta_r_mask(events.FatJet, taus, threshold = 2*cc))
-                    & (delta_r_mask(events.FatJet, bjets, threshold = 2*cc))
-                    & (delta_r_mask(events.FatJet, jets, threshold = 2*cc))
-                    & (delta_r_mask(events.FatJet, fatjets, threshold = 2*cc))
-                )   
-                wjets_jes_up = events.FatJet[good_wjets_jes_up]
-                good_wjets_jes_down = (
-                    good_wjets_masks["JES_down"]
-                    & (delta_r_mask(events.FatJet, electrons, threshold = 2*cc))
-                    & (delta_r_mask(events.FatJet, muons, threshold = 2*cc))
-                    & (delta_r_mask(events.FatJet, taus, threshold = 2*cc))
-                    & (delta_r_mask(events.FatJet, bjets, threshold = 2*cc))
-                    & (delta_r_mask(events.FatJet, jets, threshold = 2*cc))
-                    & (delta_r_mask(events.FatJet, fatjets, threshold = 2*cc))
-                )   
-                wjets_jes_down = events.FatJet[good_wjets_jes_down]
-                good_wjets_jer_up = (
-                    good_wjets_masks["JER_up"]
-                    & (delta_r_mask(events.FatJet, electrons, threshold = 2*cc))
-                    & (delta_r_mask(events.FatJet, muons, threshold = 2*cc))
-                    & (delta_r_mask(events.FatJet, taus, threshold = 2*cc))
-                    & (delta_r_mask(events.FatJet, bjets, threshold = 2*cc))
-                    & (delta_r_mask(events.FatJet, jets, threshold = 2*cc))
-                    & (delta_r_mask(events.FatJet, fatjets, threshold = 2*cc))
-                )   
-                wjets_jer_up = events.FatJet[good_wjets_jer_up]
-                good_wjets_jer_down = (
-                    good_wjets_masks["JER_down"]
-                    & (delta_r_mask(events.FatJet, electrons, threshold = 2*cc))
-                    & (delta_r_mask(events.FatJet, muons, threshold = 2*cc))
-                    & (delta_r_mask(events.FatJet, taus, threshold = 2*cc))
-                    & (delta_r_mask(events.FatJet, bjets, threshold = 2*cc))
-                    & (delta_r_mask(events.FatJet, jets, threshold = 2*cc))
-                    & (delta_r_mask(events.FatJet, fatjets, threshold = 2*cc))
-                )   
-                wjets_jer_down = events.FatJet[good_wjets_jer_down]
+
+
+            if self.run_systematics:
+                if self.is_mc:
+                    good_muons_up = (good_muons_masks["up"]) & (
+                        delta_r_mask(events.Muon, electrons, threshold=cc)
+                    )
+                    good_muons_down = (good_muons_masks["down"]) & (
+                        delta_r_mask(events.Muon, electrons, threshold=cc)
+                    )
+                    muons_up = events.Muon[good_muons_up]
+                    muons_down = events.Muon[good_muons_down]
+                
+
+
+                    good_taus_up = (
+                        (good_taus_masks["up"])
+                        & (delta_r_mask(events.Tau, electrons, threshold=cc))
+                        & (delta_r_mask(events.Tau, muons, threshold=cc))
+                    )
+                    good_taus_down = (
+                        (good_taus_masks["down"])
+                        & (delta_r_mask(events.Tau, electrons, threshold=cc))
+                        & (delta_r_mask(events.Tau, muons, threshold=cc))
+                    )
+                    taus_up = events.Tau[good_taus_up]
+                    taus_down = events.Tau[good_taus_down]
+
+
+
+
+                    good_bjets_jes_up = (
+                        good_bjets_masks["JES_up"]
+                        & (delta_r_mask(jets_veto, electrons, threshold=cc))
+                        & (delta_r_mask(jets_veto, muons, threshold=cc))
+                        & (delta_r_mask(jets_veto, taus, threshold=cc))
+                    )
+                    good_bjets_jes_down = (
+                        good_bjets_masks["JES_down"]
+                        & (delta_r_mask(jets_veto, electrons, threshold=cc))
+                        & (delta_r_mask(jets_veto, muons, threshold=cc))
+                        & (delta_r_mask(jets_veto, taus, threshold=cc))
+                    )
+                    good_bjets_jer_up = (
+                        good_bjets_masks["JER_up"]
+                        & (delta_r_mask(jets_veto, electrons, threshold=cc))
+                        & (delta_r_mask(jets_veto, muons, threshold=cc))
+                        & (delta_r_mask(jets_veto, taus, threshold=cc))
+                    )
+                    good_bjets_jer_down = (
+                        good_bjets_masks["JER_down"]
+                        & (delta_r_mask(jets_veto, electrons, threshold=cc))
+                        & (delta_r_mask(jets_veto, muons, threshold=cc))
+                        & (delta_r_mask(jets_veto, taus, threshold=cc))
+                    )
+                    bjets_jes_up = jets_veto[good_bjets_jes_up]
+                    bjets_jes_down = jets_veto[good_bjets_jes_down]
+                    bjets_jer_down = jets_veto[good_bjets_jer_down]
+                    bjets_jer_up = jets_veto[good_bjets_jer_up]
+
+
+
+                    good_jets_jes_up = (
+                        good_jets_masks["JES_up"]
+                        & (delta_r_mask(jets_veto, electrons, threshold=cc))
+                        & (delta_r_mask(jets_veto, muons, threshold=cc))
+                        & (delta_r_mask(jets_veto, taus, threshold=cc))
+                    )
+                    good_jets_jes_down = (
+                        good_jets_masks["JES_down"]
+                        & (delta_r_mask(jets_veto, electrons, threshold=cc))
+                        & (delta_r_mask(jets_veto, muons, threshold=cc))
+                        & (delta_r_mask(jets_veto, taus, threshold=cc))
+                    )
+                    good_jets_jer_up = (
+                        good_jets_masks["JER_up"]
+                        & (delta_r_mask(jets_veto, electrons, threshold=cc))
+                        & (delta_r_mask(jets_veto, muons, threshold=cc))
+                        & (delta_r_mask(jets_veto, taus, threshold=cc))
+                    )
+                    good_jets_jer_down = (
+                        good_jets_masks["JER_down"]
+                        & (delta_r_mask(jets_veto, electrons, threshold=cc))
+                        & (delta_r_mask(jets_veto, muons, threshold=cc))
+                        & (delta_r_mask(jets_veto, taus, threshold=cc))
+                    )
+                    jets_jes_up = jets_veto[good_jets_jes_up]
+                    jets_jes_down = jets_veto[good_jets_jes_down]
+                    jets_jer_up = jets_veto[good_jets_jer_up]
+                    jets_jer_down = jets_veto[good_jets_jer_down]
+
+
+
+                    good_fatjets_jes_up = (
+                        good_fatjets_masks["JES_up"]
+                        & (delta_r_mask(events.FatJet, electrons, threshold = 2*cc))
+                        & (delta_r_mask(events.FatJet, muons, threshold = 2*cc))
+                        & (delta_r_mask(events.FatJet, taus, threshold = 2*cc))
+                        & (delta_r_mask(events.FatJet, bjets, threshold = 2*cc))
+                        & (delta_r_mask(events.FatJet, jets, threshold = 2*cc))
+                    )   
+                    good_fatjets_jes_down = (
+                        good_fatjets_masks["JES_down"]
+                        & (delta_r_mask(events.FatJet, electrons, threshold = 2*cc))
+                        & (delta_r_mask(events.FatJet, muons, threshold = 2*cc))
+                        & (delta_r_mask(events.FatJet, taus, threshold = 2*cc))
+                        & (delta_r_mask(events.FatJet, bjets, threshold = 2*cc))
+                        & (delta_r_mask(events.FatJet, jets, threshold = 2*cc))
+                    )   
+                    good_fatjets_jer_up = (
+                        good_fatjets_masks["JER_up"]
+                        & (delta_r_mask(events.FatJet, electrons, threshold = 2*cc))
+                        & (delta_r_mask(events.FatJet, muons, threshold = 2*cc))
+                        & (delta_r_mask(events.FatJet, taus, threshold = 2*cc))
+                        & (delta_r_mask(events.FatJet, bjets, threshold = 2*cc))
+                        & (delta_r_mask(events.FatJet, jets, threshold = 2*cc))
+                    )   
+                    good_fatjets_jer_down = (
+                        good_fatjets_masks["JER_down"]
+                        & (delta_r_mask(events.FatJet, electrons, threshold = 2*cc))
+                        & (delta_r_mask(events.FatJet, muons, threshold = 2*cc))
+                        & (delta_r_mask(events.FatJet, taus, threshold = 2*cc))
+                        & (delta_r_mask(events.FatJet, bjets, threshold = 2*cc))
+                        & (delta_r_mask(events.FatJet, jets, threshold = 2*cc))
+                    )   
+                    fatjets_jes_up = events.FatJet[good_fatjets_jes_up]
+                    fatjets_jes_down = events.FatJet[good_fatjets_jes_down]
+                    fatjets_jer_up = events.FatJet[good_fatjets_jer_up]
+                    fatjets_jer_down = events.FatJet[good_fatjets_jer_down]
+
+
+                    good_wjets_jes_up = (
+                        good_wjets_masks["JES_up"]
+                        & (delta_r_mask(events.FatJet, electrons, threshold = 2*cc))
+                        & (delta_r_mask(events.FatJet, muons, threshold = 2*cc))
+                        & (delta_r_mask(events.FatJet, taus, threshold = 2*cc))
+                        & (delta_r_mask(events.FatJet, bjets, threshold = 2*cc))
+                        & (delta_r_mask(events.FatJet, jets, threshold = 2*cc))
+                        & (delta_r_mask(events.FatJet, fatjets, threshold = 2*cc))
+                    )   
+                    good_wjets_jes_down = (
+                        good_wjets_masks["JES_down"]
+                        & (delta_r_mask(events.FatJet, electrons, threshold = 2*cc))
+                        & (delta_r_mask(events.FatJet, muons, threshold = 2*cc))
+                        & (delta_r_mask(events.FatJet, taus, threshold = 2*cc))
+                        & (delta_r_mask(events.FatJet, bjets, threshold = 2*cc))
+                        & (delta_r_mask(events.FatJet, jets, threshold = 2*cc))
+                        & (delta_r_mask(events.FatJet, fatjets, threshold = 2*cc))
+                    )   
+                    good_wjets_jer_up = (
+                        good_wjets_masks["JER_up"]
+                        & (delta_r_mask(events.FatJet, electrons, threshold = 2*cc))
+                        & (delta_r_mask(events.FatJet, muons, threshold = 2*cc))
+                        & (delta_r_mask(events.FatJet, taus, threshold = 2*cc))
+                        & (delta_r_mask(events.FatJet, bjets, threshold = 2*cc))
+                        & (delta_r_mask(events.FatJet, jets, threshold = 2*cc))
+                        & (delta_r_mask(events.FatJet, fatjets, threshold = 2*cc))
+                    )  
+                    good_wjets_jer_down = (
+                        good_wjets_masks["JER_down"]
+                        & (delta_r_mask(events.FatJet, electrons, threshold = 2*cc))
+                        & (delta_r_mask(events.FatJet, muons, threshold = 2*cc))
+                        & (delta_r_mask(events.FatJet, taus, threshold = 2*cc))
+                        & (delta_r_mask(events.FatJet, bjets, threshold = 2*cc))
+                        & (delta_r_mask(events.FatJet, jets, threshold = 2*cc))
+                        & (delta_r_mask(events.FatJet, fatjets, threshold = 2*cc))
+                    )   
+                    wjets_jes_up = events.FatJet[good_wjets_jes_up]
+                    wjets_jes_down = events.FatJet[good_wjets_jes_down] 
+                    wjets_jer_up = events.FatJet[good_wjets_jer_up]
+                    wjets_jer_down = events.FatJet[good_wjets_jer_down]
 
             # -------------------------
             # p_T^{miss} correction
@@ -1303,201 +1272,202 @@ class TopTaggerProccessor(processor.ProcessorABC):
         # define output dictionary accumulator
         if self.output_type == "hist":
             output["histograms"] = hist_dict[self.region]
+            
         elif self.output_type == "array":
 
+            if self.run_systematics:
+                # -------------------------------------------------
+                # New block: up/down variations in objects.
+                # -------------------------------------------------
+                if self.is_mc:
+                    
+                    weights_container_variations = copy.deepcopy(weights_container)
 
-            # -------------------------------------------------
-            # New block: up/down variations in objects.
-            # -------------------------------------------------
-            if self.is_mc:
-                
-                weights_container_variations = copy.deepcopy(weights_container)
-
-    
-                # Crear un mapa para almacenar todas las variaciones
-                region_selection_map = {}
-                
-                                               
-                self.selections.add("one_tau_up", ak.num(taus_up) == 1)
-                self.selections.add("one_tau_down", ak.num(taus_down) == 1)
-                self.selections.add(f"met_{met_threshold}_up", met_variations["up"] > met_threshold)
-                self.selections.add(f"met_{met_threshold}_down", met_variations["down"] > met_threshold)
-                self.selections.add("muon_veto_up", ak.num(muons_up) == 0)
-                self.selections.add("muon_veto_down", ak.num(muons_down) == 0)
+        
+                    # Crear un mapa para almacenar todas las variaciones
+                    region_selection_map = {}
+                    
+                                                
+                    self.selections.add("one_tau_up", ak.num(taus_up) == 1)
+                    self.selections.add("one_tau_down", ak.num(taus_down) == 1)
+                    self.selections.add(f"met_{met_threshold}_up", met_variations["up"] > met_threshold)
+                    self.selections.add(f"met_{met_threshold}_down", met_variations["down"] > met_threshold)
+                    self.selections.add("muon_veto_up", ak.num(muons_up) == 0)
+                    self.selections.add("muon_veto_down", ak.num(muons_down) == 0)
 
 
-                # Mapa de modificaciones: clave es el campo a buscar, valor es el nuevo criterio
-                modification_map = {
-                    "one_tau": {
-                        "up": "one_tau_up",
-                        "down": "one_tau_down",
-                    },
-                    f"met_{met_threshold}": {
-                        "up": f"met_{met_threshold}_up",
-                        "down": f"met_{met_threshold}_down",
-                    },
-                    "muon_veto": {
-                        "up": "muon_veto_up",
-                        "down": "muon_veto_down",
-                    },
-                    "jes":{
-                        "up": "jes_up",
-                        "down": "jes_down",
-                    },
-                    "jer":{
-                        "up": "jer_up",
-                        "down": "jer_down",
+                    # Mapa de modificaciones: clave es el campo a buscar, valor es el nuevo criterio
+                    modification_map = {
+                        "one_tau": {
+                            "up": "one_tau_up",
+                            "down": "one_tau_down",
+                        },
+                        f"met_{met_threshold}": {
+                            "up": f"met_{met_threshold}_up",
+                            "down": f"met_{met_threshold}_down",
+                        },
+                        "muon_veto": {
+                            "up": "muon_veto_up",
+                            "down": "muon_veto_down",
+                        },
+                        "jes":{
+                            "up": "jes_up",
+                            "down": "jes_down",
+                        },
+                        "jer":{
+                            "up": "jer_up",
+                            "down": "jer_down",
+                        }
                     }
-                }
 
-                # Iterar sobre las modificaciones y crear una nueva versión de region_selection_variations para cada cambio
-                for key, variations in modification_map.items():
-                    if key in ["one_tau", f"met_{met_threshold}", "muon_veto"]:
-                        for variation in variations.keys():  # Solo usa las claves "up" y "down"
-                            modified_region_selection = copy.deepcopy(region_selection_variations)
+                    # Iterar sobre las modificaciones y crear una nueva versión de region_selection_variations para cada cambio
+                    for key, variations in modification_map.items():
+                        if key in ["one_tau", f"met_{met_threshold}", "muon_veto"]:
+                            for variation in variations.keys():  # Solo usa las claves "up" y "down"
+                                modified_region_selection = copy.deepcopy(region_selection_variations)
 
-                            # Si el criterio original está presente, eliminarlo y agregar la versión modificada
-                            if key in modified_region_selection[self.lepton_flavor]:
-                                modified_region_selection[self.lepton_flavor] = [
-                                    criterion for criterion in modified_region_selection[self.lepton_flavor] if criterion != key
-                                ]
+                                # Si el criterio original está presente, eliminarlo y agregar la versión modificada
+                                if key in modified_region_selection[self.lepton_flavor]:
+                                    modified_region_selection[self.lepton_flavor] = [
+                                        criterion for criterion in modified_region_selection[self.lepton_flavor] if criterion != key
+                                    ]
 
-                                modified_region_selection[self.lepton_flavor].append(f"{key}_{variation}")  # Agrega "one_tau_up", etc.
-
-
-                            # Guardar la nueva variación en el mapa
-                            region_selection_map[f"{key}_{variation}"] = modified_region_selection
-                    else:
-                        # no modificar region_selection, El cambio solo afectará el top tagger
-                        for variation in variations.keys():
-                            region_selection_map[f"{key}_{variation}"] = copy.deepcopy(region_selection_variations)
+                                    modified_region_selection[self.lepton_flavor].append(f"{key}_{variation}")  # Agrega "one_tau_up", etc.
 
 
-                # Crear un nuevo objeto PackedSelection para las variaciones
-                #self.variations_selections = PackedSelection()
-
-                # Crear máscaras para cada variación en region_selection_map
-                for variation_name, selection in region_selection_map.items():
-
-                    # Crear un nuevo objeto PackedSelection para esta iteración
-                    temp_selections = PackedSelection()
-
-                    # Agregar la selección temporalmente
-                    temp_selections.add(
-                        f"{self.region}_{variation_name}",
-                        self.selections.all(
-                            *selection[self.lepton_flavor]
-                        ),
-                    )
-
-                    region_selection_tmp = temp_selections.all(f"{self.region}_{variation_name}")
+                                # Guardar la nueva variación en el mapa
+                                region_selection_map[f"{key}_{variation}"] = modified_region_selection
+                        else:
+                            # no modificar region_selection, El cambio solo afectará el top tagger
+                            for variation in variations.keys():
+                                region_selection_map[f"{key}_{variation}"] = copy.deepcopy(region_selection_variations)
 
 
+                    # Crear un nuevo objeto PackedSelection para las variaciones
+                    #self.variations_selections = PackedSelection()
 
-                    # check that there are events left after selection
-                    nevents_after_tmp = ak.sum(region_selection_tmp)
+                    # Crear máscaras para cada variación en region_selection_map
+                    for variation_name, selection in region_selection_map.items():
 
-                    if nevents_after_tmp == 0:
-                        mask_top_tmp = ak.zeros_like(region_selection_tmp, dtype=bool)  # Crear una máscara con Falses
+                        # Crear un nuevo objeto PackedSelection para esta iteración
+                        temp_selections = PackedSelection()
 
+                        # Agregar la selección temporalmente
+                        temp_selections.add(
+                            f"{self.region}_{variation_name}",
+                            self.selections.all(
+                                *selection[self.lepton_flavor]
+                            ),
+                        )
 
-                        # Agregar lepton_met_mass_tmp a array_dict
-                        array_dict[f"lepton_met_mass_{variation_name}"] = processor.column_accumulator(np.array([]))
-                        # Convertir weights_{variation_name} a un array de NumPy antes de guardarlo
-                        array_dict[f"weights_{variation_name}"] = processor.column_accumulator(weights_container_variations.weight()[region_selection_tmp])
-
- 
-
-                    else:
-                        #########################
-                        ######### Top tagger ####
-                        #########################
-                        # Create a dictionary of objects to simplify handling
-                        objects_tmp = {
-                            "bjets": bjets_jes_up if "jes_up" in variation_name else
-                                    bjets_jes_down if "jes_down" in variation_name else
-                                    bjets_jer_up if "jer_up" in variation_name else
-                                    bjets_jer_down if "jes_down" in variation_name else
-                                    bjets,
-                            "jets": jets_jes_up if "jes_up" in variation_name else
-                                    jets_jes_down if "jes_down" in variation_name else
-                                    jets_jer_up if "jer_up" in variation_name else
-                                    jets_jer_down if "jer_down" in variation_name else
-                                    jets,
-                            "fatjets": fatjets_jes_up if "jes_up" in variation_name else
-                                    fatjets_jes_down if "jes_down" in variation_name else
-                                    fatjets_jer_up if "jet_up" in variation_name else
-                                    fatjets_jer_down if "jer_down" in variation_name else
-                                    fatjets,
-                            "wjets": wjets_jes_up if "jes_up" in variation_name else
-                                    wjets_jes_down if "jes_down" in variation_name else
-                                    wjets_jer_up if "jer_up" in variation_name else
-                                    wjets_jer_down if "jer_down" in variation_name else
-                                    wjets,
-                            "electrons": electrons,
-                            "muons": muons_up if "muon_up" in variation_name else
-                                    muons_down if "muon_down" in variation_name else
-                                    muons,
-                            "taus": taus_up if "one_tau_up" in variation_name else
-                                    taus_down if "one_tau_down" in variation_name else
-                                    taus,
-                            "met": met_variations["up"] if "met_up" in variation_name else
-                                met_variations["down"] if "met_down" in variation_name else
-                                events.MET,
-                            "events": events,
-                        }
-
-                        # Top tagger cases
-                        cases_tmp = [f"case_{i}" for i in range(1, 14) if top_tagger_cases_selection[self.lepton_flavor].get(f"case_{i}", False)]
-
-                        
-                        # Apply region selection to objects
-                        selected_objects_tmp = apply_selection(objects_tmp, region_selection_tmp)
-     
-                        topX_tmp = topXfinder(self.lepton_flavor, selected_objects_tmp["bjets"], selected_objects_tmp["jets"], selected_objects_tmp["fatjets"],
-                                            selected_objects_tmp["wjets"],  cc)
+                        region_selection_tmp = temp_selections.all(f"{self.region}_{variation_name}")
 
 
-                        tops_tmp, mask_top_tmp, masks_tmp = top_tagger(topX_tmp, top_tagger_cases=cases_tmp)
 
-                        
+                        # check that there are events left after selection
+                        nevents_after_tmp = ak.sum(region_selection_tmp)
 
-                        # Aplicar las máscaras region_selection_tmp y mask_top_tmp a los objetos
-                        filtered_objects_tmp = {
-                            key: obj[mask_top_tmp] for key, obj in selected_objects_tmp.items()
-                        }
+                        if nevents_after_tmp == 0:
+                            mask_top_tmp = ak.zeros_like(region_selection_tmp, dtype=bool)  # Crear una máscara con Falses
 
-                        if ak.sum(mask_top_tmp) > 0:
-                            # Definir el mapa de leptones según el flavor
-                            lepton_region_map = {
-                                "ele": filtered_objects_tmp["electrons"],
-                                "mu": filtered_objects_tmp["muons"],
-                                "tau": filtered_objects_tmp["taus"],
-                            }
-
-                            # Calcular lepton_met_mass con los objetos filtrados
-                            region_leptons_tmp = lepton_region_map[self.lepton_flavor]
-                            region_met_tmp = filtered_objects_tmp["met"]
-
-                            lepton_met_mass_tmp = np.sqrt(
-                                2.0
-                                * region_leptons_tmp.pt
-                                * region_met_tmp.pt
-                                * (
-                                    ak.ones_like(region_met_tmp.pt)
-                                    - np.cos(region_leptons_tmp.delta_phi(region_met_tmp))
-                                )
-                            )
-
-                            # Convertir lepton_met_mass_tmp a un array de NumPy
-                            lepton_met_mass_tmp_numpy = ak.to_numpy(ak.flatten(lepton_met_mass_tmp))
 
                             # Agregar lepton_met_mass_tmp a array_dict
-                            array_dict[f"lepton_met_mass_{variation_name}"] = processor.column_accumulator(lepton_met_mass_tmp_numpy)
+                            array_dict[f"lepton_met_mass_{variation_name}"] = processor.column_accumulator(np.array([]))
+                            # Convertir weights_{variation_name} a un array de NumPy antes de guardarlo
+                            array_dict[f"weights_{variation_name}"] = processor.column_accumulator(weights_container_variations.weight()[region_selection_tmp])
 
-                        # Convertir weights_{variation_name} a un array de NumPy antes de guardarlo
-                        array_dict[f"weights_{variation_name}"] = processor.column_accumulator(weights_container_variations.weight()[region_selection_tmp][mask_top_tmp])
-                        
+    
+
+                        else:
+                            #########################
+                            ######### Top tagger ####
+                            #########################
+                            # Create a dictionary of objects to simplify handling
+                            objects_tmp = {
+                                "bjets": bjets_jes_up if "jes_up" in variation_name else
+                                        bjets_jes_down if "jes_down" in variation_name else
+                                        bjets_jer_up if "jer_up" in variation_name else
+                                        bjets_jer_down if "jes_down" in variation_name else
+                                        bjets,
+                                "jets": jets_jes_up if "jes_up" in variation_name else
+                                        jets_jes_down if "jes_down" in variation_name else
+                                        jets_jer_up if "jer_up" in variation_name else
+                                        jets_jer_down if "jer_down" in variation_name else
+                                        jets,
+                                "fatjets": fatjets_jes_up if "jes_up" in variation_name else
+                                        fatjets_jes_down if "jes_down" in variation_name else
+                                        fatjets_jer_up if "jet_up" in variation_name else
+                                        fatjets_jer_down if "jer_down" in variation_name else
+                                        fatjets,
+                                "wjets": wjets_jes_up if "jes_up" in variation_name else
+                                        wjets_jes_down if "jes_down" in variation_name else
+                                        wjets_jer_up if "jer_up" in variation_name else
+                                        wjets_jer_down if "jer_down" in variation_name else
+                                        wjets,
+                                "electrons": electrons,
+                                "muons": muons_up if "muon_up" in variation_name else
+                                        muons_down if "muon_down" in variation_name else
+                                        muons,
+                                "taus": taus_up if "one_tau_up" in variation_name else
+                                        taus_down if "one_tau_down" in variation_name else
+                                        taus,
+                                "met": met_variations["up"] if "met_up" in variation_name else
+                                    met_variations["down"] if "met_down" in variation_name else
+                                    events.MET,
+                                "events": events,
+                            }
+
+                            # Top tagger cases
+                            cases_tmp = [f"case_{i}" for i in range(1, 14) if top_tagger_cases_selection[self.lepton_flavor].get(f"case_{i}", False)]
+
+                            
+                            # Apply region selection to objects
+                            selected_objects_tmp = apply_selection(objects_tmp, region_selection_tmp)
+        
+                            topX_tmp = topXfinder(self.lepton_flavor, selected_objects_tmp["bjets"], selected_objects_tmp["jets"], selected_objects_tmp["fatjets"],
+                                                selected_objects_tmp["wjets"],  cc)
+
+
+                            tops_tmp, mask_top_tmp, masks_tmp = top_tagger(topX_tmp, top_tagger_cases=cases_tmp)
+
+                            
+
+                            # Aplicar las máscaras region_selection_tmp y mask_top_tmp a los objetos
+                            filtered_objects_tmp = {
+                                key: obj[mask_top_tmp] for key, obj in selected_objects_tmp.items()
+                            }
+
+                            if ak.sum(mask_top_tmp) > 0:
+                                # Definir el mapa de leptones según el flavor
+                                lepton_region_map = {
+                                    "ele": filtered_objects_tmp["electrons"],
+                                    "mu": filtered_objects_tmp["muons"],
+                                    "tau": filtered_objects_tmp["taus"],
+                                }
+
+                                # Calcular lepton_met_mass con los objetos filtrados
+                                region_leptons_tmp = lepton_region_map[self.lepton_flavor]
+                                region_met_tmp = filtered_objects_tmp["met"]
+
+                                lepton_met_mass_tmp = np.sqrt(
+                                    2.0
+                                    * region_leptons_tmp.pt
+                                    * region_met_tmp.pt
+                                    * (
+                                        ak.ones_like(region_met_tmp.pt)
+                                        - np.cos(region_leptons_tmp.delta_phi(region_met_tmp))
+                                    )
+                                )
+
+                                # Convertir lepton_met_mass_tmp a un array de NumPy
+                                lepton_met_mass_tmp_numpy = ak.to_numpy(ak.flatten(lepton_met_mass_tmp))
+
+                                # Agregar lepton_met_mass_tmp a array_dict
+                                array_dict[f"lepton_met_mass_{variation_name}"] = processor.column_accumulator(lepton_met_mass_tmp_numpy)
+
+                            # Convertir weights_{variation_name} a un array de NumPy antes de guardarlo
+                            array_dict[f"weights_{variation_name}"] = processor.column_accumulator(weights_container_variations.weight()[region_selection_tmp][mask_top_tmp])
+                            
             
             output["arrays"] = array_dict
 

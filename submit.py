@@ -115,6 +115,7 @@ def main(args):
         "lepton_flavor",
         "output_type",
         "syst",
+        "run_systematics",
     ]
     processor_kwargs = {k: args[k] for k in processor_args if args[k]}
     executors = {
@@ -670,5 +671,12 @@ if __name__ == "__main__":
         default="",
         help="output path directory",
     )
+    parser.add_argument(
+        "--run_systematics",
+        dest="run_systematics",
+        type=str,
+        default="false",
+        help="Run systematics (true/false)",
+     )
     args = parser.parse_args()
     main(args)

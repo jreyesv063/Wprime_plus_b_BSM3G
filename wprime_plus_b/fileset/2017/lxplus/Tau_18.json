@@ -2,10 +2,10 @@
     "Tau_18": [
         "root://cmsdcadisk.fnal.gov//dcache/uscmsdisk/store/data/Run2017F/Tau/NANOAOD/UL2017_MiniAODv2_NanoAODv9-v1/270000/D929129E-2D8D-E443-AE77-F396DB2BB7EB.root",
         "root://dcache-cms-xrootd.desy.de:1094//store/data/Run2017F/Tau/NANOAOD/UL2017_MiniAODv2_NanoAODv9-v1/70000/0AA59D3D-8BA0-3642-B8A8-CE19C6B409B1.root",
-        "root://sbgdcache.in2p3.fr//store/data/Run2017F/Tau/NANOAOD/UL2017_MiniAODv2_NanoAODv9-v1/70000/16543DB8-5628-3746-BEA8-6FAE54623D68.root",
-        "root://grid-cms-xrootd.physik.rwth-aachen.de:1094//store/data/Run2017F/Tau/NANOAOD/UL2017_MiniAODv2_NanoAODv9-v1/70000/184DBE38-7630-3B40-BDC1-DA3325A0EFAB.root",
-        "root://sbgdcache.in2p3.fr//store/data/Run2017F/Tau/NANOAOD/UL2017_MiniAODv2_NanoAODv9-v1/70000/1D7EC8C3-D93C-9142-9159-B1D6DFFFEC57.root",
+        "root://gaexrdoor.ciemat.es:1094//store/data/Run2017F/Tau/NANOAOD/UL2017_MiniAODv2_NanoAODv9-v1/70000/16543DB8-5628-3746-BEA8-6FAE54623D68.root",
+        "root://dcache-cms-xrootd.desy.de:1094//store/data/Run2017F/Tau/NANOAOD/UL2017_MiniAODv2_NanoAODv9-v1/70000/184DBE38-7630-3B40-BDC1-DA3325A0EFAB.root",
+        "root://grid-cms-xrootd.physik.rwth-aachen.de:1094//store/data/Run2017F/Tau/NANOAOD/UL2017_MiniAODv2_NanoAODv9-v1/70000/1D7EC8C3-D93C-9142-9159-B1D6DFFFEC57.root",
         "root://sbgdcache.in2p3.fr//store/data/Run2017F/Tau/NANOAOD/UL2017_MiniAODv2_NanoAODv9-v1/70000/1D8319DF-5CDF-4740-9B26-043EB2721BCD.root",
-        "root://dcache-cms-xrootd.desy.de:1094//store/data/Run2017F/Tau/NANOAOD/UL2017_MiniAODv2_NanoAODv9-v1/70000/1F5160FF-B31A-C440-9436-0BF79BE6CF30.root"
+        "root://cmsdcadisk.fnal.gov//dcache/uscmsdisk/store/data/Run2017F/Tau/NANOAOD/UL2017_MiniAODv2_NanoAODv9-v1/70000/1F5160FF-B31A-C440-9436-0BF79BE6CF30.root"
     ]
 }

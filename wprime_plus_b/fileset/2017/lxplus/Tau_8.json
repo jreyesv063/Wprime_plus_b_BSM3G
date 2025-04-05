@@ -1,12 +1,12 @@
 {
     "Tau_8": [
-        "root://grid-cms-xrootd.physik.rwth-aachen.de:1094//store/data/Run2017C/Tau/NANOAOD/UL2017_MiniAODv2_NanoAODv9-v1/270000/DE3C0AE5-09B6-124E-BB0B-707C0E38EE4F.root",
-        "root://xrootd-local.unl.edu:1094//store/data/Run2017C/Tau/NANOAOD/UL2017_MiniAODv2_NanoAODv9-v1/270000/E4C58E89-9585-C34E-96BC-59FEB0003DEC.root",
-        "root://grid-cms-xrootd.physik.rwth-aachen.de:1094//store/data/Run2017C/Tau/NANOAOD/UL2017_MiniAODv2_NanoAODv9-v1/280000/06EB27EB-E93B-384A-961F-CBD4C5A3A233.root",
-        "root://gaexrdoor.ciemat.es:1094//store/data/Run2017C/Tau/NANOAOD/UL2017_MiniAODv2_NanoAODv9-v1/280000/0CEBC059-02E0-0740-992E-8AF9FABCA68F.root",
+        "root://gfe02.grid.hep.ph.ic.ac.uk:1094//pnfs/hep.ph.ic.ac.uk/data/cms/store/data/Run2017C/Tau/NANOAOD/UL2017_MiniAODv2_NanoAODv9-v1/270000/DE3C0AE5-09B6-124E-BB0B-707C0E38EE4F.root",
+        "root://grid-cms-xrootd.physik.rwth-aachen.de:1094//store/data/Run2017C/Tau/NANOAOD/UL2017_MiniAODv2_NanoAODv9-v1/270000/E4C58E89-9585-C34E-96BC-59FEB0003DEC.root",
+        "root://eos.cms.rcac.purdue.edu//store/data/Run2017C/Tau/NANOAOD/UL2017_MiniAODv2_NanoAODv9-v1/280000/06EB27EB-E93B-384A-961F-CBD4C5A3A233.root",
+        "root://sbgdcache.in2p3.fr//store/data/Run2017C/Tau/NANOAOD/UL2017_MiniAODv2_NanoAODv9-v1/280000/0CEBC059-02E0-0740-992E-8AF9FABCA68F.root",
         "root://cmsdcadisk.fnal.gov//dcache/uscmsdisk/store/data/Run2017C/Tau/NANOAOD/UL2017_MiniAODv2_NanoAODv9-v1/280000/1A742CD4-C0A4-954C-A2AD-4D9A13165FD9.root",
-        "root://sbgdcache.in2p3.fr//store/data/Run2017C/Tau/NANOAOD/UL2017_MiniAODv2_NanoAODv9-v1/280000/1B4C5E33-3653-4C43-AEAE-1A1E7FA09E61.root",
-        "root://sbgdcache.in2p3.fr//store/data/Run2017C/Tau/NANOAOD/UL2017_MiniAODv2_NanoAODv9-v1/280000/267A5502-CA76-334C-9A0F-E201958F8A88.root",
+        "root://grid-cms-xrootd.physik.rwth-aachen.de:1094//store/data/Run2017C/Tau/NANOAOD/UL2017_MiniAODv2_NanoAODv9-v1/280000/1B4C5E33-3653-4C43-AEAE-1A1E7FA09E61.root",
+        "root://grid-cms-xrootd.physik.rwth-aachen.de:1094//store/data/Run2017C/Tau/NANOAOD/UL2017_MiniAODv2_NanoAODv9-v1/280000/267A5502-CA76-334C-9A0F-E201958F8A88.root",
         "root://cmsdcadisk.fnal.gov//dcache/uscmsdisk/store/data/Run2017C/Tau/NANOAOD/UL2017_MiniAODv2_NanoAODv9-v1/280000/2F315DF9-E195-624F-968F-2C8E2CC3F000.root"
     ]
 }

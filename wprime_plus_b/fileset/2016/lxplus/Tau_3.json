@@ -1,9 +1,9 @@
 {
     "Tau_3": [
-        "root://se01.grid.nchc.org.tw//cms/store/data/Run2016G/Tau/NANOAOD/UL2016_MiniAODv2_NanoAODv9-v1/270000/3D1F35A0-56F6-AA48-96A4-5D618E34DE1D.root",
-        "root://cmsdcadisk.fnal.gov//dcache/uscmsdisk/store/data/Run2016G/Tau/NANOAOD/UL2016_MiniAODv2_NanoAODv9-v1/270000/3EE961A4-3AB4-F84F-BD87-FC2E136007E9.root",
-        "root://cmsdcadisk.fnal.gov//dcache/uscmsdisk/store/data/Run2016G/Tau/NANOAOD/UL2016_MiniAODv2_NanoAODv9-v1/270000/43211E32-B752-2647-9BE4-D36B9A588A2E.root",
-        "root://rdr.echo.stfc.ac.uk//store/data/Run2016G/Tau/NANOAOD/UL2016_MiniAODv2_NanoAODv9-v1/270000/4937E9D9-640E-2C41-B940-980EBCFF834D.root",
+        "root://rdr.echo.stfc.ac.uk//store/data/Run2016G/Tau/NANOAOD/UL2016_MiniAODv2_NanoAODv9-v1/270000/3D1F35A0-56F6-AA48-96A4-5D618E34DE1D.root",
+        "root://dcache-cms-xrootd.desy.de:1094//store/data/Run2016G/Tau/NANOAOD/UL2016_MiniAODv2_NanoAODv9-v1/270000/3EE961A4-3AB4-F84F-BD87-FC2E136007E9.root",
+        "root://rdr.echo.stfc.ac.uk//store/data/Run2016G/Tau/NANOAOD/UL2016_MiniAODv2_NanoAODv9-v1/270000/43211E32-B752-2647-9BE4-D36B9A588A2E.root",
+        "root://dcache-cms-xrootd.desy.de:1094//store/data/Run2016G/Tau/NANOAOD/UL2016_MiniAODv2_NanoAODv9-v1/270000/4937E9D9-640E-2C41-B940-980EBCFF834D.root",
         "root://eos.cms.rcac.purdue.edu//store/data/Run2016G/Tau/NANOAOD/UL2016_MiniAODv2_NanoAODv9-v1/270000/67F9DA24-9C8C-6944-9C12-550EE148FB6A.root"
     ]
 }

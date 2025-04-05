@@ -1,10 +1,10 @@
 {
     "Tau_21": [
-        "root://cmsdcadisk.fnal.gov//dcache/uscmsdisk/store/data/Run2016E/Tau/NANOAOD/HIPM_UL2016_MiniAODv2_NanoAODv9-v2/40000/E7E26921-4351-0440-B3EA-EABA8BFFC2A9.root",
-        "root://xrootd-cmst1-door.pic.es:1094//pnfs/pic.es/data/cms/disk/store/data/Run2016E/Tau/NANOAOD/HIPM_UL2016_MiniAODv2_NanoAODv9-v2/40000/EB0EABA8-153F-4B45-9FF1-3A8A438B10B7.root",
-        "root://maite.iihe.ac.be:1095//store/data/Run2016E/Tau/NANOAOD/HIPM_UL2016_MiniAODv2_NanoAODv9-v2/40000/FBEC74F8-FDB6-F143-A9B6-F765E846C369.root",
-        "root://maite.iihe.ac.be:1095//store/data/Run2016F/Tau/NANOAOD/HIPM_UL2016_MiniAODv2_NanoAODv9-v2/2530000/2297AAE1-0A5F-FE4C-8D0A-472D5FBC9074.root",
-        "root://eoscms.cern.ch//eos/cms/store/data/Run2016F/Tau/NANOAOD/HIPM_UL2016_MiniAODv2_NanoAODv9-v2/2530000/37856A20-C039-5246-99BD-46E0BB323E67.root",
-        "root://xrootd-cmst1-door.pic.es:1094//pnfs/pic.es/data/cms/disk/store/data/Run2016F/Tau/NANOAOD/HIPM_UL2016_MiniAODv2_NanoAODv9-v2/2530000/6469E40E-6DD6-F949-800F-39B9B2638993.root"
+        "root://grid-cms-xrootd.physik.rwth-aachen.de:1094//store/data/Run2016E/Tau/NANOAOD/HIPM_UL2016_MiniAODv2_NanoAODv9-v2/40000/E7E26921-4351-0440-B3EA-EABA8BFFC2A9.root",
+        "root://sbgdcache.in2p3.fr//store/data/Run2016E/Tau/NANOAOD/HIPM_UL2016_MiniAODv2_NanoAODv9-v2/40000/EB0EABA8-153F-4B45-9FF1-3A8A438B10B7.root",
+        "root://grid-cms-xrootd.physik.rwth-aachen.de:1094//store/data/Run2016E/Tau/NANOAOD/HIPM_UL2016_MiniAODv2_NanoAODv9-v2/40000/FBEC74F8-FDB6-F143-A9B6-F765E846C369.root",
+        "root://cmsdcadisk.fnal.gov//dcache/uscmsdisk/store/data/Run2016F/Tau/NANOAOD/HIPM_UL2016_MiniAODv2_NanoAODv9-v2/2530000/2297AAE1-0A5F-FE4C-8D0A-472D5FBC9074.root",
+        "root://maite.iihe.ac.be:1094//store/data/Run2016F/Tau/NANOAOD/HIPM_UL2016_MiniAODv2_NanoAODv9-v2/2530000/37856A20-C039-5246-99BD-46E0BB323E67.root",
+        "root://cmsdcadisk.fnal.gov//dcache/uscmsdisk/store/data/Run2016F/Tau/NANOAOD/HIPM_UL2016_MiniAODv2_NanoAODv9-v2/2530000/6469E40E-6DD6-F949-800F-39B9B2638993.root"
     ]
 }

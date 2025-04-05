@@ -37,9 +37,9 @@ Tau:
 TTTo2L2Nu:
   nsplit: 20
 TTToHadronic:
-  nsplit: 30
+  nsplit: 20
 TTToSemiLeptonic:
-  nsplit: 50
+  nsplit: 55
 VBFHToWWTo2L2Nu:
   nsplit: 1
 VBFHToWWToLNuQQ:

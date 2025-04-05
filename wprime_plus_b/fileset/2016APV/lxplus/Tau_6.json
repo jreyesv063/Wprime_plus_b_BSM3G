@@ -1,11 +1,11 @@
 {
     "Tau_6": [
         "root://xrootd-local.unl.edu:1094//store/data/Run2016B/Tau/NANOAOD/ver2_HIPM_UL2016_MiniAODv2_NanoAODv9-v2/50000/E2E481B3-459E-F14E-8C4A-C6224070AC31.root",
-        "root://xrootd-local.unl.edu:1094//store/data/Run2016B/Tau/NANOAOD/ver2_HIPM_UL2016_MiniAODv2_NanoAODv9-v2/50000/EFEDBED4-70C3-D942-BC39-3CA7BB2B23AC.root",
-        "root://grid-cms-xrootd.physik.rwth-aachen.de:1094//store/data/Run2016B/Tau/NANOAOD/ver2_HIPM_UL2016_MiniAODv2_NanoAODv9-v2/50000/F8F45809-B9C0-CB4B-B32E-EC4B773DC752.root",
-        "root://xrootd-local.unl.edu:1094//store/data/Run2016B/Tau/NANOAOD/ver2_HIPM_UL2016_MiniAODv2_NanoAODv9-v2/50000/FC3B092B-85CD-3A4F-A290-69145028A05A.root",
-        "root://grid-cms-xrootd.physik.rwth-aachen.de:1094//store/data/Run2016C/Tau/NANOAOD/HIPM_UL2016_MiniAODv2_NanoAODv9-v2/2430000/05323E45-3F26-3C4D-B476-E0D28997C349.root",
-        "root://maite.iihe.ac.be:1095//store/data/Run2016C/Tau/NANOAOD/HIPM_UL2016_MiniAODv2_NanoAODv9-v2/2430000/0F5E1955-C038-0844-A2B5-FD5432F2D744.root",
+        "root://maite.iihe.ac.be:1094//store/data/Run2016B/Tau/NANOAOD/ver2_HIPM_UL2016_MiniAODv2_NanoAODv9-v2/50000/EFEDBED4-70C3-D942-BC39-3CA7BB2B23AC.root",
+        "root://xrootd-local.unl.edu:1094//store/data/Run2016B/Tau/NANOAOD/ver2_HIPM_UL2016_MiniAODv2_NanoAODv9-v2/50000/F8F45809-B9C0-CB4B-B32E-EC4B773DC752.root",
+        "root://dcache-cms-xrootd.desy.de:1094//store/data/Run2016B/Tau/NANOAOD/ver2_HIPM_UL2016_MiniAODv2_NanoAODv9-v2/50000/FC3B092B-85CD-3A4F-A290-69145028A05A.root",
+        "root://cmsdcadisk.fnal.gov//dcache/uscmsdisk/store/data/Run2016C/Tau/NANOAOD/HIPM_UL2016_MiniAODv2_NanoAODv9-v2/2430000/05323E45-3F26-3C4D-B476-E0D28997C349.root",
+        "root://cms.sscc.uos.ac.kr:1094//store/data/Run2016C/Tau/NANOAOD/HIPM_UL2016_MiniAODv2_NanoAODv9-v2/2430000/0F5E1955-C038-0844-A2B5-FD5432F2D744.root",
         "root://cmsdcadisk.fnal.gov//dcache/uscmsdisk/store/data/Run2016C/Tau/NANOAOD/HIPM_UL2016_MiniAODv2_NanoAODv9-v2/2430000/17ED9B37-7CEF-9245-9CA1-F6B85D2A0917.root"
     ]
 }

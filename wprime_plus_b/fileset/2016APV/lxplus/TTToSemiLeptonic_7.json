@@ -1,6 +1,5 @@
 {
     "TTToSemiLeptonic_7": [
-        "root://cmsdcadisk.fnal.gov//dcache/uscmsdisk/store/mc/RunIISummer20UL16NanoAODAPVv9/TTToSemiLeptonic_TuneCP5CR1_13TeV-powheg-pythia8/NANOAODSIM/106X_mcRun2_asymptotic_preVFP_v11-v1/100000/80532D8A-6039-A24B-8006-0DFA8AB4D60C.root",
-        "root://maite.iihe.ac.be:1095//store/mc/RunIISummer20UL16NanoAODAPVv9/TTToSemiLeptonic_TuneCP5CR1_13TeV-powheg-pythia8/NANOAODSIM/106X_mcRun2_asymptotic_preVFP_v11-v1/100000/8A09C6DA-B298-AD48-98D2-CD19458676EA.root"
+        "root://maite.iihe.ac.be:1094//store/mc/RunIISummer20UL16NanoAODAPVv9/TTToSemiLeptonic_TuneCP5CR1_13TeV-powheg-pythia8/NANOAODSIM/106X_mcRun2_asymptotic_preVFP_v11-v1/100000/786C313D-285D-9E47-924F-FE5C524D9519.root"
     ]
 }

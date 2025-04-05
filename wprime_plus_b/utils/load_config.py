@@ -21,8 +21,12 @@ def load_processor_config(config_name: str):
     return config
 
 
-def load_dataset_config(config_name: str):
-    configs_path = f"{Path.cwd()}/wprime_plus_b/configs/dataset/datasets_configs.yaml"
+def load_dataset_config(config_name: str, object_syst: str):
+
+    object_systematic_variation = (object_syst.lower() == "true")
+    configs_file= "datasets_configs_systematics.yaml" if object_systematic_variation else "datasets_configs.yaml"
+    configs_path = f"{Path.cwd()}/wprime_plus_b/configs/dataset/{configs_file}"
+
     with open(configs_path, "r") as stream:
         try:
             configs = yaml.safe_load(stream)

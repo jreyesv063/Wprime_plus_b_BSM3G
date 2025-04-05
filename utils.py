@@ -1,4 +1,5 @@
 import os
+import math
 import json
 import glob
 import yaml
@@ -86,7 +87,7 @@ def build_filesets(args: dict) -> None:
         # split fileset and save filesets
         filesets = {}
         # load dataset config
-        dataset_config = load_dataset_config(config_name=sample)
+        dataset_config = load_dataset_config(config_name=sample, object_syst = args["run_systematics"])
         if dataset_config.nsplit == 1:
             filesets[sample] = f"{output_directory}/{sample}.json"
             sample_data = {sample: data[sample]}
@@ -138,6 +139,50 @@ def manage_processor_args(args: dict) -> dict:
     return args
 
 
+def update_nsplit(year: str) -> None:
+    """
+    Updates the `nsplit` value in the `datasets_configs_systematics.yaml` file
+    based on the number of entries in the corresponding JSON file for the given year.
+
+    Args:
+        year (str): The year used to determine the JSON file (e.g., "2016", "2016APV", "2017", "2018").
+    """
+    # Determine the corresponding JSON file
+    json_filename = f"fileset_{year}_UL_NANO_lxplus.json"
+    json_path = Path(f"wprime_plus_b/fileset/{json_filename}")
+    
+    # Check if the JSON file exists
+    if not json_path.exists():
+        raise FileNotFoundError(f"The JSON file {json_filename} does not exist at {json_path}")
+
+    # Read the JSON file
+    with open(json_path, "r") as json_file:
+        json_data = json.load(json_file)
+
+    # Read the YAML file
+    yaml_path = Path("wprime_plus_b/configs/dataset/datasets_configs_systematics.yaml")
+    if not yaml_path.exists():
+        raise FileNotFoundError(f"The YAML file {yaml_path} does not exist.")
+    
+    with open(yaml_path, "r") as yaml_file:
+        yaml_data = yaml.safe_load(yaml_file)
+
+    # Update the `nsplit` value in the YAML
+    for dataset, config in yaml_data.items():
+        if dataset in json_data:
+            # Count the number of entries in the JSON for this dataset
+            nsplit_count = len(json_data[dataset])
+            # Update the `nsplit` value in the YAML
+            config["nsplit"] =  max(1, math.ceil(len(json_data[dataset]) / 2))
+
+    # Save the changes to the YAML file
+    with open(yaml_path, "w") as yaml_file:
+        yaml.safe_dump(yaml_data, yaml_file)
+
+    print(f"YAML file successfully updated: {yaml_path}")
+
+
+
 def run_checker(args: dict) -> None:
     # check processor
     available_processors = ["ttbar", "ztoll", "qcd", "btag_eff", "trigger_eff", "top_tagger", "signal", "wjets", "qcd_abcd", "qcd_hadronic", "wplusjets"]
@@ -162,8 +207,15 @@ def run_checker(args: dict) -> None:
         raise ValueError(
             f"Incorrect output_type. Available output_types are: {available_output_types}"
         )
+
+    object_systematic_variation = (args["run_systematics"].lower() == "true")
+
     # check sample
-    configs_path = f"{Path.cwd()}/wprime_plus_b/configs/dataset/datasets_configs.yaml"
+    update_nsplit(args["year"])
+    configs_file= "datasets_configs_systematics.yaml" if object_systematic_variation else "datasets_configs.yaml"
+    configs_path = f"{Path.cwd()}/wprime_plus_b/configs/dataset/{configs_file}"
+
+
     with open(configs_path, "r") as stream:
         configs = yaml.safe_load(stream)
     available_samples = list(configs.keys())
@@ -172,7 +224,7 @@ def run_checker(args: dict) -> None:
             f"Incorrect sample. Available samples are: {available_samples}"
         )
     # check nsample
-    dataset_config = load_dataset_config(config_name=args["sample"])
+    dataset_config = load_dataset_config(config_name=args["sample"], object_syst = args["run_systematics"])
     available_nsamples = [""] + [str(i) for i in range(1, dataset_config.nsplit + 1)]
     nsamples = args["nsample"].split(",")
     for nsample in nsamples:

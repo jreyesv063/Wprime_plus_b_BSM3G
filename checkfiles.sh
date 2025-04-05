@@ -21,17 +21,17 @@ considerar_SingleElectron=false
 considerar_Tau=false 
 considerar_higgs=false
 
-considerar_MET=true
+considerar_MET=false
 considerar_SingleMuon=false
 
 
-considerar_inclusive_wj=true
-considerar_inclusive_ext_wj=true
-considerar_inclusive_dy_nlo=true
-considerar_tt=true
-considerar_st=true
+considerar_inclusive_wj=false
+considerar_inclusive_ext_wj=false
+considerar_inclusive_dy_nlo=false
+considerar_tt=false
+considerar_st=false
 considerar_vv=true
-considerar_qcd=true
+considerar_qcd=false
 
 
 
@@ -74,6 +74,18 @@ year=$(grep -o 'year=".*"' "$archivo_run" | cut -d'"' -f2)
 nfiles=$(grep -o 'nfiles=".*"' "$archivo_run" | cut -d'"' -f2)
 executor=$(grep -o 'executor=".*"' "$archivo_run" | cut -d'"' -f2)
 output_type=$(grep -o 'output_type=".*"' "$archivo_run" | cut -d'"' -f2)
+run_systematics=$(grep -o 'run_systematics=".*"' "$archivo_run" | cut -d'"' -f2)
+
+
+# Seleccionar el archivo YAML y actualizarlo solo si run_systematics es true
+if [ "$run_systematics" == "true" ]; then
+    # Llamar a la función Python solo si se corren sistemáticos
+    python3 -c "from utils import update_nsplit; update_nsplit('$year')"
+    yaml_file="datasets_configs_systematics.yaml"
+else
+    yaml_file="datasets_configs.yaml"
+fi
+
 
 
 # Cambiar al directorio donde está el archivo
@@ -93,7 +105,7 @@ while IFS= read -r nombre_archivo && IFS= read -r divisiones; do
     mapa["$nombre_archivo"]=$divisiones
 
 
-done < datasets_configs.yaml 
+done < "$yaml_file"
 
 
 # Identificar unicamente los dataset de data adecuados

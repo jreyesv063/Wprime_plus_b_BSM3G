@@ -163,10 +163,10 @@ def update_nsplit(year: str) -> None:
     yaml_path = Path("wprime_plus_b/configs/dataset/datasets_configs_systematics.yaml")
     if not yaml_path.exists():
         raise FileNotFoundError(f"The YAML file {yaml_path} does not exist.")
-    
+
     with open(yaml_path, "r") as yaml_file:
         yaml_data = yaml.safe_load(yaml_file)
-
+   
     # Update the `nsplit` value in the YAML
     for dataset, config in yaml_data.items():
         if dataset in json_data:

@@ -42,22 +42,22 @@ channel=""        # wjets -> {1j1l, 1l0b}; wplusjets -> {wjets, cr_b, cr_c, cr_d
 
 
 lepton_flavor="tau"
-year="2018" # 2016APV; 2016; 2017; 2018
+year="2016" # 2016APV; 2016; 2017; 2018
 nfiles="-1"
 executor="futures"
 output_type="array" # hist/array
 nsample="" # Importante: Dejar nsample="" si no se quiere un nsample especifico, en caso de querer uno especifico nsample="3"
 output_folder="2017_top_tagger"
-run_systematics="false" # Cambiar a "true" para activar sistemáticos
+run_systematics="true" # Cambiar a "true" para activar sistemáticos
 
 
 samples=(
-     "TTToSemiLeptonic"
+    "TTToSemiLeptonic"
      "TTTo2L2Nu"
      "TTToHadronic"
     "DYJetsToLL_nlo_M-10to50"
      "DYJetsToLL_nlo_M-50"
-# # # #    "SingleMuon"
+# # #    "SingleMuon"
      "MET"
 # # # # # # # # # # # # # # # # # # # #   "Tau"
 # # # # # # # # # # # # # # # # # # # # #   "SingleElectron"
@@ -72,13 +72,13 @@ samples=(
     "WJetsToLNu_inclusive"
     "WJetsToLNu_HT-400To600"
     "WJetsToLNu_HT-600To800"
-    "WJetsToLNu_ext"
+#    "WJetsToLNu_ext"
     "WJetsToLNu_HT-800To1200"
     "WJetsToLNu_HT-1200To2500"
     "WJetsToLNu_HT-2500ToInf"
     "WW"
     "WZ"
-   "ZZ"
+    "ZZ"
     "QCD_HT50to100"
     "QCD_HT100to200"
     "QCD_HT200to300"
@@ -125,8 +125,8 @@ elif [ $processor == "top_tagger" ] || [ $processor == "signal" ] || [ $processo
 fi
 
 
+sleep 300
 
-#./run_v1.sh
 
 echo "########################################################################################################################"
 echo "###  The jobs have been sent, don't forget to run lxplus_test.sh file once they finish to complete the missing ones  ###"

@@ -270,7 +270,7 @@ class TopTaggerProccessor(processor.ProcessorABC):
                     ],
                     variation=syst_var,
                 )
-                
+                """
                 # b-tagging corrector
                 btag_corrector = BTagCorrector(
                     jets=jets_veto,
@@ -385,7 +385,7 @@ class TopTaggerProccessor(processor.ProcessorABC):
                         working_point_wjet = top_tagger_wjet_selection[self.lepton_flavor]["WvsQCD"],
                         variation=syst_var
                 )
-
+                """
                 
                 if self.lepton_flavor == "tau":
                     # add met trigger SF
@@ -756,6 +756,123 @@ class TopTaggerProccessor(processor.ProcessorABC):
                     wjets_jes_down = events.FatJet[good_wjets_jes_down] 
                     wjets_jer_up = events.FatJet[good_wjets_jer_up]
                     wjets_jer_down = events.FatJet[good_wjets_jer_down]
+
+            # New weights:
+            if self.is_mc:
+                # b-tagging corrector
+                btag_corrector = BTagCorrector(
+                    jets=bjets,
+                    weights=weights_container,
+                    sf_type="comb",
+                    worging_point=top_tagger_bjet_selection[self.lepton_flavor][
+                        "btag_working_point"
+                    ],
+                    tagger="deepJet",
+                    year=self.year,
+                    full_run=False,
+                    variation=syst_var,
+                )
+
+                # add b-tagging weights
+                btag_corrector.add_btag_weights(flavor="b")
+                btag_corrector.add_btag_weights(flavor="c")
+                btag_corrector.add_btag_weights(flavor="light")
+
+                # electron corrector
+                electron_corrector = ElectronCorrector(
+                    electrons=electrons,
+                    weights=weights_container,
+                    year=self.year,
+                )
+
+                # add electron ID weights
+                electron_corrector.add_id_weight(
+                    id_working_point=top_tagger_electron_selection[
+                        self.lepton_flavor
+                    ]["electron_id_wp"]
+                )
+
+                # add electron reco weights
+                electron_corrector.add_reco_weight("Above")
+                electron_corrector.add_reco_weight("Below")
+
+                # add trigger weights
+                if self.lepton_flavor == "ele":
+                    pass
+                
+                # muon corrector
+                if (
+                    top_tagger_muon_selection[self.lepton_flavor]["muon_id_wp"]
+                    == "highpt"
+                ):
+                    mu_corrector = MuonHighPtCorrector
+                else:
+                    mu_corrector = MuonCorrector
+                muon_corrector = mu_corrector(
+                    muons=muons,
+                    weights=weights_container,
+                    year=self.year,
+                    variation=syst_var,
+                    id_wp=top_tagger_muon_selection[self.lepton_flavor][
+                        "muon_id_wp"
+                    ],
+                    iso_wp=top_tagger_muon_selection[self.lepton_flavor][
+                        "muon_iso_wp"
+                    ],
+                )
+
+                # add muon RECO weights
+                muon_corrector.add_reco_weight()
+                # add muon ID weights
+                muon_corrector.add_id_weight()
+                # add muon iso weights
+                muon_corrector.add_iso_weight()
+
+                # add trigger weights
+                if self.lepton_flavor == "mu":
+                    muon_corrector.add_triggeriso_weight(
+                        trigger_mask=trigger_mask,
+                        trigger_match_mask=trigger_match_mask,
+                    )
+                
+                # add tau weights
+                tau_corrector = TauCorrector(
+                    taus=taus,
+                    weights=weights_container,
+                    year=self.year,
+                    tau_vs_jet=top_tagger_tau_selection[self.lepton_flavor][
+                        "tau_vs_jet"
+                    ],
+                    tau_vs_ele=top_tagger_tau_selection[self.lepton_flavor][
+                        "tau_vs_ele"
+                    ],
+                    tau_vs_mu=top_tagger_tau_selection[self.lepton_flavor][
+                        "tau_vs_mu"
+                    ],
+                    variation=syst_var,
+                )
+                tau_corrector.add_id_weight_DeepTau2017v2p1VSe()
+                tau_corrector.add_id_weight_DeepTau2017v2p1VSmu()
+                tau_corrector.add_id_weight_DeepTau2017v2p1VSjet()
+
+
+                add_QCD_vs_Top_weight(
+                        fatjets = fatjets,
+                        weights = weights_container,
+                        year=self.year,
+                        year_mod="",
+                        working_point_fatjet = top_tagger_fatjet_selection[self.lepton_flavor]["TvsQCD"],
+                        variation=syst_var
+                )
+
+                add_QCD_vs_W_weight(
+                        wjets = wjets,
+                        weights = weights_container,
+                        year=self.year,
+                        year_mod="",
+                        working_point_wjet = top_tagger_wjet_selection[self.lepton_flavor]["WvsQCD"],
+                        variation=syst_var
+                )
 
             # -------------------------
             # p_T^{miss} correction

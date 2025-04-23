@@ -19,22 +19,19 @@ SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 # Configuración de opciones
 considerar_SingleElectron=false 
 considerar_Tau=false 
-considerar_higgs=false
+considerar_higgs=true
 
-considerar_MET=false
+considerar_MET=true
 considerar_SingleMuon=false
 
 
-considerar_inclusive_wj=false
+considerar_inclusive_wj=true
 considerar_inclusive_ext_wj=false
-considerar_inclusive_dy_nlo=false
-considerar_tt=false
-considerar_st=false
+considerar_inclusive_dy_nlo=true
+considerar_tt=true
+considerar_st=true
 considerar_vv=true
-considerar_qcd=false
-
-
-
+considerar_qcd=true
 
 
 considerar_signal_tau=false
@@ -80,12 +77,12 @@ run_systematics=$(grep -o 'run_systematics=".*"' "$archivo_run" | cut -d'"' -f2)
 # Seleccionar el archivo YAML y actualizarlo solo si run_systematics es true
 if [ "$run_systematics" == "true" ]; then
     # Llamar a la función Python solo si se corren sistemáticos
+    echo "Updating nsplit for year $year"
     python3 -c "from utils import update_nsplit; update_nsplit('$year')"
     yaml_file="datasets_configs_systematics.yaml"
 else
     yaml_file="datasets_configs.yaml"
 fi
-
 
 
 # Cambiar al directorio donde está el archivo
@@ -304,10 +301,10 @@ for archivo_faltante in "${archivos_faltantes[@]}"; do
 
     if [ "$processor" == "ttbar" ] || [ "$processor" == "wjets" ] || [ "$processor" == "ztoll" ] || [ "$processor" == "qcd_abcd" ] || [ $processor == "wplusjets" ]; then
         # Construir el comando python
-        comando="python3 submit_lxplus.py --processor \"$processor\" --channel \"$channel\" --lepton_flavor \"$lepton_flavor\" --sample $nombre_base --year \"$year\" --nfiles \"$nfiles\" --executor \"$executor\" --output_type \"$output_type\" --nsample $nsample"
+        comando="python3 submit_lxplus.py --processor $processor --channel $channel --lepton_flavor $lepton_flavor --sample $nombre_base --year $year --nfiles $nfiles --executor $executor --output_type $output_type --nsample $nsample --run_systematics $run_systematics"
 
     elif [ "$processor" == "top_tagger" ] || [ "$processor" == "signal" ] || [ "$processor" == "qcd_hadronic" ]; then
-        comando="python3 submit_lxplus.py --processor \"$processor\" --lepton_flavor \"$lepton_flavor\" --sample $nombre_base --year \"$year\" --nfiles \"$nfiles\" --executor \"$executor\" --output_type \"$output_type\" --nsample $nsample"
+        comando="python3 submit_lxplus.py --processor $processor --lepton_flavor $lepton_flavor --sample $nombre_base --year $year --nfiles $nfiles --executor $executor --output_type $output_type --nsample $nsample --run_systematics $run_systematics"
     fi
     
 

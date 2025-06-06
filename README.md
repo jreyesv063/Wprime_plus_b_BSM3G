@@ -1,3 +1,5 @@
+# This work is based on the developments from: https://github.com/deoache/wprime_plus_b/tree/susy
+
 # W' + b
 
 [![Codestyle](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)

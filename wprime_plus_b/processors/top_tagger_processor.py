@@ -230,12 +230,6 @@ class TopTaggerProccessor(processor.ProcessorABC):
                     variation=syst_var,
                 )
                 
-                # add met trigger weights
-                if self.lepton_flavor == "tau":
-                    # add met trigger SF
-                    add_met_trigger_corrections(trigger_mask, dataset, events.MET, weights_container, self.year, "", syst_var)                    
-                
-                    
                     
             # -------------------------------------------------------------
             # object selection
@@ -612,7 +606,6 @@ class TopTaggerProccessor(processor.ProcessorABC):
             # ------------------------------------------------
             # trigger match: Only to Muons and Electrons
             # ------------------------------------------------
-
             trigger_mask = np.zeros(nevents, dtype="bool")
             # get DeltaR matched trigger objects mask
             trigger_leptons = {
@@ -963,11 +956,15 @@ class TopTaggerProccessor(processor.ProcessorABC):
             ]
             
             mask_reference_trigger = np.zeros(len(events), dtype="bool")
+
             
             for trigger_reference in reference_triggers:
                 if trigger_reference in events.HLT.fields:
                     print(f"Reference trigger: {trigger_reference}")
                     mask_reference_trigger = mask_reference_trigger | events.HLT[trigger_reference]
+
+            # add met trigger SF
+            add_met_trigger_corrections(mask_reference_trigger, dataset, events.MET, weights_container, self.year, "", syst_var)  
 
             self.selections.add(f"trigger_{reference_trigger}", mask_reference_trigger)
             

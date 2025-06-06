@@ -64,6 +64,7 @@ class WjetsProccessor(processor.ProcessorABC):
         year: str = "2017",
         syst: str = "nominal",
         output_type: str = "hist",
+        run_systematics: str = "false",
     ):
         self.year = year
         self.lepton_flavor = lepton_flavor
@@ -250,16 +251,6 @@ class WjetsProccessor(processor.ProcessorABC):
                 add_l1prefiring_weight(events, weights_container, self.year, syst_var)
                 # add pileup weigths
                 add_pileup_weight(events, weights_container, self.year, syst_var)
-                
-                """
-                # ISR weights
-                ISR_weight(
-                    events=events, 
-                    dataset=dataset, 
-                    weights=weights_container, 
-                    year=self.year, 
-                    variation=syst_var)
-                """
                 
                 # add pujetid weigths               
                 add_pujetid_weight(

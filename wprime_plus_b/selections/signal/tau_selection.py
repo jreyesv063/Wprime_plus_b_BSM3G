@@ -15,6 +15,7 @@ def select_good_taus(
     tau_vs_ele: str,
     tau_vs_mu: str,
     prong: int,
+    is_mc: bool,
 ) -> ak.highlevel.Array:
     """
     Selects and filters "good" taus from a collection of events based on specified criteria.
@@ -49,23 +50,63 @@ def select_good_taus(
     decay_mode_mask = ak.zeros_like(tau_dm)
     for mode in prong_to_modes[prong]:
         decay_mode_mask = np.logical_or(decay_mode_mask, tau_dm == mode)
-        
-    good_taus = (
-        (events.Tau.pt > tau_pt_threshold)
-        & (np.abs(events.Tau.eta) < tau_eta_threshold)
-        & (np.abs(events.Tau.dz) < tau_dz_threshold)
-        & (
-            events.Tau.idDeepTau2017v2p1VSjet
-            > taus_wps["DeepTau2017"]["deep_tau_jet"][tau_vs_jet]
+
+    # Dictionary to store masks for each variation
+    good_taus_masks = {}
+
+    if is_mc:
+        # Variations to consider
+        pt_variations = {
+            "nominal": events.Tau.pt,
+            "up": events.Tau.pt_up,
+            "down": events.Tau.pt_down,
+        }
+
+
+        for variation, tau_pt in pt_variations.items():
+            good_taus = (
+                (tau_pt > tau_pt_threshold)
+                & (np.abs(events.Tau.eta) < tau_eta_threshold)
+                & (np.abs(events.Tau.dz) < tau_dz_threshold)
+                & (
+                    events.Tau.idDeepTau2017v2p1VSjet
+                    > taus_wps["DeepTau2017"]["deep_tau_jet"][tau_vs_jet]
+                )
+                & (
+                    events.Tau.idDeepTau2017v2p1VSe
+                    > taus_wps["DeepTau2017"]["deep_tau_electron"][tau_vs_ele]
+                )
+                & (
+                    events.Tau.idDeepTau2017v2p1VSmu
+                    > taus_wps["DeepTau2017"]["deep_tau_muon"][tau_vs_mu]
+                )
+                & (decay_mode_mask)
+            )
+            good_taus_masks[variation] = good_taus
+
+
+    
+    else:
+        # If not MC, use only nominal pt
+        good_taus = (
+            (events.Tau.pt > tau_pt_threshold)
+            & (np.abs(events.Tau.eta) < tau_eta_threshold)
+            & (np.abs(events.Tau.dz) < tau_dz_threshold)
+            & (
+                events.Tau.idDeepTau2017v2p1VSjet
+                > taus_wps["DeepTau2017"]["deep_tau_jet"][tau_vs_jet]
+            )
+            & (
+                events.Tau.idDeepTau2017v2p1VSe
+                > taus_wps["DeepTau2017"]["deep_tau_electron"][tau_vs_ele]
+            )
+            & (
+                events.Tau.idDeepTau2017v2p1VSmu
+                > taus_wps["DeepTau2017"]["deep_tau_muon"][tau_vs_mu]
+            )
+            & (decay_mode_mask)
         )
-        & (
-            events.Tau.idDeepTau2017v2p1VSe
-            > taus_wps["DeepTau2017"]["deep_tau_electron"][tau_vs_ele]
-        )
-        & (
-            events.Tau.idDeepTau2017v2p1VSmu
-            > taus_wps["DeepTau2017"]["deep_tau_muon"][tau_vs_mu]
-        )
-        & (decay_mode_mask)
-    )
-    return good_taus
+
+        good_taus_masks["nominal"] = good_taus
+
+    return good_taus_masks    

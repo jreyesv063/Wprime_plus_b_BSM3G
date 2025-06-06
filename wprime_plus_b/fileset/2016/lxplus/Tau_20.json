@@ -1,8 +1,8 @@
 {
     "Tau_20": [
-        "root://eospublic.cern.ch//eos/opendata/cms/Run2016H/Tau/NANOAOD/UL2016_MiniAODv2_NanoAODv9-v1/260000/9A0DFD37-AF27-7547-B2BA-D0F3C1F43D7B.root",
+        "root://maite.iihe.ac.be:1094//store/data/Run2016H/Tau/NANOAOD/UL2016_MiniAODv2_NanoAODv9-v1/260000/9A0DFD37-AF27-7547-B2BA-D0F3C1F43D7B.root",
         "root://cmsdcadisk.fnal.gov//dcache/uscmsdisk/store/data/Run2016H/Tau/NANOAOD/UL2016_MiniAODv2_NanoAODv9-v1/260000/9D265904-54D7-C24F-85AC-04C72F4D7EC9.root",
-        "root://cmsdcadisk.fnal.gov//dcache/uscmsdisk/store/data/Run2016H/Tau/NANOAOD/UL2016_MiniAODv2_NanoAODv9-v1/260000/9F292AC6-4BE1-274D-A75F-40632103C78A.root",
-        "root://cmsdcadisk.fnal.gov//dcache/uscmsdisk/store/data/Run2016H/Tau/NANOAOD/UL2016_MiniAODv2_NanoAODv9-v1/260000/9F724B7B-0965-274D-8076-881045C01A52.root"
+        "root://ccxrdcms.in2p3.fr:1094//store/data/Run2016H/Tau/NANOAOD/UL2016_MiniAODv2_NanoAODv9-v1/260000/9F292AC6-4BE1-274D-A75F-40632103C78A.root",
+        "root://maite.iihe.ac.be:1094//store/data/Run2016H/Tau/NANOAOD/UL2016_MiniAODv2_NanoAODv9-v1/260000/9F724B7B-0965-274D-8076-881045C01A52.root"
     ]
 }

@@ -1,11 +1,11 @@
 {
     "Tau_9": [
-        "root://grid-cms-xrootd.physik.rwth-aachen.de:1094//store/data/Run2016C/Tau/NANOAOD/HIPM_UL2016_MiniAODv2_NanoAODv9-v2/2430000/C466EE72-E000-BD4C-AB24-17595A3077F6.root",
-        "root://cms.sscc.uos.ac.kr:1094//store/data/Run2016C/Tau/NANOAOD/HIPM_UL2016_MiniAODv2_NanoAODv9-v2/2430000/D3F2B490-06CB-5B48-A1B9-FB9B71119BDD.root",
-        "root://grid-cms-xrootd.physik.rwth-aachen.de:1094//store/data/Run2016C/Tau/NANOAOD/HIPM_UL2016_MiniAODv2_NanoAODv9-v2/2430000/DB68155A-3290-CD4F-BE46-30B9C0438B98.root",
-        "root://cmsdcadisk.fnal.gov//dcache/uscmsdisk/store/data/Run2016C/Tau/NANOAOD/HIPM_UL2016_MiniAODv2_NanoAODv9-v2/2430000/DEA3ADD9-3FF4-5746-A988-A14F169B0FA4.root",
+        "root://maite.iihe.ac.be:1094//store/data/Run2016C/Tau/NANOAOD/HIPM_UL2016_MiniAODv2_NanoAODv9-v2/2430000/C466EE72-E000-BD4C-AB24-17595A3077F6.root",
+        "root://grid-cms-xrootd.physik.rwth-aachen.de:1094//store/data/Run2016C/Tau/NANOAOD/HIPM_UL2016_MiniAODv2_NanoAODv9-v2/2430000/D3F2B490-06CB-5B48-A1B9-FB9B71119BDD.root",
+        "root://cmsdcadisk.fnal.gov//dcache/uscmsdisk/store/data/Run2016C/Tau/NANOAOD/HIPM_UL2016_MiniAODv2_NanoAODv9-v2/2430000/DB68155A-3290-CD4F-BE46-30B9C0438B98.root",
+        "root://maite.iihe.ac.be:1094//store/data/Run2016C/Tau/NANOAOD/HIPM_UL2016_MiniAODv2_NanoAODv9-v2/2430000/DEA3ADD9-3FF4-5746-A988-A14F169B0FA4.root",
         "root://eoscms.cern.ch//eos/cms/store/data/Run2016C/Tau/NANOAOD/HIPM_UL2016_MiniAODv2_NanoAODv9-v2/2430000/EFB28DFD-27D9-C244-AEF3-3DCF891DCE3C.root",
-        "root://xrootd-local.unl.edu:1094//store/data/Run2016D/Tau/NANOAOD/HIPM_UL2016_MiniAODv2_NanoAODv9-v2/50000/0389FA63-04DA-A54E-B2DA-589FDC1A3F29.root",
+        "root://dcache-cms-xrootd.desy.de:1094//store/data/Run2016D/Tau/NANOAOD/HIPM_UL2016_MiniAODv2_NanoAODv9-v2/50000/0389FA63-04DA-A54E-B2DA-589FDC1A3F29.root",
         "root://dcache-cms-xrootd.desy.de:1094//store/data/Run2016D/Tau/NANOAOD/HIPM_UL2016_MiniAODv2_NanoAODv9-v2/50000/14EF31D8-0E60-C44F-AB85-E56961052187.root"
     ]
 }

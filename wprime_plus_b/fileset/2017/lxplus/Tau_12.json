@@ -1,11 +1,11 @@
 {
     "Tau_12": [
-        "root://sbgdcache.in2p3.fr//store/data/Run2017D/Tau/NANOAOD/UL2017_MiniAODv2_NanoAODv9-v1/70000/AA827AAB-67A3-DB40-9448-9C1FDA2BF3C0.root",
-        "root://grid-cms-xrootd.physik.rwth-aachen.de:1094//store/data/Run2017D/Tau/NANOAOD/UL2017_MiniAODv2_NanoAODv9-v1/70000/D0B0EE3B-5BB8-1F4B-A74A-AC0231530E5F.root",
-        "root://cmsdcadisk.fnal.gov//dcache/uscmsdisk/store/data/Run2017D/Tau/NANOAOD/UL2017_MiniAODv2_NanoAODv9-v1/70000/FACA94B3-3E33-A84A-8BF2-C4AD727FCD1D.root",
+        "root://grid-cms-xrootd.physik.rwth-aachen.de:1094//store/data/Run2017D/Tau/NANOAOD/UL2017_MiniAODv2_NanoAODv9-v1/70000/AA827AAB-67A3-DB40-9448-9C1FDA2BF3C0.root",
+        "root://sbgdcache.in2p3.fr//store/data/Run2017D/Tau/NANOAOD/UL2017_MiniAODv2_NanoAODv9-v1/70000/D0B0EE3B-5BB8-1F4B-A74A-AC0231530E5F.root",
+        "root://sbgdcache.in2p3.fr//store/data/Run2017D/Tau/NANOAOD/UL2017_MiniAODv2_NanoAODv9-v1/70000/FACA94B3-3E33-A84A-8BF2-C4AD727FCD1D.root",
         "root://grid-cms-xrootd.physik.rwth-aachen.de:1094//store/data/Run2017E/Tau/NANOAOD/UL2017_MiniAODv2_NanoAODv9-v2/80000/065A8FD9-6D9F-3D42-97DB-0A9187C9E3F6.root",
-        "root://grid-cms-xrootd.physik.rwth-aachen.de:1094//store/data/Run2017E/Tau/NANOAOD/UL2017_MiniAODv2_NanoAODv9-v2/80000/18ECDA6E-DE33-FC48-AECF-DB3FC2015396.root",
-        "root://cmsdcadisk.fnal.gov//dcache/uscmsdisk/store/data/Run2017E/Tau/NANOAOD/UL2017_MiniAODv2_NanoAODv9-v2/80000/195BC666-647F-A142-84B9-FE1D09E9BEA8.root",
-        "root://eoscms.cern.ch//eos/cms/store/data/Run2017E/Tau/NANOAOD/UL2017_MiniAODv2_NanoAODv9-v2/80000/2DABA0AC-0C8A-FB41-9F95-B4231BA0E88A.root"
+        "root://maite.iihe.ac.be:1094//store/data/Run2017E/Tau/NANOAOD/UL2017_MiniAODv2_NanoAODv9-v2/80000/18ECDA6E-DE33-FC48-AECF-DB3FC2015396.root",
+        "root://xrootd-local.unl.edu:1094//store/data/Run2017E/Tau/NANOAOD/UL2017_MiniAODv2_NanoAODv9-v2/80000/195BC666-647F-A142-84B9-FE1D09E9BEA8.root",
+        "root://xrootd-local.unl.edu:1094//store/data/Run2017E/Tau/NANOAOD/UL2017_MiniAODv2_NanoAODv9-v2/80000/2DABA0AC-0C8A-FB41-9F95-B4231BA0E88A.root"
     ]
 }

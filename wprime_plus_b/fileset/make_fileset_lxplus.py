@@ -22,11 +22,11 @@ SITES = {
        "T2_US_Purdue",
         "T2_US_Nebraska",
         "T2_DE_DESY",
-        "T2_TW_NCHC",   
+    #    "T2_TW_NCHC",   
         "T2_CH_CERN",
         "T2_DE_RWTH",
         "T2_UK_London_IC",
-        "T2_BR_UERJ",
+    #    "T2_BR_UERJ",
         "T2_FR_IPHC",
     #   "T2_US_MIT",
     #   "T2_IN_TIFR",
@@ -57,7 +57,7 @@ SITES = {
         "T2_CH_CERN",
         "T2_DE_RWTH",
         "T2_UK_London_IC",
-        "T2_US_MIT",
+  #      "T2_US_MIT",
         "T2_BR_UERJ",
         "T2_FR_IPHC",
   #      "T2_IN_TIFR",
@@ -84,7 +84,7 @@ SITES = {
        "T2_BE_IIHE",  # ****************
        "T2_HU_Budapest",
        "T2_US_Vanderbilt",   #**
-       "T2_ES_CIEMAT", 
+#       "T2_ES_CIEMAT", 
        "T2_UK_London_IC", #este
        "T2_US_Nebraska",  # este
 #       "T2_EE_Estonia", # 23/10/2024

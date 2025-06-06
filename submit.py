@@ -19,6 +19,8 @@ from wprime_plus_b.processors.top_tagger_processor import TopTaggerProccessor
 from wprime_plus_b.processors.wjets_processor import WjetsProccessor
 from wprime_plus_b.processors.QCD_ABCD_processor import QCD_ABCD_Proccessor
 from wprime_plus_b.processors.signal_processor import SignalProccessor
+from wprime_plus_b.processors.wplusjets_processor import WplusJetsProcessor
+from wprime_plus_b.processors.qcd_processor import QCDProccessor
 from wprime_plus_b.processors.ztoll_processor import ZToLLProcessor
 from wprime_plus_b.processors.btag_efficiency_processor import BTagEfficiencyProcessor
 from wprime_plus_b.selections.ttbar.electron_config import ttbar_electron_config
@@ -57,7 +59,17 @@ from wprime_plus_b.selections.signal.muon_config import signal_muon_selection
 from wprime_plus_b.selections.signal.tau_config import signal_tau_selection
 from wprime_plus_b.selections.signal.wjet_config import signal_wjet_selection
 
-
+# QCD configs (hadronic channel)
+from wprime_plus_b.selections.qcd_hadronic.bjet_config import qcd_hadronic_bjet_selection
+from wprime_plus_b.selections.qcd_hadronic.cases_top_tagger_config import qcd_hadronic_cases_selection
+from wprime_plus_b.selections.qcd_hadronic.electron_config import qcd_hadronic_electron_selection
+from wprime_plus_b.selections.qcd_hadronic.fatjet_config import qcd_hadronic_fatjet_selection
+from wprime_plus_b.selections.qcd_hadronic.general_config import qcd_hadronic_cross_cleaning_selection, qcd_hadronic_trigger_selection
+from wprime_plus_b.selections.qcd_hadronic.jet_config import qcd_hadronic_jet_selection
+from wprime_plus_b.selections.qcd_hadronic.met_config import qcd_hadronic_met_selection
+from wprime_plus_b.selections.qcd_hadronic.muon_config import qcd_hadronic_muon_selection
+from wprime_plus_b.selections.qcd_hadronic.tau_config import qcd_hadronic_tau_selection
+from wprime_plus_b.selections.qcd_hadronic.wjet_config import qcd_hadronic_wjet_selection
 
 # WJets configs
 from wprime_plus_b.selections.wjets.bjet_config import wjet_bjet_selection
@@ -81,6 +93,18 @@ from wprime_plus_b.selections.QCD_ABCD.tau_config import QCD_ABCD_tau_selection
 from wprime_plus_b.selections.QCD_ABCD.dilepton_config import QCD_ABCD_dilepton_selection
 from wprime_plus_b.selections.QCD_ABCD.ditau_config import QCD_ABCD_ditau_selection
 
+# WplusJets configs
+from wprime_plus_b.selections.wplusjets.bjet_config import wjets_bjet_selection
+from wprime_plus_b.selections.wplusjets.cases_top_tagger_config import wjets_cases_selection
+from wprime_plus_b.selections.wplusjets.electron_config import wjets_electron_selection
+from wprime_plus_b.selections.wplusjets.fatjet_config import wjets_fatjet_selection
+from wprime_plus_b.selections.wplusjets.general_config import wjets_cross_cleaning_selection, wjets_trigger_selection
+from wprime_plus_b.selections.wplusjets.jet_config import wjets_jet_selection
+from wprime_plus_b.selections.wplusjets.met_config import wjets_met_selection
+from wprime_plus_b.selections.wplusjets.muon_config import wjets_muon_selection
+from wprime_plus_b.selections.wplusjets.tau_config import wjets_tau_selection
+from wprime_plus_b.selections.wplusjets.wjet_config import wjets_wjet_selection
+from wprime_plus_b.selections.wplusjets.mt_config import wjets_mt_selection 
 
 # Ztoll configs
 from wprime_plus_b.selections.ztoll.bjet_config import ztoll_bjet_selection
@@ -108,6 +132,8 @@ def main(args):
         "signal": SignalProccessor,
         "wjets": WjetsProccessor,
         "qcd_abcd": QCD_ABCD_Proccessor,
+        "qcd_hadronic": QCDProccessor,
+        "wplusjets": WplusJetsProcessor,
     }
     processor_args = [
         "year",
@@ -162,7 +188,7 @@ def main(args):
 
 
         if sample.startswith("SignalTau"):
-             fileset[sample] = [f"root://xrootd-vanderbilt.sites.opensciencegrid.org:1094/" + file for file in root_file]       
+            fileset[sample] = [file for file in root_file]
         elif sample.startswith("SignalMuon") or sample.startswith("SignalElectron"):
             fileset[sample] = [f"root://eoscms.cern.ch//eos/cms/" + file for file in root_file]
         elif args["facility"] == "coffea-casa":
@@ -172,6 +198,7 @@ def main(args):
 
         # run processor
         t0 = time.monotonic()
+        print(processor_kwargs)
         out = processor.run_uproot_job(
             fileset,
             treename="Events",
@@ -221,7 +248,7 @@ def main(args):
                             output_metadata[r]["weighted_final_nevents"]
                         )
             # save top_tagger metadata
-            if args["processor"] in ["top_tagger", "signal"]:
+            if args["processor"] in ["top_tagger", "signal", "qcd_hadronic"]:
                 # Define las claves comunes y los sufijos correspondientes
                 all_keys = [
                     "one_jet_unresolve", "two_jets_unresolve", "two_jets_partially_resolve", 
@@ -264,7 +291,7 @@ def main(args):
                 })            
                         
             # save metadata
-            if args["processor"] in ["ttbar", "ztoll", "top_tagger", "signal", "wjets", "qcd_abcd"]:
+            if args["processor"] in ["ttbar", "ztoll", "top_tagger", "signal", "wjets", "qcd_abcd", "qcd_hadronic", "wplusjets"]:
              
                 # save raw and weighted number of events after selection
                 if "raw_final_nevents" in output_metadata:
@@ -420,7 +447,92 @@ def main(args):
                 }
                 metadata.update({"selections": selections})
 
+            # save top tagger selectios in qcd CR (hadronic channel)
+            elif args["processor"] in ["qcd_hadronic"]:  
+                selections = {
+                    "electron_selection": qcd_hadronic_electron_selection[args["channel"]][
+                        args["lepton_flavor"]
+                        ],
+                    "muon_selection": qcd_hadronic_muon_selection[args["channel"]][
+                        args["lepton_flavor"]
+                        ],
+                    "tau_selection": qcd_hadronic_tau_selection[args["channel"]][
+                        args["lepton_flavor"]
+                        ],
+                    "bjet_selection": qcd_hadronic_bjet_selection[args["channel"]][
+                        args["lepton_flavor"]
+                        ],
+                    "jet_selection": qcd_hadronic_jet_selection[args["channel"]][
+                        args["lepton_flavor"]
+                        ],
+                    "fatjet_selection": qcd_hadronic_fatjet_selection[args["channel"]][
+                        args["lepton_flavor"]
+                        ],
+                    "wjet_selection": qcd_hadronic_wjet_selection[args["channel"]][
+                        args["lepton_flavor"]
+                        ],
+                    "cross_cleaning_selection": qcd_hadronic_cross_cleaning_selection[args["channel"]][
+                        args["lepton_flavor"]
+                        ],
+                    "trigger_selection": qcd_hadronic_trigger_selection[args["channel"]][
+                        args["lepton_flavor"]
+                        ],
+                    "met_selection": qcd_hadronic_met_selection[args["channel"]][
+                        args["lepton_flavor"]
+                        ],
+                    "trigger_selection": qcd_hadronic_trigger_selection[args["channel"]][
+                        args["lepton_flavor"]
+                        ],
+                    "top_tagger_cases": qcd_hadronic_cases_selection[args["channel"]][
+                        args["lepton_flavor"]
+                        ],
+                }
+                metadata.update({"selections": selections})
 
+            # save wplusjets selectios to metadata
+            elif args["processor"] in ["wplusjets"]:
+                selections = {
+                    "electron_selection": wjets_electron_selection[args["channel"]][
+                        args["lepton_flavor"]
+                    ],
+                    "muon_selection": wjets_muon_selection[args["channel"]][
+                        args["lepton_flavor"]
+                    ],
+                    "tau_selection": wjets_tau_selection[args["channel"]][
+                        args["lepton_flavor"]
+                    ],
+                    "bjet_selection": wjets_bjet_selection[args["channel"]][
+                        args["lepton_flavor"]
+                    ],
+                    "jet_selection": wjets_jet_selection[args["channel"]][
+                        args["lepton_flavor"]
+                    ],
+                    "fatjet_selection": wjets_fatjet_selection[args["channel"]][
+                        args["lepton_flavor"]
+                    ],
+                    "wjet_selection": wjets_wjet_selection[args["channel"]][
+                        args["lepton_flavor"]
+                    ],
+                    "cross_cleaning_selection": wjets_cross_cleaning_selection[args["channel"]][
+                        args["lepton_flavor"]
+                    ],
+                    "trigger_selection": wjets_trigger_selection[args["channel"]][
+                        args["lepton_flavor"]
+                    ],
+                    "met_selection": wjets_met_selection[args["channel"]][
+                        args["lepton_flavor"]
+                    ],
+                    "mt_selection": wjets_mt_selection[args["channel"]][
+                        args["lepton_flavor"]
+                    ],
+                    "trigger_selection": wjets_trigger_selection[args["channel"]][
+                        args["lepton_flavor"]
+                    ],
+                    "top_tagger_cases": wjets_cases_selection[args["channel"]][
+                        args["lepton_flavor"]
+                    ],
+                }
+                metadata.update({"selections": selections})
             # save wjets selectios to metadata
             elif args["processor"] in ["wjets"]:  
              
@@ -543,7 +655,7 @@ def main(args):
                 triggers = json.load(handle)[args["year"] ] 
 
 
-        if args["processor"] in ["top_tagger", "signal", "wjets", "qcd_abcd"]:
+        if args["processor"] in ["top_tagger", "signal", "wjets", "qcd_abcd", "qcd_hadronic"]:
          
             if args["lepton_flavor"] in ["tau"]:
                 trigger_option =  top_tagger_trigger_selection[args["lepton_flavor"]]["trigger"]
@@ -571,7 +683,7 @@ if __name__ == "__main__":
         dest="processor",
         type=str,
         default="",
-        help="processor to be used {ttbar, ztoll, qcd, trigger_eff, btag_eff, signal, wjets, qcd_abcd} (default ttbar)",
+        help="processor to be used {ttbar, ztoll, qcd, trigger_eff, btag_eff, signal, wjets, qcd_abcd, qcd_hadronic} (default ttbar)",
     )
     parser.add_argument(
         "--channel",

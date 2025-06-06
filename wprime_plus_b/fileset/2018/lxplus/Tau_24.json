@@ -1,12 +1,12 @@
 {
     "Tau_24": [
         "root://cmsdcadisk.fnal.gov//dcache/uscmsdisk/store/data/Run2018D/Tau/NANOAOD/UL2018_MiniAODv2_NanoAODv9-v2/2500000/CAA6C05C-AED4-D648-9581-8DA7CCB7E182.root",
-        "root://maite.iihe.ac.be:1094//store/data/Run2018D/Tau/NANOAOD/UL2018_MiniAODv2_NanoAODv9-v2/2500000/CB318632-CD23-2F46-97E6-EA6FB54B3CF9.root",
-        "root://maite.iihe.ac.be:1094//store/data/Run2018D/Tau/NANOAOD/UL2018_MiniAODv2_NanoAODv9-v2/2500000/CB709D55-27E8-CB43-A00A-454DE12038F6.root",
-        "root://xrootd-local.unl.edu:1094//store/data/Run2018D/Tau/NANOAOD/UL2018_MiniAODv2_NanoAODv9-v2/2500000/CD79B936-C614-B944-BA90-43B39E14F199.root",
+        "root://grid143.kfki.hu:1094//store/data/Run2018D/Tau/NANOAOD/UL2018_MiniAODv2_NanoAODv9-v2/2500000/CB318632-CD23-2F46-97E6-EA6FB54B3CF9.root",
+        "root://grid143.kfki.hu:1094//store/data/Run2018D/Tau/NANOAOD/UL2018_MiniAODv2_NanoAODv9-v2/2500000/CB709D55-27E8-CB43-A00A-454DE12038F6.root",
+        "root://cmsdcadisk.fnal.gov//dcache/uscmsdisk/store/data/Run2018D/Tau/NANOAOD/UL2018_MiniAODv2_NanoAODv9-v2/2500000/CD79B936-C614-B944-BA90-43B39E14F199.root",
         "root://grid143.kfki.hu:1094//store/data/Run2018D/Tau/NANOAOD/UL2018_MiniAODv2_NanoAODv9-v2/2500000/CDD7CB80-1B69-8E4C-8E5C-AD1D7647C8F0.root",
-        "root://maite.iihe.ac.be:1094//store/data/Run2018D/Tau/NANOAOD/UL2018_MiniAODv2_NanoAODv9-v2/2500000/D5259BDA-8E25-F34A-BA0E-541837DC078F.root",
-        "root://maite.iihe.ac.be:1094//store/data/Run2018D/Tau/NANOAOD/UL2018_MiniAODv2_NanoAODv9-v2/2500000/D82C055B-0DCC-E74D-B988-B43588D3ED01.root",
+        "root://cmsxrootd.hep.wisc.edu:1094//store/data/Run2018D/Tau/NANOAOD/UL2018_MiniAODv2_NanoAODv9-v2/2500000/D5259BDA-8E25-F34A-BA0E-541837DC078F.root",
+        "root://grid143.kfki.hu:1094//store/data/Run2018D/Tau/NANOAOD/UL2018_MiniAODv2_NanoAODv9-v2/2500000/D82C055B-0DCC-E74D-B988-B43588D3ED01.root",
         "root://grid143.kfki.hu:1094//store/data/Run2018D/Tau/NANOAOD/UL2018_MiniAODv2_NanoAODv9-v2/2500000/DA4C51CD-3500-AC4B-AA01-AA43E27EA0BB.root",
         "root://grid143.kfki.hu:1094//store/data/Run2018D/Tau/NANOAOD/UL2018_MiniAODv2_NanoAODv9-v2/2500000/DDA3230E-5606-FD48-9C93-4B3C6BB086A5.root",
         "root://cmsdcadisk.fnal.gov//dcache/uscmsdisk/store/data/Run2018D/Tau/NANOAOD/UL2018_MiniAODv2_NanoAODv9-v2/2500000/E01269C5-26B4-BB42-866C-AE2F748AEE70.root"

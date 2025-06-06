@@ -1,11 +1,11 @@
 {
     "Tau_4": [
-        "root://cms.sscc.uos.ac.kr:1094//store/data/Run2016B/Tau/NANOAOD/ver2_HIPM_UL2016_MiniAODv2_NanoAODv9-v2/50000/3414DCE6-0A10-CC4B-8E97-0223762CBEA5.root",
+        "root://xrootd-local.unl.edu:1094//store/data/Run2016B/Tau/NANOAOD/ver2_HIPM_UL2016_MiniAODv2_NanoAODv9-v2/50000/3414DCE6-0A10-CC4B-8E97-0223762CBEA5.root",
         "root://xrootd-local.unl.edu:1094//store/data/Run2016B/Tau/NANOAOD/ver2_HIPM_UL2016_MiniAODv2_NanoAODv9-v2/50000/3F632695-3D45-EC44-BF98-38E561FCB748.root",
-        "root://maite.iihe.ac.be:1094//store/data/Run2016B/Tau/NANOAOD/ver2_HIPM_UL2016_MiniAODv2_NanoAODv9-v2/50000/543916DA-DE46-844C-9400-BC63E8F514FF.root",
-        "root://maite.iihe.ac.be:1094//store/data/Run2016B/Tau/NANOAOD/ver2_HIPM_UL2016_MiniAODv2_NanoAODv9-v2/50000/581661A6-0911-B345-B371-28A4FA8C5891.root",
-        "root://cms.sscc.uos.ac.kr:1094//store/data/Run2016B/Tau/NANOAOD/ver2_HIPM_UL2016_MiniAODv2_NanoAODv9-v2/50000/6E366FD9-7018-8440-A6D3-FD9313E03587.root",
+        "root://grid-cms-xrootd.physik.rwth-aachen.de:1094//store/data/Run2016B/Tau/NANOAOD/ver2_HIPM_UL2016_MiniAODv2_NanoAODv9-v2/50000/543916DA-DE46-844C-9400-BC63E8F514FF.root",
+        "root://grid-cms-xrootd.physik.rwth-aachen.de:1094//store/data/Run2016B/Tau/NANOAOD/ver2_HIPM_UL2016_MiniAODv2_NanoAODv9-v2/50000/581661A6-0911-B345-B371-28A4FA8C5891.root",
+        "root://maite.iihe.ac.be:1094//store/data/Run2016B/Tau/NANOAOD/ver2_HIPM_UL2016_MiniAODv2_NanoAODv9-v2/50000/6E366FD9-7018-8440-A6D3-FD9313E03587.root",
         "root://maite.iihe.ac.be:1094//store/data/Run2016B/Tau/NANOAOD/ver2_HIPM_UL2016_MiniAODv2_NanoAODv9-v2/50000/6F9FA8E8-6690-B94B-84FF-DBD6218794A5.root",
-        "root://grid-cms-xrootd.physik.rwth-aachen.de:1094//store/data/Run2016B/Tau/NANOAOD/ver2_HIPM_UL2016_MiniAODv2_NanoAODv9-v2/50000/711D01CE-C582-4840-9BDE-D1F575746DDC.root"
+        "root://cms.sscc.uos.ac.kr:1094//store/data/Run2016B/Tau/NANOAOD/ver2_HIPM_UL2016_MiniAODv2_NanoAODv9-v2/50000/711D01CE-C582-4840-9BDE-D1F575746DDC.root"
     ]
 }

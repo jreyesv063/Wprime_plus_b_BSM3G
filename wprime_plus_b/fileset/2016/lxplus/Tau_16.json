@@ -1,8 +1,8 @@
 {
     "Tau_16": [
-        "root://ccxrdcms.in2p3.fr:1094//store/data/Run2016H/Tau/NANOAOD/UL2016_MiniAODv2_NanoAODv9-v1/260000/55887AE2-DDBA-EE41-B966-8EE3F1CE0249.root",
+        "root://grid-cms-xrootd.physik.rwth-aachen.de:1094//store/data/Run2016H/Tau/NANOAOD/UL2016_MiniAODv2_NanoAODv9-v1/260000/55887AE2-DDBA-EE41-B966-8EE3F1CE0249.root",
         "root://cmsdcadisk.fnal.gov//dcache/uscmsdisk/store/data/Run2016H/Tau/NANOAOD/UL2016_MiniAODv2_NanoAODv9-v1/260000/588BD28C-059F-8C42-9FB8-FD3274B16A4F.root",
-        "root://cmsdcadisk.fnal.gov//dcache/uscmsdisk/store/data/Run2016H/Tau/NANOAOD/UL2016_MiniAODv2_NanoAODv9-v1/260000/5A869822-6B0C-B14C-949A-2F295FE26EB2.root",
-        "root://ccxrdcms.in2p3.fr:1094//store/data/Run2016H/Tau/NANOAOD/UL2016_MiniAODv2_NanoAODv9-v1/260000/5F435EA9-D666-8948-836D-DDC3809EBF0D.root"
+        "root://maite.iihe.ac.be:1094//store/data/Run2016H/Tau/NANOAOD/UL2016_MiniAODv2_NanoAODv9-v1/260000/5A869822-6B0C-B14C-949A-2F295FE26EB2.root",
+        "root://sbgdcache.in2p3.fr//store/data/Run2016H/Tau/NANOAOD/UL2016_MiniAODv2_NanoAODv9-v1/260000/5F435EA9-D666-8948-836D-DDC3809EBF0D.root"
     ]
 }

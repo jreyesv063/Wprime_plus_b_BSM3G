@@ -37,30 +37,30 @@ EOF
 cd "$SCRIPT_DIR"
 
 # Declarar variables
-processor="top_tagger"     # ttbar ; ztoll: top_tagger; signal; wjets; qcd_abcd; qcd_hadronic
-channel=""        # wjets -> {1j1l, 1l0b}; wplusjets -> {wjets, cr_b, cr_c, cr_d}, ztoll-> {ll, ll+c, ll_ISR}; qcd_abcd -> {1l0b; 1l0b_A; 1l0b_B; 1l0b_C; 1l0b_D}; ttbar -> {2b1l, 1b1e1mu, 1b1l}
+processor="top_tagger"     # ttbar ; ztoll: top_tagger; signal; wjets; qcd_abcd; qcd_hadronic; wplusjets; wjets
+channel=""          # wjets -> {1j1l, 1l0b}; wplusjets -> {wjets, cr_b, cr_c, cr_d}, ztoll-> {ll, ll+c, ll_ISR}; qcd_abcd -> {1l0b; 1l0b_A; 1l0b_B; 1l0b_C; 1l0b_D}; ttbar -> {2b1l, 1b1e1mu, 1b1l}
 
 
-lepton_flavor="tau"
-year="2016" # 2016APV; 2016; 2017; 2018
+lepton_flavor="mu"
+year="2018" # 2016APV; 2016; 2017; 2018
 nfiles="-1"
 executor="futures"
 output_type="array" # hist/array
 nsample="" # Importante: Dejar nsample="" si no se quiere un nsample especifico, en caso de querer uno especifico nsample="3"
-output_folder="2017_top_tagger"
-run_systematics="true" # Cambiar a "true" para activar sistemáticos
+output_folder="test_folder_created"
+run_systematics="false" # Cambiar a "true" para activar sistemáticos
 
 
 samples=(
     "TTToSemiLeptonic"
-     "TTTo2L2Nu"
-     "TTToHadronic"
+    "TTTo2L2Nu"
+    "TTToHadronic"
     "DYJetsToLL_nlo_M-10to50"
-     "DYJetsToLL_nlo_M-50"
-# # #    "SingleMuon"
-     "MET"
-# # # # # # # # # # # # # # # # # # # #   "Tau"
-# # # # # # # # # # # # # # # # # # # # #   "SingleElectron"
+    "DYJetsToLL_nlo_M-50"
+#    "SingleMuon"
+    "MET"
+#   "Tau"
+#   "SingleElectron"
     "ST_s-channel_4f_leptonDecays"
     "ST_t-channel_antitop_5f_InclusiveDecays"
     "ST_t-channel_top_5f_InclusiveDecays"
@@ -72,7 +72,7 @@ samples=(
     "WJetsToLNu_inclusive"
     "WJetsToLNu_HT-400To600"
     "WJetsToLNu_HT-600To800"
-#    "WJetsToLNu_ext"
+    "WJetsToLNu_ext"
     "WJetsToLNu_HT-800To1200"
     "WJetsToLNu_HT-1200To2500"
     "WJetsToLNu_HT-2500ToInf"
@@ -82,7 +82,7 @@ samples=(
     "QCD_HT50to100"
     "QCD_HT100to200"
     "QCD_HT200to300"
-   "QCD_HT300to500"
+    "QCD_HT300to500"
     "QCD_HT500to700"
     "QCD_HT700to1000"
     "QCD_HT1000to1500"
@@ -111,24 +111,54 @@ samples=(
 
 
 
-if [ $processor == "ttbar" ] || [ $processor == "wjets" ] || [ $processor == "ztoll" ] || [ $processor == "qcd_abcd" ] || [ $processor == "wplusjets" ] ; then
+if [ $processor == "ttbar" ] || [ $processor == "wjets" ] || [ $processor == "ztoll" ] || [ $processor == "qcd_abcd" ] || [ $processor == "wplusjets" ] || [ $processor == "qcd_hadronic" ]; then
+    # Definir la ruta donde se creará mover_archivos.sh
+    dir_to_create="wprime_plus_b/outs/$processor/$channel/$lepton_flavor/$year"
+
+
     for sample in "${samples[@]}"; do
       python3 submit_lxplus.py --processor "$processor" --channel "$channel" --lepton_flavor "$lepton_flavor" --sample "$sample" --year "$year" --nfiles "$nfiles" --executor "$executor" --output_type "$output_type" --nsample "$nsample" --run_systematics "$run_systematics"
-      sleep 60 #  Wait for 90 seconds before sending the next sample
+      sleep 60 #  Wait for 60 seconds before sending the next sample  
     done
 
-elif [ $processor == "top_tagger" ] || [ $processor == "signal" ] || [ $processor == "qcd_hadronic" ]; then
+elif [ $processor == "top_tagger" ] || [ $processor == "signal" ]; then
+    
+    # Definir la ruta donde se creará mover_archivos.sh
+    dir_to_create="wprime_plus_b/outs/$processor/$lepton_flavor/$year"
+
+
     for sample in "${samples[@]}"; do
       python3 submit_lxplus.py --processor "$processor" --lepton_flavor "$lepton_flavor" --sample "$sample" --year "$year" --nfiles "$nfiles" --executor "$executor" --output_type "$output_type" --nsample "$nsample" --run_systematics "$run_systematics"
-      sleep 60 #  Wait for 90 seconds before sending the next sample
+      sleep 60 #  Wait for 60 seconds before sending the next sample
     done
 fi
 
+# Crear la carpeta de destino si no existe
+mkdir -p "$ANALYSIS_PATH/$output_folder"
+
+# Crear el archivo mover_archivos.sh con el contenido deseado
+cat > "$dir_to_create/mover_archivos.sh" <<EOF
+#!/bin/bash
+while true
+do
+
+    mv *.pkl $ANALYSIS_PATH/$output_folder
+
+    sleep 120  # 120 segundos = 2 minutos
+done
+EOF
+# Dar permisos de ejecución al script creado
+chmod +x "$dir_to_create/mover_archivos.sh"
+
+echo $ANALYSIS_PATH/$output_folder
+
+
+
 
 sleep 300
-
+#./run_v1.sh
 
 echo "########################################################################################################################"
-echo "###  The jobs have been sent, don't forget to run lxplus_test.sh file once they finish to complete the missing ones  ###"
+echo "###  The jobs have been sent, don't forget to use checkfiles.sh file once they finish to complete the missing ones  ###"
 echo "########################################################################################################################"
 

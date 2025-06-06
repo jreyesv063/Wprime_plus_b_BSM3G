@@ -1,4 +1,52 @@
 qcd_hadronic_cases_selection = {
+    "qcd":{
+           "tau": {
+            "case_1": True,  
+            "case_2": True, 
+            "case_3": True,
+            "case_4": True,  
+            "case_5": True, 
+            "case_6": True,
+            "case_7": True,  
+            "case_8": True, 
+            "case_9": True,
+            "case_10": True,  
+            "case_11": True, 
+            "case_12": True,
+            "case_13": True,
+        },
+         "mu": {
+            "case_1": True,  
+            "case_2": True, 
+            "case_3": True,
+            "case_4": True,  
+            "case_5": True, 
+            "case_6": True,
+            "case_7": True,  
+            "case_8": True, 
+            "case_9": True,
+            "case_10": True,  
+            "case_11": True, 
+            "case_12": True,
+            "case_13": True,
+        },
+         "ele": {
+            "case_1": True,  
+            "case_2": True, 
+            "case_3": True,
+            "case_4": True,  
+            "case_5": True, 
+            "case_6": True,
+            "case_7": True,  
+            "case_8": True, 
+            "case_9": True,
+            "case_10": True,  
+            "case_11": True, 
+            "case_12": True,
+            "case_13": True,
+        },
+    },
+    "cr_a":{
          "tau": {
             "case_1": True,  
             "case_2": True, 
@@ -44,10 +92,59 @@ qcd_hadronic_cases_selection = {
             "case_12": True,
             "case_13": True,
         },
+    },
+    "cr_d":{
+          "tau": {
+            "case_1": True,  
+            "case_2": True, 
+            "case_3": True,
+            "case_4": True,  
+            "case_5": True, 
+            "case_6": True,
+            "case_7": True,  
+            "case_8": True, 
+            "case_9": True,
+            "case_10": True,  
+            "case_11": True, 
+            "case_12": True,
+            "case_13": True,
+        },
+         "mu": {
+            "case_1": True,  
+            "case_2": True, 
+            "case_3": True,
+            "case_4": True,  
+            "case_5": True, 
+            "case_6": True,
+            "case_7": True,  
+            "case_8": True, 
+            "case_9": True,
+            "case_10": True,  
+            "case_11": True, 
+            "case_12": True,
+            "case_13": True,
+        },
+         "ele": {
+            "case_1": True,  
+            "case_2": True, 
+            "case_3": True,
+            "case_4": True,  
+            "case_5": True, 
+            "case_6": True,
+            "case_7": True,  
+            "case_8": True, 
+            "case_9": True,
+            "case_10": True,  
+            "case_11": True, 
+            "case_12": True,
+            "case_13": True,
+        },
+    }
 }   
 
-top_tagger_mW_mTop_Njets_selection = {
-        "tau": {
+qcd_hadronic_mW_mTop_Njets_selection = {
+    "qcd":{
+       "tau": {
             "m_W_min": 40.0,
             "m_W_max": 200.0,
             "m_Top_min": 100.0,
@@ -65,4 +162,45 @@ top_tagger_mW_mTop_Njets_selection = {
             "m_Top_min": 100.0,
             "m_Top_max": 300.0,
         },
+    },
+    "cr_a":{
+         "tau": {
+            "m_W_min": 40.0,
+            "m_W_max": 200.0,
+            "m_Top_min": 100.0,
+            "m_Top_max": 300.0,
+        },
+         "mu": {
+            "m_W_min": 40.0,
+            "m_W_max": 200.0,
+            "m_Top_min": 100.0,
+            "m_Top_max": 300.0,
+        },
+        "ele": {
+            "m_W_min": 40.0,
+            "m_W_max": 200.0,
+            "m_Top_min": 100.0,
+            "m_Top_max": 300.0,
+        },
+    },
+    "cr_d":{
+         "tau": {
+            "m_W_min": 40.0,
+            "m_W_max": 200.0,
+            "m_Top_min": 100.0,
+            "m_Top_max": 300.0,
+        },
+         "mu": {
+            "m_W_min": 40.0,
+            "m_W_max": 200.0,
+            "m_Top_min": 100.0,
+            "m_Top_max": 300.0,
+        },
+        "ele": {
+            "m_W_min": 40.0,
+            "m_W_max": 200.0,
+            "m_Top_min": 100.0,
+            "m_Top_max": 300.0,
+        },
+    }
 }   

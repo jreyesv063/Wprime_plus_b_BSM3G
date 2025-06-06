@@ -1,11 +1,11 @@
 {
     "Tau_5": [
         "root://cms.sscc.uos.ac.kr:1094//store/data/Run2016B/Tau/NANOAOD/ver2_HIPM_UL2016_MiniAODv2_NanoAODv9-v2/50000/7C3D01FB-2BE5-924E-970E-88A1C9947902.root",
-        "root://dcache-cms-xrootd.desy.de:1094//store/data/Run2016B/Tau/NANOAOD/ver2_HIPM_UL2016_MiniAODv2_NanoAODv9-v2/50000/A2ED7B0E-3065-0D48-9227-5769B929502F.root",
+        "root://grid-cms-xrootd.physik.rwth-aachen.de:1094//store/data/Run2016B/Tau/NANOAOD/ver2_HIPM_UL2016_MiniAODv2_NanoAODv9-v2/50000/A2ED7B0E-3065-0D48-9227-5769B929502F.root",
         "root://xrootd-local.unl.edu:1094//store/data/Run2016B/Tau/NANOAOD/ver2_HIPM_UL2016_MiniAODv2_NanoAODv9-v2/50000/B635F8E8-C888-9C45-9EA2-BB96444987CB.root",
-        "root://xrootd-local.unl.edu:1094//store/data/Run2016B/Tau/NANOAOD/ver2_HIPM_UL2016_MiniAODv2_NanoAODv9-v2/50000/C2C24749-7430-7440-964C-94A10703D5DE.root",
-        "root://dcache-cms-xrootd.desy.de:1094//store/data/Run2016B/Tau/NANOAOD/ver2_HIPM_UL2016_MiniAODv2_NanoAODv9-v2/50000/C58FA3C6-5791-ED4C-A885-277CD416C21B.root",
-        "root://grid-cms-xrootd.physik.rwth-aachen.de:1094//store/data/Run2016B/Tau/NANOAOD/ver2_HIPM_UL2016_MiniAODv2_NanoAODv9-v2/50000/D289C65D-1805-064D-B6BF-D17CCD85B0FC.root",
-        "root://maite.iihe.ac.be:1094//store/data/Run2016B/Tau/NANOAOD/ver2_HIPM_UL2016_MiniAODv2_NanoAODv9-v2/50000/D946DD37-4DB6-7A40-9426-3EC7D0753D88.root"
+        "root://dcache-cms-xrootd.desy.de:1094//store/data/Run2016B/Tau/NANOAOD/ver2_HIPM_UL2016_MiniAODv2_NanoAODv9-v2/50000/C2C24749-7430-7440-964C-94A10703D5DE.root",
+        "root://xrootd-local.unl.edu:1094//store/data/Run2016B/Tau/NANOAOD/ver2_HIPM_UL2016_MiniAODv2_NanoAODv9-v2/50000/C58FA3C6-5791-ED4C-A885-277CD416C21B.root",
+        "root://maite.iihe.ac.be:1094//store/data/Run2016B/Tau/NANOAOD/ver2_HIPM_UL2016_MiniAODv2_NanoAODv9-v2/50000/D289C65D-1805-064D-B6BF-D17CCD85B0FC.root",
+        "root://cms.sscc.uos.ac.kr:1094//store/data/Run2016B/Tau/NANOAOD/ver2_HIPM_UL2016_MiniAODv2_NanoAODv9-v2/50000/D946DD37-4DB6-7A40-9426-3EC7D0753D88.root"
     ]
 }

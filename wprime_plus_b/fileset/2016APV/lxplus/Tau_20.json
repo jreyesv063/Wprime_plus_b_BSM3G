@@ -1,11 +1,11 @@
 {
     "Tau_20": [
-        "root://gfe02.grid.hep.ph.ic.ac.uk:1094//pnfs/hep.ph.ic.ac.uk/data/cms/store/data/Run2016E/Tau/NANOAOD/HIPM_UL2016_MiniAODv2_NanoAODv9-v2/40000/CE6E81D3-58BB-DA48-8186-8D57C5EA9324.root",
+        "root://cms.sscc.uos.ac.kr:1094//store/data/Run2016E/Tau/NANOAOD/HIPM_UL2016_MiniAODv2_NanoAODv9-v2/40000/CE6E81D3-58BB-DA48-8186-8D57C5EA9324.root",
         "root://gfe02.grid.hep.ph.ic.ac.uk:1094//pnfs/hep.ph.ic.ac.uk/data/cms/store/data/Run2016E/Tau/NANOAOD/HIPM_UL2016_MiniAODv2_NanoAODv9-v2/40000/D1850905-5CAF-954F-9B96-6B8C3927F8A5.root",
-        "root://cmsdcadisk.fnal.gov//dcache/uscmsdisk/store/data/Run2016E/Tau/NANOAOD/HIPM_UL2016_MiniAODv2_NanoAODv9-v2/40000/D6D13209-C1AD-F24D-BE4C-B089B1EA588F.root",
-        "root://eos.cms.rcac.purdue.edu//store/data/Run2016E/Tau/NANOAOD/HIPM_UL2016_MiniAODv2_NanoAODv9-v2/40000/D8FFD851-F084-D142-BC34-CEFBFE11E87D.root",
-        "root://cmsdcadisk.fnal.gov//dcache/uscmsdisk/store/data/Run2016E/Tau/NANOAOD/HIPM_UL2016_MiniAODv2_NanoAODv9-v2/40000/DA20D24B-8E3D-2D46-8FE0-52FEEA32E171.root",
-        "root://rdr.echo.stfc.ac.uk//store/data/Run2016E/Tau/NANOAOD/HIPM_UL2016_MiniAODv2_NanoAODv9-v2/40000/DB5D5D1A-505E-034B-B55C-BF7A84FDC448.root",
+        "root://eos.cms.rcac.purdue.edu//store/data/Run2016E/Tau/NANOAOD/HIPM_UL2016_MiniAODv2_NanoAODv9-v2/40000/D6D13209-C1AD-F24D-BE4C-B089B1EA588F.root",
+        "root://grid-cms-xrootd.physik.rwth-aachen.de:1094//store/data/Run2016E/Tau/NANOAOD/HIPM_UL2016_MiniAODv2_NanoAODv9-v2/40000/D8FFD851-F084-D142-BC34-CEFBFE11E87D.root",
+        "root://maite.iihe.ac.be:1094//store/data/Run2016E/Tau/NANOAOD/HIPM_UL2016_MiniAODv2_NanoAODv9-v2/40000/DA20D24B-8E3D-2D46-8FE0-52FEEA32E171.root",
+        "root://maite.iihe.ac.be:1094//store/data/Run2016E/Tau/NANOAOD/HIPM_UL2016_MiniAODv2_NanoAODv9-v2/40000/DB5D5D1A-505E-034B-B55C-BF7A84FDC448.root",
         "root://gfe02.grid.hep.ph.ic.ac.uk:1094//pnfs/hep.ph.ic.ac.uk/data/cms/store/data/Run2016E/Tau/NANOAOD/HIPM_UL2016_MiniAODv2_NanoAODv9-v2/40000/DB76F5A1-977D-A343-A7FE-9AD1F8256D78.root"
     ]
 }

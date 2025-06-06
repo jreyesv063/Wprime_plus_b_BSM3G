@@ -61,6 +61,7 @@ class QcdAnalysis(processor.ProcessorABC):
         year: str = "2017",
         yearmod: str = "",
         output_type: str = "hist",
+        run_systematics: str = "false",
     ):
         self._channel = channel
         self._year = year

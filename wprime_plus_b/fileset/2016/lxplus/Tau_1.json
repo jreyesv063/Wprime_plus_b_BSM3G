@@ -1,9 +1,9 @@
 {
     "Tau_1": [
         "root://xrootd2.hepgrid.uerj.br:1094//store/data/Run2016F/Tau/NANOAOD/UL2016_MiniAODv2_NanoAODv9-v1/70000/517A602E-CA30-D24C-A1F0-13BAEF64DF5D.root",
-        "root://cmsdcadisk.fnal.gov//dcache/uscmsdisk/store/data/Run2016F/Tau/NANOAOD/UL2016_MiniAODv2_NanoAODv9-v1/70000/DA486995-51E0-3942-96C2-BDF1E5F67489.root",
-        "root://xrootd2.hepgrid.uerj.br:1094//store/data/Run2016F/Tau/NANOAOD/UL2016_MiniAODv2_NanoAODv9-v1/70000/EB1B590C-47D8-FA46-8030-BA55887DD578.root",
-        "root://se01.grid.nchc.org.tw//cms/store/data/Run2016G/Tau/NANOAOD/UL2016_MiniAODv2_NanoAODv9-v1/270000/06D59B66-2858-3E42-B867-8FDE59F4D206.root",
-        "root://se01.grid.nchc.org.tw//cms/store/data/Run2016G/Tau/NANOAOD/UL2016_MiniAODv2_NanoAODv9-v1/270000/07142757-9ADF-3843-AEAF-06F7DAEB68CF.root"
+        "root://ccxrdcms.in2p3.fr:1094//store/data/Run2016F/Tau/NANOAOD/UL2016_MiniAODv2_NanoAODv9-v1/70000/DA486995-51E0-3942-96C2-BDF1E5F67489.root",
+        "root://cmsdcadisk.fnal.gov//dcache/uscmsdisk/store/data/Run2016F/Tau/NANOAOD/UL2016_MiniAODv2_NanoAODv9-v1/70000/EB1B590C-47D8-FA46-8030-BA55887DD578.root",
+        "root://cmsdcadisk.fnal.gov//dcache/uscmsdisk/store/data/Run2016G/Tau/NANOAOD/UL2016_MiniAODv2_NanoAODv9-v1/270000/06D59B66-2858-3E42-B867-8FDE59F4D206.root",
+        "root://eospublic.cern.ch//eos/opendata/cms/Run2016G/Tau/NANOAOD/UL2016_MiniAODv2_NanoAODv9-v1/270000/07142757-9ADF-3843-AEAF-06F7DAEB68CF.root"
     ]
 }

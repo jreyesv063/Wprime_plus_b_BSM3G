@@ -29,6 +29,7 @@ class TriggerEfficiencyProcessor(processor.ProcessorABC):
         yearmod: str = "",
         lepton_flavor: str = "ele",
         output_type: str = "hist",
+        run_systematics: str = "false",
     ):
         self._year = year
         self._yearmod = yearmod

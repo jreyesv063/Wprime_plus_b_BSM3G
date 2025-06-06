@@ -1,8 +1,8 @@
 {
     "MET_18": [
-        "root://xrootd-cmst1-door.pic.es:1094//pnfs/pic.es/data/cms/disk/store/data/Run2016E/MET/NANOAOD/HIPM_UL2016_MiniAODv2_NanoAODv9-v2/40000/84CFF9B4-7E26-CB47-929B-CF5670E8CF20.root",
-        "root://cmsdcadisk.fnal.gov//dcache/uscmsdisk/store/data/Run2016E/MET/NANOAOD/HIPM_UL2016_MiniAODv2_NanoAODv9-v2/40000/877A0E8E-CCA8-D747-BEE1-CF5A805A982E.root",
-        "root://gfe02.grid.hep.ph.ic.ac.uk:1094//pnfs/hep.ph.ic.ac.uk/data/cms/store/data/Run2016E/MET/NANOAOD/HIPM_UL2016_MiniAODv2_NanoAODv9-v2/40000/94AE85E7-C91C-6A4E-A322-CB1715365204.root",
-        "root://eos.cms.rcac.purdue.edu//store/data/Run2016E/MET/NANOAOD/HIPM_UL2016_MiniAODv2_NanoAODv9-v2/40000/96333315-509B-DC4B-849A-B17AFBC59F53.root"
+        "root://maite.iihe.ac.be:1094//store/data/Run2016E/MET/NANOAOD/HIPM_UL2016_MiniAODv2_NanoAODv9-v2/40000/84CFF9B4-7E26-CB47-929B-CF5670E8CF20.root",
+        "root://maite.iihe.ac.be:1094//store/data/Run2016E/MET/NANOAOD/HIPM_UL2016_MiniAODv2_NanoAODv9-v2/40000/877A0E8E-CCA8-D747-BEE1-CF5A805A982E.root",
+        "root://maite.iihe.ac.be:1094//store/data/Run2016E/MET/NANOAOD/HIPM_UL2016_MiniAODv2_NanoAODv9-v2/40000/94AE85E7-C91C-6A4E-A322-CB1715365204.root",
+        "root://cmsdcache-kit-disk.gridka.de:1094//store/data/Run2016E/MET/NANOAOD/HIPM_UL2016_MiniAODv2_NanoAODv9-v2/40000/96333315-509B-DC4B-849A-B17AFBC59F53.root"
     ]
 }

@@ -163,12 +163,11 @@ class TopTaggerProccessor(processor.ProcessorABC):
             # -------------------------------------------------------------
             # apply JEC/JER corrections to jets (in data, the corrections are already applied)
             if self.is_mc:
-
                 # Jet corrections
                 apply_jet_corrections(events, self.year)
 
                 
-                # Apply corrections only if there are jets present in at least one event
+                # Apply corrections only if there are fatjets present in at least one event
                 if ak.any(ak.num(events.FatJet) > 0):
                     # fatjets
                     apply_fatjet_corrections(events, self.year)
@@ -196,46 +195,6 @@ class TopTaggerProccessor(processor.ProcessorABC):
                 is_mc=self.is_mc,
                 year=self.year,
             )
-            # -------------------------------------------------------------
-            # event SF/weights computation
-            # -------------------------------------------------------------
-            # get trigger mask
-            with importlib.resources.path(
-                "wprime_plus_b.data", "triggers.json"
-            ) as path:
-                with open(path, "r") as handle:
-                    self._triggers = json.load(handle)[self.year][self.lepton_flavor]
-
-            trigger_mask = np.zeros(nevents, dtype="bool")
-            # get DeltaR matched trigger objects mask
-            trigger_leptons = {
-                "ele": events.Electron,
-                "mu": events.Muon,
-            }
-            trigger_match_mask = np.zeros(nevents, dtype="bool")
-                     
-            if self.lepton_flavor != "tau":
-                lepton_id_config = {
-                    "ele": top_tagger_electron_selection[self.lepton_flavor]["electron_id_wp"],
-                    "mu": top_tagger_muon_selection[self.lepton_flavor]["muon_id_wp"]
-                } 
-                trigger_paths = self._triggers[lepton_id_config[self.lepton_flavor]]
-
-                for tp in trigger_paths:
-                    if tp in events.HLT.fields:
-                        trigger_mask = trigger_mask | events.HLT[tp]
-
-                for trigger_path in trigger_paths:
-                    trig_match = trigger_match(
-                        leptons=trigger_leptons[self.lepton_flavor],
-                        trigobjs=events.TrigObj,
-                        trigger_path=trigger_path,
-                    )
-                    trigger_match_mask = trigger_match_mask | trig_match
-                        
-            else:
-                trigger_paths = self._triggers
-                trigger_match_mask = np.ones(len(events), dtype="bool")
 
             # -------------------------------------------------------------
             # Veto Jets
@@ -270,123 +229,8 @@ class TopTaggerProccessor(processor.ProcessorABC):
                     ],
                     variation=syst_var,
                 )
-                """
-                # b-tagging corrector
-                btag_corrector = BTagCorrector(
-                    jets=jets_veto,
-                    weights=weights_container,
-                    sf_type="comb",
-                    worging_point=top_tagger_bjet_selection[self.lepton_flavor][
-                        "btag_working_point"
-                    ],
-                    tagger="deepJet",
-                    year=self.year,
-                    full_run=False,
-                    variation=syst_var,
-                )
-
-                # add b-tagging weights
-                btag_corrector.add_btag_weights(flavor="b")
-                btag_corrector.add_btag_weights(flavor="c")
-                btag_corrector.add_btag_weights(flavor="light")
-
-                # electron corrector
-                electron_corrector = ElectronCorrector(
-                    electrons=events.Electron,
-                    weights=weights_container,
-                    year=self.year,
-                )
-
-                # add electron ID weights
-                electron_corrector.add_id_weight(
-                    id_working_point=top_tagger_electron_selection[
-                        self.lepton_flavor
-                    ]["electron_id_wp"]
-                )
-
-                # add electron reco weights
-                electron_corrector.add_reco_weight("Above")
-                electron_corrector.add_reco_weight("Below")
-
-                # add trigger weights
-                if self.lepton_flavor == "ele":
-                    pass
                 
-                # muon corrector
-                if (
-                    top_tagger_muon_selection[self.lepton_flavor]["muon_id_wp"]
-                    == "highpt"
-                ):
-                    mu_corrector = MuonHighPtCorrector
-                else:
-                    mu_corrector = MuonCorrector
-                muon_corrector = mu_corrector(
-                    muons=events.Muon,
-                    weights=weights_container,
-                    year=self.year,
-                    variation=syst_var,
-                    id_wp=top_tagger_muon_selection[self.lepton_flavor][
-                        "muon_id_wp"
-                    ],
-                    iso_wp=top_tagger_muon_selection[self.lepton_flavor][
-                        "muon_iso_wp"
-                    ],
-                )
-
-                # add muon RECO weights
-                muon_corrector.add_reco_weight()
-                # add muon ID weights
-                muon_corrector.add_id_weight()
-                # add muon iso weights
-                muon_corrector.add_iso_weight()
-
-                # add trigger weights
-                if self.lepton_flavor == "mu":
-                    muon_corrector.add_triggeriso_weight(
-                        trigger_mask=trigger_mask,
-                        trigger_match_mask=trigger_match_mask,
-                    )
-                
-                # add tau weights
-                tau_corrector = TauCorrector(
-                    taus=events.Tau,
-                    weights=weights_container,
-                    year=self.year,
-                    tau_vs_jet=top_tagger_tau_selection[self.lepton_flavor][
-                        "tau_vs_jet"
-                    ],
-                    tau_vs_ele=top_tagger_tau_selection[self.lepton_flavor][
-                        "tau_vs_ele"
-                    ],
-                    tau_vs_mu=top_tagger_tau_selection[self.lepton_flavor][
-                        "tau_vs_mu"
-                    ],
-                    variation=syst_var,
-                )
-                tau_corrector.add_id_weight_DeepTau2017v2p1VSe()
-                tau_corrector.add_id_weight_DeepTau2017v2p1VSmu()
-                tau_corrector.add_id_weight_DeepTau2017v2p1VSjet()
-
-
-                add_QCD_vs_Top_weight(
-                        fatjets = events.FatJet,
-                        weights = weights_container,
-                        year=self.year,
-                        year_mod="",
-                        working_point_fatjet = top_tagger_fatjet_selection[self.lepton_flavor]["TvsQCD"],
-                        variation=syst_var
-                )
-
-                add_QCD_vs_W_weight(
-                        wjets = events.FatJet,
-                        weights = weights_container,
-                        year=self.year,
-                        year_mod="",
-                        working_point_wjet = top_tagger_wjet_selection[self.lepton_flavor]["WvsQCD"],
-                        variation=syst_var
-                )
-                """
-                
+                # add met trigger weights
                 if self.lepton_flavor == "tau":
                     # add met trigger SF
                     add_met_trigger_corrections(trigger_mask, dataset, events.MET, weights_container, self.year, "", syst_var)                    
@@ -757,6 +601,51 @@ class TopTaggerProccessor(processor.ProcessorABC):
                     wjets_jer_up = events.FatJet[good_wjets_jer_up]
                     wjets_jer_down = events.FatJet[good_wjets_jer_down]
 
+
+            # get trigger mask
+            with importlib.resources.path(
+                "wprime_plus_b.data", "triggers.json"
+            ) as path:
+                with open(path, "r") as handle:
+                    self._triggers = json.load(handle)[self.year][self.lepton_flavor]
+
+            # ------------------------------------------------
+            # trigger match: Only to Muons and Electrons
+            # ------------------------------------------------
+
+            trigger_mask = np.zeros(nevents, dtype="bool")
+            # get DeltaR matched trigger objects mask
+            trigger_leptons = {
+                "ele": electrons,
+                "mu": muons,
+            }
+            trigger_match_mask = np.zeros(nevents, dtype="bool")
+                     
+            if self.lepton_flavor != "tau":
+                lepton_id_config = {
+                    "ele": top_tagger_electron_selection[self.lepton_flavor]["electron_id_wp"],
+                    "mu": top_tagger_muon_selection[self.lepton_flavor]["muon_id_wp"]
+                } 
+                trigger_paths = self._triggers[lepton_id_config[self.lepton_flavor]]
+
+                for tp in trigger_paths:
+                    if tp in events.HLT.fields:
+                        trigger_mask = trigger_mask | events.HLT[tp]
+
+                for trigger_path in trigger_paths:
+                    trig_match = trigger_match(
+                        leptons=trigger_leptons[self.lepton_flavor],
+                        trigobjs=events.TrigObj,
+                        trigger_path=trigger_path,
+                    )
+                    trigger_match_mask = trigger_match_mask | trig_match
+                        
+            else:
+                # Tau or other lepton flavor
+                trigger_paths = self._triggers
+                trigger_match_mask = np.ones(len(events), dtype="bool")
+
+
             # New weights:
             if self.is_mc:
                 # b-tagging corrector
@@ -949,17 +838,6 @@ class TopTaggerProccessor(processor.ProcessorABC):
                     "down": events.MET.MET_UnclusteredEnergy.down.pt,
                 }
                 
-                """
-                for variation, met_pt in met_variations.items():
-                    if variation == "nominal":
-                        self.selections.add(f"met_{met_threshold}", met_pt > met_threshold)
-                    else:
-                        self.selections.add(f"met_{met_threshold}_{variation}", met_pt > met_threshold)"
-                """
-            else:
-                self.selections.add(f"met_{met_threshold}", events.MET.pt > met_threshold)
-
-
             
             self.selections.add(f"met_recoil_{met_threshold}", events.MET.pt_recoil > met_threshold)   
             
@@ -1080,7 +958,6 @@ class TopTaggerProccessor(processor.ProcessorABC):
                         ref_trigger = json.load(handle)[self.year][reference_trigger]
                         print(ref_trigger, type(ref_trigger))    
 
-            #reference_triggers =  [trigger for trigger in events.HLT.fields if trigger.startswith(ref_trigger)]
             reference_triggers = [
                 trigger for trigger in events.HLT.fields if any(trigger.startswith(r) for r in ref_trigger)
             ]
@@ -1093,7 +970,7 @@ class TopTaggerProccessor(processor.ProcessorABC):
                     mask_reference_trigger = mask_reference_trigger | events.HLT[trigger_reference]
 
             self.selections.add(f"trigger_{reference_trigger}", mask_reference_trigger)
-
+            
 
             # Trigger under study
             study_trigger_option =  top_tagger_trigger_selection[self.lepton_flavor]["trigger_eff"] 
@@ -1131,9 +1008,9 @@ class TopTaggerProccessor(processor.ProcessorABC):
                     f"trigger_{reference_trigger}",
                     "metfilters",
                     "HEMCleaning",
+                    "delta_phi_jet_met_0.7",
                     f"met_{met_threshold}",
- #                   "delta_phi_jet_met_0.7",
-                    "electron_veto",
+                     "electron_veto",
                     "muon_veto",
                     "one_tau",
                 ],
@@ -1145,7 +1022,6 @@ class TopTaggerProccessor(processor.ProcessorABC):
                     "HEMCleaning",
                     f"trigger_{reference_trigger}",
                     "trigger_match",
-                    "delta_phi_jet_met_0.7",
                     f"met_{met_threshold}",
                     "electron_veto",
                     "tau_veto",
@@ -1153,7 +1029,7 @@ class TopTaggerProccessor(processor.ProcessorABC):
                 ],
             }
 
-            # Crear una copia de region_selection para modificaciones posteriores con las variaciones Up/Down a nivel de objeto
+            #  Create a copy of region_selection for further modifications with object-level Up/Down variations
             region_selection_variations =  copy.deepcopy(region_selection)
 
 
@@ -1373,9 +1249,6 @@ class TopTaggerProccessor(processor.ProcessorABC):
                             filtered_weight = weights_container.partial_weight(include=[weight])[region_selection][mask_top]
                             self.add_feature(weight, filtered_weight)
                             
-                        # uncoment next two lines to save individual weights
-                        # for weight in weights_container.weightStatistics:
-                        #    self.add_feature(weight, weights_container.partial_weight(include=[weight]))
                         if syst_var == "nominal":
                             # select variables and put them in column accumulators
                             array_dict.update(
@@ -1459,9 +1332,6 @@ class TopTaggerProccessor(processor.ProcessorABC):
                             for variation in variations.keys():
                                 region_selection_map[f"{key}_{variation}"] = copy.deepcopy(region_selection_variations)
 
-
-                    # Crear un nuevo objeto PackedSelection para las variaciones
-                    #self.variations_selections = PackedSelection()
 
                     # Crear máscaras para cada variación en region_selection_map
                     for variation_name, selection in region_selection_map.items():

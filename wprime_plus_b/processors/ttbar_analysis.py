@@ -56,6 +56,7 @@ class TtbarAnalysis(processor.ProcessorABC):
         year: str = "2017",
         syst: str = "nominal",
         output_type: str = "hist",
+        run_systematics: str = "false",
     ):
         self.year = year
         self.lepton_flavor = lepton_flavor

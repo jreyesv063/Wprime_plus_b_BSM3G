@@ -1,11 +1,11 @@
 {
     "Tau_16": [
-        "root://eos.cms.rcac.purdue.edu//store/data/Run2017E/Tau/NANOAOD/UL2017_MiniAODv2_NanoAODv9-v2/80000/CFBEEF60-E5E7-E64E-8EBD-26218FF90DCF.root",
-        "root://grid-cms-xrootd.physik.rwth-aachen.de:1094//store/data/Run2017E/Tau/NANOAOD/UL2017_MiniAODv2_NanoAODv9-v2/80000/D02B4572-6A91-484D-9564-63F3A03BC505.root",
-        "root://grid-cms-xrootd.physik.rwth-aachen.de:1094//store/data/Run2017E/Tau/NANOAOD/UL2017_MiniAODv2_NanoAODv9-v2/80000/D2FE95E8-812D-134F-BCF0-E654789DBA5C.root",
-        "root://eoscms.cern.ch//eos/cms/store/data/Run2017E/Tau/NANOAOD/UL2017_MiniAODv2_NanoAODv9-v2/80000/D5CC784E-7CD9-454F-831E-0D5335CAC825.root",
-        "root://grid-cms-xrootd.physik.rwth-aachen.de:1094//store/data/Run2017E/Tau/NANOAOD/UL2017_MiniAODv2_NanoAODv9-v2/80000/DA65BF14-4C76-9442-AC80-ECD8BDEEB080.root",
-        "root://eoscms.cern.ch//eos/cms/store/data/Run2017E/Tau/NANOAOD/UL2017_MiniAODv2_NanoAODv9-v2/80000/DC20BC26-1F84-D340-ADA9-9BF78DAC8C31.root",
-        "root://grid-cms-xrootd.physik.rwth-aachen.de:1094//store/data/Run2017E/Tau/NANOAOD/UL2017_MiniAODv2_NanoAODv9-v2/80000/DD07E085-FC0E-6248-8FEB-B291CDDCFBB1.root"
+        "root://cmsdcadisk.fnal.gov//dcache/uscmsdisk/store/data/Run2017E/Tau/NANOAOD/UL2017_MiniAODv2_NanoAODv9-v2/80000/CFBEEF60-E5E7-E64E-8EBD-26218FF90DCF.root",
+        "root://maite.iihe.ac.be:1094//store/data/Run2017E/Tau/NANOAOD/UL2017_MiniAODv2_NanoAODv9-v2/80000/D02B4572-6A91-484D-9564-63F3A03BC505.root",
+        "root://cmsdcadisk.fnal.gov//dcache/uscmsdisk/store/data/Run2017E/Tau/NANOAOD/UL2017_MiniAODv2_NanoAODv9-v2/80000/D2FE95E8-812D-134F-BCF0-E654789DBA5C.root",
+        "root://cmsdcadisk.fnal.gov//dcache/uscmsdisk/store/data/Run2017E/Tau/NANOAOD/UL2017_MiniAODv2_NanoAODv9-v2/80000/D5CC784E-7CD9-454F-831E-0D5335CAC825.root",
+        "root://eoscms.cern.ch//eos/cms/store/data/Run2017E/Tau/NANOAOD/UL2017_MiniAODv2_NanoAODv9-v2/80000/DA65BF14-4C76-9442-AC80-ECD8BDEEB080.root",
+        "root://cmsdcadisk.fnal.gov//dcache/uscmsdisk/store/data/Run2017E/Tau/NANOAOD/UL2017_MiniAODv2_NanoAODv9-v2/80000/DC20BC26-1F84-D340-ADA9-9BF78DAC8C31.root",
+        "root://xrootd-local.unl.edu:1094//store/data/Run2017E/Tau/NANOAOD/UL2017_MiniAODv2_NanoAODv9-v2/80000/DD07E085-FC0E-6248-8FEB-B291CDDCFBB1.root"
     ]
 }

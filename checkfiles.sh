@@ -21,12 +21,12 @@ considerar_SingleElectron=false
 considerar_Tau=false 
 considerar_higgs=true
 
-considerar_MET=true
-considerar_SingleMuon=false
+considerar_MET=false
+considerar_SingleMuon=true
 
 
 considerar_inclusive_wj=true
-considerar_inclusive_ext_wj=false
+considerar_inclusive_ext_wj=true
 considerar_inclusive_dy_nlo=true
 considerar_tt=true
 considerar_st=true
@@ -225,11 +225,11 @@ for nombre_base in "${!mapa[@]}"; do
     contador=0
 
     # Cambiar al directorio con los archivos de salida
-    if [ $processor == "ttbar" ] || [ $processor == "wjets" ] || [ "$processor" == "ztoll" ]  || [ "$processor" == "qcd_abcd" ] || [ $processor == "wplusjets" ]; then
+    if [ $processor == "ttbar" ] || [ $processor == "wjets" ] || [ "$processor" == "ztoll" ]  || [ "$processor" == "qcd_abcd" ] || [ $processor == "wplusjets" ] || [ $processor == "qcd_hadronic" ]; then
         cd $SCRIPT_DIR/wprime_plus_b/$outfolder/$processor/$channel/$lepton_flavor/$year/metadata
         #cd ~/wprime_plus_b_new/wprime_plus_b/wprime_plus_b/$outfolder/$processor/$channel/$lepton_flavor/$year/metadata
 
-    elif [ "$processor" == "top_tagger" ]  || [ "$processor" == "signal" ] || [ $processor == "qcd_hadronic" ]; then
+    elif [ "$processor" == "top_tagger" ]  || [ "$processor" == "signal" ]; then
         cd $SCRIPT_DIR/wprime_plus_b/$outfolder/$processor/$lepton_flavor/$year/metadata
         #cd ~/wprime_plus_b_new/wprime_plus_b/wprime_plus_b/$outfolder/$processor/$lepton_flavor/$year/metadata
     fi
@@ -278,7 +278,7 @@ echo $GRID_PASSWORD | voms-proxy-init --voms cms
 singularity shell -B /afs -B /eos -B /cvmfs /cvmfs/unpacked.cern.ch/registry.hub.docker.com/coffeateam/coffea-dask:latest-py3.10 << EOF
 
 # Ejecutar el script 'make_fileset_lxplus.py' dentro de Singularity
-python make_fileset_lxplus.py
+#python make_fileset_lxplus.py
 
 # Salir del shell de Singularity
 exit
@@ -299,11 +299,11 @@ for archivo_faltante in "${archivos_faltantes[@]}"; do
 
 
 
-    if [ "$processor" == "ttbar" ] || [ "$processor" == "wjets" ] || [ "$processor" == "ztoll" ] || [ "$processor" == "qcd_abcd" ] || [ $processor == "wplusjets" ]; then
+    if [ "$processor" == "ttbar" ] || [ "$processor" == "wjets" ] || [ "$processor" == "ztoll" ] || [ "$processor" == "qcd_abcd" ] || [ $processor == "wplusjets" ]  || [ "$processor" == "qcd_hadronic" ]; then
         # Construir el comando python
         comando="python3 submit_lxplus.py --processor $processor --channel $channel --lepton_flavor $lepton_flavor --sample $nombre_base --year $year --nfiles $nfiles --executor $executor --output_type $output_type --nsample $nsample --run_systematics $run_systematics"
 
-    elif [ "$processor" == "top_tagger" ] || [ "$processor" == "signal" ] || [ "$processor" == "qcd_hadronic" ]; then
+    elif [ "$processor" == "top_tagger" ] || [ "$processor" == "signal" ]; then
         comando="python3 submit_lxplus.py --processor $processor --lepton_flavor $lepton_flavor --sample $nombre_base --year $year --nfiles $nfiles --executor $executor --output_type $output_type --nsample $nsample --run_systematics $run_systematics"
     fi
     

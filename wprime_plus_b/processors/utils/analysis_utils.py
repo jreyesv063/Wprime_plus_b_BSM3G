@@ -713,24 +713,24 @@ def histograms_output_syst(
     self.add_feature(f"recoil_phi_{syst_flag}", region_met.phi_recoil)
 
     # New met variables    
-    self.add_feature("lepton_met_mass", lepton_met_mass)
+    self.add_feature(f"lepton_met_mass_{syst_flag}", lepton_met_mass)
 
 
     # Number of objects
-    self.add_feature("njets_full", ak.num(region_jets) + ak.num(region_bjets))
-    self.add_feature("njets", ak.num(region_jets))
-    self.add_feature("nbjets", ak.num(region_bjets))
-    self.add_feature("npvs", events.PV.npvsGood[mask])
-    self.add_feature("nmuons", ak.num(region_muons))
-    self.add_feature("nelectrons", ak.num(region_electrons))
-    self.add_feature("ntaus", ak.num(region_taus))
+    self.add_feature(f"njets_full_{syst_flag}", ak.num(region_jets) + ak.num(region_bjets))
+    self.add_feature(f"njets_{syst_flag}", ak.num(region_jets))
+    self.add_feature(f"nbjets_{syst_flag}", ak.num(region_bjets))
+    self.add_feature(f"npvs_{syst_flag}", events.PV.npvsGood[mask])
+    self.add_feature(f"nmuons_{syst_flag}", ak.num(region_muons))
+    self.add_feature(f"nelectrons_{syst_flag}", ak.num(region_electrons))
+    self.add_feature(f"ntaus_{syst_flag}", ak.num(region_taus))
 
     # Scalar sum of transverse momenta
-    self.add_feature("HT", region_HT)    
-    self.add_feature("ST", region_ST)  
-    self.add_feature("ST_met", region_ST_met)  
-    self.add_feature("ST_full", region_ST_full)
+    self.add_feature(f"HT_{syst_flag}", region_HT)    
+    self.add_feature(f"ST_{syst_flag}", region_ST)  
+    self.add_feature(f"ST_met_{syst_flag}", region_ST_met)  
+    self.add_feature(f"ST_full_{syst_flag}", region_ST_full)
 
     # Top reconstructed mass
-    self.add_feature("top_mrec", region_tops)
+    self.add_feature(f"top_mrec_{syst_flag}", region_tops)
 

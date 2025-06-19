@@ -1,0 +1,6 @@
+{
+    "TTToSemiLeptonic_125": [
+        "root://t2dsk0011.cmsaf.mit.edu:1094//store/mc/RunIISummer20UL17NanoAODv9/TTToSemiLeptonic_TuneCP5_13TeV-powheg-pythia8/NANOAODSIM/106X_mc2017_realistic_v9-v1/280000/C3F3C68A-F81B-5547-9F01-EB6931F729B6.root",
+        "root://cmseos.fnal.gov//eos/uscms/store/mc/RunIISummer20UL17NanoAODv9/TTToSemiLeptonic_TuneCP5_13TeV-powheg-pythia8/NANOAODSIM/106X_mc2017_realistic_v9-v1/280000/C47B8B2F-9016-DC40-814E-9F4FE12032F2.root"
+    ]
+}

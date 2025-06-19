@@ -1,6 +1,6 @@
 {
     "MET_21": [
-        "root://xrootd-local.unl.edu:1094//store/data/Run2016H/MET/NANOAOD/UL2016_MiniAODv2_NanoAODv9-v1/70000/7AF17841-CB77-6E4D-A6E7-42529320DFFF.root",
-        "root://eospublic.cern.ch//eos/opendata/cms/Run2016H/MET/NANOAOD/UL2016_MiniAODv2_NanoAODv9-v1/70000/933D24FE-4BCD-3045-AD15-1977310BC953.root"
+        "root://xrootd01.jinr-t1.ru:1094//pnfs/jinr-t1.ru/data/cms/store/data/Run2016H/MET/NANOAOD/UL2016_MiniAODv2_NanoAODv9-v1/70000/52F8A7F3-6F0A-6C40-AAAB-399D4220213F.root",
+        "root://xrootd01.jinr-t1.ru:1094//pnfs/jinr-t1.ru/data/cms/store/data/Run2016H/MET/NANOAOD/UL2016_MiniAODv2_NanoAODv9-v1/70000/7A2376C1-845E-8244-89F1-87879BCE9E8F.root"
     ]
 }

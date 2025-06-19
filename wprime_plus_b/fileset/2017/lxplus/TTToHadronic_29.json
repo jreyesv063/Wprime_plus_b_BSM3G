@@ -1,0 +1,6 @@
+{
+    "TTToHadronic_29": [
+        "root://maite.iihe.ac.be:1094//store/mc/RunIISummer20UL17NanoAODv9/TTToHadronic_TuneCP5_13TeV-powheg-pythia8/NANOAODSIM/106X_mc2017_realistic_v9-v1/80000/43F8FEC0-35C2-BB4F-8074-4B21C6A2217B.root",
+        "root://t3se01.psi.ch:1094//store/mc/RunIISummer20UL17NanoAODv9/TTToHadronic_TuneCP5_13TeV-powheg-pythia8/NANOAODSIM/106X_mc2017_realistic_v9-v1/80000/454F72DD-66D1-A441-8B6B-CFBE056D29CA.root"
+    ]
+}

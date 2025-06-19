@@ -1,0 +1,6 @@
+{
+    "DYJetsToLL_M-50_HT-1200to2500_7": [
+        "root://maite.iihe.ac.be:1094//store/mc/RunIISummer20UL16NanoAODv9/DYJetsToLL_M-50_HT-1200to2500_TuneCP5_PSweights_13TeV-madgraphMLM-pythia8/NANOAODSIM/106X_mcRun2_asymptotic_v17-v2/2510000/DCEC1866-9260-0A43-ABAE-742B2BCDDAE8.root",
+        "root://rdr.echo.stfc.ac.uk//store/mc/RunIISummer20UL16NanoAODv9/DYJetsToLL_M-50_HT-1200to2500_TuneCP5_PSweights_13TeV-madgraphMLM-pythia8/NANOAODSIM/106X_mcRun2_asymptotic_v17-v2/2510000/DCF932D2-680B-AE4E-B7B9-F8C97BB9DB83.root"
+    ]
+}

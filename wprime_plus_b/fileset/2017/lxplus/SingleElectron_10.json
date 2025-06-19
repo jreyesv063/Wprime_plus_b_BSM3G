@@ -1,20 +1,6 @@
 {
     "SingleElectron_10": [
-        "root://cms.sscc.uos.ac.kr:1094//store/data/Run2017E/SingleElectron/NANOAOD/UL2017_MiniAODv2_NanoAODv9-v1/120000/AFAB2055-867F-6846-9B50-C8318A813360.root",
-        "root://lyoeos.in2p3.fr:1094//eos/lyoeos.in2p3.fr/grid/cms/store/data/Run2017E/SingleElectron/NANOAOD/UL2017_MiniAODv2_NanoAODv9-v1/120000/B544188E-B3C8-8949-AF62-452FB21B5539.root",
-        "root://lyoeos.in2p3.fr:1094//eos/lyoeos.in2p3.fr/grid/cms/store/data/Run2017E/SingleElectron/NANOAOD/UL2017_MiniAODv2_NanoAODv9-v1/120000/C8935834-CD14-6446-8321-2EE550B3170A.root",
-        "root://lyoeos.in2p3.fr:1094//eos/lyoeos.in2p3.fr/grid/cms/store/data/Run2017E/SingleElectron/NANOAOD/UL2017_MiniAODv2_NanoAODv9-v1/120000/CA4EB824-B73C-B642-92CF-FFFAD114174E.root",
-        "root://cmsdcadisk.fnal.gov//dcache/uscmsdisk/store/data/Run2017E/SingleElectron/NANOAOD/UL2017_MiniAODv2_NanoAODv9-v1/120000/D6E12DCF-DAD0-1642-89D6-A10B6317A39D.root",
-        "root://skynet013.crc.nd.edu//store/data/Run2017E/SingleElectron/NANOAOD/UL2017_MiniAODv2_NanoAODv9-v1/120000/D87C7D66-C802-194F-B4FF-499E486E0BDE.root",
-        "root://skynet013.crc.nd.edu//store/data/Run2017E/SingleElectron/NANOAOD/UL2017_MiniAODv2_NanoAODv9-v1/120000/E2492125-A222-1041-B558-2E49C962F72D.root",
-        "root://maite.iihe.ac.be:1094//store/data/Run2017E/SingleElectron/NANOAOD/UL2017_MiniAODv2_NanoAODv9-v1/120000/E89F5EA0-77A7-1744-86D2-F4FB01C696E6.root",
-        "root://grid-cms-xrootd.physik.rwth-aachen.de:1094//store/data/Run2017E/SingleElectron/NANOAOD/UL2017_MiniAODv2_NanoAODv9-v1/120000/EC3400F8-27F2-3342-8E9E-F4E4E5F39FCF.root",
-        "root://grid-cms-xrootd.physik.rwth-aachen.de:1094//store/data/Run2017E/SingleElectron/NANOAOD/UL2017_MiniAODv2_NanoAODv9-v1/120000/EF786D6B-55E6-BC4C-A80D-B7D9010752D1.root",
-        "root://lyoeos.in2p3.fr:1094//eos/lyoeos.in2p3.fr/grid/cms/store/data/Run2017E/SingleElectron/NANOAOD/UL2017_MiniAODv2_NanoAODv9-v1/120000/F3136ED5-83D6-A244-A0E6-24D11F0D26E7.root",
-        "root://skynet013.crc.nd.edu//store/data/Run2017E/SingleElectron/NANOAOD/UL2017_MiniAODv2_NanoAODv9-v1/120000/FFD126DC-ADFD-4645-90A1-0C120255B245.root",
-        "root://grid-cms-xrootd.physik.rwth-aachen.de:1094//store/data/Run2017E/SingleElectron/NANOAOD/UL2017_MiniAODv2_NanoAODv9-v1/280000/11AAA948-34AB-DF45-AA8F-E13247D30E4B.root",
-        "root://dcache-cms-xrootd.desy.de:1094//store/data/Run2017E/SingleElectron/NANOAOD/UL2017_MiniAODv2_NanoAODv9-v1/280000/24F65216-E62C-E14D-87BC-46F448E97E87.root",
-        "root://maite.iihe.ac.be:1094//store/data/Run2017E/SingleElectron/NANOAOD/UL2017_MiniAODv2_NanoAODv9-v1/280000/3719FA6F-9E35-054C-B5F4-03D92D2765AE.root",
-        "root://lyoeos.in2p3.fr:1094//eos/lyoeos.in2p3.fr/grid/cms/store/data/Run2017E/SingleElectron/NANOAOD/UL2017_MiniAODv2_NanoAODv9-v1/280000/43E4E234-29DB-7A42-B893-AE4388B3750C.root"
+        "root://xrootd-local.unl.edu:1094//store/data/Run2017B/SingleElectron/NANOAOD/UL2017_MiniAODv2_NanoAODv9-v1/70000/788B2080-F7EC-E944-8698-335DCA191258.root",
+        "root://kodiak-se.baylor.edu:1094//store/data/Run2017B/SingleElectron/NANOAOD/UL2017_MiniAODv2_NanoAODv9-v1/70000/7CDB46F2-1D54-9A4B-A32A-77A26959AF5B.root"
     ]
 }

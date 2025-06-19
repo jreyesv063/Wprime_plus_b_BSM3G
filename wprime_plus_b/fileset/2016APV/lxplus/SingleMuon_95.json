@@ -1,0 +1,6 @@
+{
+    "SingleMuon_95": [
+        "root://lyoeos.in2p3.fr:1094//eos/lyoeos.in2p3.fr/grid/cms/store/data/Run2016F/SingleMuon/NANOAOD/HIPM_UL2016_MiniAODv2_NanoAODv9-v2/24310000/23DC8594-DE1C-6A49-B42A-FAA170B60FF5.root",
+        "root://dcache-cms-xrootd.desy.de:1094//store/data/Run2016F/SingleMuon/NANOAOD/HIPM_UL2016_MiniAODv2_NanoAODv9-v2/24310000/F877B334-0821-094E-80C4-98B68E958A0A.root"
+    ]
+}

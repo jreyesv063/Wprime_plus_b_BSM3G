@@ -1,0 +1,6 @@
+{
+    "TTToHadronic_53": [
+        "root://cmseos.fnal.gov//eos/uscms/store/mc/RunIISummer20UL17NanoAODv9/TTToHadronic_TuneCP5_13TeV-powheg-pythia8/NANOAODSIM/106X_mc2017_realistic_v9-v1/80000/8247DC06-FC7D-C149-AF31-76713F2DED1E.root",
+        "root://grid-cms-xrootd.physik.rwth-aachen.de:1094//store/mc/RunIISummer20UL17NanoAODv9/TTToHadronic_TuneCP5_13TeV-powheg-pythia8/NANOAODSIM/106X_mc2017_realistic_v9-v1/80000/826BC19B-AB80-7A48-8D42-F24F2DD36329.root"
+    ]
+}

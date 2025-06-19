@@ -1,0 +1,6 @@
+{
+    "QCD_HT700to1000_36": [
+        "root://eos.cms.rcac.purdue.edu//store/mc/RunIISummer20UL16NanoAODv9/QCD_HT700to1000_TuneCP5_PSWeights_13TeV-madgraph-pythia8/NANOAODSIM/106X_mcRun2_asymptotic_v17-v1/270000/F62F7D4A-DD96-9343-9016-DC4CFEE1F061.root",
+        "root://cmseos.fnal.gov//eos/uscms/store/mc/RunIISummer20UL16NanoAODv9/QCD_HT700to1000_TuneCP5_PSWeights_13TeV-madgraph-pythia8/NANOAODSIM/106X_mcRun2_asymptotic_v17-v1/270000/F6A63411-D62D-D04E-9AC3-94FBFEA9DC7B.root"
+    ]
+}

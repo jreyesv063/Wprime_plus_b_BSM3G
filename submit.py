@@ -1,4 +1,5 @@
 import json
+import sys
 import time
 import dask
 import pickle
@@ -118,8 +119,14 @@ from wprime_plus_b.selections.ztoll.tau_config import ztoll_tau_selection
 from wprime_plus_b.selections.ztoll.Z_config import ztoll_charges_selection, ztoll_mrec_ll_selection
 
 
-
 def main(args):
+
+    # New
+    print(">>> submit.py: script iniciado")
+    import sys
+    print(">>> Argumentos:", sys.argv)
+
+
     args = vars(args)
     # define processors and executors
     processors = {
@@ -156,6 +163,7 @@ def main(args):
         executor_args.update({"workers": args["workers"]})
     if args["executor"] == "dask":
         client = Client("tls://localhost:8786")
+        #executor_args["client"] = client
         executor_args.update({"client": client})
         # upload local directory to dask workers
         try:
@@ -167,13 +175,42 @@ def main(args):
         except OSError:
             print("Failed to upload the directory")
         
+
+    # ---- Load filesets ----
+    print(">>> Llamando get_filesets")
     # get .json filesets for sample
     filesets = get_filesets(
         sample=args["sample"],
         year=args["year"],
         facility=args["facility"],
     )
+
+    sample = args['sample']
+    nsample = args.get('nsample')
+
+    if nsample:
+        fileset_name_nsample = f"{args['sample']}_{args['nsample']}"
+    else:
+        fileset_name_nsample = f"{args['sample']}"
+
+    #fileset_name_nsample = f"{args['sample']}_{args['nsample']}"
+
+    if fileset_name_nsample not in filesets:
+        print(f"❌ Error :  No fileset {fileset_name_nsample} found in fileset/{args['year']}/{args['facility']}. Check the folder", file=sys.stderr)
+        return
+    else:
+        print(f"✅ Fileset found: fileset/{args['year']}/{args['facility']}/{fileset_name_nsample}.json")
+
+
+    # if not filesets:
+    #     print(f"❌ No filesets found for sample={args['sample']}, year={args['year']}, facility={args['facility']}", file=sys.stderr)
+    #     return
+    # else:
+    #     print("✅ Filesets found:", list(filesets.keys()))
+        
+
     for sample, fileset_path in filesets.items():
+
         if len(args["nsample"]) != 0:
             samples_keys = args["nsample"].split(",")
             if sample.split("_")[-1] not in samples_keys:
@@ -648,19 +685,53 @@ def main(args):
                 metadata.update({"selections": selections})
 
 
-        with importlib.resources.path(
-                    "wprime_plus_b.data", "triggers.json"
-        ) as path:
-            with open(path, "r") as handle:
-                triggers = json.load(handle)[args["year"] ] 
-
-
         if args["processor"] in ["top_tagger", "signal", "wjets", "qcd_abcd", "qcd_hadronic"]:
-         
-            if args["lepton_flavor"] in ["tau"]:
-                trigger_option =  top_tagger_trigger_selection[args["lepton_flavor"]]["trigger"]
-                trigger_name = triggers[trigger_option]
-                metadata.update({"Trigger name": trigger_name})
+
+            # Remove duplicates while preserving the original order
+            triggers = list(dict.fromkeys(output_metadata["Triggers"]))
+
+
+            # Update the metadata dictionary with the cleaned triggers list as a string
+            metadata.update({"Triggers": str(triggers)})
+
+
+
+        if args["run_systematics"] == "true" and args["sample"] not in ["MET", "SingleMuon", "SingleElectron", "Tau"]:
+            
+            # Systematic variations object-corrections:
+            syst_var_object = ["ROCHESTER_up", "ROCHESTER_down", 
+                               "TES_up", "TES_down", 
+                               "jet_JES_up", "jet_JES_down", 
+                               "jet_JER_up", "jet_JER_down", 
+                               "fatjet_JES_up", "fatjet_JES_down", 
+                               "fatjet_JER_up", "fatjet_JER_down", 
+                               "met_UNCLUSTERED_up", "met_UNCLUSTERED_down"
+                               ]
+
+
+            has_fatjets = output_metadata[f"Are there Fatjets?"]
+            # If has_fatjets is False, remove fatjet systematic variations
+            if not has_fatjets:
+                syst_var_object = [s for s in syst_var_object if "fatjet" not in s.lower()]
+
+
+            if args["processor"] in ["top_tagger"]:
+                # Save cutflow for each systematic variation
+                for syst in syst_var_object:
+                    for cut_selection, nevents in output_metadata[f"cutflow_{syst}"].items():
+                        output_metadata[f"cutflow_{syst}"][cut_selection] = str(nevents)
+                    metadata.update({f"cutflow_{syst}": output_metadata[f"cutflow_{syst}"]})
+
+                    # Save number of events per region
+                    metadata.update(
+                        {f"raw_final_nevents_{syst}": float(output_metadata[f"raw_final_nevents_{syst}"])}
+                    )
+                    metadata.update(
+                        {f"weighted_final_nevents_{syst}": float(output_metadata[f"weighted_final_nevents_{syst}"])}
+                    )
+
+
+
 
 
         # save args to metadata

@@ -1,9 +1,6 @@
 {
     "MET_3": [
-        "root://maite.iihe.ac.be:1094//store/data/Run2016B/MET/NANOAOD/ver2_HIPM_UL2016_MiniAODv2_NanoAODv9-v2/2530000/6C6F1088-BA14-A045-B3EC-02D0C3EE23ED.root",
-        "root://xrootd-local.unl.edu:1094//store/data/Run2016B/MET/NANOAOD/ver2_HIPM_UL2016_MiniAODv2_NanoAODv9-v2/2530000/6DCE8F26-B04C-1A47-B084-390B1CA257A9.root",
-        "root://xrootd-local.unl.edu:1094//store/data/Run2016B/MET/NANOAOD/ver2_HIPM_UL2016_MiniAODv2_NanoAODv9-v2/2530000/6DCFE678-A76E-BF41-BCB9-234A336C87CE.root",
-        "root://xrootd-local.unl.edu:1094//store/data/Run2016B/MET/NANOAOD/ver2_HIPM_UL2016_MiniAODv2_NanoAODv9-v2/2530000/701A9B44-832B-FE44-8FD9-77A9A2EB525B.root",
-        "root://lyoeos.in2p3.fr:1094//eos/lyoeos.in2p3.fr/grid/cms/store/data/Run2016B/MET/NANOAOD/ver2_HIPM_UL2016_MiniAODv2_NanoAODv9-v2/2530000/797CA674-D6D9-9A4E-8A7C-34D54AEC9C8C.root"
+        "root://gfe02.grid.hep.ph.ic.ac.uk:1094//pnfs/hep.ph.ic.ac.uk/data/cms/store/data/Run2016B/MET/NANOAOD/ver2_HIPM_UL2016_MiniAODv2_NanoAODv9-v2/2530000/1BC02773-FF0C-EE49-81E9-1FCAD9ACA90C.root",
+        "root://lyoeos.in2p3.fr:1094//eos/lyoeos.in2p3.fr/grid/cms/store/data/Run2016B/MET/NANOAOD/ver2_HIPM_UL2016_MiniAODv2_NanoAODv9-v2/2530000/210EADA6-DF06-3443-B1F7-2E52B1BFAB69.root"
     ]
 }

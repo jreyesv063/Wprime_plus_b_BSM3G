@@ -1,5 +1,5 @@
 qcd_hadronic_tau_selection = {
-        "qcd": {
+        "cr_d": {
                 "tau": {
                         "tau_pt_threshold": 20,  
                         "tau_eta_threshold": 2.3, 
@@ -31,7 +31,7 @@ qcd_hadronic_tau_selection = {
                         "prongs": 13,     
                 }, 
         },
-        "cr_a": {
+        "cr_c": {
                 "tau": {
                         "tau_pt_threshold": 20,  
                         "tau_eta_threshold": 2.3, 
@@ -63,7 +63,7 @@ qcd_hadronic_tau_selection = {
                         "prongs": 13,     
                 }, 
         },    
-        "cr_d": {
+        "cr_b": {
                 "tau": {
                         "tau_pt_threshold": 20,  
                         "tau_eta_threshold": 2.3, 

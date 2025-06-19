@@ -1,12 +1,11 @@
 import numpy as np
 import awkward as ak
-from wprime_plus_b.corrections.met import update_met
+from wprime_plus_b.corrections.met import update_met, update_met_list
 from coffea.lookup_tools import txt_converters, rochester_lookup
 
 
 def apply_rochester_corrections(
-    events: ak.Array, is_mc: bool, year: str = "2017", variation: str = "nominal"
-):
+    events: ak.Array, is_mc: bool, year: str = "2017", variation: bool = False):
     # https://twiki.cern.ch/twiki/bin/viewauth/CMS/RochcorMuon
     rochester_data = txt_converters.convert_rochester_file(
         f"wprime_plus_b/data/RoccoR{year}UL.txt", loaduncs=True
@@ -80,4 +79,23 @@ def apply_rochester_corrections(
     # Update muon pt field
     events["Muon", "pt"] = events.Muon.pt_rochester
 
-    update_met(events=events, lepton="Muon")
+    if variation:
+        
+        muon_list = {
+            "nom": events.Muon.pt,
+            "up": events.Muon.pt_up,
+            "down": events.Muon.pt_down,
+            "phi": events.Muon.phi,
+        }
+
+        met_pt_list, met_phi_list, delta_list = update_met_list(   
+            events=events,
+            syst_name="Muon",
+            syst_var = variation, 
+            object = muon_list,       
+        )
+
+        return delta_list #met_pt_list, met_phi_list, delta_list
+        
+    else:
+        update_met(events=events, lepton="Muon")

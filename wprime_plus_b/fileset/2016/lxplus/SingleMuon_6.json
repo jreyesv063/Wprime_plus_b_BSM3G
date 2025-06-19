@@ -1,11 +1,6 @@
 {
     "SingleMuon_6": [
-        "root://grid-cms-xrootd.physik.rwth-aachen.de:1094//store/data/Run2016G/SingleMuon/NANOAOD/UL2016_MiniAODv2_NanoAODv9-v1/70000/261B08A0-22B5-5149-B00E-F9A774477005.root",
-        "root://grid-cms-xrootd.physik.rwth-aachen.de:1094//store/data/Run2016G/SingleMuon/NANOAOD/UL2016_MiniAODv2_NanoAODv9-v1/70000/266B2CD6-17D4-C04F-B1FD-445C371464E4.root",
-        "root://eospublic.cern.ch//eos/opendata/cms/Run2016G/SingleMuon/NANOAOD/UL2016_MiniAODv2_NanoAODv9-v1/70000/37B993E8-7A11-6141-B42F-C20F3F6BB2D0.root",
-        "root://eoscms.cern.ch//eos/cms/store/data/Run2016G/SingleMuon/NANOAOD/UL2016_MiniAODv2_NanoAODv9-v1/70000/3ADD6FD9-5B2A-1441-BC2E-D68FDA486B4B.root",
-        "root://xrootd-cmst1-door.pic.es:1094//pnfs/pic.es/data/cms/disk/store/data/Run2016G/SingleMuon/NANOAOD/UL2016_MiniAODv2_NanoAODv9-v1/70000/473F6C9A-F7AF-2640-886D-D814F98886D8.root",
-        "root://dcache-cms-xrootd.desy.de:1094//store/data/Run2016G/SingleMuon/NANOAOD/UL2016_MiniAODv2_NanoAODv9-v1/70000/51E1A1D8-FBF4-0E45-9F37-FBFD4B5A7A09.root",
-        "root://cmsdcadisk.fnal.gov//dcache/uscmsdisk/store/data/Run2016G/SingleMuon/NANOAOD/UL2016_MiniAODv2_NanoAODv9-v1/70000/5553FFE8-D1DF-9842-9F49-16BB8EFFD4A3.root"
+        "root://cmsdcadisk.fnal.gov//dcache/uscmsdisk/store/data/Run2016G/SingleMuon/NANOAOD/UL2016_MiniAODv2_NanoAODv9-v1/130000/A3279183-BDA6-F44C-8EF3-C063BC598B68.root",
+        "root://cmsdcadisk.fnal.gov//dcache/uscmsdisk/store/data/Run2016G/SingleMuon/NANOAOD/UL2016_MiniAODv2_NanoAODv9-v1/130000/ABAF299E-EAF9-5043-B89B-1D13A9475BBC.root"
     ]
 }

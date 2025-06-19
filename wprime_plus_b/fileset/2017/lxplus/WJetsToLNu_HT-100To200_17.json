@@ -1,0 +1,6 @@
+{
+    "WJetsToLNu_HT-100To200_17": [
+        "root://cms-xrdr.sdfarm.kr:1094//xrd/store/mc/RunIISummer20UL17NanoAODv9/WJetsToLNu_HT-100To200_TuneCP5_13TeV-madgraphMLM-pythia8/NANOAODSIM/106X_mc2017_realistic_v9-v1/70000/ADA4FF97-2C88-204B-A839-69A4A2813D46.root",
+        "root://cms-xrdr.sdfarm.kr:1094//xrd/store/mc/RunIISummer20UL17NanoAODv9/WJetsToLNu_HT-100To200_TuneCP5_13TeV-madgraphMLM-pythia8/NANOAODSIM/106X_mc2017_realistic_v9-v1/70000/C5E6074F-ACC7-BB41-82D6-A2E2336F61BC.root"
+    ]
+}

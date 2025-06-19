@@ -1,8 +1,6 @@
 {
     "Tau_11": [
-        "root://dcache-cms-xrootd.desy.de:1094//store/data/Run2016G/Tau/NANOAOD/UL2016_MiniAODv2_NanoAODv9-v1/280000/B5825DF2-0AD4-D746-B317-EC44A3038E22.root",
-        "root://dcache-cms-xrootd.desy.de:1094//store/data/Run2016G/Tau/NANOAOD/UL2016_MiniAODv2_NanoAODv9-v1/280000/C3DB84AF-01E9-6B44-96D1-9D4E0E2AEBCE.root",
-        "root://grid-cms-xrootd.physik.rwth-aachen.de:1094//store/data/Run2016G/Tau/NANOAOD/UL2016_MiniAODv2_NanoAODv9-v1/280000/D4EEC655-D51B-3746-8907-311B3428F150.root",
-        "root://grid-cms-xrootd.physik.rwth-aachen.de:1094//store/data/Run2016G/Tau/NANOAOD/UL2016_MiniAODv2_NanoAODv9-v1/280000/F4DA9E8E-3803-1342-8644-3FD6FF93D353.root"
+        "root://grid-cms-xrootd.physik.rwth-aachen.de:1094//store/data/Run2016G/Tau/NANOAOD/UL2016_MiniAODv2_NanoAODv9-v1/270000/9E58E7DB-1D14-FA40-A931-366745DEF550.root",
+        "root://maite.iihe.ac.be:1094//store/data/Run2016G/Tau/NANOAOD/UL2016_MiniAODv2_NanoAODv9-v1/270000/B4697B36-3011-3042-8F9A-13709BE01B02.root"
     ]
 }

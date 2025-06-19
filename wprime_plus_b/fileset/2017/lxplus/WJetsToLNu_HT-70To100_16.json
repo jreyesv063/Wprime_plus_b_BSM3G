@@ -1,0 +1,6 @@
+{
+    "WJetsToLNu_HT-70To100_16": [
+        "root://gaexrdoor.ciemat.es:1094//store/mc/RunIISummer20UL17NanoAODv9/WJetsToLNu_HT-70To100_TuneCP5_13TeV-madgraphMLM-pythia8/NANOAODSIM/106X_mc2017_realistic_v9-v1/270000/ECBBE7C2-B39A-354E-88D3-54954E66C88E.root",
+        "root://xrootd-local.unl.edu:1094//store/mc/RunIISummer20UL17NanoAODv9/WJetsToLNu_HT-70To100_TuneCP5_13TeV-madgraphMLM-pythia8/NANOAODSIM/106X_mc2017_realistic_v9-v1/270000/F1426741-1D9A-BC4B-86FD-0CCACD68CDF7.root"
+    ]
+}

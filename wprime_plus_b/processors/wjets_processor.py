@@ -10,8 +10,8 @@ from wprime_plus_b.processors.utils import histograms
 
 
 # Corrections
-from wprime_plus_b.corrections.jec import apply_jet_corrections, apply_fatjet_corrections
-from wprime_plus_b.corrections.met import apply_met_phi_corrections, add_met_trigger_corrections, update_met_jet_veto, met_noMu_cal, met_recoil, met_noMu_minus, met_noMu_plus
+from wprime_plus_b.corrections.jec import apply_jet_corrections
+from wprime_plus_b.corrections.met import apply_met_phi_corrections, update_met_jet_veto, met_noMu_cal, met_recoil, met_noMu_minus, met_noMu_plus
 from wprime_plus_b.corrections.rochester import apply_rochester_corrections
 from wprime_plus_b.corrections.tau_energy import apply_tau_energy_scale_corrections
 from wprime_plus_b.corrections.pileup import add_pileup_weight
@@ -23,8 +23,8 @@ from wprime_plus_b.corrections.muon_highpt import MuonHighPtCorrector
 from wprime_plus_b.corrections.tau import TauCorrector
 from wprime_plus_b.corrections.electron import ElectronCorrector
 from wprime_plus_b.corrections.jetvetomaps import jetvetomaps_mask
-from wprime_plus_b.corrections.ISR import ISR_weight
-from wprime_plus_b.corrections.ttbar_boost import add_ttbar_boost_corrections
+#from wprime_plus_b.corrections.ISR import ISR_weight
+#from wprime_plus_b.corrections.ttbar_boost import add_ttbar_boost_corrections
 
 # Selections: Config
 from wprime_plus_b.selections.wjets.bjet_config import wjet_bjet_selection
@@ -51,7 +51,7 @@ from wprime_plus_b.processors.utils.topXfinder import topXfinder
 
 
 
-from wprime_plus_b.processors.utils.analysis_utils import delta_r_mask, normalize, trigger_match, top_tagger, output_metadata, histograms_output
+from wprime_plus_b.processors.utils.analysis_utils import delta_r_mask, normalize, trigger_match
 
 
 
@@ -148,21 +148,7 @@ class WjetsProccessor(processor.ProcessorABC):
                 # Jet corrections
                 apply_jet_corrections(events, self.year)
 
-                # jet JEC/JER shift
-                if syst_var == "JESUp":
-                    events["Jet"] = events.Jet.JES_Total.up
-                elif syst_var == "JESDown":
-                    events["Jet"] = events.Jet.JES_Total.down
-                elif syst_var == "JERUp":
-                    events["Jet"] = events.Jet.JER.up
-                elif syst_var == "JERDown":
-                    events["Jet"] = events.Jet.JER.down
-                # MET UnclusteredEnergy shift
-                elif syst_var == "UEUp":
-                    events["MET"] = events.MET.MET_UnclusteredEnergy.up
-                elif syst_var == "UEDown":
-                    events["MET"] = events.MET.MET_UnclusteredEnergy.down
-                
+               
                 # apply energy corrections to taus (only to MC)
                 apply_tau_energy_scale_corrections(
                     events=events, 
@@ -186,7 +172,7 @@ class WjetsProccessor(processor.ProcessorABC):
             # -------------------------------------------------------------
             # event SF/weights computation
             # -------------------------------------------------------------
-            # get trigger mask
+            # get trigger mask_match
             with importlib.resources.path(
                 "wprime_plus_b.data", "triggers.json"
             ) as path:
@@ -262,96 +248,7 @@ class WjetsProccessor(processor.ProcessorABC):
                     ],
                     variation=syst_var,
                 )
-                
-                # b-tagging corrector
-                btag_corrector = BTagCorrector(
-                    jets=jets_veto,
-                    weights=weights_container,
-                    sf_type="comb",
-                    worging_point=wjet_bjet_selection[self.channel][self.lepton_flavor][
-                        "btag_working_point"
-                    ],
-                    tagger="deepJet",
-                    year=self.year,
-                    full_run=False,
-                    variation=syst_var,
-                )
-                # add b-tagging weights
-                btag_corrector.add_btag_weights(flavor="b")
-                btag_corrector.add_btag_weights(flavor="c")
-                btag_corrector.add_btag_weights(flavor="light")
-                # electron corrector
-                electron_corrector = ElectronCorrector(
-                    electrons=events.Electron,
-                    weights=weights_container,
-                    year=self.year,
-                )
-                # add electron ID weights
-                electron_corrector.add_id_weight(
-                    id_working_point=wjet_electron_selection[self.channel][self.lepton_flavor]["electron_id_wp"]
-                )
-                # add electron reco weights
-                electron_corrector.add_reco_weight("Above")
-                electron_corrector.add_reco_weight("Below")
-                # add trigger weights
-                if self.lepton_flavor == "ele":
-                    pass
-                
-                # muon corrector
-                if (
-                    wjet_muon_selection[self.channel][self.lepton_flavor]["muon_id_wp"]
-                    == "highpt"
-                ):
-                    mu_corrector = MuonHighPtCorrector
-                else:
-                    mu_corrector = MuonCorrector
-                    
-                muon_corrector = mu_corrector(
-                    muons=events.Muon,
-                    weights=weights_container,
-                    year=self.year,
-                    variation=syst_var,
-                    id_wp=wjet_muon_selection[self.channel][self.lepton_flavor][
-                        "muon_id_wp"
-                    ],
-                    iso_wp=wjet_muon_selection[self.channel][self.lepton_flavor][
-                        "muon_iso_wp"
-                    ],
-                )
-
-                # add muon RECO weights
-                muon_corrector.add_reco_weight()
-                # add muon ID weights
-                muon_corrector.add_id_weight()
-                # add muon iso weights
-                muon_corrector.add_iso_weight()
-                # add trigger weights
-                
-                if self.lepton_flavor == "mu":
-                    muon_corrector.add_triggeriso_weight(
-                        trigger_mask=trigger_mask,
-                        trigger_match_mask=trigger_match_mask,
-                    )
-                
-                # add tau weights
-                tau_corrector = TauCorrector(
-                    taus=events.Tau,
-                    weights=weights_container,
-                    year=self.year,
-                    tau_vs_jet=wjet_tau_selection[self.channel][self.lepton_flavor][
-                        "tau_vs_jet"
-                    ],
-                    tau_vs_ele=wjet_tau_selection[self.channel][self.lepton_flavor][
-                        "tau_vs_ele"
-                    ],
-                    tau_vs_mu=wjet_tau_selection[self.channel][self.lepton_flavor][
-                        "tau_vs_mu"
-                    ],
-                    variation=syst_var,
-                )
-                tau_corrector.add_id_weight_DeepTau2017v2p1VSe()
-                tau_corrector.add_id_weight_DeepTau2017v2p1VSmu()
-                tau_corrector.add_id_weight_DeepTau2017v2p1VSjet()
+              
                 
             # -------------------------------------------------------------
             # object selection
@@ -517,6 +414,99 @@ class WjetsProccessor(processor.ProcessorABC):
 
             leading_jet =  leading_jets[good_leading_jets]
 
+            # New weights:
+            if self.is_mc:
+                # b-tagging corrector
+                btag_corrector = BTagCorrector(
+                    jets=bjets,
+                    weights=weights_container,
+                    sf_type="comb",
+                    worging_point=wjet_bjet_selection[self.channel][self.lepton_flavor][
+                        "btag_working_point"
+                    ],
+                    tagger="deepJet",
+                    year=self.year,
+                    full_run=False,
+                    variation=syst_var,
+                )
+                # add b-tagging weights
+                btag_corrector.add_btag_weights(flavor="b")
+                btag_corrector.add_btag_weights(flavor="c")
+                btag_corrector.add_btag_weights(flavor="light")
+
+                # electron corrector
+                electron_corrector = ElectronCorrector(
+                    electrons=electrons,
+                    weights=weights_container,
+                    year=self.year,
+                )
+                # add electron ID weights
+                electron_corrector.add_id_weight(
+                    id_working_point=wjet_electron_selection[self.channel][self.lepton_flavor]["electron_id_wp"]
+                )
+                # add electron reco weights
+                electron_corrector.add_reco_weight("Above")
+                electron_corrector.add_reco_weight("Below")
+                # add trigger weights
+                if self.lepton_flavor == "ele":
+                    pass
+                
+                # muon corrector
+                if (
+                    wjet_muon_selection[self.channel][self.lepton_flavor]["muon_id_wp"]
+                    == "highpt"
+                ):
+                    mu_corrector = MuonHighPtCorrector
+                else:
+                    mu_corrector = MuonCorrector
+                    
+                muon_corrector = mu_corrector(
+                    muons=muons,
+                    weights=weights_container,
+                    year=self.year,
+                    variation=syst_var,
+                    id_wp=wjet_muon_selection[self.channel][self.lepton_flavor][
+                        "muon_id_wp"
+                    ],
+                    iso_wp=wjet_muon_selection[self.channel][self.lepton_flavor][
+                        "muon_iso_wp"
+                    ],
+                )
+
+                # add muon RECO weights
+                muon_corrector.add_reco_weight()
+                # add muon ID weights
+                muon_corrector.add_id_weight()
+                # add muon iso weights
+                muon_corrector.add_iso_weight()
+                # add trigger weights
+                
+                if self.lepton_flavor == "mu":
+                    muon_corrector.add_triggeriso_weight(
+                        trigger_mask=trigger_mask,
+                        trigger_match_mask=trigger_match_mask,
+                    )
+                
+                # add tau weights
+                tau_corrector = TauCorrector(
+                    taus=taus,
+                    weights=weights_container,
+                    year=self.year,
+                    tau_vs_jet=wjet_tau_selection[self.channel][self.lepton_flavor][
+                        "tau_vs_jet"
+                    ],
+                    tau_vs_ele=wjet_tau_selection[self.channel][self.lepton_flavor][
+                        "tau_vs_ele"
+                    ],
+                    tau_vs_mu=wjet_tau_selection[self.channel][self.lepton_flavor][
+                        "tau_vs_mu"
+                    ],
+                    variation=syst_var,
+                )
+                tau_corrector.add_id_weight_DeepTau2017v2p1VSe()
+                tau_corrector.add_id_weight_DeepTau2017v2p1VSmu()
+                tau_corrector.add_id_weight_DeepTau2017v2p1VSjet()
+            
             # -------------------------
             # p_T^{miss} correction: Recoil variable.
             # -------------------------
@@ -695,6 +685,7 @@ class WjetsProccessor(processor.ProcessorABC):
             # --------- Triggers: OR ---------------
             # Reference trigger
             reference_trigger =  wjet_trigger_selection[self.channel][self.lepton_flavor]["trigger"]
+
             if self.lepton_flavor == "mu":
                 mu_id = wjet_muon_selection[self.channel][self.lepton_flavor]["muon_id_wp"]
                 with importlib.resources.path(
@@ -702,7 +693,7 @@ class WjetsProccessor(processor.ProcessorABC):
                 ) as path:
                     with open(path, "r") as handle:
                         ref_trigger = json.load(handle)[self.year][reference_trigger][mu_id]
-                        print(ref_trigger, type(ref_trigger))
+                        
             
             elif self.lepton_flavor ==  "ele":
                 ele_id = wjet_electron_selection[self.channel][self.lepton_flavor]["electron_id_wp"]
@@ -711,9 +702,15 @@ class WjetsProccessor(processor.ProcessorABC):
                 ) as path:
                     with open(path, "r") as handle:
                         ref_trigger = json.load(handle)[self.year][reference_trigger][ele_id]
-                        print(ref_trigger, type(ref_trigger))                
 
-            #reference_triggers =  [trigger for trigger in events.HLT.fields if trigger.startswith(ref_trigger)]
+            elif self.lepton_flavor ==  "tau":
+                with importlib.resources.path(
+                    "wprime_plus_b.data", "triggers.json"
+                ) as path:
+                    with open(path, "r") as handle:
+                        ref_trigger = json.load(handle)[self.year][reference_trigger]               
+                       
+   
             reference_triggers = [
                 trigger for trigger in events.HLT.fields if any(trigger.startswith(r) for r in ref_trigger)
             ]
@@ -722,12 +719,12 @@ class WjetsProccessor(processor.ProcessorABC):
             
             for trigger_reference in reference_triggers:
                 if trigger_reference in events.HLT.fields:
-                    print(f"Reference trigger: {trigger_reference}")
                     mask_reference_trigger = mask_reference_trigger | events.HLT[trigger_reference]
 
             self.selections.add(f"trigger_{reference_trigger}", mask_reference_trigger)
 
-
+            print(f"Triggers: {reference_triggers}")
+            
             # Trigger under study
             study_trigger =  wjet_trigger_selection[self.channel][self.lepton_flavor]["trigger_eff"]    
 
@@ -737,19 +734,23 @@ class WjetsProccessor(processor.ProcessorABC):
                 ) as path:
                     with open(path, "r") as handle:
                         stu_trigger = json.load(handle)[self.year][study_trigger]
-                        print(stu_trigger, type(stu_trigger)) 
 
-            #triggers_under_study = [trigger for trigger in events.HLT.fields if trigger.startswith(stu_trigger)]
-            triggers_under_study = [
-                trigger for trigger in events.HLT.fields if any(trigger.startswith(prefix) for prefix in stu_trigger)
-            ]
-            mask_under_study = np.zeros(len(events), dtype="bool")
 
-            for trigger_under_study in triggers_under_study:
-                if trigger_under_study in events.HLT.fields:
-                    print(f"Study trigger: {trigger_under_study}")
-                    mask_under_study = mask_under_study | events.HLT[trigger_under_study]
+                triggers_under_study = [
+                    trigger for trigger in events.HLT.fields if any(trigger.startswith(prefix) for prefix in stu_trigger)
+                ]
+                mask_under_study = np.zeros(len(events), dtype="bool")
 
+                for trigger_under_study in triggers_under_study:
+                    if trigger_under_study in events.HLT.fields:
+                        mask_under_study = mask_under_study | events.HLT[trigger_under_study]
+
+                print(f"Study trigger (eff tau channel): {triggers_under_study}")
+                
+            else:
+                mask_under_study = np.ones(len(events), dtype="bool")
+
+            
             self.selections.add(f"trigger_{study_trigger}", mask_under_study)
             
             # -----------------------------------

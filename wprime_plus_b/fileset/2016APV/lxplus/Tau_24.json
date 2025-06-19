@@ -1,10 +1,6 @@
 {
     "Tau_24": [
-        "root://cmsdcadisk.fnal.gov//dcache/uscmsdisk/store/data/Run2016F/Tau/NANOAOD/HIPM_UL2016_MiniAODv2_NanoAODv9-v2/50000/7AA75162-6217-A443-9A6C-59DAC46A31DD.root",
-        "root://cms.sscc.uos.ac.kr:1094//store/data/Run2016F/Tau/NANOAOD/HIPM_UL2016_MiniAODv2_NanoAODv9-v2/50000/808F88D3-FF20-7A43-B99B-1EDB08BD2D1A.root",
-        "root://eoscms.cern.ch//eos/cms/store/data/Run2016F/Tau/NANOAOD/HIPM_UL2016_MiniAODv2_NanoAODv9-v2/50000/81976C54-775F-144D-9B3B-41220E524976.root",
-        "root://eoscms.cern.ch//eos/cms/store/data/Run2016F/Tau/NANOAOD/HIPM_UL2016_MiniAODv2_NanoAODv9-v2/50000/9780A5B7-739C-FA4C-A6CA-7A02CDB9C5E4.root",
-        "root://xrootd-local.unl.edu:1094//store/data/Run2016F/Tau/NANOAOD/HIPM_UL2016_MiniAODv2_NanoAODv9-v2/50000/9BA13B70-3F09-4C44-BD6D-B129E2360371.root",
-        "root://eos.cms.rcac.purdue.edu//store/data/Run2016F/Tau/NANOAOD/HIPM_UL2016_MiniAODv2_NanoAODv9-v2/50000/B3299AA9-0813-E44C-8724-BDEDE42E2828.root"
+        "root://t2dsk0011.cmsaf.mit.edu:1094//store/data/Run2016C/Tau/NANOAOD/HIPM_UL2016_MiniAODv2_NanoAODv9-v2/2430000/3EC30A29-EDA3-5D4B-BDFA-3632FD4138A6.root",
+        "root://rdr.echo.stfc.ac.uk//store/data/Run2016C/Tau/NANOAOD/HIPM_UL2016_MiniAODv2_NanoAODv9-v2/2430000/77E974DE-22C6-C04B-8D69-F05AD820D7A8.root"
     ]
 }

@@ -275,12 +275,7 @@ class QCDProccessor(processor.ProcessorABC):
                     variation=syst_var,
                 )
             
-                # add met trigger weights
-                if self.lepton_flavor == "tau":
-                    # add met trigger SF
-                    add_met_trigger_corrections(trigger_mask, dataset, events.MET, weights_container, self.year, "", syst_var)                    
-                
-                    
+
             # -------------------------------------------------------------
             # object selection
             # -------------------------------------------------------------
@@ -928,55 +923,54 @@ class QCDProccessor(processor.ProcessorABC):
 
 
             # -------- Trigger: OR ----------#
-            # get trigger mask
-            with importlib.resources.path(
-                "wprime_plus_b.data", "triggers.json"
-            ) as path:
-                with open(path, "r") as handle:
-                    self._triggers = json.load(handle)[self.year][self.lepton_flavor]
+            reference_trigger =  qcd_hadronic_trigger_selection[self.channel][self.lepton_flavor]["trigger"]
 
-            trigger_mask = np.zeros(len(events), dtype="bool")
+            if self.lepton_flavor == "mu":
+                mu_id = qcd_hadronic_muon_selection[self.lepton_flavor]["muon_id_wp"]
+                with importlib.resources.path(
+                    "wprime_plus_b.data", "triggers.json"
+                ) as path:
+                    with open(path, "r") as handle:
+                        ref_trigger = json.load(handle)[self.year][reference_trigger][mu_id]
+                        print(ref_trigger, type(ref_trigger))
             
-            # get DeltaR matched trigger objects mask
-            trigger_leptons = {
-                "ele": events.Electron,
-                "mu": events.Muon,
-            }
-            trigger_match_mask = np.zeros(nevents, dtype="bool")
+            elif self.lepton_flavor ==  "ele":
+                ele_id = qcd_hadronic_electron_selection[self.lepton_flavor]["electron_id_wp"]
+                with importlib.resources.path(
+                    "wprime_plus_b.data", "triggers.json"
+                ) as path:
+                    with open(path, "r") as handle:
+                        ref_trigger = json.load(handle)[self.year][reference_trigger][ele_id]
+                        print(ref_trigger, type(ref_trigger))               
 
-            if self.lepton_flavor != "tau":
-                lepton_id_config = {
-                    "ele": qcd_hadronic_electron_selection[self.channel][self.lepton_flavor]["electron_id_wp"],
-                    "mu": qcd_hadronic_muon_selection[self.channel][self.lepton_flavor]["muon_id_wp"]
-                } 
-                trigger_paths = self._triggers[lepton_id_config[self.lepton_flavor]]
-
-                for tp in trigger_paths:
-                    if tp in events.HLT.fields:
-                        trigger_mask = trigger_mask | events.HLT[tp]
-
-                for trigger_path in trigger_paths:
-                    trig_match = trigger_match(
-                        leptons=trigger_leptons[self.lepton_flavor],
-                        trigobjs=events.TrigObj,
-                        trigger_path=trigger_path,
-                    )
-                    trigger_match_mask = trigger_match_mask | trig_match
+            elif self.lepton_flavor ==  "tau":
+                with importlib.resources.path(
+                    "wprime_plus_b.data", "triggers.json"
+                ) as path:
+                    with open(path, "r") as handle:
+                        ref_trigger = json.load(handle)[self.year][reference_trigger]
                         
-            else:
-                trigger_paths = self._triggers
 
-                for tp in trigger_paths:
-                    if tp in events.HLT.fields:
-                        print(tp)
-                        trigger_mask = trigger_mask | events.HLT[tp]
-                        
-                trigger_match_mask = np.ones(len(events), dtype="bool")
+            reference_triggers = [
+                trigger for trigger in events.HLT.fields if any(trigger.startswith(r) for r in ref_trigger)
+            ]
+            
+            mask_reference_trigger = np.zeros(len(events), dtype="bool")
 
+
+            for trigger_reference in reference_triggers:
+                if trigger_reference in events.HLT.fields:
+                    mask_reference_trigger = mask_reference_trigger | events.HLT[trigger_reference]
+
+
+            if self.lepton_flavor == "tau":
+                add_met_trigger_corrections(mask_reference_trigger, dataset, events.MET, weights_container, self.year, "", syst_var) 
             
             # add lepton triggers masks
-            trigger_option =  qcd_hadronic_trigger_selection[self.channel][self.lepton_flavor]["trigger"]
-            self.selections.add(f"trigger_{trigger_option}", trigger_mask)
+            self.selections.add(f"trigger_{reference_trigger}", mask_reference_trigger)
+
+
+            print(f"Triggers: {reference_triggers}")
 
             
             # --------------------------
@@ -1013,40 +1007,12 @@ class QCDProccessor(processor.ProcessorABC):
             
             # define selection regions for each channel
             region_selection = {
-                "qcd": {
+                "cr_b": {
                     "tau": [
                             "goodvertex",
                             "lumi",
                             "Stitching",
-                            f"trigger_{trigger_option}",
-                            "metfilters",
-                            "delta_phi_jet_met_less_0.7",
-                            f"met_pt_{met_threshold}",
-                            "electron_veto",
-                            "muon_veto",
-                            f"one_tau_{pass_tau_wp}",
-                            f"tau_fail_{fail_tau_wp}",
-#                            "one_bjet"
-                        ],
-                        "mu": [
-                            "goodvertex",
-                            "lumi",
-                            "metfilters",
-                            f"trigger_{trigger_option}",
-                            "trigger_match",
-                            "HEMCleaning",
-                            f"met_pt_{met_threshold}",
-                            "electron_veto",
-                            "tau_veto",
-                            "one_muon",
-                        ],
-                }, 
-                "cr_a": {
-                    "tau": [
-                            "goodvertex",
-                            "lumi",
-                            "Stitching",
-                            f"trigger_{trigger_option}",
+                            f"trigger_{reference_trigger}",
                             "metfilters",
                             "delta_phi_jet_met_less_0.7",
                             f"met_pt_{met_threshold}",
@@ -1059,7 +1025,7 @@ class QCDProccessor(processor.ProcessorABC):
                             "goodvertex",
                             "lumi",
                             "metfilters",
-                            f"trigger_{trigger_option}",
+                            f"trigger_{reference_trigger}",
                             "trigger_match",
                             "HEMCleaning",
                             f"met_pt_{met_threshold}",
@@ -1068,12 +1034,12 @@ class QCDProccessor(processor.ProcessorABC):
                             "one_muon",
                         ],
                 }, 
-                "cr_d": {
+                "cr_c": {
                     "tau": [
                             "goodvertex",
                             "lumi",
                             "Stitching",
-                            f"trigger_{trigger_option}",
+                            f"trigger_{reference_trigger}",
                             "metfilters",
                             "delta_phi_jet_met_more_0.7",
                             f"met_pt_{met_threshold}",
@@ -1087,7 +1053,35 @@ class QCDProccessor(processor.ProcessorABC):
                             "goodvertex",
                             "lumi",
                             "metfilters",
-                            f"trigger_{trigger_option}",
+                            f"trigger_{reference_trigger}",
+                            "trigger_match",
+                            "HEMCleaning",
+                            f"met_pt_{met_threshold}",
+                            "electron_veto",
+                            "tau_veto",
+                            "one_muon",
+                        ],
+                }, 
+                "cr_d": {
+                    "tau": [
+                            "goodvertex",
+                            "lumi",
+                            "Stitching",
+                            f"trigger_{reference_trigger}",
+                            "metfilters",
+                            "delta_phi_jet_met_less_0.7",
+                            f"met_pt_{met_threshold}",
+                            "electron_veto",
+                            "muon_veto",
+                            f"one_tau_{pass_tau_wp}",
+                            f"tau_fail_{fail_tau_wp}",
+#                            "one_bjet"
+                        ],
+                        "mu": [
+                            "goodvertex",
+                            "lumi",
+                            "metfilters",
+                            f"trigger_{reference_trigger}",
                             "trigger_match",
                             "HEMCleaning",
                             f"met_pt_{met_threshold}",
@@ -1160,7 +1154,7 @@ class QCDProccessor(processor.ProcessorABC):
 
             if nevents_after == 0:
                 output["metadata"]["cutflow"]["failing_top_tagger"] = ak.sum(weights_container.weight()[region_selection])
-                output["metadata"]["cutflow"]["pasing_top_tagger"] = ak.sum(weights_container.weight()[region_selection])
+                #output["metadata"]["cutflow"]["pasing_top_tagger"] = ak.sum(weights_container.weight()[region_selection])
                 
                 output_metadata(output = output["metadata"])
                 tops = ak.zeros_like(region_selection)
@@ -1184,7 +1178,7 @@ class QCDProccessor(processor.ProcessorABC):
 
                 #output["metadata"]["cutflow"]["failing_top_tagger"] = ak.sum(weights_container.weight()[region_selection][~mask_top])
                 output["metadata"]["cutflow"]["failing_top_tagger"] = ak.sum(weights_container.weight()[region_selection][np.logical_not(mask_top)])
-                output["metadata"]["cutflow"]["pasing_top_tagger"] = ak.sum(weights_container.weight()[region_selection][mask_top])
+                #output["metadata"]["cutflow"]["pasing_top_tagger"] = ak.sum(weights_container.weight()[region_selection][mask_top])
 
 
                 pre_weights = weights_container.weight()[region_selection]

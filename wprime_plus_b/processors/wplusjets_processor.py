@@ -199,7 +199,7 @@ class WplusJetsProcessor(processor.ProcessorABC):
             # -------------------------------------------------------------
             # event SF/weights computation
             # -------------------------------------------------------------
-            # get trigger mask
+            # get trigger mask_match
             with importlib.resources.path(
                 "wprime_plus_b.data", "triggers.json"
             ) as path:
@@ -279,12 +279,7 @@ class WplusJetsProcessor(processor.ProcessorABC):
                 )
                 
               
-                # add met trigger weights
-                if self.lepton_flavor == "tau":
-                    # add met trigger SF
-                    add_met_trigger_corrections(trigger_mask, dataset, events.MET, weights_container, self.year, "", syst_var)                    
-                
-                    
+                   
             # -------------------------------------------------------------
             # object selection
             # -------------------------------------------------------------
@@ -918,55 +913,51 @@ class WplusJetsProcessor(processor.ProcessorABC):
 
 
             # -------- Trigger: OR ----------#
-            # get trigger mask
-            with importlib.resources.path(
-                "wprime_plus_b.data", "triggers.json"
-            ) as path:
-                with open(path, "r") as handle:
-                    self._triggers = json.load(handle)[self.year][self.lepton_flavor]
-
-            trigger_mask = np.zeros(len(events), dtype="bool")
+            reference_trigger =  wjets_trigger_selection[self.channel][self.lepton_flavor]["trigger"]
+            if self.lepton_flavor == "mu":
+                mu_id = wjets_muon_selection[self.lepton_flavor]["muon_id_wp"]
+                with importlib.resources.path(
+                    "wprime_plus_b.data", "triggers.json"
+                ) as path:
+                    with open(path, "r") as handle:
+                        ref_trigger = json.load(handle)[self.year][reference_trigger][mu_id]
+                        print(ref_trigger, type(ref_trigger))
             
-            # get DeltaR matched trigger objects mask
-            trigger_leptons = {
-                "ele": events.Electron,
-                "mu": events.Muon,
-            }
-            trigger_match_mask = np.zeros(nevents, dtype="bool")
+            elif self.lepton_flavor ==  "ele":
+                ele_id = wjets_electron_selection[self.channel][self.lepton_flavor]["electron_id_wp"]
+                with importlib.resources.path(
+                    "wprime_plus_b.data", "triggers.json"
+                ) as path:
+                    with open(path, "r") as handle:
+                        ref_trigger = json.load(handle)[self.year][reference_trigger][ele_id]
+                        print(ref_trigger, type(ref_trigger))               
 
-            if self.lepton_flavor != "tau":
-                lepton_id_config = {
-                    "ele": wjets_electron_selection[self.channel][self.lepton_flavor]["electron_id_wp"],
-                    "mu": wjets_muon_selection[self.channel][self.lepton_flavor]["muon_id_wp"]
-                } 
-                trigger_paths = self._triggers[lepton_id_config[self.lepton_flavor]]
+            elif self.lepton_flavor ==  "tau":
+                with importlib.resources.path(
+                    "wprime_plus_b.data", "triggers.json"
+                ) as path:
+                    with open(path, "r") as handle:
+                        ref_trigger = json.load(handle)[self.year][reference_trigger]
+                        #print(ref_trigger, type(ref_trigger))    
 
-                for tp in trigger_paths:
-                    if tp in events.HLT.fields:
-                        trigger_mask = trigger_mask | events.HLT[tp]
+            reference_triggers = [
+                trigger for trigger in events.HLT.fields if any(trigger.startswith(r) for r in ref_trigger)
+            ]
+            
+            mask_reference_trigger = np.zeros(len(events), dtype="bool")
+            
+           
+            for trigger_reference in reference_triggers:
+                if trigger_reference in events.HLT.fields:
+                    mask_reference_trigger = mask_reference_trigger | events.HLT[trigger_reference]
 
-                for trigger_path in trigger_paths:
-                    trig_match = trigger_match(
-                        leptons=trigger_leptons[self.lepton_flavor],
-                        trigobjs=events.TrigObj,
-                        trigger_path=trigger_path,
-                    )
-                    trigger_match_mask = trigger_match_mask | trig_match
-                        
-            else:
-                trigger_paths = self._triggers
+            if self.lepton_flavor == "tau":
+                add_met_trigger_corrections(mask_reference_trigger, dataset, events.MET, weights_container, self.year, "", syst_var)  
 
-                for tp in trigger_paths:
-                    if tp in events.HLT.fields:
-                        trigger_mask = trigger_mask | events.HLT[tp]
-                        
-                trigger_match_mask = np.ones(len(events), dtype="bool")
+            print(f"Triggers: {reference_triggers}")
+            self.selections.add(f"trigger_{reference_trigger}", mask_reference_trigger)
 
             
-            # add lepton triggers masks
-            trigger_option =  wjets_trigger_selection[self.channel][self.lepton_flavor]["trigger"]
-            self.selections.add(f"trigger_{trigger_option}", trigger_mask)
-
 
             # --------------------------
             # deltaphi_cut cut
@@ -1018,7 +1009,7 @@ class WplusJetsProcessor(processor.ProcessorABC):
                             "goodvertex",
                             "lumi",
                             "Stitching",
-                            f"trigger_{trigger_option}",
+                            f"trigger_{reference_trigger}",
                             "metfilters",
                             "delta_phi_jet_met_0.7",
                             f"met_pt_{met_threshold}",
@@ -1032,7 +1023,7 @@ class WplusJetsProcessor(processor.ProcessorABC):
                             "goodvertex",
                             "lumi",
                             "metfilters",
-                            f"trigger_{trigger_option}",
+                            f"trigger_{reference_trigger}",
                             "trigger_match",
                             "HEMCleaning",
                             f"met_pt_{met_threshold}",
@@ -1046,7 +1037,7 @@ class WplusJetsProcessor(processor.ProcessorABC):
                             "goodvertex",
                             "lumi",
                             "Stitching",
-                            f"trigger_{trigger_option}",
+                            f"trigger_{reference_trigger}",
                             "metfilters",
                             "delta_phi_jet_met_0.7",
                             f"met_pt_{met_threshold}",
@@ -1061,7 +1052,7 @@ class WplusJetsProcessor(processor.ProcessorABC):
                             "goodvertex",
                             "lumi",
                             "metfilters",
-                            f"trigger_{trigger_option}",
+                            f"trigger_{reference_trigger}",
                             "trigger_match",
                             "HEMCleaning",
                             f"met_pt_{met_threshold}",
@@ -1075,7 +1066,7 @@ class WplusJetsProcessor(processor.ProcessorABC):
                             "goodvertex",
                             "lumi",
                             "Stitching",
-                            f"trigger_{trigger_option}",
+                            f"trigger_{reference_trigger}",
                             "metfilters",
                             "delta_phi_jet_met_0.7",
                             f"met_pt_{met_threshold}",
@@ -1090,7 +1081,7 @@ class WplusJetsProcessor(processor.ProcessorABC):
                             "goodvertex",
                             "lumi",
                             "metfilters",
-                            f"trigger_{trigger_option}",
+                            f"trigger_{reference_trigger}",
                             "trigger_match",
                             "HEMCleaning",
                             f"met_pt_{met_threshold}",
@@ -1104,7 +1095,7 @@ class WplusJetsProcessor(processor.ProcessorABC):
                             "goodvertex",
                             "lumi",
                             "Stitching",
-                            f"trigger_{trigger_option}",
+                            f"trigger_{reference_trigger}",
                             "metfilters",
                             "delta_phi_jet_met_0.7",
                             f"met_pt_{met_threshold}",
@@ -1118,7 +1109,7 @@ class WplusJetsProcessor(processor.ProcessorABC):
                             "goodvertex",
                             "lumi",
                             "metfilters",
-                            f"trigger_{trigger_option}",
+                            f"trigger_{reference_trigger}",
                             "trigger_match",
                             "HEMCleaning",
                             f"met_pt_{met_threshold}",
@@ -1190,7 +1181,7 @@ class WplusJetsProcessor(processor.ProcessorABC):
         
             if nevents_after == 0:
                 output["metadata"]["cutflow"]["failing_top_tagger"] = ak.sum(weights_container.weight()[region_selection])
-                output["metadata"]["cutflow"]["pasing_top_tagger"] = ak.sum(weights_container.weight()[region_selection])
+                #output["metadata"]["cutflow"]["pasing_top_tagger"] = ak.sum(weights_container.weight()[region_selection])
                 
                 output_metadata(output = output["metadata"])
                 tops = ak.zeros_like(region_selection)
@@ -1213,7 +1204,7 @@ class WplusJetsProcessor(processor.ProcessorABC):
 
                 #output["metadata"]["cutflow"]["failing_top_tagger"] = ak.sum(weights_container.weight()[region_selection][~mask_top])
                 output["metadata"]["cutflow"]["failing_top_tagger"] = ak.sum(weights_container.weight()[region_selection][np.logical_not(mask_top)])
-                output["metadata"]["cutflow"]["pasing_top_tagger"] = ak.sum(weights_container.weight()[region_selection][mask_top])
+                #output["metadata"]["cutflow"]["pasing_top_tagger"] = ak.sum(weights_container.weight()[region_selection][mask_top])
 
 
                 pre_weights = weights_container.weight()[region_selection]

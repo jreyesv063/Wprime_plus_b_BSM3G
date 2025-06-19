@@ -1,16 +1,6 @@
 {
     "MET_11": [
-        "root://cmsdcadisk.fnal.gov//dcache/uscmsdisk/store/data/Run2017E/MET/NANOAOD/UL2017_MiniAODv2_NanoAODv9-v1/120000/7C56B2A2-4D3D-604C-9A9E-C9860ACED0DB.root",
-        "root://lyoeos.in2p3.fr:1094//eos/lyoeos.in2p3.fr/grid/cms/store/data/Run2017E/MET/NANOAOD/UL2017_MiniAODv2_NanoAODv9-v1/120000/890852B1-EC3D-5743-9AFA-AB81A3F8DB8D.root",
-        "root://dcache-cms-xrootd.desy.de:1094//store/data/Run2017E/MET/NANOAOD/UL2017_MiniAODv2_NanoAODv9-v1/120000/9BAB68BC-648E-3049-95FB-88A615B7AF4C.root",
-        "root://lyoeos.in2p3.fr:1094//eos/lyoeos.in2p3.fr/grid/cms/store/data/Run2017E/MET/NANOAOD/UL2017_MiniAODv2_NanoAODv9-v1/120000/F13A2094-D0C9-B44F-A9C3-350F3A50D671.root",
-        "root://maite.iihe.ac.be:1094//store/data/Run2017E/MET/NANOAOD/UL2017_MiniAODv2_NanoAODv9-v1/130000/67D26EC0-8C40-8B45-A35D-A3597C7DD10C.root",
-        "root://maite.iihe.ac.be:1094//store/data/Run2017E/MET/NANOAOD/UL2017_MiniAODv2_NanoAODv9-v1/260000/2EE82F7E-6F95-3C4C-AA62-51C830CF1B9C.root",
-        "root://maite.iihe.ac.be:1094//store/data/Run2017E/MET/NANOAOD/UL2017_MiniAODv2_NanoAODv9-v1/270000/0DCDF151-5735-D642-8892-1CF7C68BD179.root",
-        "root://lyoeos.in2p3.fr:1094//eos/lyoeos.in2p3.fr/grid/cms/store/data/Run2017E/MET/NANOAOD/UL2017_MiniAODv2_NanoAODv9-v1/270000/14BCD7AC-55AE-4B40-8DC6-80B341430C31.root",
-        "root://maite.iihe.ac.be:1094//store/data/Run2017E/MET/NANOAOD/UL2017_MiniAODv2_NanoAODv9-v1/270000/1C9E86CD-8789-ED44-9A08-0F9E89562FBD.root",
-        "root://grid-cms-xrootd.physik.rwth-aachen.de:1094//store/data/Run2017E/MET/NANOAOD/UL2017_MiniAODv2_NanoAODv9-v1/270000/1E02DD7A-40AA-F24B-A7F2-EA7A493C02E9.root",
-        "root://dcache-cms-xrootd.desy.de:1094//store/data/Run2017E/MET/NANOAOD/UL2017_MiniAODv2_NanoAODv9-v1/270000/1FFE9989-2295-FD46-8EDD-2594BD42BDC4.root",
-        "root://dcache-cms-xrootd.desy.de:1094//store/data/Run2017E/MET/NANOAOD/UL2017_MiniAODv2_NanoAODv9-v1/270000/210F7A25-B1A3-DB4E-BBAC-8FFF2B710A89.root"
+        "root://t2dsk0011.cmsaf.mit.edu:1094//store/data/Run2017B/MET/NANOAOD/UL2017_MiniAODv2_NanoAODv9-v1/70000/3BA8EE69-8FDF-D247-BDC2-C7128F71379C.root",
+        "root://lyoeos.in2p3.fr:1094//eos/lyoeos.in2p3.fr/grid/cms/store/data/Run2017B/MET/NANOAOD/UL2017_MiniAODv2_NanoAODv9-v1/70000/3CA0393B-7E82-5C43-BF34-07C1BB32F7A5.root"
     ]
 }

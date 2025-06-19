@@ -2,7 +2,7 @@ wjet_trigger_selection = {
     "1j1l": {
         "mu": {
             "trigger": "mu",
-            "trigger_eff": "tau",
+            "trigger_eff": "",
         },    
     },
     "1l0b": {

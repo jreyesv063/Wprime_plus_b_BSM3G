@@ -1,0 +1,6 @@
+{
+    "TTToSemiLeptonic_115": [
+        "root://skynet013.crc.nd.edu//store/mc/RunIISummer20UL17NanoAODv9/TTToSemiLeptonic_TuneCP5_13TeV-powheg-pythia8/NANOAODSIM/106X_mc2017_realistic_v9-v1/280000/AF0A410D-4715-5C4B-8F62-43B10027C616.root",
+        "root://xrootd-local.unl.edu:1094//store/mc/RunIISummer20UL17NanoAODv9/TTToSemiLeptonic_TuneCP5_13TeV-powheg-pythia8/NANOAODSIM/106X_mc2017_realistic_v9-v1/280000/B0475752-B699-F148-89BB-0C69E524BEE4.root"
+    ]
+}

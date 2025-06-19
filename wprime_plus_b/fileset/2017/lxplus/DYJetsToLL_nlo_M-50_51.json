@@ -1,0 +1,6 @@
+{
+    "DYJetsToLL_nlo_M-50_51": [
+        "root://grid-cms-xrootd.physik.rwth-aachen.de:1094//store/mc/RunIISummer20UL17NanoAODv9/DYJetsToLL_M-50_TuneCP5_13TeV-amcatnloFXFX-pythia8/NANOAODSIM/106X_mc2017_realistic_v9-v2/250000/F994A69A-9C27-F745-98C0-2FEDFBF0DCF0.root",
+        "root://eos.cms.rcac.purdue.edu//store/mc/RunIISummer20UL17NanoAODv9/DYJetsToLL_M-50_TuneCP5_13TeV-amcatnloFXFX-pythia8/NANOAODSIM/106X_mc2017_realistic_v9-v2/250000/FB86C880-B542-934C-A1C7-5DF195B8B9DF.root"
+    ]
+}

@@ -1,0 +1,6 @@
+{
+    "DYJetsToLL_M-50_inclusive_15": [
+        "root://eoscms.cern.ch//eos/cms/store/mc/RunIISummer20UL18NanoAODv9/DYJetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8/NANOAODSIM/106X_upgrade2018_realistic_v16_L1v1-v1/280000/1EC72A3E-A224-A741-A2A7-C60D90C56BE4.root",
+        "root://xrootd-cms.infn.it:1194//store/mc/RunIISummer20UL18NanoAODv9/DYJetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8/NANOAODSIM/106X_upgrade2018_realistic_v16_L1v1-v1/280000/206720BF-5E3C-0F4F-8F4C-6876D1F6C5D8.root"
+    ]
+}

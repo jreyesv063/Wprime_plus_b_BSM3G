@@ -1,8 +1,6 @@
 {
     "MET_25": [
-        "root://xrootd-local.unl.edu:1094//store/data/Run2016F/MET/NANOAOD/HIPM_UL2016_MiniAODv2_NanoAODv9-v2/40000/F0BABC54-1D97-214C-AE19-B08E579B3175.root",
-        "root://xrootd-local.unl.edu:1094//store/data/Run2016F/MET/NANOAOD/HIPM_UL2016_MiniAODv2_NanoAODv9-v2/40000/F70F903E-E8D4-DC45-AF97-5F058CE6B59A.root",
-        "root://eoscms.cern.ch//eos/cms/store/data/Run2016F/MET/NANOAOD/HIPM_UL2016_MiniAODv2_NanoAODv9-v2/50000/7966FAFD-B0F4-734B-B33B-9B84BB86DEA8.root",
-        "root://eoscms.cern.ch//eos/cms/store/data/Run2016F/MET/NANOAOD/HIPM_UL2016_MiniAODv2_NanoAODv9-v2/50000/B19C0993-81CE-3048-A76A-CD12F64DB6CA.root"
+        "root://lyoeos.in2p3.fr:1094//eos/lyoeos.in2p3.fr/grid/cms/store/data/Run2016C/MET/NANOAOD/HIPM_UL2016_MiniAODv2_NanoAODv9-v2/2430000/EDE40D7A-AC9D-2645-BD35-B31241E79BAC.root",
+        "root://cmsdcadisk.fnal.gov//dcache/uscmsdisk/store/data/Run2016C/MET/NANOAOD/HIPM_UL2016_MiniAODv2_NanoAODv9-v2/2430000/EF7886B2-DE32-D143-B4FC-6B2FB5743C51.root"
     ]
 }

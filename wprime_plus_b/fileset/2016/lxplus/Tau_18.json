@@ -1,8 +1,6 @@
 {
     "Tau_18": [
-        "root://sbgdcache.in2p3.fr//store/data/Run2016H/Tau/NANOAOD/UL2016_MiniAODv2_NanoAODv9-v1/260000/7682780E-C0E4-4A42-B1AA-32B58C6898B4.root",
-        "root://ccxrdcms.in2p3.fr:1094//store/data/Run2016H/Tau/NANOAOD/UL2016_MiniAODv2_NanoAODv9-v1/260000/7B6B2454-6657-F344-8A33-7C6A6B72B54F.root",
-        "root://maite.iihe.ac.be:1094//store/data/Run2016H/Tau/NANOAOD/UL2016_MiniAODv2_NanoAODv9-v1/260000/84350E17-F040-184E-B128-16D829E53845.root",
-        "root://maite.iihe.ac.be:1094//store/data/Run2016H/Tau/NANOAOD/UL2016_MiniAODv2_NanoAODv9-v1/260000/8E2AEF79-0EFB-DE42-A8FD-23F2C26347F5.root"
+        "root://maite.iihe.ac.be:1094//store/data/Run2016G/Tau/NANOAOD/UL2016_MiniAODv2_NanoAODv9-v1/280000/164FB902-F799-C14D-929B-3D89C81EE95A.root",
+        "root://eos.cms.rcac.purdue.edu//store/data/Run2016G/Tau/NANOAOD/UL2016_MiniAODv2_NanoAODv9-v1/280000/1F767498-91B2-0D47-83F8-E28A805901E5.root"
     ]
 }

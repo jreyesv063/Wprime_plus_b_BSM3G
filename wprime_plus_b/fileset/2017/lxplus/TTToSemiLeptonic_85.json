@@ -1,0 +1,6 @@
+{
+    "TTToSemiLeptonic_85": [
+        "root://cms-xrdr.sdfarm.kr:1094//xrd/store/mc/RunIISummer20UL17NanoAODv9/TTToSemiLeptonic_TuneCP5_13TeV-powheg-pythia8/NANOAODSIM/106X_mc2017_realistic_v9-v1/280000/77C10411-8AE8-544D-A364-FDEB62A4378E.root",
+        "root://maite.iihe.ac.be:1094//store/mc/RunIISummer20UL17NanoAODv9/TTToSemiLeptonic_TuneCP5_13TeV-powheg-pythia8/NANOAODSIM/106X_mc2017_realistic_v9-v1/280000/7812AD1E-A025-2F4F-AA8F-6D60B27AF6EC.root"
+    ]
+}

@@ -1,0 +1,6 @@
+{
+    "WJetsToLNu_ext_215": [
+        "root://cmseos.fnal.gov//eos/uscms/store/mc/RunIISummer20UL17NanoAODv9/WJetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8/NANOAODSIM/106X_mc2017_realistic_v9_ext1-v2/40000/2CBF36BE-8EF5-EE42-A5C5-5200B80B37E1.root",
+        "root://xrootd-vanderbilt.sites.opensciencegrid.org:1094//store/mc/RunIISummer20UL17NanoAODv9/WJetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8/NANOAODSIM/106X_mc2017_realistic_v9_ext1-v2/40000/2CEA17E6-66E3-934A-BFB0-DA5F9A540E22.root"
+    ]
+}

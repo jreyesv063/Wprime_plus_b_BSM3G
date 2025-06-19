@@ -1,0 +1,6 @@
+{
+    "SingleMuon_96": [
+        "root://xrootd-cmst1-door.pic.es:1094//pnfs/pic.es/data/cms/disk/store/data/Run2016F/SingleMuon/NANOAOD/HIPM_UL2016_MiniAODv2_NanoAODv9-v2/2520000/01809DF6-DF59-BC4E-89A5-8DEECB8FFCB9.root",
+        "root://xrootd-local.unl.edu:1094//store/data/Run2016F/SingleMuon/NANOAOD/HIPM_UL2016_MiniAODv2_NanoAODv9-v2/2520000/0C1CD98B-22B8-074C-949F-03E1383DCB75.root"
+    ]
+}

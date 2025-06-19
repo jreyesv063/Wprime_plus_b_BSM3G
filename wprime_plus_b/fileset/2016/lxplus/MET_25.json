@@ -1,6 +1,6 @@
 {
     "MET_25": [
-        "root://maite.iihe.ac.be:1094//store/data/Run2016H/MET/NANOAOD/UL2016_MiniAODv2_NanoAODv9-v1/70000/DDC71FF5-7777-6848-B8BB-AFFA9E049F26.root",
-        "root://eospublic.cern.ch//eos/opendata/cms/Run2016H/MET/NANOAOD/UL2016_MiniAODv2_NanoAODv9-v1/70000/EEFFDC8A-F1A3-3A4D-BF9B-43406F3C81ED.root"
+        "root://eospublic.cern.ch//eos/opendata/cms/Run2016H/MET/NANOAOD/UL2016_MiniAODv2_NanoAODv9-v1/70000/D00D290E-BAF2-F540-8891-6C1E35AFE6ED.root",
+        "root://lyoeos.in2p3.fr:1094//eos/lyoeos.in2p3.fr/grid/cms/store/data/Run2016H/MET/NANOAOD/UL2016_MiniAODv2_NanoAODv9-v1/70000/D53F3A82-32F2-2C46-B4C3-FD95042ED7DB.root"
     ]
 }

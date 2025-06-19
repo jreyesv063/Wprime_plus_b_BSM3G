@@ -1,0 +1,6 @@
+{
+    "SingleElectron_125": [
+        "root://gfe02.grid.hep.ph.ic.ac.uk:1094//pnfs/hep.ph.ic.ac.uk/data/cms/store/data/Run2016E/SingleElectron/NANOAOD/HIPM_UL2016_MiniAODv2_NanoAODv9-v2/2430000/9FB08EB6-2DCB-5244-A395-7EB56D05CFFF.root",
+        "root://eoscms.cern.ch//eos/cms/store/data/Run2016E/SingleElectron/NANOAOD/HIPM_UL2016_MiniAODv2_NanoAODv9-v2/2430000/A44CF032-B6B0-2D48-9B56-FCEB3AAED4AE.root"
+    ]
+}

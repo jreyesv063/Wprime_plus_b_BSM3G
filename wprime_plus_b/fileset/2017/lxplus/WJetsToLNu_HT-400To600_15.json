@@ -1,0 +1,6 @@
+{
+    "WJetsToLNu_HT-400To600_15": [
+        "root://maite.iihe.ac.be:1094//store/mc/RunIISummer20UL17NanoAODv9/WJetsToLNu_HT-400To600_TuneCP5_13TeV-madgraphMLM-pythia8/NANOAODSIM/106X_mc2017_realistic_v9-v1/280000/1A769302-8410-864D-8D8C-1AEA3023FE52.root",
+        "root://eoscms.cern.ch//eos/cms/store/mc/RunIISummer20UL17NanoAODv9/WJetsToLNu_HT-400To600_TuneCP5_13TeV-madgraphMLM-pythia8/NANOAODSIM/106X_mc2017_realistic_v9-v1/280000/5B1693B5-CCCB-9A4D-B321-8E8CAFC51666.root"
+    ]
+}

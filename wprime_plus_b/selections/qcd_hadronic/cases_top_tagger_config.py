@@ -1,5 +1,5 @@
 qcd_hadronic_cases_selection = {
-    "qcd":{
+    "cr_d":{
            "tau": {
             "case_1": True,  
             "case_2": True, 
@@ -46,7 +46,7 @@ qcd_hadronic_cases_selection = {
             "case_13": True,
         },
     },
-    "cr_a":{
+    "cr_c":{
          "tau": {
             "case_1": True,  
             "case_2": True, 
@@ -93,7 +93,7 @@ qcd_hadronic_cases_selection = {
             "case_13": True,
         },
     },
-    "cr_d":{
+    "cr_b":{
           "tau": {
             "case_1": True,  
             "case_2": True, 
@@ -143,7 +143,7 @@ qcd_hadronic_cases_selection = {
 }   
 
 qcd_hadronic_mW_mTop_Njets_selection = {
-    "qcd":{
+    "cr_d":{
        "tau": {
             "m_W_min": 40.0,
             "m_W_max": 200.0,
@@ -163,7 +163,7 @@ qcd_hadronic_mW_mTop_Njets_selection = {
             "m_Top_max": 300.0,
         },
     },
-    "cr_a":{
+    "cr_c":{
          "tau": {
             "m_W_min": 40.0,
             "m_W_max": 200.0,
@@ -183,7 +183,7 @@ qcd_hadronic_mW_mTop_Njets_selection = {
             "m_Top_max": 300.0,
         },
     },
-    "cr_d":{
+    "cr_b":{
          "tau": {
             "m_W_min": 40.0,
             "m_W_max": 200.0,

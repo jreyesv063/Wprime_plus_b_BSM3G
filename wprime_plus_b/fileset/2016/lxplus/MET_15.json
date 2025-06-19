@@ -1,6 +1,6 @@
 {
     "MET_15": [
-        "root://lyoeos.in2p3.fr:1094//eos/lyoeos.in2p3.fr/grid/cms/store/data/Run2016H/MET/NANOAOD/UL2016_MiniAODv2_NanoAODv9-v1/280000/DEFF16E2-EA65-674C-AD6D-146DCD2FE776.root",
-        "root://eos.cms.rcac.purdue.edu//store/data/Run2016H/MET/NANOAOD/UL2016_MiniAODv2_NanoAODv9-v1/70000/067468CF-34A9-074B-9DFD-FC2169DCD92D.root"
+        "root://eospublic.cern.ch//eos/opendata/cms/Run2016H/MET/NANOAOD/UL2016_MiniAODv2_NanoAODv9-v1/280000/3CAC8B62-13F2-184C-B88E-01BD3BBE812C.root",
+        "root://cmsdcadisk.fnal.gov//dcache/uscmsdisk/store/data/Run2016H/MET/NANOAOD/UL2016_MiniAODv2_NanoAODv9-v1/280000/C6108E30-026E-EB4D-8326-88A49C5E277B.root"
     ]
 }

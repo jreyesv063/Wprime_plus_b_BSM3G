@@ -1,0 +1,6 @@
+{
+    "DYJetsToLL_M-50_HT-200to400_7": [
+        "root://kodiak-se.baylor.edu:1094//store/mc/RunIISummer20UL17NanoAODv9/DYJetsToLL_M-50_HT-200to400_TuneCP5_PSweights_13TeV-madgraphMLM-pythia8/NANOAODSIM/106X_mc2017_realistic_v9-v1/120000/B7C369CE-C681-2049-A8CC-D6B17BE64305.root",
+        "root://t2dsk0011.cmsaf.mit.edu:1094//store/mc/RunIISummer20UL17NanoAODv9/DYJetsToLL_M-50_HT-200to400_TuneCP5_PSweights_13TeV-madgraphMLM-pythia8/NANOAODSIM/106X_mc2017_realistic_v9-v1/120000/E75E1BB5-78EC-C948-9CAA-2F077A30B3B4.root"
+    ]
+}

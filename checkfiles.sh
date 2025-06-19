@@ -12,19 +12,21 @@ echo "########################################"
 ###################################
 ##### Variables a modificar  ######
 ###################################
+# Indicar si se quiere crear el fileset o no: Importante ponerlo en true si se comentaron servidores.
+create_fileset=false # Si se quiere crear el fileset, si no se quiere crear, ponerlo a false
 
 # Directorio del archivo bash
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
 # Configuración de opciones
+considerar_MET=true
+considerar_SingleMuon=false
 considerar_SingleElectron=false 
 considerar_Tau=false 
+
+
 considerar_higgs=true
-
-considerar_MET=false
-considerar_SingleMuon=true
-
-
+considerar_wj=true
 considerar_inclusive_wj=true
 considerar_inclusive_ext_wj=true
 considerar_inclusive_dy_nlo=true
@@ -39,8 +41,6 @@ considerar_signal_ele=false
 considerar_signal_mu=false
 
 
-
-considerar_wj=false
 considerar_inclusive_dy=false
 considerar_inclusive_ext_dy=false
 considerar_inclusive_ch3=false
@@ -72,6 +72,8 @@ nfiles=$(grep -o 'nfiles=".*"' "$archivo_run" | cut -d'"' -f2)
 executor=$(grep -o 'executor=".*"' "$archivo_run" | cut -d'"' -f2)
 output_type=$(grep -o 'output_type=".*"' "$archivo_run" | cut -d'"' -f2)
 run_systematics=$(grep -o 'run_systematics=".*"' "$archivo_run" | cut -d'"' -f2)
+
+
 
 
 # Seleccionar el archivo YAML y actualizarlo solo si run_systematics es true
@@ -271,16 +273,24 @@ cd $SCRIPT_DIR/wprime_plus_b/fileset/
 #######################################################
 
 # Activar proxy
-#echo "$password" | voms-proxy-init --voms cms
 echo $GRID_PASSWORD | voms-proxy-init --voms cms
 
 # Obtener el shell de Singularity
 singularity shell -B /afs -B /eos -B /cvmfs /cvmfs/unpacked.cern.ch/registry.hub.docker.com/coffeateam/coffea-dask:latest-py3.10 << EOF
 
+if [ "$create_fileset" = "true" ]; then
+    echo "Ejecutando make_fileset_lxplus.py..."
+    python make_fileset_lxplus.py
+else
+    echo "make_fileset_lxplus.py está desactivado"
+fi
+
+
 # Ejecutar el script 'make_fileset_lxplus.py' dentro de Singularity
 #python make_fileset_lxplus.py
-
 # Salir del shell de Singularity
+
+
 exit
 
 EOF
@@ -290,22 +300,68 @@ EOF
 cd $SCRIPT_DIR
 
 
+
+# Ejecutar build_filesets una sola vez antes del bucle
+python3 -c "
+from utils import update_nsplit, build_filesets;
+
+
+print('::::: Ejecutando update_nsplit para el año $year :::::');
+update_nsplit('$year');
+
+print('::::: Creando particiones de las muestras con build_filesets() para $year ::::::');
+
+args = {
+    'processor': '$processor',
+    'lepton_flavor': '$lepton_flavor',
+    'year': '$year',
+    'run_systematics': '$run_systematics',
+    'sample': 'TTToSemiLeptonic',                     # Este es un ejemplo, se debe revisar en el caso de región de señal
+    'facility': 'lxplus'
+};
+build_filesets(args);
+"
+
+
 # Iterar sobre cada archivo faltante
 for archivo_faltante in "${archivos_faltantes[@]}"; do
-    # Extraer el nombre base y el número de muestra del archivo faltante
-    nombre_base=$(echo "$archivo_faltante" | rev | cut -d'_' -f2- | rev)
-    nombre_base=$(echo "$nombre_base" | rev | cut -d'_' -f2- | rev)
-    nsample=$(echo "$archivo_faltante" | sed 's/_metadata.json//' | awk -F'_' '{print $(NF)}')
+    # Eliminar sufijo "_metadata.json"
+    archivo_sin_ext="${archivo_faltante%_metadata.json}"
 
+    # Verificar si termina con _número (ej. _2, _500)
+    if [[ "$archivo_sin_ext" =~ _[0-9]+$ ]]; then
+        nsample=$(echo "$archivo_sin_ext" | awk -F'_' '{print $NF}')
+        nombre_base="${archivo_sin_ext%_*}"
+    else
+        nsample=""
+        nombre_base="$archivo_sin_ext"
+    fi
 
+    # Agregar nsample solo si no está vacío
+    extra_arg=""
+    if [[ -n "$nsample" ]]; then
+        extra_arg="--nsample $nsample"
+    fi
 
-    if [ "$processor" == "ttbar" ] || [ "$processor" == "wjets" ] || [ "$processor" == "ztoll" ] || [ "$processor" == "qcd_abcd" ] || [ $processor == "wplusjets" ]  || [ "$processor" == "qcd_hadronic" ]; then
-        # Construir el comando python
-        comando="python3 submit_lxplus.py --processor $processor --channel $channel --lepton_flavor $lepton_flavor --sample $nombre_base --year $year --nfiles $nfiles --executor $executor --output_type $output_type --nsample $nsample --run_systematics $run_systematics"
+    if [ "$processor" == "ttbar" ] || [ "$processor" == "wjets" ] || [ "$processor" == "ztoll" ] || [ "$processor" == "qcd_abcd" ] || [ "$processor" == "wplusjets" ]  || [ "$processor" == "qcd_hadronic" ]; then
+        comando="python3 submit_lxplus.py --processor $processor --channel $channel --lepton_flavor $lepton_flavor --sample $nombre_base --year $year --nfiles $nfiles --executor $executor --output_type $output_type $extra_arg --run_systematics $run_systematics"
 
     elif [ "$processor" == "top_tagger" ] || [ "$processor" == "signal" ]; then
-        comando="python3 submit_lxplus.py --processor $processor --lepton_flavor $lepton_flavor --sample $nombre_base --year $year --nfiles $nfiles --executor $executor --output_type $output_type --nsample $nsample --run_systematics $run_systematics"
+        comando="python3 submit_lxplus.py --processor $processor --lepton_flavor $lepton_flavor --sample $nombre_base --year $year --nfiles $nfiles --executor $executor --output_type $output_type $extra_arg --run_systematics $run_systematics"
     fi
+
+    # # Extraer el nombre base y el número de muestra del archivo faltante
+    # nombre_base=$(echo "$archivo_faltante" | rev | cut -d'_' -f2- | rev)
+    # nombre_base=$(echo "$nombre_base" | rev | cut -d'_' -f2- | rev)
+    # nsample=$(echo "$archivo_faltante" | sed 's/_metadata.json//' | awk -F'_' '{print $(NF)}')
+
+    # if [ "$processor" == "ttbar" ] || [ "$processor" == "wjets" ] || [ "$processor" == "ztoll" ] || [ "$processor" == "qcd_abcd" ] || [ $processor == "wplusjets" ]  || [ "$processor" == "qcd_hadronic" ]; then
+    #     # Construir el comando python
+    #     comando="python3 submit_lxplus.py --processor $processor --channel $channel --lepton_flavor $lepton_flavor --sample $nombre_base --year $year --nfiles $nfiles --executor $executor --output_type $output_type --nsample $nsample --run_systematics $run_systematics"
+
+    # elif [ "$processor" == "top_tagger" ] || [ "$processor" == "signal" ]; then
+    #     comando="python3 submit_lxplus.py --processor $processor --lepton_flavor $lepton_flavor --sample $nombre_base --year $year --nfiles $nfiles --executor $executor --output_type $output_type --nsample $nsample --run_systematics $run_systematics"
+    # fi
     
 
     cd $SCRIPT_DIR
@@ -319,4 +375,9 @@ done
 num_archivos_faltantes=${#archivos_faltantes[@]}
 
 # Guardar el número de archivos faltantes en un archivo
+echo "########################################"
+echo "########### Resultados  ################"
+echo "Número de archivos faltantes: $num_archivos_faltantes"
+echo "########################################"
+
 echo "$num_archivos_faltantes" > archivos_faltantes.txt

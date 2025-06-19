@@ -9,6 +9,7 @@ from wprime_plus_b.utils import paths
 from wprime_plus_b.utils.load_config import load_dataset_config, load_processor_config
 
 
+
 def build_output_directories(args: dict) -> str:
     """builds output directories for data and metadata. Return output path"""
     # get processor config
@@ -211,7 +212,8 @@ def run_checker(args: dict) -> None:
     object_systematic_variation = (args["run_systematics"].lower() == "true")
 
     # check sample
-    update_nsplit(args["year"])
+    #update_nsplit(args["year"])
+    #configs_file= "datasets_configs.yaml" if object_systematic_variation else "datasets_configs.yaml"
     configs_file= "datasets_configs_systematics.yaml" if object_systematic_variation else "datasets_configs.yaml"
     configs_path = f"{Path.cwd()}/wprime_plus_b/configs/dataset/{configs_file}"
 

@@ -1,6 +1,6 @@
 {
     "MET_23": [
-        "root://dcache-cms-xrootd.desy.de:1094//store/data/Run2016H/MET/NANOAOD/UL2016_MiniAODv2_NanoAODv9-v1/70000/C236EE57-C505-4749-A781-996F90FB4C98.root",
-        "root://dcache-cms-xrootd.desy.de:1094//store/data/Run2016H/MET/NANOAOD/UL2016_MiniAODv2_NanoAODv9-v1/70000/C42412D7-7FA8-FA44-B636-9DDB703D1559.root"
+        "root://lyoeos.in2p3.fr:1094//eos/lyoeos.in2p3.fr/grid/cms/store/data/Run2016H/MET/NANOAOD/UL2016_MiniAODv2_NanoAODv9-v1/70000/9E17CDB0-59D0-CD48-8D05-81CD9F59F457.root",
+        "root://maite.iihe.ac.be:1094//store/data/Run2016H/MET/NANOAOD/UL2016_MiniAODv2_NanoAODv9-v1/70000/A313CD9B-864E-334C-B6DE-192DBE6F889C.root"
     ]
 }

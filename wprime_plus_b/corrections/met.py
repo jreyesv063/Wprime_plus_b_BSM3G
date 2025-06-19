@@ -64,7 +64,157 @@ def apply_met_phi_corrections(
     except:
         pass
 
+
+
+def update_met_list(events: ak.Array, syst_name: str, syst_var: bool, object: list) -> None:
+    """
+    helper function to compute new MET after lepton pT correction. 
+    It uses the 'pt_raw' and 'pt' fields from 'leptons' to update MET 'pt' and 'phi' fields
     
+    Parameters:
+        - events:
+            Events array
+        - lepton:
+            Lepton name {'Muon', 'Tau'}
+
+    https://github.com/columnflow/columnflow/blob/16d35bb2f25f62f9110a8f1089e8dc5c62b29825/columnflow/calibration/util.py#L42
+    https://github.com/Katsch21/hh2bbtautau/blob/e268752454a0ce0089ff08cc6c373a353be77679/hbt/calibration/tau.py#L117
+    """
+    assert syst_name in ["Muon", "Electron", "Tau", "FatJet_JES", "FatJet_JER", "Jet"], "Object not provided"
+
+
+    # # Object without corrections
+    # if object != "FatJet":
+    #     # get needed lepton and MET fields
+    #     object_pt_raw = events[syst_name, "pt_raw"]
+    # else: 
+    #     object_pt_raw = events[syst_name, "pt_raw_original"]   
+
+    if syst_name == "FatJet_JES" or syst_name == "FatJet_JER":
+
+        object_pt_raw = object["raw"]
+    else:
+        object_pt_raw = events[syst_name].pt_raw        
+
+    # if hasattr(events[syst_name], "pt_raw_original" ):
+    #     #object_pt_raw = events[syst_name].pt_raw_original
+    #     object_pt_raw = object["raw"]
+    # else:
+    #     object_pt_raw = events[syst_name].pt_raw
+
+    object_pt = {
+            "up": object["up"], #up_object.pt,
+            "nom": object["nom"], #nom_object.pt,
+            "down": object["down"], # down_object.pt
+    }
+
+
+    object_phi = object["phi"]
+
+
+    # MET with nominal values
+    met_pt = events.MET.pt
+    met_phi = events.MET.phi
+
+    # build px and py sums before and after: we sum the time at x and the time at y of each event 
+    if syst_name == "FatJet_JES" or syst_name == "FatJet_JER":   
+        old_px =  ak.sum(object_pt_raw * np.cos(object_phi), axis=-1)
+        old_py = ak.sum(object_pt_raw * np.sin(object_phi), axis=-1)
+
+    else:
+        old_px = ak.sum(object_pt_raw * np.cos(object_phi), axis=-1)
+        old_py = ak.sum(object_pt_raw * np.sin(object_phi), axis=-1)
+
+    old_px = ak.sum(object_pt_raw * np.cos(object_phi), axis=-1)
+    old_py = ak.sum(object_pt_raw * np.sin(object_phi), axis=-1)
+
+    new_px = {
+        "up": ak.sum(object_pt["nom"] * np.cos(object_phi), axis=-1),
+        "nom": ak.sum(object_pt["nom"] *  np.cos(object_phi), axis=-1),
+        "down": ak.sum(object_pt["nom"] *  np.cos(object_phi), axis=-1)
+    } 
+    
+    new_py = {
+        "up": ak.sum(object_pt["nom"] * np.sin(object_phi), axis=-1),
+        "nom": ak.sum(object_pt["nom"] *  np.sin(object_phi), axis=-1),
+        "down": ak.sum(object_pt["down"] *  np.sin(object_phi), axis=-1)
+    } 
+   
+    # get x and y changes
+    delta_x = {
+        "up": new_px["up"] - old_px,
+        "nom": new_px["nom"] - old_px,
+        "down": new_px["down"] - old_px
+    }
+
+    delta_y = {
+        "up": new_py["up"] - old_py,
+        "nom": new_py["nom"] - old_py,
+        "down": new_py["down"] - old_py
+    }
+
+
+
+    # propagate changes to MET (x, y) components: Negative signs have been changed
+    met_px = {
+        "up": met_pt * np.cos(met_phi) + delta_x["up"],
+        "nom": met_pt * np.cos(met_phi) + delta_x["nom"],
+        "down": met_pt * np.cos(met_phi) + delta_x["down"]
+    }
+    met_py = {
+        "up": met_pt * np.sin(met_phi) + delta_y["up"],
+        "nom": met_pt * np.sin(met_phi) + delta_y["nom"],
+        "down": met_pt * np.sin(met_phi) + delta_y["down"]
+    }
+
+    
+    # propagate changes to MET (pT, phi) components
+    met_pt = {
+        f"{syst_name}":
+            {
+                "up": np.sqrt((met_px["up"] ** 2.0 + met_py["up"] ** 2.0)),
+                "nom": np.sqrt((met_px["nom"] ** 2.0 + met_py["nom"] ** 2.0)),
+                "down": np.sqrt((met_px["down"] ** 2.0 + met_py["down"] ** 2.0))
+            }
+    }
+
+    met_phi = {
+        f"{syst_name}":
+            {
+                "up": np.arctan2(met_py["up"], met_px["up"]),
+                "nom": np.arctan2(met_py["nom"], met_px["nom"]),
+                "down": np.arctan2(met_py["down"], met_px["down"])
+            }
+    }
+
+    # Save the delta X and delta Y variations
+    delta_var_list = {
+        f"{syst_name}": 
+            {
+                "delta_x": {
+                    "nom":  delta_x["nom"],
+                    "up": delta_x["up"],
+                    "down": delta_x["down"]
+                },
+                
+                "delta_y": {
+                    "nom": delta_y["nom"],
+                    "up": delta_y["up"],
+                    "down": delta_y["down"]
+                }
+            }
+    }    
+
+
+    # Overwrite the MET fields with the nominal values
+    events["MET", "pt"] = met_pt[f"{syst_name}"]["nom"]
+    events["MET", "phi"] = met_phi[f"{syst_name}"]["nom"]
+
+    return met_pt, met_phi, delta_var_list
+
+
+    
+
 def update_met(events: ak.Array, lepton: str = "Muon") -> None:
     """
     helper function to compute new MET after lepton pT correction. 

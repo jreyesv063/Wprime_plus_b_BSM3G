@@ -274,12 +274,7 @@ class SignalProccessor(processor.ProcessorABC):
                     variation=syst_var,
                 )
                 
-                # add met trigger weights
-                if self.lepton_flavor == "tau":
-                    # add met trigger SF
-                    add_met_trigger_corrections(trigger_mask, dataset, events.MET, weights_container, self.year, "", syst_var)                    
-                
-                    
+             
             # -------------------------------------------------------------
             # object selection
             # -------------------------------------------------------------
@@ -955,7 +950,7 @@ class SignalProccessor(processor.ProcessorABC):
                 ) as path:
                     with open(path, "r") as handle:
                         ref_trigger = json.load(handle)[self.year][reference_trigger][mu_id]
-                        print(ref_trigger, type(ref_trigger))
+
             
             elif self.lepton_flavor ==  "ele":
                 ele_id = signal_electron_selection[self.lepton_flavor]["electron_id_wp"]
@@ -964,7 +959,7 @@ class SignalProccessor(processor.ProcessorABC):
                 ) as path:
                     with open(path, "r") as handle:
                         ref_trigger = json.load(handle)[self.year][reference_trigger][ele_id]
-                        print(ref_trigger, type(ref_trigger))               
+             
 
             elif self.lepton_flavor ==  "tau":
                 with importlib.resources.path(
@@ -972,7 +967,7 @@ class SignalProccessor(processor.ProcessorABC):
                 ) as path:
                     with open(path, "r") as handle:
                         ref_trigger = json.load(handle)[self.year][reference_trigger]
-                        print(ref_trigger, type(ref_trigger))    
+   
 
             #reference_triggers =  [trigger for trigger in events.HLT.fields if trigger.startswith(ref_trigger)]
             reference_triggers = [
@@ -983,10 +978,14 @@ class SignalProccessor(processor.ProcessorABC):
             
             for trigger_reference in reference_triggers:
                 if trigger_reference in events.HLT.fields:
-                    print(f"Reference trigger: {trigger_reference}")
                     mask_reference_trigger = mask_reference_trigger | events.HLT[trigger_reference]
 
+            if self.lepton_flavor == "tau":
+                add_met_trigger_corrections(mask_reference_trigger, dataset, events.MET, weights_container, self.year, "", syst_var)  
+
             self.selections.add(f"trigger_{reference_trigger}", mask_reference_trigger)
+
+            print(f"Triggers: {reference_triggers}")
 
             # --------------------------
             # deltaphi_cut cut
@@ -1010,7 +1009,6 @@ class SignalProccessor(processor.ProcessorABC):
                     "muon_veto",
                     "one_tau",
                     "one_bjet",
- #                   f"mt_{mt_cut}_invert_{mt_invert}",
                 ],
                 "mu": [
                     "goodvertex",
@@ -1087,7 +1085,7 @@ class SignalProccessor(processor.ProcessorABC):
 
             if nevents_after == 0:
                 output["metadata"]["cutflow"]["failing_top_tagger"] = ak.sum(weights_container.weight()[region_selection])
-                output["metadata"]["cutflow"]["pasing_top_tagger"] = ak.sum(weights_container.weight()[region_selection])
+                #output["metadata"]["cutflow"]["pasing_top_tagger"] = ak.sum(weights_container.weight()[region_selection])
                 
                 output_metadata(output = output["metadata"])
                 tops = ak.zeros_like(region_selection)
@@ -1111,7 +1109,7 @@ class SignalProccessor(processor.ProcessorABC):
 
                 # Update cutflow
                 output["metadata"]["cutflow"]["failing_top_tagger"] = ak.sum(weights_container.weight()[region_selection][np.logical_not(mask_top)])
-                output["metadata"]["cutflow"]["pasing_top_tagger"] = ak.sum(weights_container.weight()[region_selection][mask_top])
+                #output["metadata"]["cutflow"]["pasing_top_tagger"] = ak.sum(weights_container.weight()[region_selection][mask_top])
 
 
                 pre_weights = weights_container.weight()[region_selection]

@@ -1,0 +1,6 @@
+{
+    "WJetsToLNu_HT-200To400_11": [
+        "root://xrootd-local.unl.edu:1094//store/mc/RunIISummer20UL17NanoAODv9/WJetsToLNu_HT-200To400_TuneCP5_13TeV-madgraphMLM-pythia8/NANOAODSIM/106X_mc2017_realistic_v9-v1/120000/EF5D2FB9-1688-F24C-A899-C7124869793B.root",
+        "root://maite.iihe.ac.be:1094//store/mc/RunIISummer20UL17NanoAODv9/WJetsToLNu_HT-200To400_TuneCP5_13TeV-madgraphMLM-pythia8/NANOAODSIM/106X_mc2017_realistic_v9-v1/120000/F6CC4DED-B9C0-3043-AF9A-F357C8F58EA3.root"
+    ]
+}

@@ -1,4 +1,5 @@
 import os
+import time
 import argparse
 import subprocess
 from pathlib import Path
@@ -106,7 +107,9 @@ def main(args):
     args["facility"] = "lxplus"
     args["output_path"] = build_output_directories(args)
     # build filesets
-    build_filesets(args)
+    #build_filesets(args)
+
+
     # get dataset config
     dataset_config = load_dataset_config(config_name=args["sample"], object_syst=args["run_systematics"])
     # run job for each partition

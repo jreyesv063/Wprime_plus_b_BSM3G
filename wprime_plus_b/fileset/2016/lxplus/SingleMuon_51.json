@@ -1,0 +1,6 @@
+{
+    "SingleMuon_51": [
+        "root://lyoeos.in2p3.fr:1094//eos/lyoeos.in2p3.fr/grid/cms/store/data/Run2016H/SingleMuon/NANOAOD/UL2016_MiniAODv2_NanoAODv9-v1/130000/715BF52A-7FE3-D848-A45F-99A0DDA80205.root",
+        "root://gfe02.grid.hep.ph.ic.ac.uk:1094//pnfs/hep.ph.ic.ac.uk/data/cms/store/data/Run2016H/SingleMuon/NANOAOD/UL2016_MiniAODv2_NanoAODv9-v1/130000/788CA5CB-13E0-544A-8427-33E4591CF20B.root"
+    ]
+}

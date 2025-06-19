@@ -1,0 +1,6 @@
+{
+    "ST_t-channel_antitop_5f_InclusiveDecays_39": [
+        "root://k8s-redir.ultralight.org:1094//store/mc/RunIISummer20UL18NanoAODv9/ST_t-channel_antitop_5f_InclusiveDecays_TuneCP5_13TeV-powheg-pythia8/NANOAODSIM/106X_upgrade2018_realistic_v16_L1v1-v1/40000/E91C256C-8A22-9B49-8F7A-83735042651A.root",
+        "root://xrootd-cms.infn.it:1194//store/mc/RunIISummer20UL18NanoAODv9/ST_t-channel_antitop_5f_InclusiveDecays_TuneCP5_13TeV-powheg-pythia8/NANOAODSIM/106X_upgrade2018_realistic_v16_L1v1-v1/40000/EB8AFDF4-FDBF-2941-913A-15FB1CA47ED4.root"
+    ]
+}

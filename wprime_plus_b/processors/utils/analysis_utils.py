@@ -634,7 +634,7 @@ def histograms_output(
 
 
 
-def histograms_output_v2(
+def histograms_output_syst(
     self,
     bjets, jets, 
     electrons, muons, taus, 
@@ -642,7 +642,9 @@ def histograms_output_v2(
     tops,
     mask, 
     lepton_flavor, 
-    events
+    is_mc,
+    events,
+    syst_flag
 ):
     # Select region objects
     region_bjets = bjets[mask]
@@ -661,11 +663,7 @@ def histograms_output_v2(
     }
     region_leptons = lepton_region_map[lepton_flavor]
 
-    # Leading bjets
-    leading_bjets = ak.firsts(region_bjets)
-    # Lepton-bjet deltaR and invariant mass
-    lepton_bjet_dr = leading_bjets.delta_r(region_leptons)
-    lepton_bjet_mass = (region_leptons + leading_bjets).mass
+
     # Lepton-MET transverse mass and deltaPhi
     lepton_met_mass = np.sqrt(
         2.0
@@ -676,28 +674,63 @@ def histograms_output_v2(
             - np.cos(region_leptons.delta_phi(region_met))
         )
     )
-    lepton_met_delta_phi = np.abs(region_leptons.delta_phi(region_met))
-    # Lepton-bJet-MET total transverse mass
-    lepton_met_bjet_mass = np.sqrt(
-        (region_leptons.pt + leading_bjets.pt + region_met.pt) ** 2
-        - (region_leptons + leading_bjets + region_met).pt ** 2
-    )
 
+
+
+    # HT and  ST variables
+    jet_pt_addition = ak.sum(region_jets.pt, axis=1)
+    bjet_pt_addition = ak.sum(region_bjets.pt, axis=1)
+    tau_pt_addition = ak.sum(region_taus.pt, axis=1)
+    lepton_pt_addition = ak.sum(region_leptons.pt, axis = 1)  # Depending of the channel, we will have muons, taus, or electrons.
+    muon_pt_addition = ak.sum(region_muons.pt, axis=1)
+    electron_pt_addition = ak.sum(region_electrons.pt, axis=1)
+
+    region_HT = jet_pt_addition + bjet_pt_addition 
+    region_ST = lepton_pt_addition + region_HT
+    region_ST_met = lepton_pt_addition + region_HT + region_met.pt
+    region_ST_full = region_ST + muon_pt_addition + electron_pt_addition + tau_pt_addition 
+
+   
     # Add features to the object (assumed to have a method `add_feature`)
-    self.add_feature("lepton_pt", region_leptons.pt)
-    self.add_feature("lepton_eta", region_leptons.eta)
-    self.add_feature("lepton_phi", region_leptons.phi)
-    self.add_feature("jet_pt", leading_bjets.pt)
-    self.add_feature("jet_eta", leading_bjets.eta)
-    self.add_feature("jet_phi", leading_bjets.phi)
-    self.add_feature("met", region_met.pt)
-    self.add_feature("met_phi", region_met.phi)
-    self.add_feature("lepton_bjet_dr", lepton_bjet_dr)
-    self.add_feature("lepton_bjet_mass", lepton_bjet_mass)
+    self.add_feature(f"lepton_pt_{syst_flag}", region_leptons.pt)
+    self.add_feature(f"lepton_eta_{syst_flag}", region_leptons.eta)
+    self.add_feature(f"lepton_phi_{syst_flag}", region_leptons.phi)
+
+    self.add_feature(f"bjet_pt_{syst_flag}", region_bjets.pt)
+    self.add_feature(f"bjet_eta_{syst_flag}", region_bjets.eta)
+    self.add_feature(f"bjet_phi_{syst_flag}", region_bjets.phi)
+
+    self.add_feature(f"jet_pt_{syst_flag}", region_jets.pt)
+    self.add_feature(f"jet_eta_{syst_flag}", region_jets.eta)
+    self.add_feature(f"jet_phi_{syst_flag}", region_jets.phi)
+    
+    
+    self.add_feature(f"met_{syst_flag}", region_met.pt)
+    self.add_feature(f"met_phi_{syst_flag}", region_met.phi)
+
+    # Recoil
+    self.add_feature(f"recoil_pt_{syst_flag}", region_met.pt_recoil)
+    self.add_feature(f"recoil_phi_{syst_flag}", region_met.phi_recoil)
+
+    # New met variables    
     self.add_feature("lepton_met_mass", lepton_met_mass)
-    self.add_feature("lepton_met_delta_phi", lepton_met_delta_phi)
-    self.add_feature("lepton_met_bjet_mass", lepton_met_bjet_mass)
+
+
+    # Number of objects
+    self.add_feature("njets_full", ak.num(region_jets) + ak.num(region_bjets))
     self.add_feature("njets", ak.num(region_jets))
+    self.add_feature("nbjets", ak.num(region_bjets))
     self.add_feature("npvs", events.PV.npvsGood[mask])
+    self.add_feature("nmuons", ak.num(region_muons))
+    self.add_feature("nelectrons", ak.num(region_electrons))
+    self.add_feature("ntaus", ak.num(region_taus))
+
+    # Scalar sum of transverse momenta
+    self.add_feature("HT", region_HT)    
+    self.add_feature("ST", region_ST)  
+    self.add_feature("ST_met", region_ST_met)  
+    self.add_feature("ST_full", region_ST_full)
+
+    # Top reconstructed mass
     self.add_feature("top_mrec", region_tops)
-#    self.add_feature("HT", events.LHE.HT[mask])    
+

@@ -1,0 +1,6 @@
+{
+    "WJetsToLNu_ext_101": [
+        "root://cmseos.fnal.gov//eos/uscms/store/mc/RunIISummer20UL18NanoAODv9/WJetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8/NANOAODSIM/106X_upgrade2018_realistic_v16_L1v1_ext1-v2/30000/C85811CF-066D-8942-95C0-80D1D9545972.root",
+        "root://osg-se.sprace.org.br:1094//store/mc/RunIISummer20UL18NanoAODv9/WJetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8/NANOAODSIM/106X_upgrade2018_realistic_v16_L1v1_ext1-v2/30000/CA886CEF-937F-FF40-9EB0-D1CEF2B04B54.root"
+    ]
+}

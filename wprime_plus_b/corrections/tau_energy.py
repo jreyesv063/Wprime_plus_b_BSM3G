@@ -3,7 +3,7 @@ import correctionlib
 import numpy as np
 import awkward as ak
 from wprime_plus_b.corrections.utils import get_pog_json
-from wprime_plus_b.corrections.met import update_met
+from wprime_plus_b.corrections.met import update_met, update_met_list
 
 # ----------------------------------------------------------------------------------- #
 # -- The tau energy scale (TES) corrections for taus are provided  ------------------ #
@@ -42,7 +42,7 @@ def mask_energy_corrections(tau):
 def apply_tau_energy_scale_corrections(
     events: ak.Array,
     year: str = "2017",
-    variation: str = "nominal",
+    variation: bool = False,
 ):
     # define tau pt_raw field
     events["Tau", "pt_raw"] = events.Tau.pt
@@ -77,59 +77,26 @@ def apply_tau_energy_scale_corrections(
         events["Tau", f"pt{'_' + var if var != 'nom' else ''}"] = ak.unflatten(pt, ntaus)
         events["Tau", f"mass{'_' + var if var != 'nom' else ''}"] = ak.unflatten(mass, ntaus)
 
-    # Propagate tau pT corrections to MET
-    update_met(events=events, lepton="Tau")
+    if variation:
+
+        tau_list = {
+            "nom": events.Tau.pt,
+            "up": events.Tau.pt_up,
+            "down": events.Tau.pt_down,
+            "phi": events.Tau.phi,
+        }
+
+        met_pt_list, met_phi_list, delta_list = update_met_list(   
+            events=events,
+            syst_name="Tau",
+            syst_var = variation, 
+            object = tau_list,     
+        )
+
+        return delta_list #met_pt_list, met_phi_list, delta_list
+
+    else:
+        # Propagate tau pT corrections to MET
+        update_met(events=events, lepton="Tau")
 
    
-
-    """
-    # corrections works with flatten values
-    ntaus = ak.num(copy.deepcopy(events.Tau))
-    taus_flatten = ak.flatten(copy.deepcopy(events.Tau))
-
-    # it is defined the taus will be corrected with the energy scale factor: Only a subset of the initial taus.
-    mask = mask_energy_corrections(taus_flatten)
-    taus_filter = taus_flatten.mask[mask]
-
-    # fill None values with valid entries
-    pt = ak.fill_none(taus_filter.pt, 0)
-    eta = ak.fill_none(taus_filter.eta, 0)
-    dm = ak.fill_none(taus_filter.decayMode, 0)
-    genmatch = ak.fill_none(taus_filter.genPartFlav, 2)
-
-    # define correction set
-    cset = correctionlib.CorrectionSet.from_file(
-        get_pog_json(json_name="tau", year=year)
-    )
-
-    # get scale factor
-    sf = {
-        "nominal": cset["tau_energy_scale"].evaluate(
-            pt, eta, dm, genmatch, "DeepTau2017v2p1", "nom"
-        ),
-        "up": cset["tau_energy_scale"].evaluate(
-            pt, eta, dm, genmatch, "DeepTau2017v2p1", "up"
-        ),
-        "down": cset["tau_energy_scale"].evaluate(
-            pt, eta, dm, genmatch, "DeepTau2017v2p1", "down"
-        ),
-    }
-
-
-    # get new (pT, mass) values using the scale factor
-    taus_new_pt = taus_filter.pt * sf[variation]
-    taus_new_mass = taus_filter.mass * sf[variation]
-    new_tau_pt = ak.where(mask, taus_new_pt, taus_flatten.pt)
-    new_tau_mass = ak.where(mask, taus_new_mass, taus_flatten.mass)
-
-    # unflatten
-    tau_pt = ak.unflatten(new_tau_pt, ntaus)
-    tau_mass = ak.unflatten(new_tau_mass, ntaus)
-
-    # update tau pt and mass fields
-    events["Tau", "pt"] = tau_pt
-    events["Tau", "mass"] = tau_mass
-
-    # propagate tau pT corrections to MET
-    update_met(events=events, lepton="Tau")
-    """

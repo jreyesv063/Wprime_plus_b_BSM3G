@@ -1,15 +1,6 @@
 {
     "MET_22": [
-        "root://dcache-cms-xrootd.desy.de:1094//store/data/Run2017F/MET/NANOAOD/UL2017_MiniAODv2_NanoAODv9-v1/280000/4919AABD-CF22-A04D-9437-EAB389214AD3.root",
-        "root://lyoeos.in2p3.fr:1094//eos/lyoeos.in2p3.fr/grid/cms/store/data/Run2017F/MET/NANOAOD/UL2017_MiniAODv2_NanoAODv9-v1/280000/4A937552-6E0B-DD44-9653-317ADB0763FD.root",
-        "root://maite.iihe.ac.be:1094//store/data/Run2017F/MET/NANOAOD/UL2017_MiniAODv2_NanoAODv9-v1/280000/5E089064-9554-0447-B83E-B01BDAB2EBDB.root",
-        "root://lyoeos.in2p3.fr:1094//eos/lyoeos.in2p3.fr/grid/cms/store/data/Run2017F/MET/NANOAOD/UL2017_MiniAODv2_NanoAODv9-v1/280000/5E8C4D51-13FB-EF45-B004-4B6648D6CAC8.root",
-        "root://cmsdcadisk.fnal.gov//dcache/uscmsdisk/store/data/Run2017F/MET/NANOAOD/UL2017_MiniAODv2_NanoAODv9-v1/280000/66DDD16D-2CC5-6D4C-A7F9-2D0CDE048BF5.root",
-        "root://lyoeos.in2p3.fr:1094//eos/lyoeos.in2p3.fr/grid/cms/store/data/Run2017F/MET/NANOAOD/UL2017_MiniAODv2_NanoAODv9-v1/280000/6B2739A4-53D9-104F-B748-D04BB750A541.root",
-        "root://dcache-cms-xrootd.desy.de:1094//store/data/Run2017F/MET/NANOAOD/UL2017_MiniAODv2_NanoAODv9-v1/280000/7161DDE1-96AD-0548-B988-97B59516EA7E.root",
-        "root://maite.iihe.ac.be:1094//store/data/Run2017F/MET/NANOAOD/UL2017_MiniAODv2_NanoAODv9-v1/280000/72312D94-FD60-9C48-879C-79FF8B620F87.root",
-        "root://lyoeos.in2p3.fr:1094//eos/lyoeos.in2p3.fr/grid/cms/store/data/Run2017F/MET/NANOAOD/UL2017_MiniAODv2_NanoAODv9-v1/280000/76D07D06-7221-5048-AA49-BFE76D6878BF.root",
-        "root://lyoeos.in2p3.fr:1094//eos/lyoeos.in2p3.fr/grid/cms/store/data/Run2017F/MET/NANOAOD/UL2017_MiniAODv2_NanoAODv9-v1/280000/786368F2-0778-4144-B657-7E7200874320.root",
-        "root://maite.iihe.ac.be:1094//store/data/Run2017F/MET/NANOAOD/UL2017_MiniAODv2_NanoAODv9-v1/280000/7865FD02-5FE2-C741-9F54-E41D6AA7E50B.root"
+        "root://lyoeos.in2p3.fr:1094//eos/lyoeos.in2p3.fr/grid/cms/store/data/Run2017B/MET/NANOAOD/UL2017_MiniAODv2_NanoAODv9-v1/70000/FA64699A-4177-F641-A4A7-1D03AAD4F75A.root",
+        "root://cmsdcadisk.fnal.gov//dcache/uscmsdisk/store/data/Run2017C/MET/NANOAOD/UL2017_MiniAODv2_NanoAODv9-v1/280000/0B9D3276-DC69-004A-8E45-2403C385ABA3.root"
     ]
 }

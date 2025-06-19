@@ -1,9 +1,6 @@
 {
     "MET_6": [
-        "root://grid-cms-xrootd.physik.rwth-aachen.de:1094//store/data/Run2016B/MET/NANOAOD/ver2_HIPM_UL2016_MiniAODv2_NanoAODv9-v2/40000/5B5E4DFC-3F72-7D4F-82A6-C9ECC3D441CA.root",
-        "root://maite.iihe.ac.be:1094//store/data/Run2016B/MET/NANOAOD/ver2_HIPM_UL2016_MiniAODv2_NanoAODv9-v2/40000/AD084354-7BFC-0E4B-A2AD-08FADB9A3DAD.root",
-        "root://maite.iihe.ac.be:1094//store/data/Run2016C/MET/NANOAOD/HIPM_UL2016_MiniAODv2_NanoAODv9-v2/2430000/0CCF4CBF-078D-5345-8FBA-F29E3E3814C1.root",
-        "root://xrootd-cmst1-door.pic.es:1094//pnfs/pic.es/data/cms/disk/store/data/Run2016C/MET/NANOAOD/HIPM_UL2016_MiniAODv2_NanoAODv9-v2/2430000/1EBCE6B3-21F4-E447-91BF-FD6CFC2E13CC.root",
-        "root://dcache-cms-xrootd.desy.de:1094//store/data/Run2016C/MET/NANOAOD/HIPM_UL2016_MiniAODv2_NanoAODv9-v2/2430000/21D66B7D-DD5F-2A4E-8364-42E135D6EB5D.root"
+        "root://lyoeos.in2p3.fr:1094//eos/lyoeos.in2p3.fr/grid/cms/store/data/Run2016B/MET/NANOAOD/ver2_HIPM_UL2016_MiniAODv2_NanoAODv9-v2/2530000/6C6F1088-BA14-A045-B3EC-02D0C3EE23ED.root",
+        "root://t2-xrdcms.lnl.infn.it:7070//store/data/Run2016B/MET/NANOAOD/ver2_HIPM_UL2016_MiniAODv2_NanoAODv9-v2/2530000/6DCE8F26-B04C-1A47-B084-390B1CA257A9.root"
     ]
 }

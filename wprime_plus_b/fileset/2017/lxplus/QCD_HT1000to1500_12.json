@@ -1,0 +1,6 @@
+{
+    "QCD_HT1000to1500_12": [
+        "root://eoscms.cern.ch//eos/cms/store/mc/RunIISummer20UL17NanoAODv9/QCD_HT1000to1500_TuneCP5_PSWeights_13TeV-madgraph-pythia8/NANOAODSIM/106X_mc2017_realistic_v9-v1/30000/AA712CBD-7930-0F4D-9C75-B48894F90413.root",
+        "root://kodiak-se.baylor.edu:1094//store/mc/RunIISummer20UL17NanoAODv9/QCD_HT1000to1500_TuneCP5_PSWeights_13TeV-madgraph-pythia8/NANOAODSIM/106X_mc2017_realistic_v9-v1/30000/BF6E2EFE-D932-D849-B7A2-080AD1EDFA15.root"
+    ]
+}

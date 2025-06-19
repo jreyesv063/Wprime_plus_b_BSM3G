@@ -1,0 +1,6 @@
+{
+    "DYJetsToLL_nlo_M-50_31": [
+        "root://maite.iihe.ac.be:1094//store/mc/RunIISummer20UL17NanoAODv9/DYJetsToLL_M-50_TuneCP5_13TeV-amcatnloFXFX-pythia8/NANOAODSIM/106X_mc2017_realistic_v9-v2/250000/1E7C6069-AE91-4542-A2C0-DEDCDF800C66.root",
+        "root://cms-xrdr.sdfarm.kr:1094//xrd/store/mc/RunIISummer20UL17NanoAODv9/DYJetsToLL_M-50_TuneCP5_13TeV-amcatnloFXFX-pythia8/NANOAODSIM/106X_mc2017_realistic_v9-v2/250000/1E870294-C582-0042-9BE2-E98995CE8383.root"
+    ]
+}

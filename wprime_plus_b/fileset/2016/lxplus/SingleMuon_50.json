@@ -1,0 +1,6 @@
+{
+    "SingleMuon_50": [
+        "root://grid-cms-xrootd.physik.rwth-aachen.de:1094//store/data/Run2016H/SingleMuon/NANOAOD/UL2016_MiniAODv2_NanoAODv9-v1/130000/60E957CB-2729-5D4C-B261-43406A639E8F.root",
+        "root://cmsdcadisk.fnal.gov//dcache/uscmsdisk/store/data/Run2016H/SingleMuon/NANOAOD/UL2016_MiniAODv2_NanoAODv9-v1/130000/6CBB587F-1366-6F40-973C-7F98EA9C8335.root"
+    ]
+}

@@ -1,0 +1,6 @@
+{
+    "TTToHadronic_74": [
+        "root://t3se01.psi.ch:1094//store/mc/RunIISummer20UL17NanoAODv9/TTToHadronic_TuneCP5_13TeV-powheg-pythia8/NANOAODSIM/106X_mc2017_realistic_v9-v1/80000/BE11C835-3857-634D-93C0-8811E2E22772.root",
+        "root://grid-cms-xrootd.physik.rwth-aachen.de:1094//store/mc/RunIISummer20UL17NanoAODv9/TTToHadronic_TuneCP5_13TeV-powheg-pythia8/NANOAODSIM/106X_mc2017_realistic_v9-v1/80000/BE5F8E97-B40D-DF43-ABE8-8814457B6AF5.root"
+    ]
+}

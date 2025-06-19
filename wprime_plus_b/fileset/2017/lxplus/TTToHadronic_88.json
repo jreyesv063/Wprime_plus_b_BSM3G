@@ -1,0 +1,6 @@
+{
+    "TTToHadronic_88": [
+        "root://gaexrdoor.ciemat.es:1094//store/mc/RunIISummer20UL17NanoAODv9/TTToHadronic_TuneCP5_13TeV-powheg-pythia8/NANOAODSIM/106X_mc2017_realistic_v9-v1/80000/D99F2702-1DF8-BB41-BBB2-F8B682638C26.root",
+        "root://t3se01.psi.ch:1094//store/mc/RunIISummer20UL17NanoAODv9/TTToHadronic_TuneCP5_13TeV-powheg-pythia8/NANOAODSIM/106X_mc2017_realistic_v9-v1/80000/DA5D1EED-790E-794A-A717-1EE20D97AC27.root"
+    ]
+}

@@ -1,0 +1,6 @@
+{
+    "WJetsToLNu_HT-600To800_8": [
+        "root://kodiak-se.baylor.edu:1094//store/mc/RunIISummer20UL17NanoAODv9/WJetsToLNu_HT-600To800_TuneCP5_13TeV-madgraphMLM-pythia8/NANOAODSIM/106X_mc2017_realistic_v9-v1/280000/A967B960-6B5C-6F46-B5AF-052B021B856F.root",
+        "root://maite.iihe.ac.be:1094//store/mc/RunIISummer20UL17NanoAODv9/WJetsToLNu_HT-600To800_TuneCP5_13TeV-madgraphMLM-pythia8/NANOAODSIM/106X_mc2017_realistic_v9-v1/280000/B4685B75-8278-564F-BB9D-BFE4BAC5ED5F.root"
+    ]
+}

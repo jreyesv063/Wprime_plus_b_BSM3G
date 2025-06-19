@@ -1,11 +1,6 @@
 {
     "Tau_14": [
-        "root://maite.iihe.ac.be:1094//store/data/Run2017E/Tau/NANOAOD/UL2017_MiniAODv2_NanoAODv9-v2/80000/7E03DF3A-9B20-DA44-A3B3-FA57EA5E9305.root",
-        "root://xrootd-local.unl.edu:1094//store/data/Run2017E/Tau/NANOAOD/UL2017_MiniAODv2_NanoAODv9-v2/80000/7EBCDB05-D3AE-F840-9603-EDA1ED477372.root",
-        "root://cmsdcadisk.fnal.gov//dcache/uscmsdisk/store/data/Run2017E/Tau/NANOAOD/UL2017_MiniAODv2_NanoAODv9-v2/80000/8D064102-0060-0E4D-B5A7-AFD06565BBD3.root",
-        "root://cmsdcadisk.fnal.gov//dcache/uscmsdisk/store/data/Run2017E/Tau/NANOAOD/UL2017_MiniAODv2_NanoAODv9-v2/80000/9A1110FE-DFE0-114D-9946-6ECAD844191B.root",
-        "root://grid-cms-xrootd.physik.rwth-aachen.de:1094//store/data/Run2017E/Tau/NANOAOD/UL2017_MiniAODv2_NanoAODv9-v2/80000/9E282C01-C383-2240-AC54-65AF6867D377.root",
-        "root://xrootd-local.unl.edu:1094//store/data/Run2017E/Tau/NANOAOD/UL2017_MiniAODv2_NanoAODv9-v2/80000/A6F33F43-A72C-B645-AE7D-034D525F135F.root",
-        "root://grid-cms-xrootd.physik.rwth-aachen.de:1094//store/data/Run2017E/Tau/NANOAOD/UL2017_MiniAODv2_NanoAODv9-v2/80000/A8CC655B-B33D-3147-B40C-061C1E5461A9.root"
+        "root://maite.iihe.ac.be:1094//store/data/Run2017B/Tau/NANOAOD/UL2017_MiniAODv2_NanoAODv9-v1/70000/667CB039-FC80-604E-8064-90C2B4FD004E.root",
+        "root://grid143.kfki.hu:1094//store/data/Run2017B/Tau/NANOAOD/UL2017_MiniAODv2_NanoAODv9-v1/70000/98F7DE21-38DC-4841-B845-F9B1A43CDC4D.root"
     ]
 }

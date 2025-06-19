@@ -1,15 +1,6 @@
 {
     "SingleElectron_6": [
-        "root://maite.iihe.ac.be:1094//store/data/Run2016G/SingleElectron/NANOAOD/UL2016_MiniAODv2_NanoAODv9-v1/270000/5A7C9DDD-89A9-884F-821B-B0B2D10FE399.root",
-        "root://grid-cms-xrootd.physik.rwth-aachen.de:1094//store/data/Run2016G/SingleElectron/NANOAOD/UL2016_MiniAODv2_NanoAODv9-v1/270000/5D546170-4CC2-8047-B7A2-DFA78CD0B796.root",
-        "root://cms.sscc.uos.ac.kr:1094//store/data/Run2016G/SingleElectron/NANOAOD/UL2016_MiniAODv2_NanoAODv9-v1/270000/668B508C-9E6D-0A4D-AA2F-9F0F87C79F0A.root",
-        "root://cmsdcadisk.fnal.gov//dcache/uscmsdisk/store/data/Run2016G/SingleElectron/NANOAOD/UL2016_MiniAODv2_NanoAODv9-v1/270000/674CD296-D0D9-FA49-B7D3-FC0EFCA8DDDE.root",
-        "root://cms.sscc.uos.ac.kr:1094//store/data/Run2016G/SingleElectron/NANOAOD/UL2016_MiniAODv2_NanoAODv9-v1/270000/69F2EFAB-0664-EA47-BB96-FC1AAFD1E9D6.root",
-        "root://dcache-cms-xrootd.desy.de:1094//store/data/Run2016G/SingleElectron/NANOAOD/UL2016_MiniAODv2_NanoAODv9-v1/270000/6A5190BA-7564-6644-B56D-EAF5E321DCC1.root",
-        "root://grid-cms-xrootd.physik.rwth-aachen.de:1094//store/data/Run2016G/SingleElectron/NANOAOD/UL2016_MiniAODv2_NanoAODv9-v1/270000/6C322BC9-180D-654E-93A8-92BE581B7DDE.root",
-        "root://eospublic.cern.ch//eos/opendata/cms/Run2016G/SingleElectron/NANOAOD/UL2016_MiniAODv2_NanoAODv9-v1/270000/8F883EE8-B7D4-904E-A511-6536F689A700.root",
-        "root://maite.iihe.ac.be:1094//store/data/Run2016G/SingleElectron/NANOAOD/UL2016_MiniAODv2_NanoAODv9-v1/270000/ACFAC4F3-D8E2-F943-8E4C-9737F393B90C.root",
-        "root://lyoeos.in2p3.fr:1094//eos/lyoeos.in2p3.fr/grid/cms/store/data/Run2016G/SingleElectron/NANOAOD/UL2016_MiniAODv2_NanoAODv9-v1/270000/BB6CC8E2-C16E-1045-A3C9-78BACD26BFF9.root",
-        "root://grid-cms-xrootd.physik.rwth-aachen.de:1094//store/data/Run2016G/SingleElectron/NANOAOD/UL2016_MiniAODv2_NanoAODv9-v1/270000/BC2C1B66-83B7-0E4B-AC75-CA33FC89DDCB.root"
+        "root://rdr.echo.stfc.ac.uk//store/data/Run2016G/SingleElectron/NANOAOD/UL2016_MiniAODv2_NanoAODv9-v1/260000/19E16619-BDB5-FD46-9F16-8273ACFD5C0C.root",
+        "root://lyoeos.in2p3.fr:1094//eos/lyoeos.in2p3.fr/grid/cms/store/data/Run2016G/SingleElectron/NANOAOD/UL2016_MiniAODv2_NanoAODv9-v1/260000/1D1E459B-A4CF-D840-A207-42A894EEAEEF.root"
     ]
 }

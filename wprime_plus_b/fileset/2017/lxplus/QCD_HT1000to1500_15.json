@@ -1,0 +1,6 @@
+{
+    "QCD_HT1000to1500_15": [
+        "root://eoscms.cern.ch//eos/cms/store/mc/RunIISummer20UL17NanoAODv9/QCD_HT1000to1500_TuneCP5_PSWeights_13TeV-madgraph-pythia8/NANOAODSIM/106X_mc2017_realistic_v9-v1/30000/FCBE444B-76C5-9945-ACB3-BEA9CD6302A6.root",
+        "root://eos.cms.rcac.purdue.edu//store/mc/RunIISummer20UL17NanoAODv9/QCD_HT1000to1500_TuneCP5_PSWeights_13TeV-madgraph-pythia8/NANOAODSIM/106X_mc2017_realistic_v9-v1/80000/1F37644D-BE1F-344C-AA77-BE4ECA7E73A2.root"
+    ]
+}

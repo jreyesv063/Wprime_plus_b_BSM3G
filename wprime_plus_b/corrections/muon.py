@@ -375,7 +375,6 @@ class MuonCorrector:
         trigger_mask = ak.flatten(ak.ones_like(self.muons.pt) * trigger_mask) > 0
         trigger_match_mask = ak.flatten(trigger_match_mask)
         
-        print(len(muon_pt_mask), len(muon_eta_mask), len(muon_id_mask), len(muon_iso_mask), len(trigger_mask), len(trigger_match_mask))
         
         in_muon_mask = (
             muon_pt_mask & muon_eta_mask & muon_id_mask & muon_iso_mask & trigger_mask & trigger_match_mask

@@ -1,0 +1,6 @@
+{
+    "WJetsToLNu_ext_262": [
+        "root://cmseos.fnal.gov//eos/uscms/store/mc/RunIISummer20UL17NanoAODv9/WJetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8/NANOAODSIM/106X_mc2017_realistic_v9_ext1-v2/50000/5A673D0D-5DCA-C444-8B13-EA39F518251B.root",
+        "root://eos.cms.rcac.purdue.edu//store/mc/RunIISummer20UL17NanoAODv9/WJetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8/NANOAODSIM/106X_mc2017_realistic_v9_ext1-v2/50000/6600BDA4-6DFF-3B45-9E10-2CD256DE5152.root"
+    ]
+}

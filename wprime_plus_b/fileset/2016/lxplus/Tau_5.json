@@ -1,8 +1,6 @@
 {
     "Tau_5": [
-        "root://cms.sscc.uos.ac.kr:1094//store/data/Run2016G/Tau/NANOAOD/UL2016_MiniAODv2_NanoAODv9-v1/270000/9E2294DE-1378-E647-9E66-84FEA4AB7018.root",
-        "root://maite.iihe.ac.be:1094//store/data/Run2016G/Tau/NANOAOD/UL2016_MiniAODv2_NanoAODv9-v1/270000/9E58E7DB-1D14-FA40-A931-366745DEF550.root",
-        "root://dcache-cms-xrootd.desy.de:1094//store/data/Run2016G/Tau/NANOAOD/UL2016_MiniAODv2_NanoAODv9-v1/270000/B4697B36-3011-3042-8F9A-13709BE01B02.root",
-        "root://dcache-cms-xrootd.desy.de:1094//store/data/Run2016G/Tau/NANOAOD/UL2016_MiniAODv2_NanoAODv9-v1/270000/B5DC7BAF-E211-3B4F-BC77-C0BEA1894F38.root"
+        "root://rdr.echo.stfc.ac.uk//store/data/Run2016G/Tau/NANOAOD/UL2016_MiniAODv2_NanoAODv9-v1/270000/2E930FA7-39A2-DD4D-85CD-25BC291CF0D1.root",
+        "root://rdr.echo.stfc.ac.uk//store/data/Run2016G/Tau/NANOAOD/UL2016_MiniAODv2_NanoAODv9-v1/270000/32D117E2-9790-7348-9F07-2D9119599734.root"
     ]
 }

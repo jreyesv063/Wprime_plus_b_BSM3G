@@ -1,0 +1,6 @@
+{
+    "QCD_HT1000to1500_14": [
+        "root://kodiak-se.baylor.edu:1094//store/mc/RunIISummer20UL17NanoAODv9/QCD_HT1000to1500_TuneCP5_PSWeights_13TeV-madgraph-pythia8/NANOAODSIM/106X_mc2017_realistic_v9-v1/30000/DBC7DEB5-7001-2A44-A0E7-87E9AAE334F2.root",
+        "root://t3se01.psi.ch:1094//store/mc/RunIISummer20UL17NanoAODv9/QCD_HT1000to1500_TuneCP5_PSWeights_13TeV-madgraph-pythia8/NANOAODSIM/106X_mc2017_realistic_v9-v1/30000/E4B6A671-E964-0445-A49D-96F28E5FA244.root"
+    ]
+}

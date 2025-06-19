@@ -1,11 +1,6 @@
 {
     "SingleMuon_7": [
-        "root://xrootd-local.unl.edu:1094//store/data/Run2016G/SingleMuon/NANOAOD/UL2016_MiniAODv2_NanoAODv9-v1/70000/5709DEB4-AAE5-7949-975C-119CF30ABA70.root",
-        "root://eoscms.cern.ch//eos/cms/store/data/Run2016G/SingleMuon/NANOAOD/UL2016_MiniAODv2_NanoAODv9-v1/70000/59905258-7CCF-BB41-AF01-D9FCBBECC03D.root",
-        "root://cms.sscc.uos.ac.kr:1094//store/data/Run2016G/SingleMuon/NANOAOD/UL2016_MiniAODv2_NanoAODv9-v1/70000/5BF83F4E-336D-1641-9576-53FC198765B5.root",
-        "root://xrootd-cmst1-door.pic.es:1094//pnfs/pic.es/data/cms/disk/store/data/Run2016G/SingleMuon/NANOAOD/UL2016_MiniAODv2_NanoAODv9-v1/70000/5F5E0726-4074-DA46-9AD9-C39389E885EC.root",
-        "root://dcache-cms-xrootd.desy.de:1094//store/data/Run2016G/SingleMuon/NANOAOD/UL2016_MiniAODv2_NanoAODv9-v1/70000/66A58A5A-4A7F-0546-B370-BABDDE02ADFD.root",
-        "root://cms.sscc.uos.ac.kr:1094//store/data/Run2016G/SingleMuon/NANOAOD/UL2016_MiniAODv2_NanoAODv9-v1/70000/6789206B-7C28-5C44-B975-A5EF9D7BC6A0.root",
-        "root://cms.sscc.uos.ac.kr:1094//store/data/Run2016G/SingleMuon/NANOAOD/UL2016_MiniAODv2_NanoAODv9-v1/70000/710A09CB-D2D9-0948-B4EC-6D94FD9F612B.root"
+        "root://eoscms.cern.ch//eos/cms/store/data/Run2016G/SingleMuon/NANOAOD/UL2016_MiniAODv2_NanoAODv9-v1/130000/B7EEE475-047D-CA4D-B680-617FE16540AC.root",
+        "root://xrootd01.jinr-t1.ru:1094//pnfs/jinr-t1.ru/data/cms/store/data/Run2016G/SingleMuon/NANOAOD/UL2016_MiniAODv2_NanoAODv9-v1/130000/BC07CDBA-E54A-AD4A-BC24-960043783955.root"
     ]
 }

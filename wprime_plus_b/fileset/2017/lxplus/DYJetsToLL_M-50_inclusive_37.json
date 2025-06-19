@@ -1,0 +1,6 @@
+{
+    "DYJetsToLL_M-50_inclusive_37": [
+        "root://t3se01.psi.ch:1094//store/mc/RunIISummer20UL17NanoAODv9/DYJetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8/NANOAODSIM/106X_mc2017_realistic_v9-v1/70000/B959053E-01B0-BE46-B05F-E398481032C3.root",
+        "root://cms-xrdr.sdfarm.kr:1094//xrd/store/mc/RunIISummer20UL17NanoAODv9/DYJetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8/NANOAODSIM/106X_mc2017_realistic_v9-v1/70000/C89FB693-85F3-EF4C-B552-54C3A23FA1D2.root"
+    ]
+}

@@ -1,0 +1,6 @@
+{
+    "DYJetsToLL_M-50_inclusive_16": [
+        "root://cms-xrdr.sdfarm.kr:1094//xrd/store/mc/RunIISummer20UL17NanoAODv9/DYJetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8/NANOAODSIM/106X_mc2017_realistic_v9-v1/270000/1A6C12A5-E7C0-3340-B566-0B66EF3ACB1F.root",
+        "root://t2dsk0011.cmsaf.mit.edu:1094//store/mc/RunIISummer20UL17NanoAODv9/DYJetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8/NANOAODSIM/106X_mc2017_realistic_v9-v1/270000/2068D251-8AE6-4B40-A0B7-6EB1DB9E565D.root"
+    ]
+}

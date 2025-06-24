@@ -1,6 +1,6 @@
 {
     "ST_tW_top_5f_inclusiveDecays_2": [
-        "root://xrootd01.jinr-t1.ru:1094//pnfs/jinr-t1.ru/data/cms/store/mc/RunIISummer20UL16NanoAODv9/ST_tW_top_5f_inclusiveDecays_TuneCP5_13TeV-powheg-pythia8/NANOAODSIM/106X_mcRun2_asymptotic_v17-v2/130000/2052F28E-1173-4348-A22E-5F71AEA8C08D.root",
+        "root://dcache-cms-xrootd.desy.de:1094//store/mc/RunIISummer20UL16NanoAODv9/ST_tW_top_5f_inclusiveDecays_TuneCP5_13TeV-powheg-pythia8/NANOAODSIM/106X_mcRun2_asymptotic_v17-v2/130000/2052F28E-1173-4348-A22E-5F71AEA8C08D.root",
         "root://rdr.echo.stfc.ac.uk//store/mc/RunIISummer20UL16NanoAODv9/ST_tW_top_5f_inclusiveDecays_TuneCP5_13TeV-powheg-pythia8/NANOAODSIM/106X_mcRun2_asymptotic_v17-v2/130000/7B5A4F29-0083-684D-A76D-30C681EBDBFF.root"
     ]
 }

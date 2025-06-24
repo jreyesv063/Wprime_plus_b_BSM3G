@@ -1,6 +1,6 @@
 {
     "Tau_38": [
-        "root://ccxrdcms.in2p3.fr:1094//store/data/Run2016H/Tau/NANOAOD/UL2016_MiniAODv2_NanoAODv9-v1/260000/8E2AEF79-0EFB-DE42-A8FD-23F2C26347F5.root",
-        "root://t2dsk0011.cmsaf.mit.edu:1094//store/data/Run2016H/Tau/NANOAOD/UL2016_MiniAODv2_NanoAODv9-v1/260000/8EDE4766-7730-5947-B559-32E1FA5082B3.root"
+        "root://xrootd-cmst1-door.pic.es:1094//pnfs/pic.es/data/cms/disk/store/data/Run2016H/Tau/NANOAOD/UL2016_MiniAODv2_NanoAODv9-v1/260000/8E2AEF79-0EFB-DE42-A8FD-23F2C26347F5.root",
+        "root://eospublic.cern.ch//eos/opendata/cms/Run2016H/Tau/NANOAOD/UL2016_MiniAODv2_NanoAODv9-v1/260000/8EDE4766-7730-5947-B559-32E1FA5082B3.root"
     ]
 }

@@ -1,6 +1,6 @@
 {
     "QCD_HT1500to2000_9": [
-        "root://grid-cms-xrootd.physik.rwth-aachen.de:1094//store/mc/RunIISummer20UL17NanoAODv9/QCD_HT1500to2000_TuneCP5_PSWeights_13TeV-madgraph-pythia8/NANOAODSIM/106X_mc2017_realistic_v9-v1/260000/BDFA5C50-C265-B343-8EE1-DBE39591E9AF.root",
-        "root://grid-cms-xrootd.physik.rwth-aachen.de:1094//store/mc/RunIISummer20UL17NanoAODv9/QCD_HT1500to2000_TuneCP5_PSWeights_13TeV-madgraph-pythia8/NANOAODSIM/106X_mc2017_realistic_v9-v1/260000/CB94A56F-387C-2648-8192-50A169E9FD49.root"
+        "root://kodiak-se.baylor.edu:1094//store/mc/RunIISummer20UL17NanoAODv9/QCD_HT1500to2000_TuneCP5_PSWeights_13TeV-madgraph-pythia8/NANOAODSIM/106X_mc2017_realistic_v9-v1/260000/BDFA5C50-C265-B343-8EE1-DBE39591E9AF.root",
+        "root://kodiak-se.baylor.edu:1094//store/mc/RunIISummer20UL17NanoAODv9/QCD_HT1500to2000_TuneCP5_PSWeights_13TeV-madgraph-pythia8/NANOAODSIM/106X_mc2017_realistic_v9-v1/260000/CB94A56F-387C-2648-8192-50A169E9FD49.root"
     ]
 }

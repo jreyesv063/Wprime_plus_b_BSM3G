@@ -1,6 +1,6 @@
 {
     "DYJetsToLL_M-50_HT-800to1200_16": [
-        "root://eospublic.cern.ch//eos/opendata/cms/mc/RunIISummer20UL16NanoAODv9/DYJetsToLL_M-50_HT-800to1200_TuneCP5_PSweights_13TeV-madgraphMLM-pythia8/NANOAODSIM/106X_mcRun2_asymptotic_v17-v2/250000/318481E3-E126-9B4E-9545-1FA0B417A135.root",
-        "root://xrootd-local.unl.edu:1094//store/mc/RunIISummer20UL16NanoAODv9/DYJetsToLL_M-50_HT-800to1200_TuneCP5_PSweights_13TeV-madgraphMLM-pythia8/NANOAODSIM/106X_mcRun2_asymptotic_v17-v2/250000/67D80518-944A-D14C-ABAC-B33B3A852C4F.root"
+        "root://cmsdcadisk.fnal.gov//dcache/uscmsdisk/store/mc/RunIISummer20UL16NanoAODv9/DYJetsToLL_M-50_HT-800to1200_TuneCP5_PSweights_13TeV-madgraphMLM-pythia8/NANOAODSIM/106X_mcRun2_asymptotic_v17-v2/250000/318481E3-E126-9B4E-9545-1FA0B417A135.root",
+        "root://eoscms.cern.ch//eos/cms/store/mc/RunIISummer20UL16NanoAODv9/DYJetsToLL_M-50_HT-800to1200_TuneCP5_PSweights_13TeV-madgraphMLM-pythia8/NANOAODSIM/106X_mcRun2_asymptotic_v17-v2/250000/67D80518-944A-D14C-ABAC-B33B3A852C4F.root"
     ]
 }

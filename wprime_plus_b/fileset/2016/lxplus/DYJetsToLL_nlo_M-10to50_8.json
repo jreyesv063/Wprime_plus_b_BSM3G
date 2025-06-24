@@ -1,6 +1,6 @@
 {
     "DYJetsToLL_nlo_M-10to50_8": [
-        "root://eoscms.cern.ch//eos/cms/store/mc/RunIISummer20UL16NanoAODv9/DYJetsToLL_M-10to50_TuneCP5_13TeV-amcatnloFXFX-pythia8/NANOAODSIM/106X_mcRun2_asymptotic_v17-v1/2520000/7C635D20-2923-8C41-98D6-7FF6E14511D3.root",
-        "root://dcache-cms-xrootd.desy.de:1094//store/mc/RunIISummer20UL16NanoAODv9/DYJetsToLL_M-10to50_TuneCP5_13TeV-amcatnloFXFX-pythia8/NANOAODSIM/106X_mcRun2_asymptotic_v17-v1/2520000/8B6896F5-5D17-8844-9CD4-3B2E72F78A48.root"
+        "root://xrootd01.jinr-t1.ru:1094//pnfs/jinr-t1.ru/data/cms/store/mc/RunIISummer20UL16NanoAODv9/DYJetsToLL_M-10to50_TuneCP5_13TeV-amcatnloFXFX-pythia8/NANOAODSIM/106X_mcRun2_asymptotic_v17-v1/2520000/7C635D20-2923-8C41-98D6-7FF6E14511D3.root",
+        "root://grid-cms-xrootd.physik.rwth-aachen.de:1094//store/mc/RunIISummer20UL16NanoAODv9/DYJetsToLL_M-10to50_TuneCP5_13TeV-amcatnloFXFX-pythia8/NANOAODSIM/106X_mcRun2_asymptotic_v17-v1/2520000/8B6896F5-5D17-8844-9CD4-3B2E72F78A48.root"
     ]
 }

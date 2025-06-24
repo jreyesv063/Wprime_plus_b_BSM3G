@@ -1,6 +1,6 @@
 {
     "ST_t-channel_antitop_5f_InclusiveDecays_5": [
-        "root://eos.cms.rcac.purdue.edu//store/mc/RunIISummer20UL17NanoAODv9/ST_t-channel_antitop_5f_InclusiveDecays_TuneCP5_13TeV-powheg-pythia8/NANOAODSIM/106X_mc2017_realistic_v9-v2/2430000/4EEA48C9-FB60-1847-90B3-197201801879.root",
-        "root://cmsdcadisk.fnal.gov//dcache/uscmsdisk/store/mc/RunIISummer20UL17NanoAODv9/ST_t-channel_antitop_5f_InclusiveDecays_TuneCP5_13TeV-powheg-pythia8/NANOAODSIM/106X_mc2017_realistic_v9-v2/2430000/50CF4F33-0585-334C-9D9E-79AA359D5AC3.root"
+        "root://gfe02.grid.hep.ph.ic.ac.uk:1094//pnfs/hep.ph.ic.ac.uk/data/cms/store/mc/RunIISummer20UL17NanoAODv9/ST_t-channel_antitop_5f_InclusiveDecays_TuneCP5_13TeV-powheg-pythia8/NANOAODSIM/106X_mc2017_realistic_v9-v2/2430000/4EEA48C9-FB60-1847-90B3-197201801879.root",
+        "root://eos.cms.rcac.purdue.edu//store/mc/RunIISummer20UL17NanoAODv9/ST_t-channel_antitop_5f_InclusiveDecays_TuneCP5_13TeV-powheg-pythia8/NANOAODSIM/106X_mc2017_realistic_v9-v2/2430000/50CF4F33-0585-334C-9D9E-79AA359D5AC3.root"
     ]
 }

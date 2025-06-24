@@ -1,6 +1,6 @@
 {
     "WJetsToLNu_inclusive_31": [
-        "root://cmseos.fnal.gov//eos/uscms/store/mc/RunIISummer20UL18NanoAODv9/WJetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8/NANOAODSIM/106X_upgrade2018_realistic_v16_L1v1-v1/280000/6E0602A3-99C9-3E4C-A517-E7A72F05B1A2.root",
-        "root://cmseos.fnal.gov//eos/uscms/store/mc/RunIISummer20UL18NanoAODv9/WJetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8/NANOAODSIM/106X_upgrade2018_realistic_v16_L1v1-v1/280000/6E2480FC-0EE2-0149-96D6-1E3F79FD0B65.root"
+        "root://cmsdcadisk.fnal.gov//dcache/uscmsdisk/store/mc/RunIISummer20UL18NanoAODv9/WJetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8/NANOAODSIM/106X_upgrade2018_realistic_v16_L1v1-v1/280000/6E0602A3-99C9-3E4C-A517-E7A72F05B1A2.root",
+        "root://cmsdcadisk.fnal.gov//dcache/uscmsdisk/store/mc/RunIISummer20UL18NanoAODv9/WJetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8/NANOAODSIM/106X_upgrade2018_realistic_v16_L1v1-v1/280000/6E2480FC-0EE2-0149-96D6-1E3F79FD0B65.root"
     ]
 }

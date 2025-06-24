@@ -1,6 +1,6 @@
 {
     "DYJetsToLL_M-50_inclusive_30": [
-        "root://t2dsk0011.cmsaf.mit.edu:1094//store/mc/RunIISummer20UL17NanoAODv9/DYJetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8/NANOAODSIM/106X_mc2017_realistic_v9-v1/280000/572A4553-C223-3E4A-9401-A0D2403C529F.root",
-        "root://lyoeos.in2p3.fr:1094//eos/lyoeos.in2p3.fr/grid/cms/store/mc/RunIISummer20UL17NanoAODv9/DYJetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8/NANOAODSIM/106X_mc2017_realistic_v9-v1/280000/63F487B8-96A0-9048-A469-9FB30780F56C.root"
+        "root://lyoeos.in2p3.fr:1094//eos/lyoeos.in2p3.fr/grid/cms/store/mc/RunIISummer20UL17NanoAODv9/DYJetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8/NANOAODSIM/106X_mc2017_realistic_v9-v1/280000/572A4553-C223-3E4A-9401-A0D2403C529F.root",
+        "root://eos.cms.rcac.purdue.edu//store/mc/RunIISummer20UL17NanoAODv9/DYJetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8/NANOAODSIM/106X_mc2017_realistic_v9-v1/280000/63F487B8-96A0-9048-A469-9FB30780F56C.root"
     ]
 }

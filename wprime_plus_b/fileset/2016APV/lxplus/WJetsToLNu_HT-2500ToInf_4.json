@@ -1,6 +1,6 @@
 {
     "WJetsToLNu_HT-2500ToInf_4": [
         "root://t2dsk0011.cmsaf.mit.edu:1094//store/mc/RunIISummer20UL16NanoAODAPVv9/WJetsToLNu_HT-2500ToInf_TuneCP5_13TeV-madgraphMLM-pythia8/NANOAODSIM/106X_mcRun2_asymptotic_preVFP_v11-v2/100000/D4DA09E8-383A-C149-8712-EC80F868C473.root",
-        "root://dcache-cms-xrootd.desy.de:1094//store/mc/RunIISummer20UL16NanoAODAPVv9/WJetsToLNu_HT-2500ToInf_TuneCP5_13TeV-madgraphMLM-pythia8/NANOAODSIM/106X_mcRun2_asymptotic_preVFP_v11-v2/100000/D5A60B1D-8E9D-5249-BB69-12E984FB3F8F.root"
+        "root://eos.cms.rcac.purdue.edu//store/mc/RunIISummer20UL16NanoAODAPVv9/WJetsToLNu_HT-2500ToInf_TuneCP5_13TeV-madgraphMLM-pythia8/NANOAODSIM/106X_mcRun2_asymptotic_preVFP_v11-v2/100000/D5A60B1D-8E9D-5249-BB69-12E984FB3F8F.root"
     ]
 }

@@ -1,6 +1,6 @@
 {
     "VBFHToWWTo2L2Nu_9": [
-        "root://cmsdcadisk.fnal.gov//dcache/uscmsdisk/store/mc/RunIISummer20UL16NanoAODAPVv9/VBFHToWWTo2L2Nu_M125_TuneCP5_13TeV_powheg2_JHUGenV714_pythia8/NANOAODSIM/106X_mcRun2_asymptotic_preVFP_v11-v2/260000/27688C0D-45BE-D448-8B46-3F46415B2D92.root",
-        "root://ccxrdcms.in2p3.fr:1094//store/mc/RunIISummer20UL16NanoAODAPVv9/VBFHToWWTo2L2Nu_M125_TuneCP5_13TeV_powheg2_JHUGenV714_pythia8/NANOAODSIM/106X_mcRun2_asymptotic_preVFP_v11-v2/260000/3DA08E68-36ED-A641-8CC8-83B9B3D06408.root"
+        "root://cmsdcache-kit-disk.gridka.de:1094//store/mc/RunIISummer20UL16NanoAODAPVv9/VBFHToWWTo2L2Nu_M125_TuneCP5_13TeV_powheg2_JHUGenV714_pythia8/NANOAODSIM/106X_mcRun2_asymptotic_preVFP_v11-v2/260000/27688C0D-45BE-D448-8B46-3F46415B2D92.root",
+        "root://xrootd-local.unl.edu:1094//store/mc/RunIISummer20UL16NanoAODAPVv9/VBFHToWWTo2L2Nu_M125_TuneCP5_13TeV_powheg2_JHUGenV714_pythia8/NANOAODSIM/106X_mcRun2_asymptotic_preVFP_v11-v2/260000/3DA08E68-36ED-A641-8CC8-83B9B3D06408.root"
     ]
 }

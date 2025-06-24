@@ -1,6 +1,6 @@
 {
     "DYJetsToLL_M-50_inclusive_27": [
-        "root://k8s-redir.ultralight.org:1094//store/mc/RunIISummer20UL18NanoAODv9/DYJetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8/NANOAODSIM/106X_upgrade2018_realistic_v16_L1v1-v1/280000/D2417B78-FA20-414E-9014-77B15EF86677.root",
-        "root://k8s-redir.ultralight.org:1094//store/mc/RunIISummer20UL18NanoAODv9/DYJetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8/NANOAODSIM/106X_upgrade2018_realistic_v16_L1v1-v1/280000/E090B3F5-8055-A84A-8689-5E9352C7D003.root"
+        "root://eoscms.cern.ch//eos/cms/store/mc/RunIISummer20UL18NanoAODv9/DYJetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8/NANOAODSIM/106X_upgrade2018_realistic_v16_L1v1-v1/280000/D2417B78-FA20-414E-9014-77B15EF86677.root",
+        "root://eoscms.cern.ch//eos/cms/store/mc/RunIISummer20UL18NanoAODv9/DYJetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8/NANOAODSIM/106X_upgrade2018_realistic_v16_L1v1-v1/280000/E090B3F5-8055-A84A-8689-5E9352C7D003.root"
     ]
 }

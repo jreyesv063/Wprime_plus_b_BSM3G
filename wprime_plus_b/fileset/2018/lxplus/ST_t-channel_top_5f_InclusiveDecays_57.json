@@ -1,6 +1,6 @@
 {
     "ST_t-channel_top_5f_InclusiveDecays_57": [
         "root://gfe02.grid.hep.ph.ic.ac.uk:1094//pnfs/hep.ph.ic.ac.uk/data/cms/store/mc/RunIISummer20UL18NanoAODv9/ST_t-channel_top_5f_InclusiveDecays_TuneCP5_13TeV-powheg-pythia8/NANOAODSIM/106X_upgrade2018_realistic_v16_L1v1-v1/2530000/7C4EB7D8-B865-1049-8FFB-A35F6FD753F5.root",
-        "root://osg-se.sprace.org.br:1094//store/mc/RunIISummer20UL18NanoAODv9/ST_t-channel_top_5f_InclusiveDecays_TuneCP5_13TeV-powheg-pythia8/NANOAODSIM/106X_upgrade2018_realistic_v16_L1v1-v1/2530000/7F7354CE-6043-9C4E-AEE8-A9F41F7945E7.root"
+        "root://eoscms.cern.ch//eos/cms/store/mc/RunIISummer20UL18NanoAODv9/ST_t-channel_top_5f_InclusiveDecays_TuneCP5_13TeV-powheg-pythia8/NANOAODSIM/106X_upgrade2018_realistic_v16_L1v1-v1/2530000/7F7354CE-6043-9C4E-AEE8-A9F41F7945E7.root"
     ]
 }

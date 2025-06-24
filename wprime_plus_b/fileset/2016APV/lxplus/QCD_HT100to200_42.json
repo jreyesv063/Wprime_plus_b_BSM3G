@@ -1,6 +1,6 @@
 {
     "QCD_HT100to200_42": [
-        "root://t2-xrdcms.lnl.infn.it:7070//store/mc/RunIISummer20UL16NanoAODAPVv9/QCD_HT100to200_TuneCP5_PSWeights_13TeV-madgraph-pythia8/NANOAODSIM/106X_mcRun2_asymptotic_preVFP_v11-v1/270000/A4233F51-A13C-EC4F-8F6A-A265F45170D3.root",
+        "root://grid-cms-xrootd.physik.rwth-aachen.de:1094//store/mc/RunIISummer20UL16NanoAODAPVv9/QCD_HT100to200_TuneCP5_PSWeights_13TeV-madgraph-pythia8/NANOAODSIM/106X_mcRun2_asymptotic_preVFP_v11-v1/270000/A4233F51-A13C-EC4F-8F6A-A265F45170D3.root",
         "root://ccxrdcms.in2p3.fr:1094//store/mc/RunIISummer20UL16NanoAODAPVv9/QCD_HT100to200_TuneCP5_PSWeights_13TeV-madgraph-pythia8/NANOAODSIM/106X_mcRun2_asymptotic_preVFP_v11-v1/270000/DD45254D-F665-524B-8196-5B656F871227.root"
     ]
 }

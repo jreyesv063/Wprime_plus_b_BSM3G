@@ -1,6 +1,6 @@
 {
     "WJetsToLNu_ext_227": [
         "root://dcache-cms-xrootd.desy.de:1094//store/mc/RunIISummer20UL16NanoAODAPVv9/WJetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8/NANOAODSIM/106X_mcRun2_asymptotic_preVFP_v11_ext1-v2/40000/2EDFA99E-2D5F-7D47-9F08-51422F22C292.root",
-        "root://sbgdcache.in2p3.fr//store/mc/RunIISummer20UL16NanoAODAPVv9/WJetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8/NANOAODSIM/106X_mcRun2_asymptotic_preVFP_v11_ext1-v2/40000/3021B4D7-FD13-DB4F-97E0-B5C6EFC91468.root"
+        "root://maite.iihe.ac.be:1094//store/mc/RunIISummer20UL16NanoAODAPVv9/WJetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8/NANOAODSIM/106X_mcRun2_asymptotic_preVFP_v11_ext1-v2/40000/3021B4D7-FD13-DB4F-97E0-B5C6EFC91468.root"
     ]
 }

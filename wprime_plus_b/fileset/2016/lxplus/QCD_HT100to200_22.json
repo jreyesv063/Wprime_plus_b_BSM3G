@@ -1,6 +1,6 @@
 {
     "QCD_HT100to200_22": [
-        "root://eospublic.cern.ch//eos/opendata/cms/mc/RunIISummer20UL16NanoAODv9/QCD_HT100to200_TuneCP5_PSWeights_13TeV-madgraph-pythia8/NANOAODSIM/106X_mcRun2_asymptotic_v17-v1/260000/D2024427-ECEC-C145-B1E2-FD90D8651163.root",
-        "root://eos.cms.rcac.purdue.edu//store/mc/RunIISummer20UL16NanoAODv9/QCD_HT100to200_TuneCP5_PSWeights_13TeV-madgraph-pythia8/NANOAODSIM/106X_mcRun2_asymptotic_v17-v1/260000/D454E77F-56C5-2348-A105-981CBFBE0C06.root"
+        "root://xrootd01.jinr-t1.ru:1094//pnfs/jinr-t1.ru/data/cms/store/mc/RunIISummer20UL16NanoAODv9/QCD_HT100to200_TuneCP5_PSWeights_13TeV-madgraph-pythia8/NANOAODSIM/106X_mcRun2_asymptotic_v17-v1/260000/D2024427-ECEC-C145-B1E2-FD90D8651163.root",
+        "root://maite.iihe.ac.be:1094//store/mc/RunIISummer20UL16NanoAODv9/QCD_HT100to200_TuneCP5_PSWeights_13TeV-madgraph-pythia8/NANOAODSIM/106X_mcRun2_asymptotic_v17-v1/260000/D454E77F-56C5-2348-A105-981CBFBE0C06.root"
     ]
 }

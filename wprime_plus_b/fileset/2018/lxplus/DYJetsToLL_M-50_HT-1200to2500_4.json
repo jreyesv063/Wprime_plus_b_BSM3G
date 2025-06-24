@@ -1,6 +1,6 @@
 {
     "DYJetsToLL_M-50_HT-1200to2500_4": [
-        "root://cmsdcadisk.fnal.gov//dcache/uscmsdisk/store/mc/RunIISummer20UL18NanoAODv9/DYJetsToLL_M-50_HT-1200to2500_TuneCP5_PSweights_13TeV-madgraphMLM-pythia8/NANOAODSIM/106X_upgrade2018_realistic_v16_L1v1-v1/280000/2D99C9F2-3FCF-0C43-8AF6-C79ECEA1E206.root",
+        "root://osg-se.sprace.org.br:1094//store/mc/RunIISummer20UL18NanoAODv9/DYJetsToLL_M-50_HT-1200to2500_TuneCP5_PSweights_13TeV-madgraphMLM-pythia8/NANOAODSIM/106X_upgrade2018_realistic_v16_L1v1-v1/280000/2D99C9F2-3FCF-0C43-8AF6-C79ECEA1E206.root",
         "root://eoscms.cern.ch//eos/cms/store/mc/RunIISummer20UL18NanoAODv9/DYJetsToLL_M-50_HT-1200to2500_TuneCP5_PSweights_13TeV-madgraphMLM-pythia8/NANOAODSIM/106X_upgrade2018_realistic_v16_L1v1-v1/280000/50E410D5-1103-4648-BE10-12BA80354B31.root"
     ]
 }

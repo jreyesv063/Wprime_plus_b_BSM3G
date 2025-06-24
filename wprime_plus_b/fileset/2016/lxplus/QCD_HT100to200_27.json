@@ -1,6 +1,6 @@
 {
     "QCD_HT100to200_27": [
-        "root://cmsdcadisk.fnal.gov//dcache/uscmsdisk/store/mc/RunIISummer20UL16NanoAODv9/QCD_HT100to200_TuneCP5_PSWeights_13TeV-madgraph-pythia8/NANOAODSIM/106X_mcRun2_asymptotic_v17-v1/270000/703003ED-9246-F043-9DCA-F69768B703A0.root",
-        "root://cmsdcache-kit-disk.gridka.de:1094//store/mc/RunIISummer20UL16NanoAODv9/QCD_HT100to200_TuneCP5_PSWeights_13TeV-madgraph-pythia8/NANOAODSIM/106X_mcRun2_asymptotic_v17-v1/270000/792D7C88-E3D3-834E-B635-6C9918AB1C5B.root"
+        "root://xrootd01.jinr-t1.ru:1094//pnfs/jinr-t1.ru/data/cms/store/mc/RunIISummer20UL16NanoAODv9/QCD_HT100to200_TuneCP5_PSWeights_13TeV-madgraph-pythia8/NANOAODSIM/106X_mcRun2_asymptotic_v17-v1/270000/703003ED-9246-F043-9DCA-F69768B703A0.root",
+        "root://t2-xrdcms.lnl.infn.it:7070//store/mc/RunIISummer20UL16NanoAODv9/QCD_HT100to200_TuneCP5_PSWeights_13TeV-madgraph-pythia8/NANOAODSIM/106X_mcRun2_asymptotic_v17-v1/270000/792D7C88-E3D3-834E-B635-6C9918AB1C5B.root"
     ]
 }

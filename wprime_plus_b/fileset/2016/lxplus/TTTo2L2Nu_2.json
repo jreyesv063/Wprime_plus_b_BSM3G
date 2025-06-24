@@ -1,6 +1,6 @@
 {
     "TTTo2L2Nu_2": [
-        "root://eospublic.cern.ch//eos/opendata/cms/mc/RunIISummer20UL16NanoAODv9/TTTo2L2Nu_TuneCP5CR1_13TeV-powheg-pythia8/NANOAODSIM/106X_mcRun2_asymptotic_v17-v1/270000/3BAACA5F-2E0C-434F-8834-DEB8714B7CEE.root",
-        "root://rdr.echo.stfc.ac.uk//store/mc/RunIISummer20UL16NanoAODv9/TTTo2L2Nu_TuneCP5CR1_13TeV-powheg-pythia8/NANOAODSIM/106X_mcRun2_asymptotic_v17-v1/270000/66AD3EAE-7EC0-CE46-820D-006189C9B3BD.root"
+        "root://rdr.echo.stfc.ac.uk//store/mc/RunIISummer20UL16NanoAODv9/TTTo2L2Nu_TuneCP5CR1_13TeV-powheg-pythia8/NANOAODSIM/106X_mcRun2_asymptotic_v17-v1/270000/3BAACA5F-2E0C-434F-8834-DEB8714B7CEE.root",
+        "root://eospublic.cern.ch//eos/opendata/cms/mc/RunIISummer20UL16NanoAODv9/TTTo2L2Nu_TuneCP5CR1_13TeV-powheg-pythia8/NANOAODSIM/106X_mcRun2_asymptotic_v17-v1/270000/66AD3EAE-7EC0-CE46-820D-006189C9B3BD.root"
     ]
 }

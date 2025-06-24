@@ -1,0 +1,6 @@
+{
+    "WJetsToLNu_HT-400To600_3": [
+        "root://cmsdcache-kit-disk.gridka.de:1094//store/mc/RunIISummer20UL18NanoAODv9/WJetsToLNu_HT-400To600_TuneCP5_13TeV-madgraphMLM-pythia8/NANOAODSIM/106X_upgrade2018_realistic_v16_L1v1-v1/270000/0AC179CF-CE07-3D40-B3B1-77161D715AEA.root",
+        "root://cmseos.fnal.gov//eos/uscms/store/mc/RunIISummer20UL18NanoAODv9/WJetsToLNu_HT-400To600_TuneCP5_13TeV-madgraphMLM-pythia8/NANOAODSIM/106X_upgrade2018_realistic_v16_L1v1-v1/270000/36B67BC6-AE1F-4B4E-B654-B7A79BEF1720.root"
+    ]
+}

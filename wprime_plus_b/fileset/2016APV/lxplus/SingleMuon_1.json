@@ -1,6 +1,6 @@
 {
     "SingleMuon_1": [
-        "root://gfe02.grid.hep.ph.ic.ac.uk:1094//pnfs/hep.ph.ic.ac.uk/data/cms/store/data/Run2016B/SingleMuon/NANOAOD/ver1_HIPM_UL2016_MiniAODv2_NanoAODv9-v2/2520000/BB6DC570-2223-7B43-BB87-2526FB1639B4.root",
-        "root://dcache-cms-xrootd.desy.de:1094//store/data/Run2016B/SingleMuon/NANOAOD/ver1_HIPM_UL2016_MiniAODv2_NanoAODv9-v2/40000/136B48F7-CA92-704E-A81A-BD0F4D9C75F4.root"
+        "root://lyoeos.in2p3.fr:1094//eos/lyoeos.in2p3.fr/grid/cms/store/data/Run2016B/SingleMuon/NANOAOD/ver1_HIPM_UL2016_MiniAODv2_NanoAODv9-v2/2520000/BB6DC570-2223-7B43-BB87-2526FB1639B4.root",
+        "root://cmsdcadisk.fnal.gov//dcache/uscmsdisk/store/data/Run2016B/SingleMuon/NANOAOD/ver1_HIPM_UL2016_MiniAODv2_NanoAODv9-v2/40000/136B48F7-CA92-704E-A81A-BD0F4D9C75F4.root"
     ]
 }

@@ -1,6 +1,6 @@
 {
     "TTTo2L2Nu_5": [
-        "root://cmsdcadisk.fnal.gov//dcache/uscmsdisk/store/mc/RunIISummer20UL16NanoAODv9/TTTo2L2Nu_TuneCP5CR1_13TeV-powheg-pythia8/NANOAODSIM/106X_mcRun2_asymptotic_v17-v1/270000/BA13DF4B-8F0F-1C40-A2CF-E4D607B24002.root",
-        "root://eospublic.cern.ch//eos/opendata/cms/mc/RunIISummer20UL16NanoAODv9/TTTo2L2Nu_TuneCP5CR1_13TeV-powheg-pythia8/NANOAODSIM/106X_mcRun2_asymptotic_v17-v1/270000/D13753D6-D83B-F743-BADF-8D7DC326F5B4.root"
+        "root://eos.cms.rcac.purdue.edu//store/mc/RunIISummer20UL16NanoAODv9/TTTo2L2Nu_TuneCP5CR1_13TeV-powheg-pythia8/NANOAODSIM/106X_mcRun2_asymptotic_v17-v1/270000/BA13DF4B-8F0F-1C40-A2CF-E4D607B24002.root",
+        "root://cmsdcadisk.fnal.gov//dcache/uscmsdisk/store/mc/RunIISummer20UL16NanoAODv9/TTTo2L2Nu_TuneCP5CR1_13TeV-powheg-pythia8/NANOAODSIM/106X_mcRun2_asymptotic_v17-v1/270000/D13753D6-D83B-F743-BADF-8D7DC326F5B4.root"
     ]
 }

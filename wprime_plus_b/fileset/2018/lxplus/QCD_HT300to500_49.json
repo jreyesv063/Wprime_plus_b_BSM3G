@@ -1,0 +1,6 @@
+{
+    "QCD_HT300to500_49": [
+        "root://grid-cms-xrootd.physik.rwth-aachen.de:1094//store/mc/RunIISummer20UL18NanoAODv9/QCD_HT300to500_TuneCP5_PSWeights_13TeV-madgraph-pythia8/NANOAODSIM/106X_upgrade2018_realistic_v16_L1v1-v1/80000/0D6A4A01-EDCA-4B4E-9024-DFEF1ED1485A.root",
+        "root://grid-cms-xrootd.physik.rwth-aachen.de:1094//store/mc/RunIISummer20UL18NanoAODv9/QCD_HT300to500_TuneCP5_PSWeights_13TeV-madgraph-pythia8/NANOAODSIM/106X_upgrade2018_realistic_v16_L1v1-v1/80000/18CA3CD3-58F1-EB4D-B8C4-F8540F0E25E6.root"
+    ]
+}

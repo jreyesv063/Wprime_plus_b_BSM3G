@@ -1,6 +1,6 @@
 {
     "MET_3": [
         "root://cmsdcadisk.fnal.gov//dcache/uscmsdisk/store/data/Run2016G/MET/NANOAOD/UL2016_MiniAODv2_NanoAODv9-v1/270000/0485102E-7DF7-8641-BBBB-E76473C455E2.root",
-        "root://lyoeos.in2p3.fr:1094//eos/lyoeos.in2p3.fr/grid/cms/store/data/Run2016G/MET/NANOAOD/UL2016_MiniAODv2_NanoAODv9-v1/270000/0AADFEBE-F652-FF44-B0A4-5954D894D308.root"
+        "root://xrootd-local.unl.edu:1094//store/data/Run2016G/MET/NANOAOD/UL2016_MiniAODv2_NanoAODv9-v1/270000/0AADFEBE-F652-FF44-B0A4-5954D894D308.root"
     ]
 }

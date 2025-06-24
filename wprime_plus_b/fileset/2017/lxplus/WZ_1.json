@@ -1,6 +1,6 @@
 {
     "WZ_1": [
-        "root://maite.iihe.ac.be:1094//store/mc/RunIISummer20UL17NanoAODv9/WZ_TuneCP5_13TeV-pythia8/NANOAODSIM/106X_mc2017_realistic_v9-v1/120000/3032CE7C-FDDE-7243-8B89-13AD7549A797.root",
+        "root://xrootd-vanderbilt.sites.opensciencegrid.org:1094//store/mc/RunIISummer20UL17NanoAODv9/WZ_TuneCP5_13TeV-pythia8/NANOAODSIM/106X_mc2017_realistic_v9-v1/120000/3032CE7C-FDDE-7243-8B89-13AD7549A797.root",
         "root://lyoeos.in2p3.fr:1094//eos/lyoeos.in2p3.fr/grid/cms/store/mc/RunIISummer20UL17NanoAODv9/WZ_TuneCP5_13TeV-pythia8/NANOAODSIM/106X_mc2017_realistic_v9-v1/120000/936C5557-15D6-B74C-9260-582B71C8B1C3.root"
     ]
 }

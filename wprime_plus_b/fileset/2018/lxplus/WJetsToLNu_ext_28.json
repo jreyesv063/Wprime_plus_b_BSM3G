@@ -1,6 +1,6 @@
 {
     "WJetsToLNu_ext_28": [
-        "root://eoscms.cern.ch//eos/cms/store/mc/RunIISummer20UL18NanoAODv9/WJetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8/NANOAODSIM/106X_upgrade2018_realistic_v16_L1v1_ext1-v2/2540000/C9F67ED5-AE7A-9642-B8A1-B3D5B1AE06FF.root",
-        "root://rdr.echo.stfc.ac.uk//store/mc/RunIISummer20UL18NanoAODv9/WJetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8/NANOAODSIM/106X_upgrade2018_realistic_v16_L1v1_ext1-v2/2540000/D3097054-5DA3-994D-B18A-597DC03DEA51.root"
+        "root://rdr.echo.stfc.ac.uk//store/mc/RunIISummer20UL18NanoAODv9/WJetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8/NANOAODSIM/106X_upgrade2018_realistic_v16_L1v1_ext1-v2/2540000/C9F67ED5-AE7A-9642-B8A1-B3D5B1AE06FF.root",
+        "root://osg-se.sprace.org.br:1094//store/mc/RunIISummer20UL18NanoAODv9/WJetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8/NANOAODSIM/106X_upgrade2018_realistic_v16_L1v1_ext1-v2/2540000/D3097054-5DA3-994D-B18A-597DC03DEA51.root"
     ]
 }

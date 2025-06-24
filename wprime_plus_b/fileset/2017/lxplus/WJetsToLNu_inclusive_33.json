@@ -1,6 +1,6 @@
 {
     "WJetsToLNu_inclusive_33": [
-        "root://lyoeos.in2p3.fr:1094//eos/lyoeos.in2p3.fr/grid/cms/store/mc/RunIISummer20UL17NanoAODv9/WJetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8/NANOAODSIM/106X_mc2017_realistic_v9-v1/280000/91CFB155-5A28-FF42-B937-1C921D4DD20E.root",
-        "root://gfe02.grid.hep.ph.ic.ac.uk:1094//pnfs/hep.ph.ic.ac.uk/data/cms/store/mc/RunIISummer20UL17NanoAODv9/WJetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8/NANOAODSIM/106X_mc2017_realistic_v9-v1/280000/98C6F14E-90BB-1D49-B460-95C07439905E.root"
+        "root://cmseos.fnal.gov//eos/uscms/store/mc/RunIISummer20UL17NanoAODv9/WJetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8/NANOAODSIM/106X_mc2017_realistic_v9-v1/280000/91CFB155-5A28-FF42-B937-1C921D4DD20E.root",
+        "root://skynet013.crc.nd.edu//store/mc/RunIISummer20UL17NanoAODv9/WJetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8/NANOAODSIM/106X_mc2017_realistic_v9-v1/280000/98C6F14E-90BB-1D49-B460-95C07439905E.root"
     ]
 }

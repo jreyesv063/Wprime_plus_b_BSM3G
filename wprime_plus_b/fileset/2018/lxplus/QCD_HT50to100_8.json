@@ -1,0 +1,6 @@
+{
+    "QCD_HT50to100_8": [
+        "root://ccxrdcms.in2p3.fr:1094//store/mc/RunIISummer20UL18NanoAODv9/QCD_HT50to100_TuneCP5_PSWeights_13TeV-madgraph-pythia8/NANOAODSIM/106X_upgrade2018_realistic_v16_L1v1-v1/30000/19A2AE22-6BD1-CF44-86BB-8DC4A6ACEAFD.root",
+        "root://xrootd-vanderbilt.sites.opensciencegrid.org:1094//store/mc/RunIISummer20UL18NanoAODv9/QCD_HT50to100_TuneCP5_PSWeights_13TeV-madgraph-pythia8/NANOAODSIM/106X_upgrade2018_realistic_v16_L1v1-v1/30000/3F8A5799-6D93-9F41-B8AD-20F73CE460CB.root"
+    ]
+}

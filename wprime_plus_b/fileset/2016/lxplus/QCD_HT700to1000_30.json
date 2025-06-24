@@ -1,6 +1,6 @@
 {
     "QCD_HT700to1000_30": [
-        "root://cmseos.fnal.gov//eos/uscms/store/mc/RunIISummer20UL16NanoAODv9/QCD_HT700to1000_TuneCP5_PSWeights_13TeV-madgraph-pythia8/NANOAODSIM/106X_mcRun2_asymptotic_v17-v1/270000/33EAD5E8-BE46-2B40-9024-3A6CDDFE6D89.root",
-        "root://eoscms.cern.ch//eos/cms/store/mc/RunIISummer20UL16NanoAODv9/QCD_HT700to1000_TuneCP5_PSWeights_13TeV-madgraph-pythia8/NANOAODSIM/106X_mcRun2_asymptotic_v17-v1/270000/3C64177C-E77B-0240-8D65-D06FCF7EAE8E.root"
+        "root://cmsdcadisk.fnal.gov//dcache/uscmsdisk/store/mc/RunIISummer20UL16NanoAODv9/QCD_HT700to1000_TuneCP5_PSWeights_13TeV-madgraph-pythia8/NANOAODSIM/106X_mcRun2_asymptotic_v17-v1/270000/33EAD5E8-BE46-2B40-9024-3A6CDDFE6D89.root",
+        "root://cmsdcadisk.fnal.gov//dcache/uscmsdisk/store/mc/RunIISummer20UL16NanoAODv9/QCD_HT700to1000_TuneCP5_PSWeights_13TeV-madgraph-pythia8/NANOAODSIM/106X_mcRun2_asymptotic_v17-v1/270000/3C64177C-E77B-0240-8D65-D06FCF7EAE8E.root"
     ]
 }

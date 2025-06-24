@@ -1,6 +1,6 @@
 {
     "WJetsToLNu_ext_10": [
-        "root://xrootd-vanderbilt.sites.opensciencegrid.org:1094//store/mc/RunIISummer20UL16NanoAODv9/WJetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8/NANOAODSIM/106X_mcRun2_asymptotic_v17_ext1-v2/2540000/3A5602DD-0B90-0B4A-8333-A7D0DC523209.root",
-        "root://maite.iihe.ac.be:1094//store/mc/RunIISummer20UL16NanoAODv9/WJetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8/NANOAODSIM/106X_mcRun2_asymptotic_v17_ext1-v2/2540000/4042F0DC-FF0F-0946-A013-C82BFD7809BB.root"
+        "root://grid-cms-xrootd.physik.rwth-aachen.de:1094//store/mc/RunIISummer20UL16NanoAODv9/WJetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8/NANOAODSIM/106X_mcRun2_asymptotic_v17_ext1-v2/2540000/3A5602DD-0B90-0B4A-8333-A7D0DC523209.root",
+        "root://eos.cms.rcac.purdue.edu//store/mc/RunIISummer20UL16NanoAODv9/WJetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8/NANOAODSIM/106X_mcRun2_asymptotic_v17_ext1-v2/2540000/4042F0DC-FF0F-0946-A013-C82BFD7809BB.root"
     ]
 }

@@ -1,6 +1,6 @@
 {
     "ST_tW_top_5f_inclusiveDecays_19": [
-        "root://cmseos.fnal.gov//eos/uscms/store/mc/RunIISummer20UL18NanoAODv9/ST_tW_top_5f_inclusiveDecays_TuneCP5_13TeV-powheg-pythia8/NANOAODSIM/106X_upgrade2018_realistic_v16_L1v1-v2/2430000/C94B0F4A-48A3-9E4A-AE27-1BF916E78E15.root",
-        "root://sbgdcache.in2p3.fr//store/mc/RunIISummer20UL18NanoAODv9/ST_tW_top_5f_inclusiveDecays_TuneCP5_13TeV-powheg-pythia8/NANOAODSIM/106X_upgrade2018_realistic_v16_L1v1-v2/2430000/F568EB74-8B5D-A241-8D04-C764FF2902E5.root"
+        "root://osg-se.sprace.org.br:1094//store/mc/RunIISummer20UL18NanoAODv9/ST_tW_top_5f_inclusiveDecays_TuneCP5_13TeV-powheg-pythia8/NANOAODSIM/106X_upgrade2018_realistic_v16_L1v1-v2/2430000/C94B0F4A-48A3-9E4A-AE27-1BF916E78E15.root",
+        "root://xrootd-local.unl.edu:1094//store/mc/RunIISummer20UL18NanoAODv9/ST_tW_top_5f_inclusiveDecays_TuneCP5_13TeV-powheg-pythia8/NANOAODSIM/106X_upgrade2018_realistic_v16_L1v1-v2/2430000/F568EB74-8B5D-A241-8D04-C764FF2902E5.root"
     ]
 }

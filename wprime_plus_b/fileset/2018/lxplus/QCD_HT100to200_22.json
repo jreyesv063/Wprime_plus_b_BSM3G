@@ -1,0 +1,6 @@
+{
+    "QCD_HT100to200_22": [
+        "root://eoscms.cern.ch//eos/cms/store/mc/RunIISummer20UL18NanoAODv9/QCD_HT100to200_TuneCP5_PSWeights_13TeV-madgraph-pythia8/NANOAODSIM/106X_upgrade2018_realistic_v16_L1v1-v1/2530000/AD169DAB-73DD-134A-9B12-A7D53C426CEA.root",
+        "root://grid-cms-xrootd.physik.rwth-aachen.de:1094//store/mc/RunIISummer20UL18NanoAODv9/QCD_HT100to200_TuneCP5_PSWeights_13TeV-madgraph-pythia8/NANOAODSIM/106X_upgrade2018_realistic_v16_L1v1-v1/2530000/CFC64630-5A0D-5B49-B4A8-74FC6BF891BA.root"
+    ]
+}

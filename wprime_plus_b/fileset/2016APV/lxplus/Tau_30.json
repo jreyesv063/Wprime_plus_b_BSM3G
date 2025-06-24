@@ -1,6 +1,6 @@
 {
     "Tau_30": [
-        "root://ccxrdcms.in2p3.fr:1094//store/data/Run2016C/Tau/NANOAOD/HIPM_UL2016_MiniAODv2_NanoAODv9-v2/2430000/DB68155A-3290-CD4F-BE46-30B9C0438B98.root",
-        "root://cmsdcadisk.fnal.gov//dcache/uscmsdisk/store/data/Run2016C/Tau/NANOAOD/HIPM_UL2016_MiniAODv2_NanoAODv9-v2/2430000/DEA3ADD9-3FF4-5746-A988-A14F169B0FA4.root"
+        "root://cmsdcadisk.fnal.gov//dcache/uscmsdisk/store/data/Run2016C/Tau/NANOAOD/HIPM_UL2016_MiniAODv2_NanoAODv9-v2/2430000/DB68155A-3290-CD4F-BE46-30B9C0438B98.root",
+        "root://t2dsk0011.cmsaf.mit.edu:1094//store/data/Run2016C/Tau/NANOAOD/HIPM_UL2016_MiniAODv2_NanoAODv9-v2/2430000/DEA3ADD9-3FF4-5746-A988-A14F169B0FA4.root"
     ]
 }

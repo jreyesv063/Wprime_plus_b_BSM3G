@@ -1,0 +1,6 @@
+{
+    "QCD_HT300to500_33": [
+        "root://cmseos.fnal.gov//eos/uscms/store/mc/RunIISummer20UL18NanoAODv9/QCD_HT300to500_TuneCP5_PSWeights_13TeV-madgraph-pythia8/NANOAODSIM/106X_upgrade2018_realistic_v16_L1v1-v1/30000/84DF235A-DE4F-1D4B-BCEB-E87DEA637D71.root",
+        "root://cmseos.fnal.gov//eos/uscms/store/mc/RunIISummer20UL18NanoAODv9/QCD_HT300to500_TuneCP5_PSWeights_13TeV-madgraph-pythia8/NANOAODSIM/106X_upgrade2018_realistic_v16_L1v1-v1/30000/929166DA-3A64-EE48-BEB5-A10F7160B8AC.root"
+    ]
+}

@@ -1,6 +1,6 @@
 {
     "WJetsToLNu_ext_375": [
-        "root://cmseos.fnal.gov//eos/uscms/store/mc/RunIISummer20UL16NanoAODv9/WJetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8/NANOAODSIM/106X_mcRun2_asymptotic_v17_ext1-v2/50000/3FDB57A6-63DF-7B45-8EE2-7333E8CE6555.root",
+        "root://eoscms.cern.ch//eos/cms/store/mc/RunIISummer20UL16NanoAODv9/WJetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8/NANOAODSIM/106X_mcRun2_asymptotic_v17_ext1-v2/50000/3FDB57A6-63DF-7B45-8EE2-7333E8CE6555.root",
         "root://sbgdcache.in2p3.fr//store/mc/RunIISummer20UL16NanoAODv9/WJetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8/NANOAODSIM/106X_mcRun2_asymptotic_v17_ext1-v2/50000/3FE9242F-26EF-DC42-B8FA-4F2C48D144E1.root"
     ]
 }

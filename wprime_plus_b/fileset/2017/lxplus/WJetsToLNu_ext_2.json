@@ -1,6 +1,6 @@
 {
     "WJetsToLNu_ext_2": [
-        "root://eos.cms.rcac.purdue.edu//store/mc/RunIISummer20UL17NanoAODv9/WJetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8/NANOAODSIM/106X_mc2017_realistic_v9_ext1-v2/2540000/04321203-99D8-154D-BDF6-D7412DE013A4.root",
+        "root://xrootd-vanderbilt.sites.opensciencegrid.org:1094//store/mc/RunIISummer20UL17NanoAODv9/WJetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8/NANOAODSIM/106X_mc2017_realistic_v9_ext1-v2/2540000/04321203-99D8-154D-BDF6-D7412DE013A4.root",
         "root://cmseos.fnal.gov//eos/uscms/store/mc/RunIISummer20UL17NanoAODv9/WJetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8/NANOAODSIM/106X_mc2017_realistic_v9_ext1-v2/2540000/04AA94F0-CFE0-0E41-B808-A0D744D1CAE9.root"
     ]
 }

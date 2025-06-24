@@ -1,6 +1,6 @@
 {
     "ST_t-channel_top_5f_InclusiveDecays_34": [
-        "root://t2dsk0011.cmsaf.mit.edu:1094//store/mc/RunIISummer20UL17NanoAODv9/ST_t-channel_top_5f_InclusiveDecays_TuneCP5_13TeV-powheg-pythia8/NANOAODSIM/106X_mc2017_realistic_v9-v1/2530000/79E188F8-8BE9-B045-AA1A-402779B65054.root",
-        "root://eos.cms.rcac.purdue.edu//store/mc/RunIISummer20UL17NanoAODv9/ST_t-channel_top_5f_InclusiveDecays_TuneCP5_13TeV-powheg-pythia8/NANOAODSIM/106X_mc2017_realistic_v9-v1/2530000/8782B5CD-ABA5-E54B-9C80-21C17F00B8A5.root"
+        "root://eos.cms.rcac.purdue.edu//store/mc/RunIISummer20UL17NanoAODv9/ST_t-channel_top_5f_InclusiveDecays_TuneCP5_13TeV-powheg-pythia8/NANOAODSIM/106X_mc2017_realistic_v9-v1/2530000/79E188F8-8BE9-B045-AA1A-402779B65054.root",
+        "root://gfe02.grid.hep.ph.ic.ac.uk:1094//pnfs/hep.ph.ic.ac.uk/data/cms/store/mc/RunIISummer20UL17NanoAODv9/ST_t-channel_top_5f_InclusiveDecays_TuneCP5_13TeV-powheg-pythia8/NANOAODSIM/106X_mc2017_realistic_v9-v1/2530000/8782B5CD-ABA5-E54B-9C80-21C17F00B8A5.root"
     ]
 }

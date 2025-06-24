@@ -1,6 +1,6 @@
 {
     "TTToSemiLeptonic_24": [
-        "root://skynet013.crc.nd.edu//store/mc/RunIISummer20UL17NanoAODv9/TTToSemiLeptonic_TuneCP5_13TeV-powheg-pythia8/NANOAODSIM/106X_mc2017_realistic_v9-v1/270000/62C67E71-5706-AD4E-9DE5-13C987CCA0A9.root",
-        "root://maite.iihe.ac.be:1094//store/mc/RunIISummer20UL17NanoAODv9/TTToSemiLeptonic_TuneCP5_13TeV-powheg-pythia8/NANOAODSIM/106X_mc2017_realistic_v9-v1/270000/631A2A20-7A4D-4843-951B-CCAB3A2F0DF1.root"
+        "root://maite.iihe.ac.be:1094//store/mc/RunIISummer20UL17NanoAODv9/TTToSemiLeptonic_TuneCP5_13TeV-powheg-pythia8/NANOAODSIM/106X_mc2017_realistic_v9-v1/270000/62C67E71-5706-AD4E-9DE5-13C987CCA0A9.root",
+        "root://skynet013.crc.nd.edu//store/mc/RunIISummer20UL17NanoAODv9/TTToSemiLeptonic_TuneCP5_13TeV-powheg-pythia8/NANOAODSIM/106X_mc2017_realistic_v9-v1/270000/631A2A20-7A4D-4843-951B-CCAB3A2F0DF1.root"
     ]
 }

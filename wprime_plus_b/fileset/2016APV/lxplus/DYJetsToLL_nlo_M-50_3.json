@@ -1,6 +1,6 @@
 {
     "DYJetsToLL_nlo_M-50_3": [
-        "root://eos.cms.rcac.purdue.edu//store/mc/RunIISummer20UL16NanoAODAPVv9/DYJetsToLL_M-50_TuneCP5_13TeV-amcatnloFXFX-pythia8/NANOAODSIM/106X_mcRun2_asymptotic_preVFP_v11-v1/120000/BB58B753-F3AF-3B4E-A35C-3BAB32AB8268.root",
-        "root://lyoeos.in2p3.fr:1094//eos/lyoeos.in2p3.fr/grid/cms/store/mc/RunIISummer20UL16NanoAODAPVv9/DYJetsToLL_M-50_TuneCP5_13TeV-amcatnloFXFX-pythia8/NANOAODSIM/106X_mcRun2_asymptotic_preVFP_v11-v1/120000/DCECE10E-984A-BE4E-AC92-61D16A2B8BCA.root"
+        "root://lyoeos.in2p3.fr:1094//eos/lyoeos.in2p3.fr/grid/cms/store/mc/RunIISummer20UL16NanoAODAPVv9/DYJetsToLL_M-50_TuneCP5_13TeV-amcatnloFXFX-pythia8/NANOAODSIM/106X_mcRun2_asymptotic_preVFP_v11-v1/120000/BB58B753-F3AF-3B4E-A35C-3BAB32AB8268.root",
+        "root://eos.cms.rcac.purdue.edu//store/mc/RunIISummer20UL16NanoAODAPVv9/DYJetsToLL_M-50_TuneCP5_13TeV-amcatnloFXFX-pythia8/NANOAODSIM/106X_mcRun2_asymptotic_preVFP_v11-v1/120000/DCECE10E-984A-BE4E-AC92-61D16A2B8BCA.root"
     ]
 }

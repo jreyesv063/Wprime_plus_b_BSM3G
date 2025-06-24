@@ -1,6 +1,6 @@
 {
     "QCD_HT500to700_14": [
         "root://t3se01.psi.ch:1094//store/mc/RunIISummer20UL17NanoAODv9/QCD_HT500to700_TuneCP5_PSWeights_13TeV-madgraph-pythia8/NANOAODSIM/106X_mc2017_realistic_v9-v1/270000/68A85218-78F7-EF41-AEEA-EDECFBDAB94D.root",
-        "root://t3se01.psi.ch:1094//store/mc/RunIISummer20UL17NanoAODv9/QCD_HT500to700_TuneCP5_PSWeights_13TeV-madgraph-pythia8/NANOAODSIM/106X_mc2017_realistic_v9-v1/270000/703CA55C-583D-0D40-B204-87E5C3A07E45.root"
+        "root://cms-xrdr.sdfarm.kr:1094//xrd/store/mc/RunIISummer20UL17NanoAODv9/QCD_HT500to700_TuneCP5_PSWeights_13TeV-madgraph-pythia8/NANOAODSIM/106X_mc2017_realistic_v9-v1/270000/703CA55C-583D-0D40-B204-87E5C3A07E45.root"
     ]
 }

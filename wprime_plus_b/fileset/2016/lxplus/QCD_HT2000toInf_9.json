@@ -1,6 +1,6 @@
 {
     "QCD_HT2000toInf_9": [
-        "root://eospublic.cern.ch//eos/opendata/cms/mc/RunIISummer20UL16NanoAODv9/QCD_HT2000toInf_TuneCP5_PSWeights_13TeV-madgraph-pythia8/NANOAODSIM/106X_mcRun2_asymptotic_v17-v1/270000/6467A338-B21D-8D47-AB17-6A84923269A3.root",
+        "root://eos.cms.rcac.purdue.edu//store/mc/RunIISummer20UL16NanoAODv9/QCD_HT2000toInf_TuneCP5_PSWeights_13TeV-madgraph-pythia8/NANOAODSIM/106X_mcRun2_asymptotic_v17-v1/270000/6467A338-B21D-8D47-AB17-6A84923269A3.root",
         "root://eospublic.cern.ch//eos/opendata/cms/mc/RunIISummer20UL16NanoAODv9/QCD_HT2000toInf_TuneCP5_PSWeights_13TeV-madgraph-pythia8/NANOAODSIM/106X_mcRun2_asymptotic_v17-v1/270000/7A8F60F2-D593-D945-AD11-B14DB23A16DD.root"
     ]
 }

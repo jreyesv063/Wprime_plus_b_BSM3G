@@ -1,6 +1,6 @@
 {
     "WJetsToLNu_ext_379": [
-        "root://sbgdcache.in2p3.fr//store/mc/RunIISummer20UL16NanoAODv9/WJetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8/NANOAODSIM/106X_mcRun2_asymptotic_v17_ext1-v2/50000/587159CC-9981-9B4F-A0AA-D804A3C1DE84.root",
-        "root://sbgdcache.in2p3.fr//store/mc/RunIISummer20UL16NanoAODv9/WJetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8/NANOAODSIM/106X_mcRun2_asymptotic_v17_ext1-v2/50000/5F7762D5-2C54-9340-86D9-A5087D5F2A4B.root"
+        "root://eos.cms.rcac.purdue.edu//store/mc/RunIISummer20UL16NanoAODv9/WJetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8/NANOAODSIM/106X_mcRun2_asymptotic_v17_ext1-v2/50000/587159CC-9981-9B4F-A0AA-D804A3C1DE84.root",
+        "root://eos.cms.rcac.purdue.edu//store/mc/RunIISummer20UL16NanoAODv9/WJetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8/NANOAODSIM/106X_mcRun2_asymptotic_v17_ext1-v2/50000/5F7762D5-2C54-9340-86D9-A5087D5F2A4B.root"
     ]
 }

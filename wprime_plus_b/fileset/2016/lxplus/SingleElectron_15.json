@@ -1,6 +1,6 @@
 {
     "SingleElectron_15": [
-        "root://maite.iihe.ac.be:1094//store/data/Run2016G/SingleElectron/NANOAOD/UL2016_MiniAODv2_NanoAODv9-v1/260000/98BBB482-211A-4F43-9670-D60A697478B1.root",
+        "root://grid-cms-xrootd.physik.rwth-aachen.de:1094//store/data/Run2016G/SingleElectron/NANOAOD/UL2016_MiniAODv2_NanoAODv9-v1/260000/98BBB482-211A-4F43-9670-D60A697478B1.root",
         "root://cmsdcadisk.fnal.gov//dcache/uscmsdisk/store/data/Run2016G/SingleElectron/NANOAOD/UL2016_MiniAODv2_NanoAODv9-v1/260000/9ABE5270-E3B7-BE4A-A892-D1C24D401C21.root"
     ]
 }

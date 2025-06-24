@@ -1,6 +1,6 @@
 {
     "SingleMuon_44": [
-        "root://lyoeos.in2p3.fr:1094//eos/lyoeos.in2p3.fr/grid/cms/store/data/Run2017C/SingleMuon/NANOAOD/UL2017_MiniAODv2_NanoAODv9-v1/120000/174F6BA0-0F5E-414F-AC8F-6032F4E27ADC.root",
-        "root://lyoeos.in2p3.fr:1094//eos/lyoeos.in2p3.fr/grid/cms/store/data/Run2017C/SingleMuon/NANOAOD/UL2017_MiniAODv2_NanoAODv9-v1/120000/1A25F893-B82A-7D41-A5F4-52D823768937.root"
+        "root://t3se01.psi.ch:1094//store/data/Run2017C/SingleMuon/NANOAOD/UL2017_MiniAODv2_NanoAODv9-v1/120000/174F6BA0-0F5E-414F-AC8F-6032F4E27ADC.root",
+        "root://t3se01.psi.ch:1094//store/data/Run2017C/SingleMuon/NANOAOD/UL2017_MiniAODv2_NanoAODv9-v1/120000/1A25F893-B82A-7D41-A5F4-52D823768937.root"
     ]
 }

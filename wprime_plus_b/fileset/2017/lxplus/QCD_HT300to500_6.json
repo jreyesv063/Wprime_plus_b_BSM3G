@@ -1,6 +1,6 @@
 {
     "QCD_HT300to500_6": [
         "root://t2dsk0011.cmsaf.mit.edu:1094//store/mc/RunIISummer20UL17NanoAODv9/QCD_HT300to500_TuneCP5_PSWeights_13TeV-madgraph-pythia8/NANOAODSIM/106X_mc2017_realistic_v9-v1/2530000/FB8C13AC-63C1-3449-B1A4-430F75F92356.root",
-        "root://cmseos.fnal.gov//eos/uscms/store/mc/RunIISummer20UL17NanoAODv9/QCD_HT300to500_TuneCP5_PSWeights_13TeV-madgraph-pythia8/NANOAODSIM/106X_mc2017_realistic_v9-v1/260000/0E617BF4-31FF-5A48-A226-62B0637BD72C.root"
+        "root://eos.cms.rcac.purdue.edu//store/mc/RunIISummer20UL17NanoAODv9/QCD_HT300to500_TuneCP5_PSWeights_13TeV-madgraph-pythia8/NANOAODSIM/106X_mc2017_realistic_v9-v1/260000/0E617BF4-31FF-5A48-A226-62B0637BD72C.root"
     ]
 }

@@ -1,6 +1,6 @@
 {
     "TTToSemiLeptonic_16": [
-        "root://eoscms.cern.ch//eos/cms/store/mc/RunIISummer20UL17NanoAODv9/TTToSemiLeptonic_TuneCP5_13TeV-powheg-pythia8/NANOAODSIM/106X_mc2017_realistic_v9-v1/130000/C764E809-76A0-C340-BFB5-54E0B4CECF43.root",
-        "root://t3se01.psi.ch:1094//store/mc/RunIISummer20UL17NanoAODv9/TTToSemiLeptonic_TuneCP5_13TeV-powheg-pythia8/NANOAODSIM/106X_mc2017_realistic_v9-v1/130000/EA1BBFED-3CF0-E047-B12B-8D0F5FE78ABE.root"
+        "root://cmseos.fnal.gov//eos/uscms/store/mc/RunIISummer20UL17NanoAODv9/TTToSemiLeptonic_TuneCP5_13TeV-powheg-pythia8/NANOAODSIM/106X_mc2017_realistic_v9-v1/130000/C764E809-76A0-C340-BFB5-54E0B4CECF43.root",
+        "root://cmsdcadisk.fnal.gov//dcache/uscmsdisk/store/mc/RunIISummer20UL17NanoAODv9/TTToSemiLeptonic_TuneCP5_13TeV-powheg-pythia8/NANOAODSIM/106X_mc2017_realistic_v9-v1/130000/EA1BBFED-3CF0-E047-B12B-8D0F5FE78ABE.root"
     ]
 }

@@ -1,0 +1,6 @@
+{
+    "QCD_HT300to500_28": [
+        "root://cmseos.fnal.gov//eos/uscms/store/mc/RunIISummer20UL18NanoAODv9/QCD_HT300to500_TuneCP5_PSWeights_13TeV-madgraph-pythia8/NANOAODSIM/106X_upgrade2018_realistic_v16_L1v1-v1/30000/6BFD4C32-D0DB-3C45-B4CE-EAC7F90AECA7.root",
+        "root://cmsdcache-kit-disk.gridka.de:1094//store/mc/RunIISummer20UL18NanoAODv9/QCD_HT300to500_TuneCP5_PSWeights_13TeV-madgraph-pythia8/NANOAODSIM/106X_upgrade2018_realistic_v16_L1v1-v1/30000/6E114429-55FA-DD4E-B17E-18B60F81A949.root"
+    ]
+}

@@ -1,6 +1,6 @@
 {
     "MET_12": [
-        "root://eoscms.cern.ch//eos/cms/store/data/Run2016B/MET/NANOAOD/ver2_HIPM_UL2016_MiniAODv2_NanoAODv9-v2/2530000/F82BA93F-C7E3-C341-BABE-4F494B9D5676.root",
+        "root://maite.iihe.ac.be:1094//store/data/Run2016B/MET/NANOAOD/ver2_HIPM_UL2016_MiniAODv2_NanoAODv9-v2/2530000/F82BA93F-C7E3-C341-BABE-4F494B9D5676.root",
         "root://cmsdcadisk.fnal.gov//dcache/uscmsdisk/store/data/Run2016B/MET/NANOAOD/ver2_HIPM_UL2016_MiniAODv2_NanoAODv9-v2/2530000/FE3FB7CB-F83D-724E-801C-0A477BEAC9D1.root"
     ]
 }

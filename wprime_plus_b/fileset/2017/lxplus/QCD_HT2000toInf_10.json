@@ -1,6 +1,6 @@
 {
     "QCD_HT2000toInf_10": [
-        "root://kodiak-se.baylor.edu:1094//store/mc/RunIISummer20UL17NanoAODv9/QCD_HT2000toInf_TuneCP5_PSWeights_13TeV-madgraph-pythia8/NANOAODSIM/106X_mc2017_realistic_v9-v1/30000/82D783A4-0C3F-644C-A396-3124AC7EC359.root",
+        "root://cmseos.fnal.gov//eos/uscms/store/mc/RunIISummer20UL17NanoAODv9/QCD_HT2000toInf_TuneCP5_PSWeights_13TeV-madgraph-pythia8/NANOAODSIM/106X_mc2017_realistic_v9-v1/30000/82D783A4-0C3F-644C-A396-3124AC7EC359.root",
         "root://cmsdcadisk.fnal.gov//dcache/uscmsdisk/store/mc/RunIISummer20UL17NanoAODv9/QCD_HT2000toInf_TuneCP5_PSWeights_13TeV-madgraph-pythia8/NANOAODSIM/106X_mc2017_realistic_v9-v1/30000/8C564393-140D-9E4C-ACA4-26F09D712EEC.root"
     ]
 }

@@ -1,0 +1,6 @@
+{
+    "WJetsToLNu_HT-400To600_8": [
+        "root://cmsdcache-kit-disk.gridka.de:1094//store/mc/RunIISummer20UL18NanoAODv9/WJetsToLNu_HT-400To600_TuneCP5_13TeV-madgraphMLM-pythia8/NANOAODSIM/106X_upgrade2018_realistic_v16_L1v1-v1/270000/CED3E7AE-EE79-1643-9B5A-286BB45F36F6.root",
+        "root://xrootd-vanderbilt.sites.opensciencegrid.org:1094//store/mc/RunIISummer20UL18NanoAODv9/WJetsToLNu_HT-400To600_TuneCP5_13TeV-madgraphMLM-pythia8/NANOAODSIM/106X_upgrade2018_realistic_v16_L1v1-v1/270000/D03A9A3C-E0C9-EC46-9563-2357609E95B0.root"
+    ]
+}

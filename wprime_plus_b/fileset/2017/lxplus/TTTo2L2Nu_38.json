@@ -1,6 +1,6 @@
 {
     "TTTo2L2Nu_38": [
-        "root://eos.cms.rcac.purdue.edu//store/mc/RunIISummer20UL17NanoAODv9/TTTo2L2Nu_TuneCP5_13TeV-powheg-pythia8/NANOAODSIM/106X_mc2017_realistic_v9-v1/2510000/D5B7B72B-A0CF-DE43-8678-821B4747A966.root",
-        "root://maite.iihe.ac.be:1094//store/mc/RunIISummer20UL17NanoAODv9/TTTo2L2Nu_TuneCP5_13TeV-powheg-pythia8/NANOAODSIM/106X_mc2017_realistic_v9-v1/2510000/D7549169-B4BF-F647-BD04-C5909B36E5B6.root"
+        "root://skynet013.crc.nd.edu//store/mc/RunIISummer20UL17NanoAODv9/TTTo2L2Nu_TuneCP5_13TeV-powheg-pythia8/NANOAODSIM/106X_mc2017_realistic_v9-v1/2510000/D5B7B72B-A0CF-DE43-8678-821B4747A966.root",
+        "root://grid-cms-xrootd.physik.rwth-aachen.de:1094//store/mc/RunIISummer20UL17NanoAODv9/TTTo2L2Nu_TuneCP5_13TeV-powheg-pythia8/NANOAODSIM/106X_mc2017_realistic_v9-v1/2510000/D7549169-B4BF-F647-BD04-C5909B36E5B6.root"
     ]
 }

@@ -1,6 +1,6 @@
 {
     "WJetsToLNu_HT-70To100_8": [
-        "root://t3se01.psi.ch:1094//store/mc/RunIISummer20UL17NanoAODv9/WJetsToLNu_HT-70To100_TuneCP5_13TeV-madgraphMLM-pythia8/NANOAODSIM/106X_mc2017_realistic_v9-v1/270000/72C06C55-D637-9B4C-97C9-703EE978B501.root",
-        "root://xrootd-vanderbilt.sites.opensciencegrid.org:1094//store/mc/RunIISummer20UL17NanoAODv9/WJetsToLNu_HT-70To100_TuneCP5_13TeV-madgraphMLM-pythia8/NANOAODSIM/106X_mc2017_realistic_v9-v1/270000/769FB5BC-6420-854C-B1DF-E9909A45A112.root"
+        "root://t2dsk0011.cmsaf.mit.edu:1094//store/mc/RunIISummer20UL17NanoAODv9/WJetsToLNu_HT-70To100_TuneCP5_13TeV-madgraphMLM-pythia8/NANOAODSIM/106X_mc2017_realistic_v9-v1/270000/72C06C55-D637-9B4C-97C9-703EE978B501.root",
+        "root://cms-xrdr.sdfarm.kr:1094//xrd/store/mc/RunIISummer20UL17NanoAODv9/WJetsToLNu_HT-70To100_TuneCP5_13TeV-madgraphMLM-pythia8/NANOAODSIM/106X_mc2017_realistic_v9-v1/270000/769FB5BC-6420-854C-B1DF-E9909A45A112.root"
     ]
 }

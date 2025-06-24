@@ -1,6 +1,6 @@
 {
     "ST_s-channel_4f_leptonDecays_1": [
-        "root://grid-cms-xrootd.physik.rwth-aachen.de:1094//store/mc/RunIISummer20UL17NanoAODv9/ST_s-channel_4f_leptonDecays_TuneCP5_13TeV-amcatnlo-pythia8/NANOAODSIM/106X_mc2017_realistic_v9-v1/120000/8918A0AD-AAFC-9F4E-9C11-FB4B14726FD1.root",
-        "root://cmseos.fnal.gov//eos/uscms/store/mc/RunIISummer20UL17NanoAODv9/ST_s-channel_4f_leptonDecays_TuneCP5_13TeV-amcatnlo-pythia8/NANOAODSIM/106X_mc2017_realistic_v9-v1/130000/11C5BED8-ADCA-7D48-8285-96AF4244B397.root"
+        "root://gfe02.grid.hep.ph.ic.ac.uk:1094//pnfs/hep.ph.ic.ac.uk/data/cms/store/mc/RunIISummer20UL17NanoAODv9/ST_s-channel_4f_leptonDecays_TuneCP5_13TeV-amcatnlo-pythia8/NANOAODSIM/106X_mc2017_realistic_v9-v1/120000/8918A0AD-AAFC-9F4E-9C11-FB4B14726FD1.root",
+        "root://t2dsk0011.cmsaf.mit.edu:1094//store/mc/RunIISummer20UL17NanoAODv9/ST_s-channel_4f_leptonDecays_TuneCP5_13TeV-amcatnlo-pythia8/NANOAODSIM/106X_mc2017_realistic_v9-v1/130000/11C5BED8-ADCA-7D48-8285-96AF4244B397.root"
     ]
 }

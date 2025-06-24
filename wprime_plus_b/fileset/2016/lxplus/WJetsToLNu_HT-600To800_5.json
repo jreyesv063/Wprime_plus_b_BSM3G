@@ -1,6 +1,6 @@
 {
     "WJetsToLNu_HT-600To800_5": [
-        "root://cmsdcadisk.fnal.gov//dcache/uscmsdisk/store/mc/RunIISummer20UL16NanoAODv9/WJetsToLNu_HT-600To800_TuneCP5_13TeV-madgraphMLM-pythia8/NANOAODSIM/106X_mcRun2_asymptotic_v17-v1/280000/20B76A59-3099-F24F-9610-C78F03B8DD53.root",
-        "root://eospublic.cern.ch//eos/opendata/cms/mc/RunIISummer20UL16NanoAODv9/WJetsToLNu_HT-600To800_TuneCP5_13TeV-madgraphMLM-pythia8/NANOAODSIM/106X_mcRun2_asymptotic_v17-v1/280000/467E3815-36D2-0E46-B6B0-5EA630A12E40.root"
+        "root://cmseos.fnal.gov//eos/uscms/store/mc/RunIISummer20UL16NanoAODv9/WJetsToLNu_HT-600To800_TuneCP5_13TeV-madgraphMLM-pythia8/NANOAODSIM/106X_mcRun2_asymptotic_v17-v1/280000/20B76A59-3099-F24F-9610-C78F03B8DD53.root",
+        "root://t2-xrdcms.lnl.infn.it:7070//store/mc/RunIISummer20UL16NanoAODv9/WJetsToLNu_HT-600To800_TuneCP5_13TeV-madgraphMLM-pythia8/NANOAODSIM/106X_mcRun2_asymptotic_v17-v1/280000/467E3815-36D2-0E46-B6B0-5EA630A12E40.root"
     ]
 }

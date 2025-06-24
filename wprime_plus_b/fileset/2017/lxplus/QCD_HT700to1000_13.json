@@ -1,6 +1,6 @@
 {
     "QCD_HT700to1000_13": [
-        "root://cmsdcadisk.fnal.gov//dcache/uscmsdisk/store/mc/RunIISummer20UL17NanoAODv9/QCD_HT700to1000_TuneCP5_PSWeights_13TeV-madgraph-pythia8/NANOAODSIM/106X_mc2017_realistic_v9-v1/270000/4DEFE2F7-C89C-6740-9A2C-2894688DE0CD.root",
+        "root://kodiak-se.baylor.edu:1094//store/mc/RunIISummer20UL17NanoAODv9/QCD_HT700to1000_TuneCP5_PSWeights_13TeV-madgraph-pythia8/NANOAODSIM/106X_mc2017_realistic_v9-v1/270000/4DEFE2F7-C89C-6740-9A2C-2894688DE0CD.root",
         "root://grid-cms-xrootd.physik.rwth-aachen.de:1094//store/mc/RunIISummer20UL17NanoAODv9/QCD_HT700to1000_TuneCP5_PSWeights_13TeV-madgraph-pythia8/NANOAODSIM/106X_mc2017_realistic_v9-v1/270000/612DEDC5-64F7-9448-8A68-75A833D0BDCB.root"
     ]
 }

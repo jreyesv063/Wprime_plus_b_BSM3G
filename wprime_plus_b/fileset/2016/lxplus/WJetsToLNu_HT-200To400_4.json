@@ -1,6 +1,6 @@
 {
     "WJetsToLNu_HT-200To400_4": [
-        "root://maite.iihe.ac.be:1094//store/mc/RunIISummer20UL16NanoAODv9/WJetsToLNu_HT-200To400_TuneCP5_13TeV-madgraphMLM-pythia8/NANOAODSIM/106X_mcRun2_asymptotic_v17-v1/120000/C64C3AD3-4CCC-4A4E-951F-57E190CDCD0D.root",
-        "root://ccxrdcms.in2p3.fr:1094//store/mc/RunIISummer20UL16NanoAODv9/WJetsToLNu_HT-200To400_TuneCP5_13TeV-madgraphMLM-pythia8/NANOAODSIM/106X_mcRun2_asymptotic_v17-v1/120000/CE51B749-3983-A84F-837E-7A15514EE1C4.root"
+        "root://cmseos.fnal.gov//eos/uscms/store/mc/RunIISummer20UL16NanoAODv9/WJetsToLNu_HT-200To400_TuneCP5_13TeV-madgraphMLM-pythia8/NANOAODSIM/106X_mcRun2_asymptotic_v17-v1/120000/C64C3AD3-4CCC-4A4E-951F-57E190CDCD0D.root",
+        "root://eoscms.cern.ch//eos/cms/store/mc/RunIISummer20UL16NanoAODv9/WJetsToLNu_HT-200To400_TuneCP5_13TeV-madgraphMLM-pythia8/NANOAODSIM/106X_mcRun2_asymptotic_v17-v1/120000/CE51B749-3983-A84F-837E-7A15514EE1C4.root"
     ]
 }

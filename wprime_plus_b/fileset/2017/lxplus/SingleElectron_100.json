@@ -1,6 +1,6 @@
 {
     "SingleElectron_100": [
-        "root://gaexrdoor.ciemat.es:1094//store/data/Run2017F/SingleElectron/NANOAOD/UL2017_MiniAODv2_NanoAODv9-v1/120000/83A0B05F-BA13-0849-B0FE-F5E958F2DE35.root",
-        "root://grid-cms-xrootd.physik.rwth-aachen.de:1094//store/data/Run2017F/SingleElectron/NANOAOD/UL2017_MiniAODv2_NanoAODv9-v1/120000/83AEB212-93FF-6E4F-9763-1565F01FD851.root"
+        "root://cms-xrdr.sdfarm.kr:1094//xrd/store/data/Run2017F/SingleElectron/NANOAOD/UL2017_MiniAODv2_NanoAODv9-v1/120000/83A0B05F-BA13-0849-B0FE-F5E958F2DE35.root",
+        "root://lyoeos.in2p3.fr:1094//eos/lyoeos.in2p3.fr/grid/cms/store/data/Run2017F/SingleElectron/NANOAOD/UL2017_MiniAODv2_NanoAODv9-v1/120000/83AEB212-93FF-6E4F-9763-1565F01FD851.root"
     ]
 }

@@ -1,0 +1,6 @@
+{
+    "SingleElectron_204": [
+        "root://grid-cms-xrootd.physik.rwth-aachen.de:1094//store/data/Run2018D/EGamma/NANOAOD/UL2018_MiniAODv2_NanoAODv9-v3/230000/33F2EEF6-1EDD-2341-B08E-C1A6294570D3.root",
+        "root://k8s-redir.ultralight.org:1094//store/data/Run2018D/EGamma/NANOAOD/UL2018_MiniAODv2_NanoAODv9-v3/230000/34A12633-7E64-3C4B-A2C7-738B407D3BC2.root"
+    ]
+}

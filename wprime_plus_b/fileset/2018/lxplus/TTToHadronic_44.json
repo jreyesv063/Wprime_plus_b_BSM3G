@@ -1,0 +1,6 @@
+{
+    "TTToHadronic_44": [
+        "root://xrootd-vanderbilt.sites.opensciencegrid.org:1094//store/mc/RunIISummer20UL18NanoAODv9/TTToHadronic_TuneCP5CR1_13TeV-powheg-pythia8/NANOAODSIM/106X_upgrade2018_realistic_v16_L1v1-v2/260000/DF7617D2-C834-6C42-94AD-8E0B65560437.root",
+        "root://eoscms.cern.ch//eos/cms/store/mc/RunIISummer20UL18NanoAODv9/TTToHadronic_TuneCP5CR1_13TeV-powheg-pythia8/NANOAODSIM/106X_upgrade2018_realistic_v16_L1v1-v2/260000/EAC1037F-00F7-4E4A-91BB-8E1F2A3E1D0F.root"
+    ]
+}

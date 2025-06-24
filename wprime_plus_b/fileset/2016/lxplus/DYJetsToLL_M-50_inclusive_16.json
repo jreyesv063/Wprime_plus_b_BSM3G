@@ -1,6 +1,6 @@
 {
     "DYJetsToLL_M-50_inclusive_16": [
-        "root://maite.iihe.ac.be:1094//store/mc/RunIISummer20UL16NanoAODv9/DYJetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8/NANOAODSIM/106X_mcRun2_asymptotic_v17-v1/40000/88E19806-B5D6-9A42-A59B-2A626C3D44CE.root",
-        "root://eos.cms.rcac.purdue.edu//store/mc/RunIISummer20UL16NanoAODv9/DYJetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8/NANOAODSIM/106X_mcRun2_asymptotic_v17-v1/40000/8B300227-F22E-DA49-AE79-B62BAD4CEE1D.root"
+        "root://cmsdcadisk.fnal.gov//dcache/uscmsdisk/store/mc/RunIISummer20UL16NanoAODv9/DYJetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8/NANOAODSIM/106X_mcRun2_asymptotic_v17-v1/40000/88E19806-B5D6-9A42-A59B-2A626C3D44CE.root",
+        "root://dcache-cms-xrootd.desy.de:1094//store/mc/RunIISummer20UL16NanoAODv9/DYJetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8/NANOAODSIM/106X_mcRun2_asymptotic_v17-v1/40000/8B300227-F22E-DA49-AE79-B62BAD4CEE1D.root"
     ]
 }

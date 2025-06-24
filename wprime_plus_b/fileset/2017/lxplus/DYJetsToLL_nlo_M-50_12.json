@@ -1,6 +1,6 @@
 {
     "DYJetsToLL_nlo_M-50_12": [
-        "root://eos.cms.rcac.purdue.edu//store/mc/RunIISummer20UL17NanoAODv9/DYJetsToLL_M-50_TuneCP5_13TeV-amcatnloFXFX-pythia8/NANOAODSIM/106X_mc2017_realistic_v9-v2/230000/920C6269-2688-3845-924F-F877781275E0.root",
-        "root://grid-cms-xrootd.physik.rwth-aachen.de:1094//store/mc/RunIISummer20UL17NanoAODv9/DYJetsToLL_M-50_TuneCP5_13TeV-amcatnloFXFX-pythia8/NANOAODSIM/106X_mc2017_realistic_v9-v2/230000/94FB39DD-5743-4546-8CF2-4A1689883040.root"
+        "root://skynet013.crc.nd.edu//store/mc/RunIISummer20UL17NanoAODv9/DYJetsToLL_M-50_TuneCP5_13TeV-amcatnloFXFX-pythia8/NANOAODSIM/106X_mc2017_realistic_v9-v2/230000/920C6269-2688-3845-924F-F877781275E0.root",
+        "root://skynet013.crc.nd.edu//store/mc/RunIISummer20UL17NanoAODv9/DYJetsToLL_M-50_TuneCP5_13TeV-amcatnloFXFX-pythia8/NANOAODSIM/106X_mc2017_realistic_v9-v2/230000/94FB39DD-5743-4546-8CF2-4A1689883040.root"
     ]
 }

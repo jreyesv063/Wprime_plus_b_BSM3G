@@ -1,6 +1,6 @@
 {
     "WJetsToLNu_HT-2500ToInf_3": [
-        "root://xrootd-local.unl.edu:1094//store/mc/RunIISummer20UL16NanoAODAPVv9/WJetsToLNu_HT-2500ToInf_TuneCP5_13TeV-madgraphMLM-pythia8/NANOAODSIM/106X_mcRun2_asymptotic_preVFP_v11-v2/100000/AE4967D8-B91F-D44B-AB83-5E9D52E91869.root",
-        "root://cmsdcadisk.fnal.gov//dcache/uscmsdisk/store/mc/RunIISummer20UL16NanoAODAPVv9/WJetsToLNu_HT-2500ToInf_TuneCP5_13TeV-madgraphMLM-pythia8/NANOAODSIM/106X_mcRun2_asymptotic_preVFP_v11-v2/100000/D261CDDB-43F0-BE4F-8FCB-699FC9F7E8B1.root"
+        "root://rdr.echo.stfc.ac.uk//store/mc/RunIISummer20UL16NanoAODAPVv9/WJetsToLNu_HT-2500ToInf_TuneCP5_13TeV-madgraphMLM-pythia8/NANOAODSIM/106X_mcRun2_asymptotic_preVFP_v11-v2/100000/AE4967D8-B91F-D44B-AB83-5E9D52E91869.root",
+        "root://maite.iihe.ac.be:1094//store/mc/RunIISummer20UL16NanoAODAPVv9/WJetsToLNu_HT-2500ToInf_TuneCP5_13TeV-madgraphMLM-pythia8/NANOAODSIM/106X_mcRun2_asymptotic_preVFP_v11-v2/100000/D261CDDB-43F0-BE4F-8FCB-699FC9F7E8B1.root"
     ]
 }

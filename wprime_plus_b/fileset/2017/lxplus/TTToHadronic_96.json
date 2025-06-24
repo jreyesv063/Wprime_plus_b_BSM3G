@@ -1,6 +1,6 @@
 {
     "TTToHadronic_96": [
-        "root://cmseos.fnal.gov//eos/uscms/store/mc/RunIISummer20UL17NanoAODv9/TTToHadronic_TuneCP5_13TeV-powheg-pythia8/NANOAODSIM/106X_mc2017_realistic_v9-v1/80000/F0889F95-4B25-6847-ABA4-F5B9F4AE1D86.root",
-        "root://gaexrdoor.ciemat.es:1094//store/mc/RunIISummer20UL17NanoAODv9/TTToHadronic_TuneCP5_13TeV-powheg-pythia8/NANOAODSIM/106X_mc2017_realistic_v9-v1/80000/F1F1DE11-B5E8-CC49-9DD8-573F5D76662D.root"
+        "root://xrootd-local.unl.edu:1094//store/mc/RunIISummer20UL17NanoAODv9/TTToHadronic_TuneCP5_13TeV-powheg-pythia8/NANOAODSIM/106X_mc2017_realistic_v9-v1/80000/F0889F95-4B25-6847-ABA4-F5B9F4AE1D86.root",
+        "root://cmseos.fnal.gov//eos/uscms/store/mc/RunIISummer20UL17NanoAODv9/TTToHadronic_TuneCP5_13TeV-powheg-pythia8/NANOAODSIM/106X_mc2017_realistic_v9-v1/80000/F1F1DE11-B5E8-CC49-9DD8-573F5D76662D.root"
     ]
 }

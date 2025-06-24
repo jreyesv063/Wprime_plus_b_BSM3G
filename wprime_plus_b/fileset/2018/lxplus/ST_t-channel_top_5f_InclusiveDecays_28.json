@@ -1,6 +1,6 @@
 {
     "ST_t-channel_top_5f_InclusiveDecays_28": [
-        "root://cmsdcadisk.fnal.gov//dcache/uscmsdisk/store/mc/RunIISummer20UL18NanoAODv9/ST_t-channel_top_5f_InclusiveDecays_TuneCP5_13TeV-powheg-pythia8/NANOAODSIM/106X_upgrade2018_realistic_v16_L1v1-v1/2520000/C8B2B2E0-3430-1347-BC76-E8654585ECC2.root",
-        "root://cmsdcadisk.fnal.gov//dcache/uscmsdisk/store/mc/RunIISummer20UL18NanoAODv9/ST_t-channel_top_5f_InclusiveDecays_TuneCP5_13TeV-powheg-pythia8/NANOAODSIM/106X_upgrade2018_realistic_v16_L1v1-v1/2520000/CE09294F-1824-6A42-A8EE-1F313BC921BC.root"
+        "root://k8s-redir.ultralight.org:1094//store/mc/RunIISummer20UL18NanoAODv9/ST_t-channel_top_5f_InclusiveDecays_TuneCP5_13TeV-powheg-pythia8/NANOAODSIM/106X_upgrade2018_realistic_v16_L1v1-v1/2520000/C8B2B2E0-3430-1347-BC76-E8654585ECC2.root",
+        "root://eoscms.cern.ch//eos/cms/store/mc/RunIISummer20UL18NanoAODv9/ST_t-channel_top_5f_InclusiveDecays_TuneCP5_13TeV-powheg-pythia8/NANOAODSIM/106X_upgrade2018_realistic_v16_L1v1-v1/2520000/CE09294F-1824-6A42-A8EE-1F313BC921BC.root"
     ]
 }

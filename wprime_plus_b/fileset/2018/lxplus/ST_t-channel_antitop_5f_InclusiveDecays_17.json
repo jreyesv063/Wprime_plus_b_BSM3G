@@ -1,6 +1,6 @@
 {
     "ST_t-channel_antitop_5f_InclusiveDecays_17": [
-        "root://gfe02.grid.hep.ph.ic.ac.uk:1094//pnfs/hep.ph.ic.ac.uk/data/cms/store/mc/RunIISummer20UL18NanoAODv9/ST_t-channel_antitop_5f_InclusiveDecays_TuneCP5_13TeV-powheg-pythia8/NANOAODSIM/106X_upgrade2018_realistic_v16_L1v1-v1/2530000/7FA62FED-6C40-A54D-9CBF-FD455EE00E33.root",
-        "root://grid-cms-xrootd.physik.rwth-aachen.de:1094//store/mc/RunIISummer20UL18NanoAODv9/ST_t-channel_antitop_5f_InclusiveDecays_TuneCP5_13TeV-powheg-pythia8/NANOAODSIM/106X_upgrade2018_realistic_v16_L1v1-v1/2530000/803C941A-9D0B-6146-A753-E33A7DD2B78D.root"
+        "root://xrootd-local.unl.edu:1094//store/mc/RunIISummer20UL18NanoAODv9/ST_t-channel_antitop_5f_InclusiveDecays_TuneCP5_13TeV-powheg-pythia8/NANOAODSIM/106X_upgrade2018_realistic_v16_L1v1-v1/2530000/7FA62FED-6C40-A54D-9CBF-FD455EE00E33.root",
+        "root://xrootd-local.unl.edu:1094//store/mc/RunIISummer20UL18NanoAODv9/ST_t-channel_antitop_5f_InclusiveDecays_TuneCP5_13TeV-powheg-pythia8/NANOAODSIM/106X_upgrade2018_realistic_v16_L1v1-v1/2530000/803C941A-9D0B-6146-A753-E33A7DD2B78D.root"
     ]
 }

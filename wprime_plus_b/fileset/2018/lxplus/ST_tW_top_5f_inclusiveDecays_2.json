@@ -1,6 +1,6 @@
 {
     "ST_tW_top_5f_inclusiveDecays_2": [
-        "root://sbgdcache.in2p3.fr//store/mc/RunIISummer20UL18NanoAODv9/ST_tW_top_5f_inclusiveDecays_TuneCP5_13TeV-powheg-pythia8/NANOAODSIM/106X_upgrade2018_realistic_v16_L1v1-v2/100000/8E8CD901-9E7B-6046-A9C7-6509FD14F3F7.root",
+        "root://cmseos.fnal.gov//eos/uscms/store/mc/RunIISummer20UL18NanoAODv9/ST_tW_top_5f_inclusiveDecays_TuneCP5_13TeV-powheg-pythia8/NANOAODSIM/106X_upgrade2018_realistic_v16_L1v1-v2/100000/8E8CD901-9E7B-6046-A9C7-6509FD14F3F7.root",
         "root://xrootd-vanderbilt.sites.opensciencegrid.org:1094//store/mc/RunIISummer20UL18NanoAODv9/ST_tW_top_5f_inclusiveDecays_TuneCP5_13TeV-powheg-pythia8/NANOAODSIM/106X_upgrade2018_realistic_v16_L1v1-v2/100000/C827FA10-BD40-8E40-A8C8-5C7368EE2091.root"
     ]
 }

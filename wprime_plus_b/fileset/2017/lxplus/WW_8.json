@@ -1,6 +1,6 @@
 {
     "WW_8": [
-        "root://lyoeos.in2p3.fr:1094//eos/lyoeos.in2p3.fr/grid/cms/store/mc/RunIISummer20UL17NanoAODv9/WW_TuneCP5_13TeV-pythia8/NANOAODSIM/106X_mc2017_realistic_v9-v1/70000/BFBD421D-7CF0-7A45-85BA-C5E5CD953A3F.root",
-        "root://gaexrdoor.ciemat.es:1094//store/mc/RunIISummer20UL17NanoAODv9/WW_TuneCP5_13TeV-pythia8/NANOAODSIM/106X_mc2017_realistic_v9-v1/70000/D83F9914-A804-BE49-A96A-8CF3348829D3.root"
+        "root://cms-xrdr.sdfarm.kr:1094//xrd/store/mc/RunIISummer20UL17NanoAODv9/WW_TuneCP5_13TeV-pythia8/NANOAODSIM/106X_mc2017_realistic_v9-v1/70000/BFBD421D-7CF0-7A45-85BA-C5E5CD953A3F.root",
+        "root://t3se01.psi.ch:1094//store/mc/RunIISummer20UL17NanoAODv9/WW_TuneCP5_13TeV-pythia8/NANOAODSIM/106X_mc2017_realistic_v9-v1/70000/D83F9914-A804-BE49-A96A-8CF3348829D3.root"
     ]
 }

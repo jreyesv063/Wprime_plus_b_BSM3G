@@ -1,6 +1,6 @@
 {
     "VBFHToWWTo2L2Nu_3": [
         "root://cmsdcadisk.fnal.gov//dcache/uscmsdisk/store/mc/RunIISummer20UL17NanoAODv9/VBFHToWWTo2L2Nu_M125_TuneCP5_13TeV_powheg2_JHUGenV714_pythia8/NANOAODSIM/106X_mc2017_realistic_v9-v2/2530000/97A8CF08-8DE0-4C48-9D83-2D79DE243DD0.root",
-        "root://eoscms.cern.ch//eos/cms/store/mc/RunIISummer20UL17NanoAODv9/VBFHToWWTo2L2Nu_M125_TuneCP5_13TeV_powheg2_JHUGenV714_pythia8/NANOAODSIM/106X_mc2017_realistic_v9-v2/2530000/C48445F2-7279-7A40-A972-E107F153E233.root"
+        "root://xrootd-vanderbilt.sites.opensciencegrid.org:1094//store/mc/RunIISummer20UL17NanoAODv9/VBFHToWWTo2L2Nu_M125_TuneCP5_13TeV_powheg2_JHUGenV714_pythia8/NANOAODSIM/106X_mc2017_realistic_v9-v2/2530000/C48445F2-7279-7A40-A972-E107F153E233.root"
     ]
 }

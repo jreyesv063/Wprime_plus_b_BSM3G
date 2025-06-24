@@ -1,6 +1,6 @@
 {
     "ST_t-channel_antitop_5f_InclusiveDecays_2": [
-        "root://eos.cms.rcac.purdue.edu//store/mc/RunIISummer20UL16NanoAODAPVv9/ST_t-channel_antitop_5f_InclusiveDecays_TuneCP5_13TeV-powheg-pythia8/NANOAODSIM/106X_mcRun2_asymptotic_preVFP_v11-v1/2430000/4FD44995-5E1A-DF43-AEB8-948246E799F9.root",
-        "root://eoscms.cern.ch//eos/cms/store/mc/RunIISummer20UL16NanoAODAPVv9/ST_t-channel_antitop_5f_InclusiveDecays_TuneCP5_13TeV-powheg-pythia8/NANOAODSIM/106X_mcRun2_asymptotic_preVFP_v11-v1/2430000/846DEBF9-22E8-7E4D-917D-4F48922F644B.root"
+        "root://cmsdcadisk.fnal.gov//dcache/uscmsdisk/store/mc/RunIISummer20UL16NanoAODAPVv9/ST_t-channel_antitop_5f_InclusiveDecays_TuneCP5_13TeV-powheg-pythia8/NANOAODSIM/106X_mcRun2_asymptotic_preVFP_v11-v1/2430000/4FD44995-5E1A-DF43-AEB8-948246E799F9.root",
+        "root://cmsdcadisk.fnal.gov//dcache/uscmsdisk/store/mc/RunIISummer20UL16NanoAODAPVv9/ST_t-channel_antitop_5f_InclusiveDecays_TuneCP5_13TeV-powheg-pythia8/NANOAODSIM/106X_mcRun2_asymptotic_preVFP_v11-v1/2430000/846DEBF9-22E8-7E4D-917D-4F48922F644B.root"
     ]
 }

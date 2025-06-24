@@ -1,0 +1,6 @@
+{
+    "QCD_HT1000to1500_19": [
+        "root://eoscms.cern.ch//eos/cms/store/mc/RunIISummer20UL18NanoAODv9/QCD_HT1000to1500_TuneCP5_PSWeights_13TeV-madgraph-pythia8/NANOAODSIM/106X_upgrade2018_realistic_v16_L1v1-v1/80000/3588C6B0-D405-5444-B279-1CFAA24CCFB3.root",
+        "root://cmseos.fnal.gov//eos/uscms/store/mc/RunIISummer20UL18NanoAODv9/QCD_HT1000to1500_TuneCP5_PSWeights_13TeV-madgraph-pythia8/NANOAODSIM/106X_upgrade2018_realistic_v16_L1v1-v1/80000/3AD21532-1E4C-F74F-AE29-358C64FD924E.root"
+    ]
+}

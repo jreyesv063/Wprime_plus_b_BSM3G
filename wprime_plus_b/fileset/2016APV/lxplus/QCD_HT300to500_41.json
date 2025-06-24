@@ -1,6 +1,6 @@
 {
     "QCD_HT300to500_41": [
-        "root://eoscms.cern.ch//eos/cms/store/mc/RunIISummer20UL16NanoAODAPVv9/QCD_HT300to500_TuneCP5_PSWeights_13TeV-madgraph-pythia8/NANOAODSIM/106X_mcRun2_asymptotic_preVFP_v11-v1/40000/A1ADAD9B-B835-D943-A3AA-25983E50762E.root",
-        "root://t2dsk0011.cmsaf.mit.edu:1094//store/mc/RunIISummer20UL16NanoAODAPVv9/QCD_HT300to500_TuneCP5_PSWeights_13TeV-madgraph-pythia8/NANOAODSIM/106X_mcRun2_asymptotic_preVFP_v11-v1/40000/B8CED56E-1B11-3545-A165-4A3CA3131D05.root"
+        "root://maite.iihe.ac.be:1094//store/mc/RunIISummer20UL16NanoAODAPVv9/QCD_HT300to500_TuneCP5_PSWeights_13TeV-madgraph-pythia8/NANOAODSIM/106X_mcRun2_asymptotic_preVFP_v11-v1/40000/A1ADAD9B-B835-D943-A3AA-25983E50762E.root",
+        "root://grid-cms-xrootd.physik.rwth-aachen.de:1094//store/mc/RunIISummer20UL16NanoAODAPVv9/QCD_HT300to500_TuneCP5_PSWeights_13TeV-madgraph-pythia8/NANOAODSIM/106X_mcRun2_asymptotic_preVFP_v11-v1/40000/B8CED56E-1B11-3545-A165-4A3CA3131D05.root"
     ]
 }

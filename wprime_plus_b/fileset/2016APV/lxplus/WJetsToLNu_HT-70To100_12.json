@@ -1,6 +1,6 @@
 {
     "WJetsToLNu_HT-70To100_12": [
-        "root://maite.iihe.ac.be:1094//store/mc/RunIISummer20UL16NanoAODAPVv9/WJetsToLNu_HT-70To100_TuneCP5_13TeV-madgraphMLM-pythia8/NANOAODSIM/106X_mcRun2_asymptotic_preVFP_v11-v1/50000/5CD88D41-34CD-AF46-A475-AF5CE5E0347A.root",
-        "root://maite.iihe.ac.be:1094//store/mc/RunIISummer20UL16NanoAODAPVv9/WJetsToLNu_HT-70To100_TuneCP5_13TeV-madgraphMLM-pythia8/NANOAODSIM/106X_mcRun2_asymptotic_preVFP_v11-v1/50000/C0CD2D7E-1FF2-CA46-ACF7-BA7D4242A517.root"
+        "root://cmsdcache-kit-disk.gridka.de:1094//store/mc/RunIISummer20UL16NanoAODAPVv9/WJetsToLNu_HT-70To100_TuneCP5_13TeV-madgraphMLM-pythia8/NANOAODSIM/106X_mcRun2_asymptotic_preVFP_v11-v1/50000/5CD88D41-34CD-AF46-A475-AF5CE5E0347A.root",
+        "root://cmsdcadisk.fnal.gov//dcache/uscmsdisk/store/mc/RunIISummer20UL16NanoAODAPVv9/WJetsToLNu_HT-70To100_TuneCP5_13TeV-madgraphMLM-pythia8/NANOAODSIM/106X_mcRun2_asymptotic_preVFP_v11-v1/50000/C0CD2D7E-1FF2-CA46-ACF7-BA7D4242A517.root"
     ]
 }

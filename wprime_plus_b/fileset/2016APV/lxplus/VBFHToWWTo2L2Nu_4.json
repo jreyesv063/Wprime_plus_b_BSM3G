@@ -1,6 +1,6 @@
 {
     "VBFHToWWTo2L2Nu_4": [
         "root://xrootd-cmst1-door.pic.es:1094//pnfs/pic.es/data/cms/disk/store/mc/RunIISummer20UL16NanoAODAPVv9/VBFHToWWTo2L2Nu_M125_TuneCP5_13TeV_powheg2_JHUGenV714_pythia8/NANOAODSIM/106X_mcRun2_asymptotic_preVFP_v11-v2/2520000/DCB419AD-1FF9-CE40-8D69-517EC6FAC3A8.root",
-        "root://cmsdcache-kit-disk.gridka.de:1094//store/mc/RunIISummer20UL16NanoAODAPVv9/VBFHToWWTo2L2Nu_M125_TuneCP5_13TeV_powheg2_JHUGenV714_pythia8/NANOAODSIM/106X_mcRun2_asymptotic_preVFP_v11-v2/2530000/503DD7B2-1A37-B04F-A2DC-39B647C0CE8F.root"
+        "root://ccxrdcms.in2p3.fr:1094//store/mc/RunIISummer20UL16NanoAODAPVv9/VBFHToWWTo2L2Nu_M125_TuneCP5_13TeV_powheg2_JHUGenV714_pythia8/NANOAODSIM/106X_mcRun2_asymptotic_preVFP_v11-v2/2530000/503DD7B2-1A37-B04F-A2DC-39B647C0CE8F.root"
     ]
 }

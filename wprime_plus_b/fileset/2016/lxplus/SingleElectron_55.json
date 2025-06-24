@@ -1,6 +1,6 @@
 {
     "SingleElectron_55": [
-        "root://cmsdcache-kit-disk.gridka.de:1094//store/data/Run2016H/SingleElectron/NANOAOD/UL2016_MiniAODv2_NanoAODv9-v1/280000/6577E09B-FFE6-B44A-B89C-8ABE6DC5245E.root",
-        "root://dcache-cms-xrootd.desy.de:1094//store/data/Run2016H/SingleElectron/NANOAOD/UL2016_MiniAODv2_NanoAODv9-v1/280000/7FF8956B-8048-1849-B974-0BB3CEB6A950.root"
+        "root://cmsdcadisk.fnal.gov//dcache/uscmsdisk/store/data/Run2016H/SingleElectron/NANOAOD/UL2016_MiniAODv2_NanoAODv9-v1/280000/6577E09B-FFE6-B44A-B89C-8ABE6DC5245E.root",
+        "root://eospublic.cern.ch//eos/opendata/cms/Run2016H/SingleElectron/NANOAOD/UL2016_MiniAODv2_NanoAODv9-v1/280000/7FF8956B-8048-1849-B974-0BB3CEB6A950.root"
     ]
 }

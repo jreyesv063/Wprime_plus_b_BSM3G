@@ -1,6 +1,6 @@
 {
     "ST_tW_antitop_5f_inclusiveDecays_9": [
-        "root://cmseos.fnal.gov//eos/uscms/store/mc/RunIISummer20UL18NanoAODv9/ST_tW_antitop_5f_inclusiveDecays_TuneCP5_13TeV-powheg-pythia8/NANOAODSIM/106X_upgrade2018_realistic_v16_L1v1-v2/2430000/FDEECF0E-EE2F-5D4F-85AA-C3855B5CEE1F.root",
-        "root://sbgdcache.in2p3.fr//store/mc/RunIISummer20UL18NanoAODv9/ST_tW_antitop_5f_inclusiveDecays_TuneCP5_13TeV-powheg-pythia8/NANOAODSIM/106X_upgrade2018_realistic_v16_L1v1-v2/2510000/0FF49C0C-A824-0D42-A0CC-CD4FF083A017.root"
+        "root://xrootd-vanderbilt.sites.opensciencegrid.org:1094//store/mc/RunIISummer20UL18NanoAODv9/ST_tW_antitop_5f_inclusiveDecays_TuneCP5_13TeV-powheg-pythia8/NANOAODSIM/106X_upgrade2018_realistic_v16_L1v1-v2/2430000/FDEECF0E-EE2F-5D4F-85AA-C3855B5CEE1F.root",
+        "root://cmsdcadisk.fnal.gov//dcache/uscmsdisk/store/mc/RunIISummer20UL18NanoAODv9/ST_tW_antitop_5f_inclusiveDecays_TuneCP5_13TeV-powheg-pythia8/NANOAODSIM/106X_upgrade2018_realistic_v16_L1v1-v2/2510000/0FF49C0C-A824-0D42-A0CC-CD4FF083A017.root"
     ]
 }

@@ -1,0 +1,6 @@
+{
+    "TTToHadronic_32": [
+        "root://cmsdcadisk.fnal.gov//dcache/uscmsdisk/store/mc/RunIISummer20UL18NanoAODv9/TTToHadronic_TuneCP5CR1_13TeV-powheg-pythia8/NANOAODSIM/106X_upgrade2018_realistic_v16_L1v1-v2/260000/611242C8-F567-254B-9659-46796562872C.root",
+        "root://xrootd-vanderbilt.sites.opensciencegrid.org:1094//store/mc/RunIISummer20UL18NanoAODv9/TTToHadronic_TuneCP5CR1_13TeV-powheg-pythia8/NANOAODSIM/106X_upgrade2018_realistic_v16_L1v1-v2/260000/64931284-C3EB-CE4B-B341-F0316825FD66.root"
+    ]
+}

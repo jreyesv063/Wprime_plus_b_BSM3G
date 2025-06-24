@@ -1,6 +1,6 @@
 {
     "SingleElectron_14": [
-        "root://cmsdcadisk.fnal.gov//dcache/uscmsdisk/store/data/Run2017B/SingleElectron/NANOAOD/UL2017_MiniAODv2_NanoAODv9-v1/70000/AA0215EC-9E53-5D4C-A655-D54C667A38C1.root",
-        "root://kodiak-se.baylor.edu:1094//store/data/Run2017B/SingleElectron/NANOAOD/UL2017_MiniAODv2_NanoAODv9-v1/70000/AD35E5A4-D0A3-EA48-9068-605AFB7EF5F5.root"
+        "root://maite.iihe.ac.be:1094//store/data/Run2017B/SingleElectron/NANOAOD/UL2017_MiniAODv2_NanoAODv9-v1/70000/AA0215EC-9E53-5D4C-A655-D54C667A38C1.root",
+        "root://cmsdcadisk.fnal.gov//dcache/uscmsdisk/store/data/Run2017B/SingleElectron/NANOAOD/UL2017_MiniAODv2_NanoAODv9-v1/70000/AD35E5A4-D0A3-EA48-9068-605AFB7EF5F5.root"
     ]
 }

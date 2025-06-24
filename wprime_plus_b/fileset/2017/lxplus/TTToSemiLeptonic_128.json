@@ -1,6 +1,6 @@
 {
     "TTToSemiLeptonic_128": [
-        "root://cmsdcadisk.fnal.gov//dcache/uscmsdisk/store/mc/RunIISummer20UL17NanoAODv9/TTToSemiLeptonic_TuneCP5_13TeV-powheg-pythia8/NANOAODSIM/106X_mc2017_realistic_v9-v1/280000/CA0F49A7-7477-2B4C-8EE7-C04611763634.root",
-        "root://kodiak-se.baylor.edu:1094//store/mc/RunIISummer20UL17NanoAODv9/TTToSemiLeptonic_TuneCP5_13TeV-powheg-pythia8/NANOAODSIM/106X_mc2017_realistic_v9-v1/280000/CB2858CF-CC23-1140-A88D-E7E679E43A93.root"
+        "root://skynet013.crc.nd.edu//store/mc/RunIISummer20UL17NanoAODv9/TTToSemiLeptonic_TuneCP5_13TeV-powheg-pythia8/NANOAODSIM/106X_mc2017_realistic_v9-v1/280000/CA0F49A7-7477-2B4C-8EE7-C04611763634.root",
+        "root://gaexrdoor.ciemat.es:1094//store/mc/RunIISummer20UL17NanoAODv9/TTToSemiLeptonic_TuneCP5_13TeV-powheg-pythia8/NANOAODSIM/106X_mc2017_realistic_v9-v1/280000/CB2858CF-CC23-1140-A88D-E7E679E43A93.root"
     ]
 }

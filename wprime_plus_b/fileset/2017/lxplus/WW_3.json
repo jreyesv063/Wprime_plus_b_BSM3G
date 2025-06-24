@@ -1,6 +1,6 @@
 {
     "WW_3": [
-        "root://skynet013.crc.nd.edu//store/mc/RunIISummer20UL17NanoAODv9/WW_TuneCP5_13TeV-pythia8/NANOAODSIM/106X_mc2017_realistic_v9-v1/280000/1DB581DE-0FFE-B445-8DA1-53E4FC5F1110.root",
+        "root://xrootd-local.unl.edu:1094//store/mc/RunIISummer20UL17NanoAODv9/WW_TuneCP5_13TeV-pythia8/NANOAODSIM/106X_mc2017_realistic_v9-v1/280000/1DB581DE-0FFE-B445-8DA1-53E4FC5F1110.root",
         "root://t3se01.psi.ch:1094//store/mc/RunIISummer20UL17NanoAODv9/WW_TuneCP5_13TeV-pythia8/NANOAODSIM/106X_mc2017_realistic_v9-v1/280000/29A847FD-CCB5-7549-855D-2F850B7038FF.root"
     ]
 }

@@ -1,6 +1,6 @@
 {
     "DYJetsToLL_nlo_M-50_10": [
-        "root://xrootd-local.unl.edu:1094//store/mc/RunIISummer20UL17NanoAODv9/DYJetsToLL_M-50_TuneCP5_13TeV-amcatnloFXFX-pythia8/NANOAODSIM/106X_mc2017_realistic_v9-v2/230000/70E780C1-3CEA-AC4A-9FED-49EE96D2470D.root",
-        "root://maite.iihe.ac.be:1094//store/mc/RunIISummer20UL17NanoAODv9/DYJetsToLL_M-50_TuneCP5_13TeV-amcatnloFXFX-pythia8/NANOAODSIM/106X_mc2017_realistic_v9-v2/230000/7E60510B-A343-BD41-B095-35455316E1D2.root"
+        "root://cms-xrdr.sdfarm.kr:1094//xrd/store/mc/RunIISummer20UL17NanoAODv9/DYJetsToLL_M-50_TuneCP5_13TeV-amcatnloFXFX-pythia8/NANOAODSIM/106X_mc2017_realistic_v9-v2/230000/70E780C1-3CEA-AC4A-9FED-49EE96D2470D.root",
+        "root://cms-xrdr.sdfarm.kr:1094//xrd/store/mc/RunIISummer20UL17NanoAODv9/DYJetsToLL_M-50_TuneCP5_13TeV-amcatnloFXFX-pythia8/NANOAODSIM/106X_mc2017_realistic_v9-v2/230000/7E60510B-A343-BD41-B095-35455316E1D2.root"
     ]
 }

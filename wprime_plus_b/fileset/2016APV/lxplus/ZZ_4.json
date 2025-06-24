@@ -1,6 +1,6 @@
 {
     "ZZ_4": [
         "root://xrootd-cmst1-door.pic.es:1094//pnfs/pic.es/data/cms/disk/store/mc/RunIISummer20UL16NanoAODAPVv9/ZZ_TuneCP5_13TeV-pythia8/NANOAODSIM/106X_mcRun2_asymptotic_preVFP_v11-v1/70000/C4B44134-0B20-5C41-8D84-1355A8A280DA.root",
-        "root://eos.cms.rcac.purdue.edu//store/mc/RunIISummer20UL16NanoAODAPVv9/ZZ_TuneCP5_13TeV-pythia8/NANOAODSIM/106X_mcRun2_asymptotic_preVFP_v11-v1/70000/D68EE2C8-BA43-AD43-B711-5FB2FDE409A8.root"
+        "root://dcache-cms-xrootd.desy.de:1094//store/mc/RunIISummer20UL16NanoAODAPVv9/ZZ_TuneCP5_13TeV-pythia8/NANOAODSIM/106X_mcRun2_asymptotic_preVFP_v11-v1/70000/D68EE2C8-BA43-AD43-B711-5FB2FDE409A8.root"
     ]
 }

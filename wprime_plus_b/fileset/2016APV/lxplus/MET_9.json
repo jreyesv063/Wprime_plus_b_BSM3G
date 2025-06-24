@@ -1,6 +1,6 @@
 {
     "MET_9": [
-        "root://t2dsk0011.cmsaf.mit.edu:1094//store/data/Run2016B/MET/NANOAOD/ver2_HIPM_UL2016_MiniAODv2_NanoAODv9-v2/2530000/B03C3FE6-DDF3-A943-8DF5-1F28678352E0.root",
-        "root://gfe02.grid.hep.ph.ic.ac.uk:1094//pnfs/hep.ph.ic.ac.uk/data/cms/store/data/Run2016B/MET/NANOAOD/ver2_HIPM_UL2016_MiniAODv2_NanoAODv9-v2/2530000/D5FD699C-F74D-604A-BD8E-510113532DC7.root"
+        "root://gfe02.grid.hep.ph.ic.ac.uk:1094//pnfs/hep.ph.ic.ac.uk/data/cms/store/data/Run2016B/MET/NANOAOD/ver2_HIPM_UL2016_MiniAODv2_NanoAODv9-v2/2530000/B03C3FE6-DDF3-A943-8DF5-1F28678352E0.root",
+        "root://xrootd-local.unl.edu:1094//store/data/Run2016B/MET/NANOAOD/ver2_HIPM_UL2016_MiniAODv2_NanoAODv9-v2/2530000/D5FD699C-F74D-604A-BD8E-510113532DC7.root"
     ]
 }

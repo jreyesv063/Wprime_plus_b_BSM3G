@@ -1,6 +1,6 @@
 {
     "QCD_HT2000toInf_16": [
-        "root://grid-cms-xrootd.physik.rwth-aachen.de:1094//store/mc/RunIISummer20UL17NanoAODv9/QCD_HT2000toInf_TuneCP5_PSWeights_13TeV-madgraph-pythia8/NANOAODSIM/106X_mc2017_realistic_v9-v1/80000/D76850F8-CE82-F24A-8D3A-DBC1B6B1C5B2.root",
+        "root://kodiak-se.baylor.edu:1094//store/mc/RunIISummer20UL17NanoAODv9/QCD_HT2000toInf_TuneCP5_PSWeights_13TeV-madgraph-pythia8/NANOAODSIM/106X_mc2017_realistic_v9-v1/80000/D76850F8-CE82-F24A-8D3A-DBC1B6B1C5B2.root",
         "root://cms-xrdr.sdfarm.kr:1094//xrd/store/mc/RunIISummer20UL17NanoAODv9/QCD_HT2000toInf_TuneCP5_PSWeights_13TeV-madgraph-pythia8/NANOAODSIM/106X_mc2017_realistic_v9-v1/80000/E1890EA9-C34D-2046-81B1-7418E081F15A.root"
     ]
 }

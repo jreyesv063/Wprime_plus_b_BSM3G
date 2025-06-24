@@ -1,6 +1,6 @@
 {
     "ZZ_8": [
-        "root://lyoeos.in2p3.fr:1094//eos/lyoeos.in2p3.fr/grid/cms/store/mc/RunIISummer20UL16NanoAODv9/ZZ_TuneCP5_13TeV-pythia8/NANOAODSIM/106X_mcRun2_asymptotic_v17-v1/70000/7A0E6CF0-B140-2143-A25F-80DCA46EE855.root",
-        "root://eos.cms.rcac.purdue.edu//store/mc/RunIISummer20UL16NanoAODv9/ZZ_TuneCP5_13TeV-pythia8/NANOAODSIM/106X_mcRun2_asymptotic_v17-v1/70000/C24CBE42-DCF2-A94D-A117-1DF6B3FF8D78.root"
+        "root://eospublic.cern.ch//eos/opendata/cms/mc/RunIISummer20UL16NanoAODv9/ZZ_TuneCP5_13TeV-pythia8/NANOAODSIM/106X_mcRun2_asymptotic_v17-v1/70000/7A0E6CF0-B140-2143-A25F-80DCA46EE855.root",
+        "root://cmsdcadisk.fnal.gov//dcache/uscmsdisk/store/mc/RunIISummer20UL16NanoAODv9/ZZ_TuneCP5_13TeV-pythia8/NANOAODSIM/106X_mcRun2_asymptotic_v17-v1/70000/C24CBE42-DCF2-A94D-A117-1DF6B3FF8D78.root"
     ]
 }

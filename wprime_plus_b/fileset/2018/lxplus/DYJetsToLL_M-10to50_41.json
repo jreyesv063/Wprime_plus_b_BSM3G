@@ -1,6 +1,6 @@
 {
     "DYJetsToLL_M-10to50_41": [
-        "root://grid-cms-xrootd.physik.rwth-aachen.de:1094//store/mc/RunIISummer20UL18NanoAODv9/DYJetsToLL_M-10to50_TuneCP5_13TeV-madgraphMLM-pythia8/NANOAODSIM/106X_upgrade2018_realistic_v16_L1v1-v1/280000/F96A26C3-0241-7843-ABAE-87A44A58EDB9.root",
-        "root://rdr.echo.stfc.ac.uk//store/mc/RunIISummer20UL18NanoAODv9/DYJetsToLL_M-10to50_TuneCP5_13TeV-madgraphMLM-pythia8/NANOAODSIM/106X_upgrade2018_realistic_v16_L1v1-v1/280000/FAD7A64B-BABB-7145-9E9A-20965CC1456B.root"
+        "root://xrootd-vanderbilt.sites.opensciencegrid.org:1094//store/mc/RunIISummer20UL18NanoAODv9/DYJetsToLL_M-10to50_TuneCP5_13TeV-madgraphMLM-pythia8/NANOAODSIM/106X_upgrade2018_realistic_v16_L1v1-v1/280000/F96A26C3-0241-7843-ABAE-87A44A58EDB9.root",
+        "root://xrootd-local.unl.edu:1094//store/mc/RunIISummer20UL18NanoAODv9/DYJetsToLL_M-10to50_TuneCP5_13TeV-madgraphMLM-pythia8/NANOAODSIM/106X_upgrade2018_realistic_v16_L1v1-v1/280000/FAD7A64B-BABB-7145-9E9A-20965CC1456B.root"
     ]
 }

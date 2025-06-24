@@ -1,6 +1,6 @@
 {
     "QCD_HT700to1000_1": [
-        "root://t2dsk0011.cmsaf.mit.edu:1094//store/mc/RunIISummer20UL16NanoAODAPVv9/QCD_HT700to1000_TuneCP5_PSWeights_13TeV-madgraph-pythia8/NANOAODSIM/106X_mcRun2_asymptotic_preVFP_v11-v1/2520000/6815AC55-19E2-2C4D-AB6D-2903B90DE30F.root",
+        "root://dcache-cms-xrootd.desy.de:1094//store/mc/RunIISummer20UL16NanoAODAPVv9/QCD_HT700to1000_TuneCP5_PSWeights_13TeV-madgraph-pythia8/NANOAODSIM/106X_mcRun2_asymptotic_preVFP_v11-v1/2520000/6815AC55-19E2-2C4D-AB6D-2903B90DE30F.root",
         "root://cmsdcadisk.fnal.gov//dcache/uscmsdisk/store/mc/RunIISummer20UL16NanoAODAPVv9/QCD_HT700to1000_TuneCP5_PSWeights_13TeV-madgraph-pythia8/NANOAODSIM/106X_mcRun2_asymptotic_preVFP_v11-v1/2520000/A3A54CF9-927C-5846-A816-0A7829D25C40.root"
     ]
 }

@@ -1,6 +1,6 @@
 {
     "SingleElectron_121": [
-        "root://skynet013.crc.nd.edu//store/data/Run2017F/SingleElectron/NANOAOD/UL2017_MiniAODv2_NanoAODv9-v1/70000/CC6EA19C-8181-6A4D-A95E-EA29B6A3AA2D.root",
-        "root://skynet013.crc.nd.edu//store/data/Run2017F/SingleElectron/NANOAOD/UL2017_MiniAODv2_NanoAODv9-v1/70000/D4B4F2B5-279A-AD44-BCAC-10C96558CA01.root"
+        "root://gaexrdoor.ciemat.es:1094//store/data/Run2017F/SingleElectron/NANOAOD/UL2017_MiniAODv2_NanoAODv9-v1/70000/CC6EA19C-8181-6A4D-A95E-EA29B6A3AA2D.root",
+        "root://t3se01.psi.ch:1094//store/data/Run2017F/SingleElectron/NANOAOD/UL2017_MiniAODv2_NanoAODv9-v1/70000/D4B4F2B5-279A-AD44-BCAC-10C96558CA01.root"
     ]
 }

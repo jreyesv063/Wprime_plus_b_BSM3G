@@ -1,6 +1,6 @@
 {
     "WJetsToLNu_ext_70": [
-        "root://cmseos.fnal.gov//eos/uscms/store/mc/RunIISummer20UL16NanoAODv9/WJetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8/NANOAODSIM/106X_mcRun2_asymptotic_v17_ext1-v2/2550000/893483DD-90C1-B342-8B98-4C87DE82E1C2.root",
-        "root://eoscms.cern.ch//eos/cms/store/mc/RunIISummer20UL16NanoAODv9/WJetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8/NANOAODSIM/106X_mcRun2_asymptotic_v17_ext1-v2/2550000/8A0D2784-5809-9949-AEFE-0A85ADAB9CF4.root"
+        "root://eoscms.cern.ch//eos/cms/store/mc/RunIISummer20UL16NanoAODv9/WJetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8/NANOAODSIM/106X_mcRun2_asymptotic_v17_ext1-v2/2550000/893483DD-90C1-B342-8B98-4C87DE82E1C2.root",
+        "root://cmseos.fnal.gov//eos/uscms/store/mc/RunIISummer20UL16NanoAODv9/WJetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8/NANOAODSIM/106X_mcRun2_asymptotic_v17_ext1-v2/2550000/8A0D2784-5809-9949-AEFE-0A85ADAB9CF4.root"
     ]
 }

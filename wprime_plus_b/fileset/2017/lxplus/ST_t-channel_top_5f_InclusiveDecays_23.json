@@ -1,6 +1,6 @@
 {
     "ST_t-channel_top_5f_InclusiveDecays_23": [
         "root://eos.cms.rcac.purdue.edu//store/mc/RunIISummer20UL17NanoAODv9/ST_t-channel_top_5f_InclusiveDecays_TuneCP5_13TeV-powheg-pythia8/NANOAODSIM/106X_mc2017_realistic_v9-v1/2520000/7902A51D-A8D1-634C-87E1-C3CF8B8E4B7C.root",
-        "root://eos.cms.rcac.purdue.edu//store/mc/RunIISummer20UL17NanoAODv9/ST_t-channel_top_5f_InclusiveDecays_TuneCP5_13TeV-powheg-pythia8/NANOAODSIM/106X_mc2017_realistic_v9-v1/2520000/81755686-4EBA-0D49-86E6-AE2C9DA0C3DB.root"
+        "root://xrootd-local.unl.edu:1094//store/mc/RunIISummer20UL17NanoAODv9/ST_t-channel_top_5f_InclusiveDecays_TuneCP5_13TeV-powheg-pythia8/NANOAODSIM/106X_mc2017_realistic_v9-v1/2520000/81755686-4EBA-0D49-86E6-AE2C9DA0C3DB.root"
     ]
 }

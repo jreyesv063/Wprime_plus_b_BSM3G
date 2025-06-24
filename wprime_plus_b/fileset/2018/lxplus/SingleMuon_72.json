@@ -1,0 +1,6 @@
+{
+    "SingleMuon_72": [
+        "root://osg-se.sprace.org.br:1094//store/data/Run2018B/SingleMuon/NANOAOD/UL2018_MiniAODv2_NanoAODv9-v2/250000/FFDC2362-6DC4-CF46-9756-4EE889509C03.root",
+        "root://eoscms.cern.ch//eos/cms/store/data/Run2018C/SingleMuon/NANOAOD/UL2018_MiniAODv2_NanoAODv9-v2/100000/2B07B4C0-852B-9B4F-83FA-CA6B047542D1.root"
+    ]
+}

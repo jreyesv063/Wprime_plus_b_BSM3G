@@ -1,6 +1,6 @@
 {
     "WZ_1": [
-        "root://eospublic.cern.ch//eos/opendata/cms/mc/RunIISummer20UL16NanoAODv9/WZ_TuneCP5_13TeV-pythia8/NANOAODSIM/106X_mcRun2_asymptotic_v17-v1/110000/186D42C8-2948-544A-9121-19708E04D72A.root",
-        "root://ccxrdcms.in2p3.fr:1094//store/mc/RunIISummer20UL16NanoAODv9/WZ_TuneCP5_13TeV-pythia8/NANOAODSIM/106X_mcRun2_asymptotic_v17-v1/110000/18EB233A-FFF2-A84F-A745-9DB11D652DDC.root"
+        "root://lyoeos.in2p3.fr:1094//eos/lyoeos.in2p3.fr/grid/cms/store/mc/RunIISummer20UL16NanoAODv9/WZ_TuneCP5_13TeV-pythia8/NANOAODSIM/106X_mcRun2_asymptotic_v17-v1/110000/186D42C8-2948-544A-9121-19708E04D72A.root",
+        "root://lyoeos.in2p3.fr:1094//eos/lyoeos.in2p3.fr/grid/cms/store/mc/RunIISummer20UL16NanoAODv9/WZ_TuneCP5_13TeV-pythia8/NANOAODSIM/106X_mcRun2_asymptotic_v17-v1/110000/18EB233A-FFF2-A84F-A745-9DB11D652DDC.root"
     ]
 }

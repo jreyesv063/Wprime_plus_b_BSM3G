@@ -1,0 +1,6 @@
+{
+    "Tau_104": [
+        "root://k8s-redir.ultralight.org:1094//store/data/Run2018D/Tau/NANOAOD/UL2018_MiniAODv2_NanoAODv9-v2/2500000/8CFBA07B-9929-1649-9DFF-EECDC6A0CD3F.root",
+        "root://xrootd-cms.infn.it:1194//store/data/Run2018D/Tau/NANOAOD/UL2018_MiniAODv2_NanoAODv9-v2/2500000/8FEDFE5B-90C6-C840-83C2-1077CD4A349D.root"
+    ]
+}

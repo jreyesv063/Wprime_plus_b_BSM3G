@@ -1,6 +1,6 @@
 {
     "Tau_47": [
-        "root://cmsdcadisk.fnal.gov//dcache/uscmsdisk/store/data/Run2016H/Tau/NANOAOD/UL2016_MiniAODv2_NanoAODv9-v1/260000/C672C26B-1CD0-BA40-85EA-387782570946.root",
+        "root://eospublic.cern.ch//eos/opendata/cms/Run2016H/Tau/NANOAOD/UL2016_MiniAODv2_NanoAODv9-v1/260000/C672C26B-1CD0-BA40-85EA-387782570946.root",
         "root://xrootd-vanderbilt.sites.opensciencegrid.org:1094//store/data/Run2016H/Tau/NANOAOD/UL2016_MiniAODv2_NanoAODv9-v1/260000/C87AE5B4-9F9C-674F-8599-F91D7EA8A5EB.root"
     ]
 }

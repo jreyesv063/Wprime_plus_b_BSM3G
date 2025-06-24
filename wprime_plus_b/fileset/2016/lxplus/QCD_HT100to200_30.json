@@ -1,6 +1,6 @@
 {
     "QCD_HT100to200_30": [
-        "root://xrootd-local.unl.edu:1094//store/mc/RunIISummer20UL16NanoAODv9/QCD_HT100to200_TuneCP5_PSWeights_13TeV-madgraph-pythia8/NANOAODSIM/106X_mcRun2_asymptotic_v17-v1/270000/C81BBC91-AA2F-B648-8F61-51571E0FD545.root",
-        "root://xrootd-cmst1-door.pic.es:1094//pnfs/pic.es/data/cms/disk/store/mc/RunIISummer20UL16NanoAODv9/QCD_HT100to200_TuneCP5_PSWeights_13TeV-madgraph-pythia8/NANOAODSIM/106X_mcRun2_asymptotic_v17-v1/270000/FB205CB7-08F9-324E-A93D-29851ACA06E5.root"
+        "root://rdr.echo.stfc.ac.uk//store/mc/RunIISummer20UL16NanoAODv9/QCD_HT100to200_TuneCP5_PSWeights_13TeV-madgraph-pythia8/NANOAODSIM/106X_mcRun2_asymptotic_v17-v1/270000/C81BBC91-AA2F-B648-8F61-51571E0FD545.root",
+        "root://rdr.echo.stfc.ac.uk//store/mc/RunIISummer20UL16NanoAODv9/QCD_HT100to200_TuneCP5_PSWeights_13TeV-madgraph-pythia8/NANOAODSIM/106X_mcRun2_asymptotic_v17-v1/270000/FB205CB7-08F9-324E-A93D-29851ACA06E5.root"
     ]
 }

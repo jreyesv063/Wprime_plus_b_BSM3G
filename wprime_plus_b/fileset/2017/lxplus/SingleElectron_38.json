@@ -1,6 +1,6 @@
 {
     "SingleElectron_38": [
-        "root://maite.iihe.ac.be:1094//store/data/Run2017C/SingleElectron/NANOAOD/UL2017_MiniAODv2_NanoAODv9-v1/120000/D6853FFD-7622-E648-BAC5-C30B9775220A.root",
+        "root://cmsdcadisk.fnal.gov//dcache/uscmsdisk/store/data/Run2017C/SingleElectron/NANOAOD/UL2017_MiniAODv2_NanoAODv9-v1/120000/D6853FFD-7622-E648-BAC5-C30B9775220A.root",
         "root://kodiak-se.baylor.edu:1094//store/data/Run2017C/SingleElectron/NANOAOD/UL2017_MiniAODv2_NanoAODv9-v1/120000/D8123F5E-C996-2045-91E1-BDF7DFBDCB7C.root"
     ]
 }

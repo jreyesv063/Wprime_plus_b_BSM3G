@@ -1,6 +1,6 @@
 {
     "MET_35": [
-        "root://gfe02.grid.hep.ph.ic.ac.uk:1094//pnfs/hep.ph.ic.ac.uk/data/cms/store/data/Run2016D/MET/NANOAOD/HIPM_UL2016_MiniAODv2_NanoAODv9-v2/2430000/C7541FD3-A836-064D-BC23-63A16C895F04.root",
-        "root://eoscms.cern.ch//eos/cms/store/data/Run2016D/MET/NANOAOD/HIPM_UL2016_MiniAODv2_NanoAODv9-v2/2430000/C9DBD05B-AC9F-1B46-8486-BE0FF97A29E5.root"
+        "root://lyoeos.in2p3.fr:1094//eos/lyoeos.in2p3.fr/grid/cms/store/data/Run2016D/MET/NANOAOD/HIPM_UL2016_MiniAODv2_NanoAODv9-v2/2430000/C7541FD3-A836-064D-BC23-63A16C895F04.root",
+        "root://lyoeos.in2p3.fr:1094//eos/lyoeos.in2p3.fr/grid/cms/store/data/Run2016D/MET/NANOAOD/HIPM_UL2016_MiniAODv2_NanoAODv9-v2/2430000/C9DBD05B-AC9F-1B46-8486-BE0FF97A29E5.root"
     ]
 }

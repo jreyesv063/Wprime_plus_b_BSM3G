@@ -1,6 +1,6 @@
 {
     "TTToSemiLeptonic_15": [
         "root://kodiak-se.baylor.edu:1094//store/mc/RunIISummer20UL17NanoAODv9/TTToSemiLeptonic_TuneCP5_13TeV-powheg-pythia8/NANOAODSIM/106X_mc2017_realistic_v9-v1/130000/BF04FFF9-1AD2-5C4A-8E96-D81FE852FF8C.root",
-        "root://t3se01.psi.ch:1094//store/mc/RunIISummer20UL17NanoAODv9/TTToSemiLeptonic_TuneCP5_13TeV-powheg-pythia8/NANOAODSIM/106X_mc2017_realistic_v9-v1/130000/C07A5E25-D1B9-5B4A-A410-1596FE30B9D6.root"
+        "root://cmseos.fnal.gov//eos/uscms/store/mc/RunIISummer20UL17NanoAODv9/TTToSemiLeptonic_TuneCP5_13TeV-powheg-pythia8/NANOAODSIM/106X_mc2017_realistic_v9-v1/130000/C07A5E25-D1B9-5B4A-A410-1596FE30B9D6.root"
     ]
 }

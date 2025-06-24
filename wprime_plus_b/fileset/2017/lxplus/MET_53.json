@@ -1,6 +1,6 @@
 {
     "MET_53": [
-        "root://grid-cms-xrootd.physik.rwth-aachen.de:1094//store/data/Run2017D/MET/NANOAOD/UL2017_MiniAODv2_NanoAODv9-v1/280000/7D04903C-A66F-7B4B-AC14-E0AF703B3158.root",
-        "root://lyoeos.in2p3.fr:1094//eos/lyoeos.in2p3.fr/grid/cms/store/data/Run2017D/MET/NANOAOD/UL2017_MiniAODv2_NanoAODv9-v1/280000/9BFEB66C-F2F6-6644-BA2D-6F594640992E.root"
+        "root://cmsdcadisk.fnal.gov//dcache/uscmsdisk/store/data/Run2017D/MET/NANOAOD/UL2017_MiniAODv2_NanoAODv9-v1/280000/7D04903C-A66F-7B4B-AC14-E0AF703B3158.root",
+        "root://grid-cms-xrootd.physik.rwth-aachen.de:1094//store/data/Run2017D/MET/NANOAOD/UL2017_MiniAODv2_NanoAODv9-v1/280000/9BFEB66C-F2F6-6644-BA2D-6F594640992E.root"
     ]
 }

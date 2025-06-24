@@ -1,0 +1,6 @@
+{
+    "QCD_HT500to700_1": [
+        "root://osg-se.sprace.org.br:1094//store/mc/RunIISummer20UL18NanoAODv9/QCD_HT500to700_TuneCP5_PSWeights_13TeV-madgraph-pythia8/NANOAODSIM/106X_upgrade2018_realistic_v16_L1v1-v1/2540000/3EB93D0D-72BF-A841-B0E1-18D6EA50D9C3.root",
+        "root://osg-se.sprace.org.br:1094//store/mc/RunIISummer20UL18NanoAODv9/QCD_HT500to700_TuneCP5_PSWeights_13TeV-madgraph-pythia8/NANOAODSIM/106X_upgrade2018_realistic_v16_L1v1-v1/2540000/9C816B45-91E5-A04B-A4EB-9CC510BF125A.root"
+    ]
+}

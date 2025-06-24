@@ -1,6 +1,6 @@
 {
     "WJetsToLNu_HT-2500ToInf_5": [
-        "root://cms-xrdr.sdfarm.kr:1094//xrd/store/mc/RunIISummer20UL17NanoAODv9/WJetsToLNu_HT-2500ToInf_TuneCP5_13TeV-madgraphMLM-pythia8/NANOAODSIM/106X_mc2017_realistic_v9-v2/2430000/E374C9AE-A336-B54D-ADB3-B373715CBC40.root",
-        "root://t3se01.psi.ch:1094//store/mc/RunIISummer20UL17NanoAODv9/WJetsToLNu_HT-2500ToInf_TuneCP5_13TeV-madgraphMLM-pythia8/NANOAODSIM/106X_mc2017_realistic_v9-v2/250000/13865D9F-E0C9-9740-9C8C-60EC83EA3176.root"
+        "root://eoscms.cern.ch//eos/cms/store/mc/RunIISummer20UL17NanoAODv9/WJetsToLNu_HT-2500ToInf_TuneCP5_13TeV-madgraphMLM-pythia8/NANOAODSIM/106X_mc2017_realistic_v9-v2/2430000/E374C9AE-A336-B54D-ADB3-B373715CBC40.root",
+        "root://cmseos.fnal.gov//eos/uscms/store/mc/RunIISummer20UL17NanoAODv9/WJetsToLNu_HT-2500ToInf_TuneCP5_13TeV-madgraphMLM-pythia8/NANOAODSIM/106X_mc2017_realistic_v9-v2/250000/13865D9F-E0C9-9740-9C8C-60EC83EA3176.root"
     ]
 }

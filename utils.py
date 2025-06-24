@@ -3,6 +3,7 @@ import math
 import json
 import glob
 import yaml
+from tqdm import tqdm
 from pathlib import Path
 from collections import OrderedDict
 from wprime_plus_b.utils import paths
@@ -66,13 +67,22 @@ def build_filesets(args: dict) -> None:
         with open(f"{fileset_path}/das_datasets.json", "r") as f:
             datasets = json.load(f)[f"{args['year']}_UL"]
 
-
-    # make output filesets directory
+     # make output filesets directory
     output_directory = Path(f"{fileset_path}/{args['year']}/{args['facility']}")
+
     if output_directory.exists():
-        for file in output_directory.glob("*"):
+        files = list(output_directory.glob("*"))
+        for file in tqdm(files, desc=f"Creating JSON files {args['year']}", unit="file"):
             if file.is_file():
-                file.unlink()
+                try:
+                    file.unlink()
+                except Exception as e:
+                    print(f"Failed to create {file}: {e}")
+    # if output_directory.exists():
+    #     for file in output_directory.glob("*"):
+    #         if file.is_file():
+    #             file.unlink()
+
     else:
         output_directory.mkdir(parents=True)
     for sample in datasets:
@@ -106,6 +116,7 @@ def build_filesets(args: dict) -> None:
                 filesets[key] = f"{output_directory}/{key}.json"
                 with open(f"{output_directory}/{key}.json", "w") as json_file:
                     json.dump(sample_data, json_file, indent=4, sort_keys=True)
+
 
 
 def get_filesets(sample: str, year: str, facility: str) -> dict:

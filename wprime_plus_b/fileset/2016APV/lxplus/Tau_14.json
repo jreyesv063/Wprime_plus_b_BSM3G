@@ -1,6 +1,6 @@
 {
     "Tau_14": [
-        "root://xrootd-local.unl.edu:1094//store/data/Run2016B/Tau/NANOAOD/ver2_HIPM_UL2016_MiniAODv2_NanoAODv9-v2/50000/6F9FA8E8-6690-B94B-84FF-DBD6218794A5.root",
-        "root://dcache-cms-xrootd.desy.de:1094//store/data/Run2016B/Tau/NANOAOD/ver2_HIPM_UL2016_MiniAODv2_NanoAODv9-v2/50000/711D01CE-C582-4840-9BDE-D1F575746DDC.root"
+        "root://maite.iihe.ac.be:1094//store/data/Run2016B/Tau/NANOAOD/ver2_HIPM_UL2016_MiniAODv2_NanoAODv9-v2/50000/6F9FA8E8-6690-B94B-84FF-DBD6218794A5.root",
+        "root://maite.iihe.ac.be:1094//store/data/Run2016B/Tau/NANOAOD/ver2_HIPM_UL2016_MiniAODv2_NanoAODv9-v2/50000/711D01CE-C582-4840-9BDE-D1F575746DDC.root"
     ]
 }

@@ -1,6 +1,6 @@
 {
     "WJetsToLNu_HT-400To600_22": [
-        "root://cmsdcadisk.fnal.gov//dcache/uscmsdisk/store/mc/RunIISummer20UL17NanoAODv9/WJetsToLNu_HT-400To600_TuneCP5_13TeV-madgraphMLM-pythia8/NANOAODSIM/106X_mc2017_realistic_v9-v1/70000/50A553C1-C23C-F442-BEF0-A529651119AE.root",
-        "root://kodiak-se.baylor.edu:1094//store/mc/RunIISummer20UL17NanoAODv9/WJetsToLNu_HT-400To600_TuneCP5_13TeV-madgraphMLM-pythia8/NANOAODSIM/106X_mc2017_realistic_v9-v1/70000/65F71C7A-78AE-BE46-BA9E-48BBA18CEF38.root"
+        "root://cms-xrdr.sdfarm.kr:1094//xrd/store/mc/RunIISummer20UL17NanoAODv9/WJetsToLNu_HT-400To600_TuneCP5_13TeV-madgraphMLM-pythia8/NANOAODSIM/106X_mc2017_realistic_v9-v1/70000/50A553C1-C23C-F442-BEF0-A529651119AE.root",
+        "root://t2dsk0011.cmsaf.mit.edu:1094//store/mc/RunIISummer20UL17NanoAODv9/WJetsToLNu_HT-400To600_TuneCP5_13TeV-madgraphMLM-pythia8/NANOAODSIM/106X_mc2017_realistic_v9-v1/70000/65F71C7A-78AE-BE46-BA9E-48BBA18CEF38.root"
     ]
 }

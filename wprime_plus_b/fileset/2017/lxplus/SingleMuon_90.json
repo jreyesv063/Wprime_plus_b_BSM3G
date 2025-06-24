@@ -1,6 +1,6 @@
 {
     "SingleMuon_90": [
-        "root://eos.cms.rcac.purdue.edu//store/data/Run2017C/SingleMuon/NANOAOD/UL2017_MiniAODv2_NanoAODv9-v1/70000/9794DE08-71D9-1B45-B4CF-52B54CC09760.root",
-        "root://cmsdcadisk.fnal.gov//dcache/uscmsdisk/store/data/Run2017C/SingleMuon/NANOAOD/UL2017_MiniAODv2_NanoAODv9-v1/70000/9D9D824B-C7A6-FD42-BDAC-08A1F50E43D5.root"
+        "root://t3se01.psi.ch:1094//store/data/Run2017C/SingleMuon/NANOAOD/UL2017_MiniAODv2_NanoAODv9-v1/70000/9794DE08-71D9-1B45-B4CF-52B54CC09760.root",
+        "root://gaexrdoor.ciemat.es:1094//store/data/Run2017C/SingleMuon/NANOAOD/UL2017_MiniAODv2_NanoAODv9-v1/70000/9D9D824B-C7A6-FD42-BDAC-08A1F50E43D5.root"
     ]
 }

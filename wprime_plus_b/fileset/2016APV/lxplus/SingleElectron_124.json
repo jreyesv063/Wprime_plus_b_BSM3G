@@ -1,6 +1,6 @@
 {
     "SingleElectron_124": [
         "root://dcache-cms-xrootd.desy.de:1094//store/data/Run2016E/SingleElectron/NANOAOD/HIPM_UL2016_MiniAODv2_NanoAODv9-v2/2430000/84EC66C0-AF9E-2A4F-A7CC-159ACC656EB1.root",
-        "root://xrootd-cmst1-door.pic.es:1094//pnfs/pic.es/data/cms/disk/store/data/Run2016E/SingleElectron/NANOAOD/HIPM_UL2016_MiniAODv2_NanoAODv9-v2/2430000/99EE0359-375E-5B41-B22B-2D805633F1A0.root"
+        "root://dcache-cms-xrootd.desy.de:1094//store/data/Run2016E/SingleElectron/NANOAOD/HIPM_UL2016_MiniAODv2_NanoAODv9-v2/2430000/99EE0359-375E-5B41-B22B-2D805633F1A0.root"
     ]
 }

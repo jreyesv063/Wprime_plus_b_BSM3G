@@ -1,6 +1,6 @@
 {
     "QCD_HT200to300_10": [
-        "root://t3se01.psi.ch:1094//store/mc/RunIISummer20UL17NanoAODv9/QCD_HT200to300_TuneCP5_PSWeights_13TeV-madgraph-pythia8/NANOAODSIM/106X_mc2017_realistic_v9-v1/2530000/C8A8B499-C436-2948-931D-B34130A228EF.root",
-        "root://cmsdcadisk.fnal.gov//dcache/uscmsdisk/store/mc/RunIISummer20UL17NanoAODv9/QCD_HT200to300_TuneCP5_PSWeights_13TeV-madgraph-pythia8/NANOAODSIM/106X_mc2017_realistic_v9-v1/2530000/CB87EFB7-4D23-C248-90A4-28ED6E01E68B.root"
+        "root://xrootd-local.unl.edu:1094//store/mc/RunIISummer20UL17NanoAODv9/QCD_HT200to300_TuneCP5_PSWeights_13TeV-madgraph-pythia8/NANOAODSIM/106X_mc2017_realistic_v9-v1/2530000/C8A8B499-C436-2948-931D-B34130A228EF.root",
+        "root://xrootd-local.unl.edu:1094//store/mc/RunIISummer20UL17NanoAODv9/QCD_HT200to300_TuneCP5_PSWeights_13TeV-madgraph-pythia8/NANOAODSIM/106X_mc2017_realistic_v9-v1/2530000/CB87EFB7-4D23-C248-90A4-28ED6E01E68B.root"
     ]
 }

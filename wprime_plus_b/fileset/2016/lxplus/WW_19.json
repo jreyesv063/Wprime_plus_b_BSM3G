@@ -1,6 +1,6 @@
 {
     "WW_19": [
         "root://lyoeos.in2p3.fr:1094//eos/lyoeos.in2p3.fr/grid/cms/store/mc/RunIISummer20UL16NanoAODv9/WW_TuneCP5_13TeV-pythia8/NANOAODSIM/106X_mcRun2_asymptotic_v17-v1/280000/E4D7B5B0-B1AB-9B49-B003-FCCCA588E196.root",
-        "root://dcache-cms-xrootd.desy.de:1094//store/mc/RunIISummer20UL16NanoAODv9/WW_TuneCP5_13TeV-pythia8/NANOAODSIM/106X_mcRun2_asymptotic_v17-v1/280000/FDBA4AE0-06DA-1B4F-B3B3-21E1044F5186.root"
+        "root://t2dsk0011.cmsaf.mit.edu:1094//store/mc/RunIISummer20UL16NanoAODv9/WW_TuneCP5_13TeV-pythia8/NANOAODSIM/106X_mcRun2_asymptotic_v17-v1/280000/FDBA4AE0-06DA-1B4F-B3B3-21E1044F5186.root"
     ]
 }

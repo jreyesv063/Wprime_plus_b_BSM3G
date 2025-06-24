@@ -1,0 +1,6 @@
+{
+    "TTToHadronic_56": [
+        "root://cmsdcache-kit-disk.gridka.de:1094//store/mc/RunIISummer20UL18NanoAODv9/TTToHadronic_TuneCP5CR1_13TeV-powheg-pythia8/NANOAODSIM/106X_upgrade2018_realistic_v16_L1v1-v2/270000/4B1D15A7-BE5A-D240-B746-F107B27FCE67.root",
+        "root://eoscms.cern.ch//eos/cms/store/mc/RunIISummer20UL18NanoAODv9/TTToHadronic_TuneCP5CR1_13TeV-powheg-pythia8/NANOAODSIM/106X_upgrade2018_realistic_v16_L1v1-v2/270000/4CDD5AA0-A409-934B-A020-1EFDB0BEFA06.root"
+    ]
+}

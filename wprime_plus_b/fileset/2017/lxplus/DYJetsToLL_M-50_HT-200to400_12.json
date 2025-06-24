@@ -1,6 +1,6 @@
 {
     "DYJetsToLL_M-50_HT-200to400_12": [
-        "root://gaexrdoor.ciemat.es:1094//store/mc/RunIISummer20UL17NanoAODv9/DYJetsToLL_M-50_HT-200to400_TuneCP5_PSweights_13TeV-madgraphMLM-pythia8/NANOAODSIM/106X_mc2017_realistic_v9-v1/270000/642C24DB-800E-2D4E-A92A-304A3EB9EF24.root",
-        "root://kodiak-se.baylor.edu:1094//store/mc/RunIISummer20UL17NanoAODv9/DYJetsToLL_M-50_HT-200to400_TuneCP5_PSweights_13TeV-madgraphMLM-pythia8/NANOAODSIM/106X_mc2017_realistic_v9-v1/270000/6F94BBDF-785B-7D45-ABD4-6DD55CF75954.root"
+        "root://kodiak-se.baylor.edu:1094//store/mc/RunIISummer20UL17NanoAODv9/DYJetsToLL_M-50_HT-200to400_TuneCP5_PSweights_13TeV-madgraphMLM-pythia8/NANOAODSIM/106X_mc2017_realistic_v9-v1/270000/642C24DB-800E-2D4E-A92A-304A3EB9EF24.root",
+        "root://t3se01.psi.ch:1094//store/mc/RunIISummer20UL17NanoAODv9/DYJetsToLL_M-50_HT-200to400_TuneCP5_PSweights_13TeV-madgraphMLM-pythia8/NANOAODSIM/106X_mc2017_realistic_v9-v1/270000/6F94BBDF-785B-7D45-ABD4-6DD55CF75954.root"
     ]
 }

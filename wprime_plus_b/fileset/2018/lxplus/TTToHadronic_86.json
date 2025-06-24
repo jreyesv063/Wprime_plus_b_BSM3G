@@ -1,0 +1,6 @@
+{
+    "TTToHadronic_86": [
+        "root://k8s-redir.ultralight.org:1094//store/mc/RunIISummer20UL18NanoAODv9/TTToHadronic_TuneCP5CR1_13TeV-powheg-pythia8/NANOAODSIM/106X_upgrade2018_realistic_v16_L1v1-v2/270000/F6633346-3483-C941-930C-47BFC3B4CD9D.root",
+        "root://xrootd-local.unl.edu:1094//store/mc/RunIISummer20UL18NanoAODv9/TTToHadronic_TuneCP5CR1_13TeV-powheg-pythia8/NANOAODSIM/106X_upgrade2018_realistic_v16_L1v1-v2/270000/F98C4D45-7D72-AC49-8618-7FBC153FE7E3.root"
+    ]
+}

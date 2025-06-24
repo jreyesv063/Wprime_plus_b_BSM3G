@@ -1,6 +1,6 @@
 {
     "ST_tW_top_5f_inclusiveDecays_8": [
-        "root://cms-xrdr.sdfarm.kr:1094//xrd/store/mc/RunIISummer20UL17NanoAODv9/ST_tW_top_5f_inclusiveDecays_TuneCP5_13TeV-powheg-pythia8/NANOAODSIM/106X_mc2017_realistic_v9-v2/100000/B69CD938-2E06-6647-998A-3DD8AA6D325D.root",
-        "root://eos.cms.rcac.purdue.edu//store/mc/RunIISummer20UL17NanoAODv9/ST_tW_top_5f_inclusiveDecays_TuneCP5_13TeV-powheg-pythia8/NANOAODSIM/106X_mc2017_realistic_v9-v2/100000/B6B86247-AD62-D845-A195-2EACDBA841E3.root"
+        "root://cmseos.fnal.gov//eos/uscms/store/mc/RunIISummer20UL17NanoAODv9/ST_tW_top_5f_inclusiveDecays_TuneCP5_13TeV-powheg-pythia8/NANOAODSIM/106X_mc2017_realistic_v9-v2/100000/B69CD938-2E06-6647-998A-3DD8AA6D325D.root",
+        "root://skynet013.crc.nd.edu//store/mc/RunIISummer20UL17NanoAODv9/ST_tW_top_5f_inclusiveDecays_TuneCP5_13TeV-powheg-pythia8/NANOAODSIM/106X_mc2017_realistic_v9-v2/100000/B6B86247-AD62-D845-A195-2EACDBA841E3.root"
     ]
 }

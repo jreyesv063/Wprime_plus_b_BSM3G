@@ -1,6 +1,6 @@
 {
     "TTToSemiLeptonic_137": [
         "root://gaexrdoor.ciemat.es:1094//store/mc/RunIISummer20UL17NanoAODv9/TTToSemiLeptonic_TuneCP5_13TeV-powheg-pythia8/NANOAODSIM/106X_mc2017_realistic_v9-v1/280000/DAB45796-0776-C64B-BFCB-4AD78181A708.root",
-        "root://skynet013.crc.nd.edu//store/mc/RunIISummer20UL17NanoAODv9/TTToSemiLeptonic_TuneCP5_13TeV-powheg-pythia8/NANOAODSIM/106X_mc2017_realistic_v9-v1/280000/DB73A2DE-EF5C-AC4A-983C-BA783D370F63.root"
+        "root://cms-xrdr.sdfarm.kr:1094//xrd/store/mc/RunIISummer20UL17NanoAODv9/TTToSemiLeptonic_TuneCP5_13TeV-powheg-pythia8/NANOAODSIM/106X_mc2017_realistic_v9-v1/280000/DB73A2DE-EF5C-AC4A-983C-BA783D370F63.root"
     ]
 }

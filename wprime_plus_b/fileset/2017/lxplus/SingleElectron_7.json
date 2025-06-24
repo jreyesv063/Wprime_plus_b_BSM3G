@@ -1,6 +1,6 @@
 {
     "SingleElectron_7": [
-        "root://t3se01.psi.ch:1094//store/data/Run2017B/SingleElectron/NANOAOD/UL2017_MiniAODv2_NanoAODv9-v1/70000/0C4A22DA-4D1D-C647-A636-8CF7CB5851EB.root",
+        "root://cms-xrdr.sdfarm.kr:1094//xrd/store/data/Run2017B/SingleElectron/NANOAOD/UL2017_MiniAODv2_NanoAODv9-v1/70000/0C4A22DA-4D1D-C647-A636-8CF7CB5851EB.root",
         "root://maite.iihe.ac.be:1094//store/data/Run2017B/SingleElectron/NANOAOD/UL2017_MiniAODv2_NanoAODv9-v1/70000/1AFC2457-2992-954D-A620-CFADC36CC56D.root"
     ]
 }

@@ -1,6 +1,6 @@
 {
     "Tau_35": [
-        "root://gfe02.grid.hep.ph.ic.ac.uk:1094//pnfs/hep.ph.ic.ac.uk/data/cms/store/data/Run2016D/Tau/NANOAOD/HIPM_UL2016_MiniAODv2_NanoAODv9-v2/50000/50EF97AB-B5A3-BF40-8B0C-8A7507B110EA.root",
-        "root://xrootd-local.unl.edu:1094//store/data/Run2016D/Tau/NANOAOD/HIPM_UL2016_MiniAODv2_NanoAODv9-v2/50000/5DEDB15F-DC85-D04C-82AF-2D122CFAC546.root"
+        "root://maite.iihe.ac.be:1094//store/data/Run2016D/Tau/NANOAOD/HIPM_UL2016_MiniAODv2_NanoAODv9-v2/50000/50EF97AB-B5A3-BF40-8B0C-8A7507B110EA.root",
+        "root://gfe02.grid.hep.ph.ic.ac.uk:1094//pnfs/hep.ph.ic.ac.uk/data/cms/store/data/Run2016D/Tau/NANOAOD/HIPM_UL2016_MiniAODv2_NanoAODv9-v2/50000/5DEDB15F-DC85-D04C-82AF-2D122CFAC546.root"
     ]
 }

@@ -1,6 +1,6 @@
 {
     "DYJetsToLL_M-50_inclusive_6": [
-        "root://cms-xrdr.sdfarm.kr:1094//xrd/store/mc/RunIISummer20UL17NanoAODv9/DYJetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8/NANOAODSIM/106X_mc2017_realistic_v9-v1/130000/43282BD4-7006-2449-B86C-691BF35D5BD5.root",
-        "root://t3se01.psi.ch:1094//store/mc/RunIISummer20UL17NanoAODv9/DYJetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8/NANOAODSIM/106X_mc2017_realistic_v9-v1/130000/465B9973-7235-504D-B6EA-7E6F8EF06C3D.root"
+        "root://maite.iihe.ac.be:1094//store/mc/RunIISummer20UL17NanoAODv9/DYJetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8/NANOAODSIM/106X_mc2017_realistic_v9-v1/130000/43282BD4-7006-2449-B86C-691BF35D5BD5.root",
+        "root://eos.cms.rcac.purdue.edu//store/mc/RunIISummer20UL17NanoAODv9/DYJetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8/NANOAODSIM/106X_mc2017_realistic_v9-v1/130000/465B9973-7235-504D-B6EA-7E6F8EF06C3D.root"
     ]
 }

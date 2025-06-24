@@ -1,6 +1,6 @@
 {
     "SingleMuon_216": [
         "root://maite.iihe.ac.be:1094//store/data/Run2017F/SingleMuon/NANOAOD/UL2017_MiniAODv2_NanoAODv9-v1/70000/F1DADF35-E4FE-0549-B061-AA63FE0AE9BF.root",
-        "root://grid-cms-xrootd.physik.rwth-aachen.de:1094//store/data/Run2017F/SingleMuon/NANOAOD/UL2017_MiniAODv2_NanoAODv9-v1/70000/F28FF9EA-7E9B-174D-912F-0D632F140229.root"
+        "root://lyoeos.in2p3.fr:1094//eos/lyoeos.in2p3.fr/grid/cms/store/data/Run2017F/SingleMuon/NANOAOD/UL2017_MiniAODv2_NanoAODv9-v1/70000/F28FF9EA-7E9B-174D-912F-0D632F140229.root"
     ]
 }

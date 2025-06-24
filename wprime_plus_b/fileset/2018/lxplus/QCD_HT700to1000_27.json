@@ -1,0 +1,6 @@
+{
+    "QCD_HT700to1000_27": [
+        "root://cmsdcache-kit-disk.gridka.de:1094//store/mc/RunIISummer20UL18NanoAODv9/QCD_HT700to1000_TuneCP5_PSWeights_13TeV-madgraph-pythia8/NANOAODSIM/106X_upgrade2018_realistic_v16_L1v1-v2/2430000/A9C49A42-B5B7-5B42-A151-C8EFE91920F3.root",
+        "root://sbgdcache.in2p3.fr//store/mc/RunIISummer20UL18NanoAODv9/QCD_HT700to1000_TuneCP5_PSWeights_13TeV-madgraph-pythia8/NANOAODSIM/106X_upgrade2018_realistic_v16_L1v1-v2/2430000/AE838C15-4670-A141-BFEB-715BF4B7A7F9.root"
+    ]
+}

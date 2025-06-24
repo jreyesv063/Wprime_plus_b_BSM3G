@@ -1,5 +1,5 @@
 {
     "QCD_HT50to100_10": [
-        "root://t3se01.psi.ch:1094//store/mc/RunIISummer20UL17NanoAODv9/QCD_HT50to100_TuneCP5_PSWeights_13TeV-madgraph-pythia8/NANOAODSIM/106X_mc2017_realistic_v9-v1/270000/E38B9FC0-9CBF-7146-95D9-D705B939128F.root"
+        "root://eos.cms.rcac.purdue.edu//store/mc/RunIISummer20UL17NanoAODv9/QCD_HT50to100_TuneCP5_PSWeights_13TeV-madgraph-pythia8/NANOAODSIM/106X_mc2017_realistic_v9-v1/270000/E38B9FC0-9CBF-7146-95D9-D705B939128F.root"
     ]
 }

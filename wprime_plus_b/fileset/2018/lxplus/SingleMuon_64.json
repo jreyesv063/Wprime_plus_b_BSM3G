@@ -1,0 +1,6 @@
+{
+    "SingleMuon_64": [
+        "root://cmsdcache-kit-disk.gridka.de:1094//store/data/Run2018B/SingleMuon/NANOAOD/UL2018_MiniAODv2_NanoAODv9-v2/250000/C55A6FA8-6732-0046-B89B-2FCB6E264FB2.root",
+        "root://cmsdcadisk.fnal.gov//dcache/uscmsdisk/store/data/Run2018B/SingleMuon/NANOAOD/UL2018_MiniAODv2_NanoAODv9-v2/250000/C6C90E8F-81F8-7142-82F0-ABF538884BB1.root"
+    ]
+}

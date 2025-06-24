@@ -1,6 +1,6 @@
 {
     "ST_t-channel_top_5f_InclusiveDecays_84": [
-        "root://cmsdcadisk.fnal.gov//dcache/uscmsdisk/store/mc/RunIISummer20UL18NanoAODv9/ST_t-channel_top_5f_InclusiveDecays_TuneCP5_13TeV-powheg-pythia8/NANOAODSIM/106X_upgrade2018_realistic_v16_L1v1-v1/40000/3706BBB2-135C-8849-AB19-8C4DE241A8C2.root",
+        "root://cmsdcache-kit-disk.gridka.de:1094//store/mc/RunIISummer20UL18NanoAODv9/ST_t-channel_top_5f_InclusiveDecays_TuneCP5_13TeV-powheg-pythia8/NANOAODSIM/106X_upgrade2018_realistic_v16_L1v1-v1/40000/3706BBB2-135C-8849-AB19-8C4DE241A8C2.root",
         "root://eoscms.cern.ch//eos/cms/store/mc/RunIISummer20UL18NanoAODv9/ST_t-channel_top_5f_InclusiveDecays_TuneCP5_13TeV-powheg-pythia8/NANOAODSIM/106X_upgrade2018_realistic_v16_L1v1-v1/40000/3BDB3DF2-EC47-354D-8569-3F1AEBB58B0E.root"
     ]
 }

@@ -1,6 +1,6 @@
 {
     "VBFHToWWTo2L2Nu_1": [
-        "root://gfe02.grid.hep.ph.ic.ac.uk:1094//pnfs/hep.ph.ic.ac.uk/data/cms/store/mc/RunIISummer20UL16NanoAODv9/VBFHToWWTo2L2Nu_M125_TuneCP5_13TeV_powheg2_JHUGenV714_pythia8/NANOAODSIM/106X_mcRun2_asymptotic_v17-v2/2520000/0C9B09DA-E87E-4D4A-9B6E-53D899BF0DCA.root",
-        "root://maite.iihe.ac.be:1094//store/mc/RunIISummer20UL16NanoAODv9/VBFHToWWTo2L2Nu_M125_TuneCP5_13TeV_powheg2_JHUGenV714_pythia8/NANOAODSIM/106X_mcRun2_asymptotic_v17-v2/2520000/A0303499-71B3-6F40-87B6-C829BE681684.root"
+        "root://cmsdcache-kit-disk.gridka.de:1094//store/mc/RunIISummer20UL16NanoAODv9/VBFHToWWTo2L2Nu_M125_TuneCP5_13TeV_powheg2_JHUGenV714_pythia8/NANOAODSIM/106X_mcRun2_asymptotic_v17-v2/2520000/0C9B09DA-E87E-4D4A-9B6E-53D899BF0DCA.root",
+        "root://cmsdcache-kit-disk.gridka.de:1094//store/mc/RunIISummer20UL16NanoAODv9/VBFHToWWTo2L2Nu_M125_TuneCP5_13TeV_powheg2_JHUGenV714_pythia8/NANOAODSIM/106X_mcRun2_asymptotic_v17-v2/2520000/A0303499-71B3-6F40-87B6-C829BE681684.root"
     ]
 }

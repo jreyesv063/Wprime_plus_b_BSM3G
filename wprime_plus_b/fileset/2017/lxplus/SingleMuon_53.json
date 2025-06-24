@@ -1,6 +1,6 @@
 {
     "SingleMuon_53": [
-        "root://grid-cms-xrootd.physik.rwth-aachen.de:1094//store/data/Run2017C/SingleMuon/NANOAOD/UL2017_MiniAODv2_NanoAODv9-v1/120000/5845D827-7A23-814C-9959-D2E210050921.root",
-        "root://eos.cms.rcac.purdue.edu//store/data/Run2017C/SingleMuon/NANOAOD/UL2017_MiniAODv2_NanoAODv9-v1/120000/5DF30FA6-3C07-564C-8F36-56B203C20C3A.root"
+        "root://t3se01.psi.ch:1094//store/data/Run2017C/SingleMuon/NANOAOD/UL2017_MiniAODv2_NanoAODv9-v1/120000/5845D827-7A23-814C-9959-D2E210050921.root",
+        "root://gaexrdoor.ciemat.es:1094//store/data/Run2017C/SingleMuon/NANOAOD/UL2017_MiniAODv2_NanoAODv9-v1/120000/5DF30FA6-3C07-564C-8F36-56B203C20C3A.root"
     ]
 }

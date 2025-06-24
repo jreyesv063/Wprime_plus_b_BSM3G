@@ -1,0 +1,6 @@
+{
+    "QCD_HT50to100_15": [
+        "root://ccxrdcms.in2p3.fr:1094//store/mc/RunIISummer20UL18NanoAODv9/QCD_HT50to100_TuneCP5_PSWeights_13TeV-madgraph-pythia8/NANOAODSIM/106X_upgrade2018_realistic_v16_L1v1-v1/30000/BD2116A1-9AA9-8D48-9569-B8B4C7D1F854.root",
+        "root://xrootd-local.unl.edu:1094//store/mc/RunIISummer20UL18NanoAODv9/QCD_HT50to100_TuneCP5_PSWeights_13TeV-madgraph-pythia8/NANOAODSIM/106X_upgrade2018_realistic_v16_L1v1-v1/30000/BE3C297C-99FD-234D-BB39-4EEBFEBDBE5B.root"
+    ]
+}

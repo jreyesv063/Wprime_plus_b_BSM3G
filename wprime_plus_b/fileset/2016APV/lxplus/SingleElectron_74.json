@@ -1,6 +1,6 @@
 {
     "SingleElectron_74": [
-        "root://gfe02.grid.hep.ph.ic.ac.uk:1094//pnfs/hep.ph.ic.ac.uk/data/cms/store/data/Run2016C/SingleElectron/NANOAOD/HIPM_UL2016_MiniAODv2_NanoAODv9-v2/2530000/EC2CD6DE-DE9B-1042-84DC-827D0E3759A9.root",
-        "root://eoscms.cern.ch//eos/cms/store/data/Run2016C/SingleElectron/NANOAOD/HIPM_UL2016_MiniAODv2_NanoAODv9-v2/40000/409714E7-0561-EE4F-8880-0D508A949EEF.root"
+        "root://maite.iihe.ac.be:1094//store/data/Run2016C/SingleElectron/NANOAOD/HIPM_UL2016_MiniAODv2_NanoAODv9-v2/2530000/EC2CD6DE-DE9B-1042-84DC-827D0E3759A9.root",
+        "root://xrootd-cmst1-door.pic.es:1094//pnfs/pic.es/data/cms/disk/store/data/Run2016C/SingleElectron/NANOAOD/HIPM_UL2016_MiniAODv2_NanoAODv9-v2/40000/409714E7-0561-EE4F-8880-0D508A949EEF.root"
     ]
 }

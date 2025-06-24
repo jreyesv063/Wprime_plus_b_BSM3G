@@ -1,6 +1,6 @@
 {
     "SingleMuon_47": [
-        "root://gfe02.grid.hep.ph.ic.ac.uk:1094//pnfs/hep.ph.ic.ac.uk/data/cms/store/data/Run2016C/SingleMuon/NANOAOD/HIPM_UL2016_MiniAODv2_NanoAODv9-v2/40000/D52E69D9-283B-EA43-A9EA-A5FE06282801.root",
-        "root://maite.iihe.ac.be:1094//store/data/Run2016C/SingleMuon/NANOAOD/HIPM_UL2016_MiniAODv2_NanoAODv9-v2/40000/D6D827BC-52D0-0A44-85F3-F927C1E87810.root"
+        "root://maite.iihe.ac.be:1094//store/data/Run2016C/SingleMuon/NANOAOD/HIPM_UL2016_MiniAODv2_NanoAODv9-v2/40000/D52E69D9-283B-EA43-A9EA-A5FE06282801.root",
+        "root://lyoeos.in2p3.fr:1094//eos/lyoeos.in2p3.fr/grid/cms/store/data/Run2016C/SingleMuon/NANOAOD/HIPM_UL2016_MiniAODv2_NanoAODv9-v2/40000/D6D827BC-52D0-0A44-85F3-F927C1E87810.root"
     ]
 }

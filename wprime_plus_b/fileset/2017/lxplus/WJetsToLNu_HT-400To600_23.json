@@ -1,6 +1,6 @@
 {
     "WJetsToLNu_HT-400To600_23": [
-        "root://cms-xrdr.sdfarm.kr:1094//xrd/store/mc/RunIISummer20UL17NanoAODv9/WJetsToLNu_HT-400To600_TuneCP5_13TeV-madgraphMLM-pythia8/NANOAODSIM/106X_mc2017_realistic_v9-v1/70000/69717224-836A-3A4A-BCD6-8450B7B66B3C.root",
-        "root://eoscms.cern.ch//eos/cms/store/mc/RunIISummer20UL17NanoAODv9/WJetsToLNu_HT-400To600_TuneCP5_13TeV-madgraphMLM-pythia8/NANOAODSIM/106X_mc2017_realistic_v9-v1/70000/7506A227-A083-D54B-B364-53E9B36D1C66.root"
+        "root://gaexrdoor.ciemat.es:1094//store/mc/RunIISummer20UL17NanoAODv9/WJetsToLNu_HT-400To600_TuneCP5_13TeV-madgraphMLM-pythia8/NANOAODSIM/106X_mc2017_realistic_v9-v1/70000/69717224-836A-3A4A-BCD6-8450B7B66B3C.root",
+        "root://maite.iihe.ac.be:1094//store/mc/RunIISummer20UL17NanoAODv9/WJetsToLNu_HT-400To600_TuneCP5_13TeV-madgraphMLM-pythia8/NANOAODSIM/106X_mc2017_realistic_v9-v1/70000/7506A227-A083-D54B-B364-53E9B36D1C66.root"
     ]
 }

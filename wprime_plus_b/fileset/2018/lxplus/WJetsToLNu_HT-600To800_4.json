@@ -1,0 +1,6 @@
+{
+    "WJetsToLNu_HT-600To800_4": [
+        "root://cmseos.fnal.gov//eos/uscms/store/mc/RunIISummer20UL18NanoAODv9/WJetsToLNu_HT-600To800_TuneCP5_13TeV-madgraphMLM-pythia8/NANOAODSIM/106X_upgrade2018_realistic_v16_L1v1-v1/130000/E6713D0A-1D32-D44C-AF8B-46A1F1E16C8E.root",
+        "root://cmseos.fnal.gov//eos/uscms/store/mc/RunIISummer20UL18NanoAODv9/WJetsToLNu_HT-600To800_TuneCP5_13TeV-madgraphMLM-pythia8/NANOAODSIM/106X_upgrade2018_realistic_v16_L1v1-v1/130000/E817EBF9-A9C6-D94E-BC1B-3E2FC61E0702.root"
+    ]
+}

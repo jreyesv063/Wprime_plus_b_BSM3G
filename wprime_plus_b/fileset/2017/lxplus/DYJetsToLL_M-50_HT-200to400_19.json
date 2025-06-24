@@ -1,5 +1,5 @@
 {
     "DYJetsToLL_M-50_HT-200to400_19": [
-        "root://cmsdcadisk.fnal.gov//dcache/uscmsdisk/store/mc/RunIISummer20UL17NanoAODv9/DYJetsToLL_M-50_HT-200to400_TuneCP5_PSweights_13TeV-madgraphMLM-pythia8/NANOAODSIM/106X_mc2017_realistic_v9-v1/70000/B97DA11C-0E35-C644-AAE3-8F91BF8EEB0F.root"
+        "root://t3se01.psi.ch:1094//store/mc/RunIISummer20UL17NanoAODv9/DYJetsToLL_M-50_HT-200to400_TuneCP5_PSweights_13TeV-madgraphMLM-pythia8/NANOAODSIM/106X_mc2017_realistic_v9-v1/70000/B97DA11C-0E35-C644-AAE3-8F91BF8EEB0F.root"
     ]
 }

@@ -1,6 +1,6 @@
 {
     "WJetsToLNu_HT-70To100_19": [
-        "root://cmsdcache-kit-disk.gridka.de:1094//store/mc/RunIISummer20UL18NanoAODv9/WJetsToLNu_HT-70To100_TuneCP5_13TeV-madgraphMLM-pythia8/NANOAODSIM/106X_upgrade2018_realistic_v16_L1v1-v1/270000/74DB5754-03BB-3248-AFE6-B6CB2879980A.root",
+        "root://eoscms.cern.ch//eos/cms/store/mc/RunIISummer20UL18NanoAODv9/WJetsToLNu_HT-70To100_TuneCP5_13TeV-madgraphMLM-pythia8/NANOAODSIM/106X_upgrade2018_realistic_v16_L1v1-v1/270000/74DB5754-03BB-3248-AFE6-B6CB2879980A.root",
         "root://xrootd-local.unl.edu:1094//store/mc/RunIISummer20UL18NanoAODv9/WJetsToLNu_HT-70To100_TuneCP5_13TeV-madgraphMLM-pythia8/NANOAODSIM/106X_upgrade2018_realistic_v16_L1v1-v1/270000/7E7A75EE-64CC-C941-83C5-B2FEBBEB03D7.root"
     ]
 }

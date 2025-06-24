@@ -1,0 +1,6 @@
+{
+    "SingleElectron_173": [
+        "root://grid-cms-xrootd.physik.rwth-aachen.de:1094//store/data/Run2018C/EGamma/NANOAOD/UL2018_MiniAODv2_NanoAODv9-v1/70000/9137880D-D9D2-1C4D-B1AF-A8C5FF0738BF.root",
+        "root://k8s-redir.ultralight.org:1094//store/data/Run2018C/EGamma/NANOAOD/UL2018_MiniAODv2_NanoAODv9-v1/70000/91EB5400-73D0-2A41-AF5B-6B8D17BEFC8B.root"
+    ]
+}

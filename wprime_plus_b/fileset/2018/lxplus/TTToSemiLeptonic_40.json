@@ -1,0 +1,6 @@
+{
+    "TTToSemiLeptonic_40": [
+        "root://xrootd-cms.infn.it:1194//store/mc/RunIISummer20UL18NanoAODv9/TTToSemiLeptonic_TuneCP5CR1_13TeV-powheg-pythia8/NANOAODSIM/106X_upgrade2018_realistic_v16_L1v1-v2/2530000/D61320DF-6C99-AA43-911C-467A6BFD558E.root",
+        "root://rdr.echo.stfc.ac.uk//store/mc/RunIISummer20UL18NanoAODv9/TTToSemiLeptonic_TuneCP5CR1_13TeV-powheg-pythia8/NANOAODSIM/106X_upgrade2018_realistic_v16_L1v1-v2/2530000/D7D51B99-FEE9-0147-9675-5C46F3DA80C2.root"
+    ]
+}

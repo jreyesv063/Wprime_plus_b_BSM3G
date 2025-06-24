@@ -1,6 +1,6 @@
 {
     "Tau_52": [
-        "root://xrootd-local.unl.edu:1094//store/data/Run2017E/Tau/NANOAOD/UL2017_MiniAODv2_NanoAODv9-v2/80000/7EBCDB05-D3AE-F840-9603-EDA1ED477372.root",
-        "root://xrootd-local.unl.edu:1094//store/data/Run2017E/Tau/NANOAOD/UL2017_MiniAODv2_NanoAODv9-v2/80000/8D064102-0060-0E4D-B5A7-AFD06565BBD3.root"
+        "root://cmsdcadisk.fnal.gov//dcache/uscmsdisk/store/data/Run2017E/Tau/NANOAOD/UL2017_MiniAODv2_NanoAODv9-v2/80000/7EBCDB05-D3AE-F840-9603-EDA1ED477372.root",
+        "root://cmsdcadisk.fnal.gov//dcache/uscmsdisk/store/data/Run2017E/Tau/NANOAOD/UL2017_MiniAODv2_NanoAODv9-v2/80000/8D064102-0060-0E4D-B5A7-AFD06565BBD3.root"
     ]
 }

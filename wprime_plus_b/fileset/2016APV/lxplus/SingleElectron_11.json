@@ -1,6 +1,6 @@
 {
     "SingleElectron_11": [
         "root://xrootd-local.unl.edu:1094//store/data/Run2016B/SingleElectron/NANOAOD/ver2_HIPM_UL2016_MiniAODv2_NanoAODv9-v2/2520000/6990885F-C879-AC4A-91D2-4B6A36D5193B.root",
-        "root://maite.iihe.ac.be:1094//store/data/Run2016B/SingleElectron/NANOAOD/ver2_HIPM_UL2016_MiniAODv2_NanoAODv9-v2/2520000/750DB776-7A52-474E-AF3B-0234F15A4C7F.root"
+        "root://lyoeos.in2p3.fr:1094//eos/lyoeos.in2p3.fr/grid/cms/store/data/Run2016B/SingleElectron/NANOAOD/ver2_HIPM_UL2016_MiniAODv2_NanoAODv9-v2/2520000/750DB776-7A52-474E-AF3B-0234F15A4C7F.root"
     ]
 }

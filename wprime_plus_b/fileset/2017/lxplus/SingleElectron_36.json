@@ -1,6 +1,6 @@
 {
     "SingleElectron_36": [
-        "root://gaexrdoor.ciemat.es:1094//store/data/Run2017C/SingleElectron/NANOAOD/UL2017_MiniAODv2_NanoAODv9-v1/120000/CF3C9DB7-5161-5B43-88A3-2EF5590ECD7C.root",
+        "root://kodiak-se.baylor.edu:1094//store/data/Run2017C/SingleElectron/NANOAOD/UL2017_MiniAODv2_NanoAODv9-v1/120000/CF3C9DB7-5161-5B43-88A3-2EF5590ECD7C.root",
         "root://kodiak-se.baylor.edu:1094//store/data/Run2017C/SingleElectron/NANOAOD/UL2017_MiniAODv2_NanoAODv9-v1/120000/CFE79A19-E381-9646-B02E-43766CFF1382.root"
     ]
 }

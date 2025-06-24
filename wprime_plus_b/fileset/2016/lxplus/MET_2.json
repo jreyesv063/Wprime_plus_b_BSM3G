@@ -1,6 +1,6 @@
 {
     "MET_2": [
-        "root://dcache-cms-xrootd.desy.de:1094//store/data/Run2016F/MET/NANOAOD/UL2016_MiniAODv2_NanoAODv9-v2/70000/B107F4EC-6BA0-664A-AF0D-248D905FFB94.root",
-        "root://ccxrdcms.in2p3.fr:1094//store/data/Run2016G/MET/NANOAOD/UL2016_MiniAODv2_NanoAODv9-v1/1110000/498DAB22-324C-A744-9F94-B9403276F9FC.root"
+        "root://xrootd-cmst1-door.pic.es:1094//pnfs/pic.es/data/cms/disk/store/data/Run2016F/MET/NANOAOD/UL2016_MiniAODv2_NanoAODv9-v2/70000/B107F4EC-6BA0-664A-AF0D-248D905FFB94.root",
+        "root://xrootd01.jinr-t1.ru:1094//pnfs/jinr-t1.ru/data/cms/store/data/Run2016G/MET/NANOAOD/UL2016_MiniAODv2_NanoAODv9-v1/1110000/498DAB22-324C-A744-9F94-B9403276F9FC.root"
     ]
 }

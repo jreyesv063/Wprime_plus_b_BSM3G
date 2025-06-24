@@ -1,6 +1,6 @@
 {
     "MET_24": [
-        "root://xrootd-vanderbilt.sites.opensciencegrid.org:1094//store/data/Run2017C/MET/NANOAOD/UL2017_MiniAODv2_NanoAODv9-v1/280000/1FD7A6E8-7E22-944A-A980-C88919B9DADF.root",
+        "root://lyoeos.in2p3.fr:1094//eos/lyoeos.in2p3.fr/grid/cms/store/data/Run2017C/MET/NANOAOD/UL2017_MiniAODv2_NanoAODv9-v1/280000/1FD7A6E8-7E22-944A-A980-C88919B9DADF.root",
         "root://cmsdcadisk.fnal.gov//dcache/uscmsdisk/store/data/Run2017C/MET/NANOAOD/UL2017_MiniAODv2_NanoAODv9-v1/280000/2B96296D-FB19-6E45-87CE-5918FC3AA581.root"
     ]
 }

@@ -1,6 +1,6 @@
 {
     "SingleElectron_114": [
-        "root://eos.cms.rcac.purdue.edu//store/data/Run2016E/SingleElectron/NANOAOD/HIPM_UL2016_MiniAODv2_NanoAODv9-v2/2430000/1C6AB6E6-4CDA-444D-A875-BF9F32740849.root",
-        "root://dcache-cms-xrootd.desy.de:1094//store/data/Run2016E/SingleElectron/NANOAOD/HIPM_UL2016_MiniAODv2_NanoAODv9-v2/2430000/1E0FE98C-E1B1-0640-9D0D-7BA04DC478CF.root"
+        "root://t2-xrdcms.lnl.infn.it:7070//store/data/Run2016E/SingleElectron/NANOAOD/HIPM_UL2016_MiniAODv2_NanoAODv9-v2/2430000/1C6AB6E6-4CDA-444D-A875-BF9F32740849.root",
+        "root://lyoeos.in2p3.fr:1094//eos/lyoeos.in2p3.fr/grid/cms/store/data/Run2016E/SingleElectron/NANOAOD/HIPM_UL2016_MiniAODv2_NanoAODv9-v2/2430000/1E0FE98C-E1B1-0640-9D0D-7BA04DC478CF.root"
     ]
 }

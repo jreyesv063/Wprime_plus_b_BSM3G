@@ -1,6 +1,6 @@
 {
     "SingleMuon_134": [
-        "root://skynet013.crc.nd.edu//store/data/Run2017E/SingleMuon/NANOAOD/UL2017_MiniAODv2_NanoAODv9-v1/280000/06BCD2B4-A325-F042-8E92-02E452EDC6D3.root",
-        "root://lyoeos.in2p3.fr:1094//eos/lyoeos.in2p3.fr/grid/cms/store/data/Run2017E/SingleMuon/NANOAOD/UL2017_MiniAODv2_NanoAODv9-v1/280000/10AD78F9-CC95-5943-8E1F-C521BD0C062A.root"
+        "root://xrootd-local.unl.edu:1094//store/data/Run2017E/SingleMuon/NANOAOD/UL2017_MiniAODv2_NanoAODv9-v1/280000/06BCD2B4-A325-F042-8E92-02E452EDC6D3.root",
+        "root://cms-xrdr.sdfarm.kr:1094//xrd/store/data/Run2017E/SingleMuon/NANOAOD/UL2017_MiniAODv2_NanoAODv9-v1/280000/10AD78F9-CC95-5943-8E1F-C521BD0C062A.root"
     ]
 }

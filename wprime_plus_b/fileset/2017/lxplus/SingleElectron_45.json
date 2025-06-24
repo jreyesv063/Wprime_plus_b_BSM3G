@@ -1,6 +1,6 @@
 {
     "SingleElectron_45": [
-        "root://lyoeos.in2p3.fr:1094//eos/lyoeos.in2p3.fr/grid/cms/store/data/Run2017C/SingleElectron/NANOAOD/UL2017_MiniAODv2_NanoAODv9-v1/70000/78AC3ED5-02B0-D14F-ADED-7CC1EDF273E7.root",
-        "root://xrootd-vanderbilt.sites.opensciencegrid.org:1094//store/data/Run2017C/SingleElectron/NANOAOD/UL2017_MiniAODv2_NanoAODv9-v1/70000/9789736F-CC23-8E45-8A7B-7BD4591288F4.root"
+        "root://kodiak-se.baylor.edu:1094//store/data/Run2017C/SingleElectron/NANOAOD/UL2017_MiniAODv2_NanoAODv9-v1/70000/78AC3ED5-02B0-D14F-ADED-7CC1EDF273E7.root",
+        "root://kodiak-se.baylor.edu:1094//store/data/Run2017C/SingleElectron/NANOAOD/UL2017_MiniAODv2_NanoAODv9-v1/70000/9789736F-CC23-8E45-8A7B-7BD4591288F4.root"
     ]
 }

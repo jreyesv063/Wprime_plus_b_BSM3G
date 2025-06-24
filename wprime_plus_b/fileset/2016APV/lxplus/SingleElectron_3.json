@@ -1,6 +1,6 @@
 {
     "SingleElectron_3": [
-        "root://t2-xrdcms.lnl.infn.it:7070//store/data/Run2016B/SingleElectron/NANOAOD/ver2_HIPM_UL2016_MiniAODv2_NanoAODv9-v2/2520000/154B9F3B-FC70-A14A-B91A-952B4F9FABC8.root",
-        "root://dcache-cms-xrootd.desy.de:1094//store/data/Run2016B/SingleElectron/NANOAOD/ver2_HIPM_UL2016_MiniAODv2_NanoAODv9-v2/2520000/17DB5333-B292-D642-B1AA-4A97BA1757D9.root"
+        "root://gfe02.grid.hep.ph.ic.ac.uk:1094//pnfs/hep.ph.ic.ac.uk/data/cms/store/data/Run2016B/SingleElectron/NANOAOD/ver2_HIPM_UL2016_MiniAODv2_NanoAODv9-v2/2520000/154B9F3B-FC70-A14A-B91A-952B4F9FABC8.root",
+        "root://grid-cms-xrootd.physik.rwth-aachen.de:1094//store/data/Run2016B/SingleElectron/NANOAOD/ver2_HIPM_UL2016_MiniAODv2_NanoAODv9-v2/2520000/17DB5333-B292-D642-B1AA-4A97BA1757D9.root"
     ]
 }

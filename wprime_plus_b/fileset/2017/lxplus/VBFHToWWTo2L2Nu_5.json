@@ -1,6 +1,6 @@
 {
     "VBFHToWWTo2L2Nu_5": [
-        "root://eoscms.cern.ch//eos/cms/store/mc/RunIISummer20UL17NanoAODv9/VBFHToWWTo2L2Nu_M125_TuneCP5_13TeV_powheg2_JHUGenV714_pythia8/NANOAODSIM/106X_mc2017_realistic_v9-v2/260000/4D5D1EF4-77D2-4A40-A01B-99F78D0BAF6C.root",
-        "root://eoscms.cern.ch//eos/cms/store/mc/RunIISummer20UL17NanoAODv9/VBFHToWWTo2L2Nu_M125_TuneCP5_13TeV_powheg2_JHUGenV714_pythia8/NANOAODSIM/106X_mc2017_realistic_v9-v2/260000/6A02BCCB-01C0-3B45-A5CD-E693754D67F8.root"
+        "root://cmsdcadisk.fnal.gov//dcache/uscmsdisk/store/mc/RunIISummer20UL17NanoAODv9/VBFHToWWTo2L2Nu_M125_TuneCP5_13TeV_powheg2_JHUGenV714_pythia8/NANOAODSIM/106X_mc2017_realistic_v9-v2/260000/4D5D1EF4-77D2-4A40-A01B-99F78D0BAF6C.root",
+        "root://eos.cms.rcac.purdue.edu//store/mc/RunIISummer20UL17NanoAODv9/VBFHToWWTo2L2Nu_M125_TuneCP5_13TeV_powheg2_JHUGenV714_pythia8/NANOAODSIM/106X_mc2017_realistic_v9-v2/260000/6A02BCCB-01C0-3B45-A5CD-E693754D67F8.root"
     ]
 }

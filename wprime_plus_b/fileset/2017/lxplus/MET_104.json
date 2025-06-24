@@ -1,6 +1,6 @@
 {
     "MET_104": [
         "root://lyoeos.in2p3.fr:1094//eos/lyoeos.in2p3.fr/grid/cms/store/data/Run2017F/MET/NANOAOD/UL2017_MiniAODv2_NanoAODv9-v1/130000/AE8A6323-3597-0C4D-B969-E6DC1386287A.root",
-        "root://cmsdcadisk.fnal.gov//dcache/uscmsdisk/store/data/Run2017F/MET/NANOAOD/UL2017_MiniAODv2_NanoAODv9-v1/130000/AE94D3F1-5404-5C4E-97FD-C2BFB9EC9246.root"
+        "root://maite.iihe.ac.be:1094//store/data/Run2017F/MET/NANOAOD/UL2017_MiniAODv2_NanoAODv9-v1/130000/AE94D3F1-5404-5C4E-97FD-C2BFB9EC9246.root"
     ]
 }

@@ -1,6 +1,6 @@
 {
     "SingleElectron_46": [
-        "root://maite.iihe.ac.be:1094//store/data/Run2016B/SingleElectron/NANOAOD/ver2_HIPM_UL2016_MiniAODv2_NanoAODv9-v2/50000/6B504E42-705D-3345-90F3-6684868397B9.root",
-        "root://lyoeos.in2p3.fr:1094//eos/lyoeos.in2p3.fr/grid/cms/store/data/Run2016B/SingleElectron/NANOAOD/ver2_HIPM_UL2016_MiniAODv2_NanoAODv9-v2/50000/6EA5514E-5557-C142-8D3F-A58E9BF1DF05.root"
+        "root://dcache-cms-xrootd.desy.de:1094//store/data/Run2016B/SingleElectron/NANOAOD/ver2_HIPM_UL2016_MiniAODv2_NanoAODv9-v2/50000/6B504E42-705D-3345-90F3-6684868397B9.root",
+        "root://cmsdcadisk.fnal.gov//dcache/uscmsdisk/store/data/Run2016B/SingleElectron/NANOAOD/ver2_HIPM_UL2016_MiniAODv2_NanoAODv9-v2/50000/6EA5514E-5557-C142-8D3F-A58E9BF1DF05.root"
     ]
 }

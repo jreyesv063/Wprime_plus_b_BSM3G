@@ -1,6 +1,6 @@
 {
     "SingleMuon_151": [
-        "root://maite.iihe.ac.be:1094//store/data/Run2017E/SingleMuon/NANOAOD/UL2017_MiniAODv2_NanoAODv9-v1/280000/D060BBD3-36D7-5F46-A3B3-5AACED574BCF.root",
-        "root://cmsdcadisk.fnal.gov//dcache/uscmsdisk/store/data/Run2017E/SingleMuon/NANOAOD/UL2017_MiniAODv2_NanoAODv9-v1/280000/D0A17DDE-81B3-634D-8AE4-C8D6568A9EE7.root"
+        "root://gaexrdoor.ciemat.es:1094//store/data/Run2017E/SingleMuon/NANOAOD/UL2017_MiniAODv2_NanoAODv9-v1/280000/D060BBD3-36D7-5F46-A3B3-5AACED574BCF.root",
+        "root://t2dsk0011.cmsaf.mit.edu:1094//store/data/Run2017E/SingleMuon/NANOAOD/UL2017_MiniAODv2_NanoAODv9-v1/280000/D0A17DDE-81B3-634D-8AE4-C8D6568A9EE7.root"
     ]
 }

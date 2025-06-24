@@ -1,0 +1,6 @@
+{
+    "TTToHadronic_38": [
+        "root://eoscms.cern.ch//eos/cms/store/mc/RunIISummer20UL18NanoAODv9/TTToHadronic_TuneCP5CR1_13TeV-powheg-pythia8/NANOAODSIM/106X_upgrade2018_realistic_v16_L1v1-v2/260000/A192A670-DE80-0047-BFFD-1D5CE91B2D1C.root",
+        "root://cmsdcadisk.fnal.gov//dcache/uscmsdisk/store/mc/RunIISummer20UL18NanoAODv9/TTToHadronic_TuneCP5CR1_13TeV-powheg-pythia8/NANOAODSIM/106X_upgrade2018_realistic_v16_L1v1-v2/260000/A8C0921D-438E-ED4B-AB47-F4D1D171BEB2.root"
+    ]
+}

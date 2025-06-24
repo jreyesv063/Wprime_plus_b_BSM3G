@@ -1,6 +1,6 @@
 {
     "Tau_61": [
         "root://maite.iihe.ac.be:1094//store/data/Run2017E/Tau/NANOAOD/UL2017_MiniAODv2_NanoAODv9-v2/80000/DC20BC26-1F84-D340-ADA9-9BF78DAC8C31.root",
-        "root://eoscms.cern.ch//eos/cms/store/data/Run2017E/Tau/NANOAOD/UL2017_MiniAODv2_NanoAODv9-v2/80000/DD07E085-FC0E-6248-8FEB-B291CDDCFBB1.root"
+        "root://cmsdcadisk.fnal.gov//dcache/uscmsdisk/store/data/Run2017E/Tau/NANOAOD/UL2017_MiniAODv2_NanoAODv9-v2/80000/DD07E085-FC0E-6248-8FEB-B291CDDCFBB1.root"
     ]
 }

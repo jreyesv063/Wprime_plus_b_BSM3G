@@ -1,0 +1,6 @@
+{
+    "SingleElectron_191": [
+        "root://k8s-redir.ultralight.org:1094//store/data/Run2018C/EGamma/NANOAOD/UL2018_MiniAODv2_NanoAODv9-v1/70000/F9E556F4-7994-DE4E-8108-66A32B11D289.root",
+        "root://cmsdcadisk.fnal.gov//dcache/uscmsdisk/store/data/Run2018C/EGamma/NANOAOD/UL2018_MiniAODv2_NanoAODv9-v1/70000/FA812A91-940D-A344-A35A-B74E6F9F1A86.root"
+    ]
+}

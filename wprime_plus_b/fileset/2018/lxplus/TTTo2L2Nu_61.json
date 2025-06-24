@@ -1,0 +1,6 @@
+{
+    "TTTo2L2Nu_61": [
+        "root://k8s-redir.ultralight.org:1094//store/mc/RunIISummer20UL18NanoAODv9/TTTo2L2Nu_TuneCP5CR1_13TeV-powheg-pythia8/NANOAODSIM/106X_upgrade2018_realistic_v16_L1v1-v2/70000/62BC6597-51D2-AD40-8CE7-D42499EFB7B5.root",
+        "root://xrootd-cms.infn.it:1194//store/mc/RunIISummer20UL18NanoAODv9/TTTo2L2Nu_TuneCP5CR1_13TeV-powheg-pythia8/NANOAODSIM/106X_upgrade2018_realistic_v16_L1v1-v2/70000/63A79DA3-1F68-FE40-B89E-94CB1C0DC6E4.root"
+    ]
+}

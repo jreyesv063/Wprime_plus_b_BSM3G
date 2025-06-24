@@ -1,6 +1,6 @@
 {
     "MET_45": [
-        "root://gfe02.grid.hep.ph.ic.ac.uk:1094//pnfs/hep.ph.ic.ac.uk/data/cms/store/data/Run2016E/MET/NANOAOD/HIPM_UL2016_MiniAODv2_NanoAODv9-v2/40000/96333315-509B-DC4B-849A-B17AFBC59F53.root",
-        "root://eos.cms.rcac.purdue.edu//store/data/Run2016E/MET/NANOAOD/HIPM_UL2016_MiniAODv2_NanoAODv9-v2/40000/9969E2B8-5E1E-0441-BAD3-7F636ABC592E.root"
+        "root://maite.iihe.ac.be:1094//store/data/Run2016E/MET/NANOAOD/HIPM_UL2016_MiniAODv2_NanoAODv9-v2/40000/96333315-509B-DC4B-849A-B17AFBC59F53.root",
+        "root://cmsdcache-kit-disk.gridka.de:1094//store/data/Run2016E/MET/NANOAOD/HIPM_UL2016_MiniAODv2_NanoAODv9-v2/40000/9969E2B8-5E1E-0441-BAD3-7F636ABC592E.root"
     ]
 }

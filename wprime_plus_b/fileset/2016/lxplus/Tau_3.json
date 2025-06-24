@@ -1,6 +1,6 @@
 {
     "Tau_3": [
         "root://eospublic.cern.ch//eos/opendata/cms/Run2016G/Tau/NANOAOD/UL2016_MiniAODv2_NanoAODv9-v1/270000/07142757-9ADF-3843-AEAF-06F7DAEB68CF.root",
-        "root://rdr.echo.stfc.ac.uk//store/data/Run2016G/Tau/NANOAOD/UL2016_MiniAODv2_NanoAODv9-v1/270000/07646F55-1DE8-F240-9EDA-90C418E0C742.root"
+        "root://se01.grid.nchc.org.tw//cms/store/data/Run2016G/Tau/NANOAOD/UL2016_MiniAODv2_NanoAODv9-v1/270000/07646F55-1DE8-F240-9EDA-90C418E0C742.root"
     ]
 }

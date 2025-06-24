@@ -24,7 +24,7 @@ cd wprime_plus_b/fileset/
 singularity shell -B /afs -B /eos -B /cvmfs /cvmfs/unpacked.cern.ch/registry.hub.docker.com/coffeateam/coffea-dask:latest-py3.10 << EOF
 
 # Ejecutar el script 'make_fileset_lxplus.py' dentro de Singularity
-python make_fileset_lxplus.py
+#python make_fileset_lxplus.py
 
 
 # Salir del shell de Singularity
@@ -38,61 +38,59 @@ cd "$SCRIPT_DIR"
 
 # Declarar variables
 processor="top_tagger"     # top_tagger; signal; qcd_hadronic; wplusjets (ttbar ; ztoll:  wjets; qcd_abcd) 
-channel="cr_b"           # top_tagger -> {}; signal -> {}; qcd_hadronic -> {cr_b, cr_c, cr_d}; wplusjets -> {wjets, cr_b, cr_c, cr_d}, wjets -> {1j1l*, 1l0b}; ztoll-> {ll, ll+c, ll_ISR}; (qcd_abcd -> {1l0b; 1l0b_A; 1l0b_B; 1l0b_C; 1l0b_D}; ttbar -> {2b1l, 1b1e1mu, 1b1l})
-
-
+channel="cr_d"           # top_tagger -> {}; signal -> {}; qcd_hadronic -> {cr_b, cr_c, cr_d}; wplusjets -> {wjets, cr_b, cr_c, cr_d}, wjets -> {1j1l*, 1l0b}; ztoll-> {ll, ll+c, ll_ISR}; (qcd_abcd -> {1l0b; 1l0b_A; 1l0b_B; 1l0b_C; 1l0b_D}; ttbar -> {2b1l, 1b1e1mu, 1b1l})
 
 
 lepton_flavor="tau"
-year="2018" # 2016APV; 2016; 2017; 2018
+year="2016APV" # 2016APV; 2016; 2017; 2018
 nfiles="-1"
 executor="futures"
 output_type="array" # hist/array
 nsample="" # Importante: Dejar nsample="" si no se quiere un nsample especifico, en caso de querer uno especifico nsample="3"
-output_folder="June/UdeA/$processor/$year"
+output_folder="July/tt/$processor/$year"
 run_systematics="true" # Cambiar a "true" para activar sistemáticos a nivel de objeto (solo cuando sea necesario, ya que puede aumentar el tiempo de ejecución considerablemente)
 
 
 
 samples=(
-#     "TTToSemiLeptonic"
-#     "TTTo2L2Nu"
-#     "TTToHadronic"
-#     "DYJetsToLL_nlo_M-10to50"
-#     "DYJetsToLL_nlo_M-50"
-# #    "SingleMuon"
-#     "MET"
+    "TTToSemiLeptonic"
+    "TTTo2L2Nu"
+    "TTToHadronic"
+    "DYJetsToLL_nlo_M-10to50"
+    "DYJetsToLL_nlo_M-50"
+#    "SingleMuon"
+    "MET"
 # #   "Tau"
 # #   "SingleElectron"
-#     "ST_s-channel_4f_leptonDecays"
-#     "ST_t-channel_antitop_5f_InclusiveDecays"
-#     "ST_t-channel_top_5f_InclusiveDecays"
-#     "ST_tW_antitop_5f_inclusiveDecays"
-#     "ST_tW_top_5f_inclusiveDecays"
-#     "WJetsToLNu_HT-70To100"
-#     "WJetsToLNu_HT-100To200"
-#     "WJetsToLNu_HT-200To400"
-#     "WJetsToLNu_inclusive"
-#     "WJetsToLNu_HT-400To600"
-#     "WJetsToLNu_HT-600To800"
-#     "WJetsToLNu_ext"
-#     "WJetsToLNu_HT-800To1200"
-#     "WJetsToLNu_HT-1200To2500"
-#     "WJetsToLNu_HT-2500ToInf"
-#     "WW"
-#     "WZ"
-#     "ZZ"
-#     "QCD_HT50to100"
-#     "QCD_HT100to200"
-#     "QCD_HT200to300"
-#     "QCD_HT300to500"
-#     "QCD_HT500to700"
-#     "QCD_HT700to1000"
-#     "QCD_HT1000to1500"
-#     "QCD_HT1500to2000"
-#     "QCD_HT2000toInf"
+    "ST_s-channel_4f_leptonDecays"
+    "ST_t-channel_antitop_5f_InclusiveDecays"
+    "ST_t-channel_top_5f_InclusiveDecays"
+    "ST_tW_antitop_5f_inclusiveDecays"
+    "ST_tW_top_5f_inclusiveDecays"
+    "WJetsToLNu_HT-70To100"
+    "WJetsToLNu_HT-100To200"
+    "WJetsToLNu_HT-200To400"
+    "WJetsToLNu_inclusive"
+    "WJetsToLNu_HT-400To600"
+    "WJetsToLNu_HT-600To800"
+    "WJetsToLNu_ext"
+    "WJetsToLNu_HT-800To1200"
+    "WJetsToLNu_HT-1200To2500"
+    "WJetsToLNu_HT-2500ToInf"
+    "WW"
+    "WZ"
+    "ZZ"
+    "QCD_HT50to100"
+    "QCD_HT100to200"
+    "QCD_HT200to300"
+    "QCD_HT300to500"
+    "QCD_HT500to700"
+    "QCD_HT700to1000"
+    "QCD_HT1000to1500"
+    "QCD_HT1500to2000"
+    "QCD_HT2000toInf"
     "GluGluHToWWToLNuQQ" 
-    # "VBFHToWWTo2L2Nu"
+    "VBFHToWWTo2L2Nu"
     "VBFHToWWToLNuQQ"
   # "SignalTau_600GeV"
   # "SignalTau_1TeV"
@@ -181,8 +179,8 @@ echo $ANALYSIS_PATH/$output_folder
 
 
 echo "###### Year: $year; processor $processor is over, now waiting for the jobs to finish #####"
-#sleep 600
-#./run_v1.sh
+sleep 600
+./run_v1.sh
 
 echo "#######################################################################################################################################"
 echo "##################################### When all jobs have been sent ####################################################################"

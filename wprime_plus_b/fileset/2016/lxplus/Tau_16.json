@@ -1,6 +1,6 @@
 {
     "Tau_16": [
         "root://rdr.echo.stfc.ac.uk//store/data/Run2016G/Tau/NANOAOD/UL2016_MiniAODv2_NanoAODv9-v1/270000/F6EF9B6A-AC7D-C744-B8AD-0C515D553F78.root",
-        "root://cmsdcadisk.fnal.gov//dcache/uscmsdisk/store/data/Run2016G/Tau/NANOAOD/UL2016_MiniAODv2_NanoAODv9-v1/270000/FC8DC21C-5BF5-F54C-8E85-72454936F1E0.root"
+        "root://se01.grid.nchc.org.tw//cms/store/data/Run2016G/Tau/NANOAOD/UL2016_MiniAODv2_NanoAODv9-v1/270000/FC8DC21C-5BF5-F54C-8E85-72454936F1E0.root"
     ]
 }

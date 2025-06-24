@@ -1,6 +1,6 @@
 {
     "VBFHToWWTo2L2Nu_9": [
-        "root://cmsdcadisk.fnal.gov//dcache/uscmsdisk/store/mc/RunIISummer20UL17NanoAODv9/VBFHToWWTo2L2Nu_M125_TuneCP5_13TeV_powheg2_JHUGenV714_pythia8/NANOAODSIM/106X_mc2017_realistic_v9-v2/270000/55B3B031-379E-854D-8D10-96E0F26B712A.root",
-        "root://cmsdcadisk.fnal.gov//dcache/uscmsdisk/store/mc/RunIISummer20UL17NanoAODv9/VBFHToWWTo2L2Nu_M125_TuneCP5_13TeV_powheg2_JHUGenV714_pythia8/NANOAODSIM/106X_mc2017_realistic_v9-v2/270000/97E096BB-56D1-2043-BAB9-61788BA08248.root"
+        "root://eoscms.cern.ch//eos/cms/store/mc/RunIISummer20UL17NanoAODv9/VBFHToWWTo2L2Nu_M125_TuneCP5_13TeV_powheg2_JHUGenV714_pythia8/NANOAODSIM/106X_mc2017_realistic_v9-v2/270000/55B3B031-379E-854D-8D10-96E0F26B712A.root",
+        "root://eoscms.cern.ch//eos/cms/store/mc/RunIISummer20UL17NanoAODv9/VBFHToWWTo2L2Nu_M125_TuneCP5_13TeV_powheg2_JHUGenV714_pythia8/NANOAODSIM/106X_mc2017_realistic_v9-v2/270000/97E096BB-56D1-2043-BAB9-61788BA08248.root"
     ]
 }

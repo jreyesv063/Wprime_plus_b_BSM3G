@@ -1,6 +1,6 @@
 {
     "WJetsToLNu_inclusive_7": [
-        "root://cms-xrdr.sdfarm.kr:1094//xrd/store/mc/RunIISummer20UL17NanoAODv9/WJetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8/NANOAODSIM/106X_mc2017_realistic_v9-v1/270000/3D1B5F1E-8A9D-5E4D-9B00-BCE05F4E74F6.root",
+        "root://xrootd-local.unl.edu:1094//store/mc/RunIISummer20UL17NanoAODv9/WJetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8/NANOAODSIM/106X_mc2017_realistic_v9-v1/270000/3D1B5F1E-8A9D-5E4D-9B00-BCE05F4E74F6.root",
         "root://xrootd-local.unl.edu:1094//store/mc/RunIISummer20UL17NanoAODv9/WJetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8/NANOAODSIM/106X_mc2017_realistic_v9-v1/270000/43EFD73E-3235-F44A-9038-3F2F0B5AB32B.root"
     ]
 }

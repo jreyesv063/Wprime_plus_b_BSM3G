@@ -1,0 +1,6 @@
+{
+    "SingleMuon_150": [
+        "root://osg-se.sprace.org.br:1094//store/data/Run2018D/SingleMuon/NANOAOD/UL2018_MiniAODv2_NanoAODv9-v1/280000/73B1D1E3-A3F1-F244-B6CE-57FA420FC324.root",
+        "root://grid-cms-xrootd.physik.rwth-aachen.de:1094//store/data/Run2018D/SingleMuon/NANOAOD/UL2018_MiniAODv2_NanoAODv9-v1/280000/74213BE1-372B-2B4D-9E7C-58AF250662AE.root"
+    ]
+}

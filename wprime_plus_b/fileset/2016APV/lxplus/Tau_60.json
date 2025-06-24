@@ -1,6 +1,6 @@
 {
     "Tau_60": [
-        "root://grid-cms-xrootd.physik.rwth-aachen.de:1094//store/data/Run2016E/Tau/NANOAOD/HIPM_UL2016_MiniAODv2_NanoAODv9-v2/40000/86BB9A1A-56C5-E240-A148-0A2E63C1AF39.root",
+        "root://maite.iihe.ac.be:1094//store/data/Run2016E/Tau/NANOAOD/HIPM_UL2016_MiniAODv2_NanoAODv9-v2/40000/86BB9A1A-56C5-E240-A148-0A2E63C1AF39.root",
         "root://sbgdcache.in2p3.fr//store/data/Run2016E/Tau/NANOAOD/HIPM_UL2016_MiniAODv2_NanoAODv9-v2/40000/8C9E054E-4FDC-0D47-9A2B-930D461443A4.root"
     ]
 }

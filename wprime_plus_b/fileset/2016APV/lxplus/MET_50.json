@@ -1,6 +1,6 @@
 {
     "MET_50": [
-        "root://cmsdcache-kit-disk.gridka.de:1094//store/data/Run2016E/MET/NANOAOD/HIPM_UL2016_MiniAODv2_NanoAODv9-v2/50000/BFC5E052-6355-454B-BECF-0206343EC4DB.root",
-        "root://lyoeos.in2p3.fr:1094//eos/lyoeos.in2p3.fr/grid/cms/store/data/Run2016F/MET/NANOAOD/HIPM_UL2016_MiniAODv2_NanoAODv9-v2/40000/266B5E93-63C7-FF4B-AA7C-0EEF7D75D0A1.root"
+        "root://maite.iihe.ac.be:1094//store/data/Run2016E/MET/NANOAOD/HIPM_UL2016_MiniAODv2_NanoAODv9-v2/50000/BFC5E052-6355-454B-BECF-0206343EC4DB.root",
+        "root://eoscms.cern.ch//eos/cms/store/data/Run2016F/MET/NANOAOD/HIPM_UL2016_MiniAODv2_NanoAODv9-v2/40000/266B5E93-63C7-FF4B-AA7C-0EEF7D75D0A1.root"
     ]
 }

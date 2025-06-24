@@ -128,7 +128,7 @@ def apply_jet_corrections(events: NanoEventsArray, year: str, variation: bool) -
 
 
       
-        return delta_list #met_pt_list, met_phi_list, delta_list
+        return delta_list 
 
 
 

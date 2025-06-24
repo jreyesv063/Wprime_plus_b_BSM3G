@@ -1,0 +1,6 @@
+{
+    "TTToHadronic_49": [
+        "root://xrootd-local.unl.edu:1094//store/mc/RunIISummer20UL18NanoAODv9/TTToHadronic_TuneCP5CR1_13TeV-powheg-pythia8/NANOAODSIM/106X_upgrade2018_realistic_v16_L1v1-v2/270000/189CC9AA-99CF-AB4A-BDEC-8304443C42BA.root",
+        "root://eoscms.cern.ch//eos/cms/store/mc/RunIISummer20UL18NanoAODv9/TTToHadronic_TuneCP5CR1_13TeV-powheg-pythia8/NANOAODSIM/106X_upgrade2018_realistic_v16_L1v1-v2/270000/18A8BA5B-3D8C-5C42-8F23-922C94DCE71E.root"
+    ]
+}

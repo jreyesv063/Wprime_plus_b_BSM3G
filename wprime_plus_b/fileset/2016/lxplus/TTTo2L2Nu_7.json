@@ -1,6 +1,6 @@
 {
     "TTTo2L2Nu_7": [
-        "root://maite.iihe.ac.be:1094//store/mc/RunIISummer20UL16NanoAODv9/TTTo2L2Nu_TuneCP5CR1_13TeV-powheg-pythia8/NANOAODSIM/106X_mcRun2_asymptotic_v17-v1/280000/0ED83814-B6FB-2349-B396-FCFC7F303529.root",
-        "root://xrootd01.jinr-t1.ru:1094//pnfs/jinr-t1.ru/data/cms/store/mc/RunIISummer20UL16NanoAODv9/TTTo2L2Nu_TuneCP5CR1_13TeV-powheg-pythia8/NANOAODSIM/106X_mcRun2_asymptotic_v17-v1/280000/19EB37B2-0503-6C45-9736-DA6E18BCFE91.root"
+        "root://xrootd01.jinr-t1.ru:1094//pnfs/jinr-t1.ru/data/cms/store/mc/RunIISummer20UL16NanoAODv9/TTTo2L2Nu_TuneCP5CR1_13TeV-powheg-pythia8/NANOAODSIM/106X_mcRun2_asymptotic_v17-v1/280000/0ED83814-B6FB-2349-B396-FCFC7F303529.root",
+        "root://cmsdcache-kit-disk.gridka.de:1094//store/mc/RunIISummer20UL16NanoAODv9/TTTo2L2Nu_TuneCP5CR1_13TeV-powheg-pythia8/NANOAODSIM/106X_mcRun2_asymptotic_v17-v1/280000/19EB37B2-0503-6C45-9736-DA6E18BCFE91.root"
     ]
 }

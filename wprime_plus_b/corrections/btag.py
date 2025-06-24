@@ -86,11 +86,10 @@ class BTagCorrector:
         )
 
         # hadron flavor definition: 5=b, 4=c, 0=udsg
-        self._b_jets = jets[jets.hadronFlavour == 5]
-        self._c_jets = jets[jets.hadronFlavour == 4]
+        self._bc_jets = jets[jets.hadronFlavour > 0]
         self._light_jets = jets[jets.hadronFlavour == 0]
+        self._jet_map = {"bc": self._bc_jets, "light": self._light_jets}
 
-        self._jet_map = {"b": self._b_jets, "c": self._c_jets, "light": self._light_jets}
 
     def add_btag_weights(self, flavor: str) -> None:
         """
@@ -167,9 +166,9 @@ class BTagCorrector:
             syst:
                 Name of the systematic {'central', 'down', 'down_correlated', 'down_uncorrelated', 'up', 'up_correlated'}
         """
+        
         cset_keys = {
-            "b": f"{self._tagger}_{self._sf}",
-            "c": f"{self._tagger}_{self._sf}",
+            "bc": f"{self._tagger}_{self._sf}",
             "light": f"{self._tagger}_incl",
         }
             
@@ -185,7 +184,7 @@ class BTagCorrector:
         # get jet transverse momentum, abs pseudorapidity and hadron flavour (replace None values with some 'in-limit' value)
         jets_pt = ak.fill_none(in_jets.pt, 0.0)
         jets_eta = ak.fill_none(np.abs(in_jets.eta), 0.0)
-        jets_hadron_flavour = ak.fill_none(in_jets.hadronFlavour, 0 if flavor == "light" else 4 if flavor == "c" else 5)
+        jets_hadron_flavour = ak.fill_none(in_jets.hadronFlavour, 5 if flavor == "bc" else 0)
 
         sf = self._cset[cset_keys[flavor]].evaluate(
             syst,

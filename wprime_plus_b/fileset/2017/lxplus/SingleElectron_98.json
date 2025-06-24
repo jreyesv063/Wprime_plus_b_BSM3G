@@ -1,6 +1,6 @@
 {
     "SingleElectron_98": [
-        "root://t3se01.psi.ch:1094//store/data/Run2017F/SingleElectron/NANOAOD/UL2017_MiniAODv2_NanoAODv9-v1/120000/6C59AFF6-2285-5244-828C-6B41895D5158.root",
-        "root://kodiak-se.baylor.edu:1094//store/data/Run2017F/SingleElectron/NANOAOD/UL2017_MiniAODv2_NanoAODv9-v1/120000/787F6F68-09EF-A745-A162-39356C2EF0D2.root"
+        "root://kodiak-se.baylor.edu:1094//store/data/Run2017F/SingleElectron/NANOAOD/UL2017_MiniAODv2_NanoAODv9-v1/120000/6C59AFF6-2285-5244-828C-6B41895D5158.root",
+        "root://lyoeos.in2p3.fr:1094//eos/lyoeos.in2p3.fr/grid/cms/store/data/Run2017F/SingleElectron/NANOAOD/UL2017_MiniAODv2_NanoAODv9-v1/120000/787F6F68-09EF-A745-A162-39356C2EF0D2.root"
     ]
 }

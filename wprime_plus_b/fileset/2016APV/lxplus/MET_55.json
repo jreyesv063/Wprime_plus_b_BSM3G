@@ -1,6 +1,6 @@
 {
     "MET_55": [
-        "root://dcache-cms-xrootd.desy.de:1094//store/data/Run2016F/MET/NANOAOD/HIPM_UL2016_MiniAODv2_NanoAODv9-v2/40000/8D294288-6D10-DB47-B486-A742657EA038.root",
-        "root://eos.cms.rcac.purdue.edu//store/data/Run2016F/MET/NANOAOD/HIPM_UL2016_MiniAODv2_NanoAODv9-v2/40000/A16ED15E-6B46-C747-BF2C-C79BCE3035C2.root"
+        "root://xrootd-local.unl.edu:1094//store/data/Run2016F/MET/NANOAOD/HIPM_UL2016_MiniAODv2_NanoAODv9-v2/40000/8D294288-6D10-DB47-B486-A742657EA038.root",
+        "root://maite.iihe.ac.be:1094//store/data/Run2016F/MET/NANOAOD/HIPM_UL2016_MiniAODv2_NanoAODv9-v2/40000/A16ED15E-6B46-C747-BF2C-C79BCE3035C2.root"
     ]
 }

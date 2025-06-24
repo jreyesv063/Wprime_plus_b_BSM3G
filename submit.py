@@ -715,7 +715,7 @@ def main(args):
                 syst_var_object = [s for s in syst_var_object if "fatjet" not in s.lower()]
 
 
-            if args["processor"] in ["top_tagger"]:
+            if args["processor"] in ["top_tagger", "wplusjets", "qcd_hadronic", "signal"]:
                 # Save cutflow for each systematic variation
                 for syst in syst_var_object:
                     for cut_selection, nevents in output_metadata[f"cutflow_{syst}"].items():

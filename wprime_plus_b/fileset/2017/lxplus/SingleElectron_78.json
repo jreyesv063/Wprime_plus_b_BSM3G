@@ -1,6 +1,6 @@
 {
     "SingleElectron_78": [
         "root://lyoeos.in2p3.fr:1094//eos/lyoeos.in2p3.fr/grid/cms/store/data/Run2017E/SingleElectron/NANOAOD/UL2017_MiniAODv2_NanoAODv9-v1/120000/D87C7D66-C802-194F-B4FF-499E486E0BDE.root",
-        "root://t3se01.psi.ch:1094//store/data/Run2017E/SingleElectron/NANOAOD/UL2017_MiniAODv2_NanoAODv9-v1/120000/E2492125-A222-1041-B558-2E49C962F72D.root"
+        "root://skynet013.crc.nd.edu//store/data/Run2017E/SingleElectron/NANOAOD/UL2017_MiniAODv2_NanoAODv9-v1/120000/E2492125-A222-1041-B558-2E49C962F72D.root"
     ]
 }

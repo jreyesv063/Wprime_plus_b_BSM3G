@@ -13,7 +13,7 @@ echo "########################################"
 ##### Variables a modificar  ######
 ###################################
 # Indicar si se quiere crear el fileset o no: Importante ponerlo en true si se comentaron servidores.
-create_fileset=false # Si se quiere crear el fileset, si no se quiere crear, ponerlo a false
+create_fileset=true # Si se quiere crear el fileset, si no se quiere crear, ponerlo a false
 
 # Directorio del archivo bash
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
@@ -33,7 +33,7 @@ considerar_inclusive_dy_nlo=true
 considerar_tt=true
 considerar_st=true
 considerar_vv=true
-considerar_qcd=true
+considerar_qcd=false
 
 
 considerar_signal_tau=false

@@ -1,0 +1,6 @@
+{
+    "MET_99": [
+        "root://k8s-redir.ultralight.org:1094//store/data/Run2018D/MET/NANOAOD/UL2018_MiniAODv2_NanoAODv9-v1/280000/1DF0A219-09C1-6745-8D90-95235A4E77F2.root",
+        "root://sbgdcache.in2p3.fr//store/data/Run2018D/MET/NANOAOD/UL2018_MiniAODv2_NanoAODv9-v1/280000/25C7F515-6C7E-6846-9E74-43BD085B672B.root"
+    ]
+}

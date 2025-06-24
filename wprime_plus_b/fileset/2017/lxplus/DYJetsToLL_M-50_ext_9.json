@@ -1,6 +1,6 @@
 {
     "DYJetsToLL_M-50_ext_9": [
         "root://cms-xrdr.sdfarm.kr:1094//xrd/store/mc/RunIISummer20UL17NanoAODv9/DYJetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8/NANOAODSIM/106X_mc2017_realistic_v9_ext1-v1/130000/F2EDA2DB-C62D-9E4F-A6D6-276BE54FB05F.root",
-        "root://eos.cms.rcac.purdue.edu//store/mc/RunIISummer20UL17NanoAODv9/DYJetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8/NANOAODSIM/106X_mc2017_realistic_v9_ext1-v1/130000/F38ED3B8-401B-8346-9F36-173AA3F10E4B.root"
+        "root://cms-xrdr.sdfarm.kr:1094//xrd/store/mc/RunIISummer20UL17NanoAODv9/DYJetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8/NANOAODSIM/106X_mc2017_realistic_v9_ext1-v1/130000/F38ED3B8-401B-8346-9F36-173AA3F10E4B.root"
     ]
 }

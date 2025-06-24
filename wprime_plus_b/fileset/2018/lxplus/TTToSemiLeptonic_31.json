@@ -1,0 +1,6 @@
+{
+    "TTToSemiLeptonic_31": [
+        "root://xrootd-local.unl.edu:1094//store/mc/RunIISummer20UL18NanoAODv9/TTToSemiLeptonic_TuneCP5CR1_13TeV-powheg-pythia8/NANOAODSIM/106X_upgrade2018_realistic_v16_L1v1-v2/2520000/FD5D48FB-4817-5A44-8547-876771D8BEEA.root",
+        "root://rdr.echo.stfc.ac.uk//store/mc/RunIISummer20UL18NanoAODv9/TTToSemiLeptonic_TuneCP5CR1_13TeV-powheg-pythia8/NANOAODSIM/106X_upgrade2018_realistic_v16_L1v1-v2/2530000/0015D1C3-A58A-C947-854D-7ACF131008F5.root"
+    ]
+}

@@ -1,6 +1,6 @@
 {
     "MET_48": [
-        "root://maite.iihe.ac.be:1094//store/data/Run2017C/MET/NANOAOD/UL2017_MiniAODv2_NanoAODv9-v1/70000/BA3BF7A1-5519-9240-B465-9C24B47CAEA8.root",
-        "root://maite.iihe.ac.be:1094//store/data/Run2017C/MET/NANOAOD/UL2017_MiniAODv2_NanoAODv9-v1/70000/BEB38CE1-7BCA-714D-9CC7-E6BFC1040300.root"
+        "root://eos.cms.rcac.purdue.edu//store/data/Run2017C/MET/NANOAOD/UL2017_MiniAODv2_NanoAODv9-v1/70000/BA3BF7A1-5519-9240-B465-9C24B47CAEA8.root",
+        "root://eos.cms.rcac.purdue.edu//store/data/Run2017C/MET/NANOAOD/UL2017_MiniAODv2_NanoAODv9-v1/70000/BEB38CE1-7BCA-714D-9CC7-E6BFC1040300.root"
     ]
 }

@@ -1,6 +1,6 @@
 {
     "MET_54": [
         "root://maite.iihe.ac.be:1094//store/data/Run2016F/MET/NANOAOD/HIPM_UL2016_MiniAODv2_NanoAODv9-v2/40000/87CF8097-A993-674C-8470-D1CAFE1FD271.root",
-        "root://xrootd-local.unl.edu:1094//store/data/Run2016F/MET/NANOAOD/HIPM_UL2016_MiniAODv2_NanoAODv9-v2/40000/8AC67EF9-0B54-6546-A0A6-9BECD936E67D.root"
+        "root://gfe02.grid.hep.ph.ic.ac.uk:1094//pnfs/hep.ph.ic.ac.uk/data/cms/store/data/Run2016F/MET/NANOAOD/HIPM_UL2016_MiniAODv2_NanoAODv9-v2/40000/8AC67EF9-0B54-6546-A0A6-9BECD936E67D.root"
     ]
 }

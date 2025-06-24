@@ -1,6 +1,6 @@
 {
     "Tau_12": [
-        "root://grid143.kfki.hu:1094//store/data/Run2017B/Tau/NANOAOD/UL2017_MiniAODv2_NanoAODv9-v1/280000/492F03AF-EEEC-A34C-967B-DAF40F15063D.root",
-        "root://t2dsk0011.cmsaf.mit.edu:1094//store/data/Run2017B/Tau/NANOAOD/UL2017_MiniAODv2_NanoAODv9-v1/280000/D22C9B57-0E89-9A43-9C27-BC4B80ED58FF.root"
+        "root://t2dsk0011.cmsaf.mit.edu:1094//store/data/Run2017B/Tau/NANOAOD/UL2017_MiniAODv2_NanoAODv9-v1/280000/492F03AF-EEEC-A34C-967B-DAF40F15063D.root",
+        "root://maite.iihe.ac.be:1094//store/data/Run2017B/Tau/NANOAOD/UL2017_MiniAODv2_NanoAODv9-v1/280000/D22C9B57-0E89-9A43-9C27-BC4B80ED58FF.root"
     ]
 }

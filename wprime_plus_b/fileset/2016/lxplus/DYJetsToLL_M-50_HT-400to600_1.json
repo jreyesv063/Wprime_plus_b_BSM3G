@@ -1,6 +1,6 @@
 {
     "DYJetsToLL_M-50_HT-400to600_1": [
-        "root://eospublic.cern.ch//eos/opendata/cms/mc/RunIISummer20UL16NanoAODv9/DYJetsToLL_M-50_HT-400to600_TuneCP5_PSweights_13TeV-madgraphMLM-pythia8/NANOAODSIM/106X_mcRun2_asymptotic_v17-v2/2520000/3101DE6B-B344-1F44-B0F9-46A32FDC3761.root",
-        "root://eospublic.cern.ch//eos/opendata/cms/mc/RunIISummer20UL16NanoAODv9/DYJetsToLL_M-50_HT-400to600_TuneCP5_PSweights_13TeV-madgraphMLM-pythia8/NANOAODSIM/106X_mcRun2_asymptotic_v17-v2/2520000/39F7B106-20C0-D949-96DB-31BFE3E34221.root"
+        "root://eoscms.cern.ch//eos/cms/store/mc/RunIISummer20UL16NanoAODv9/DYJetsToLL_M-50_HT-400to600_TuneCP5_PSweights_13TeV-madgraphMLM-pythia8/NANOAODSIM/106X_mcRun2_asymptotic_v17-v2/2520000/3101DE6B-B344-1F44-B0F9-46A32FDC3761.root",
+        "root://rdr.echo.stfc.ac.uk//store/mc/RunIISummer20UL16NanoAODv9/DYJetsToLL_M-50_HT-400to600_TuneCP5_PSweights_13TeV-madgraphMLM-pythia8/NANOAODSIM/106X_mcRun2_asymptotic_v17-v2/2520000/39F7B106-20C0-D949-96DB-31BFE3E34221.root"
     ]
 }

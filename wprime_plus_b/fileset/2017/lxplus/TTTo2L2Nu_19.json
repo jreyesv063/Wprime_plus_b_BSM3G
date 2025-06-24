@@ -1,6 +1,6 @@
 {
     "TTTo2L2Nu_19": [
-        "root://xrootd-local.unl.edu:1094//store/mc/RunIISummer20UL17NanoAODv9/TTTo2L2Nu_TuneCP5_13TeV-powheg-pythia8/NANOAODSIM/106X_mc2017_realistic_v9-v1/2510000/69AEE8E9-76E4-C54C-BE33-ED74471E6143.root",
+        "root://maite.iihe.ac.be:1094//store/mc/RunIISummer20UL17NanoAODv9/TTTo2L2Nu_TuneCP5_13TeV-powheg-pythia8/NANOAODSIM/106X_mc2017_realistic_v9-v1/2510000/69AEE8E9-76E4-C54C-BE33-ED74471E6143.root",
         "root://t3se01.psi.ch:1094//store/mc/RunIISummer20UL17NanoAODv9/TTTo2L2Nu_TuneCP5_13TeV-powheg-pythia8/NANOAODSIM/106X_mc2017_realistic_v9-v1/2510000/6C0AAC46-7607-1F4E-8F69-7632068C6F23.root"
     ]
 }

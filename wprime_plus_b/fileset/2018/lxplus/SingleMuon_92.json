@@ -1,0 +1,6 @@
+{
+    "SingleMuon_92": [
+        "root://xrootd-cms.infn.it:1194//store/data/Run2018C/SingleMuon/NANOAOD/UL2018_MiniAODv2_NanoAODv9-v2/110000/D7033346-A91B-5440-9B0A-8FCB0D90EF4B.root",
+        "root://eoscms.cern.ch//eos/cms/store/data/Run2018C/SingleMuon/NANOAOD/UL2018_MiniAODv2_NanoAODv9-v2/110000/D8A91960-A464-1E4F-9DB0-9BEF7458430F.root"
+    ]
+}

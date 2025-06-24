@@ -1,6 +1,6 @@
 {
     "SingleMuon_7": [
-        "root://eoscms.cern.ch//eos/cms/store/data/Run2016G/SingleMuon/NANOAOD/UL2016_MiniAODv2_NanoAODv9-v1/130000/B7EEE475-047D-CA4D-B680-617FE16540AC.root",
-        "root://xrootd01.jinr-t1.ru:1094//pnfs/jinr-t1.ru/data/cms/store/data/Run2016G/SingleMuon/NANOAOD/UL2016_MiniAODv2_NanoAODv9-v1/130000/BC07CDBA-E54A-AD4A-BC24-960043783955.root"
+        "root://cmsdcadisk.fnal.gov//dcache/uscmsdisk/store/data/Run2016G/SingleMuon/NANOAOD/UL2016_MiniAODv2_NanoAODv9-v1/130000/B7EEE475-047D-CA4D-B680-617FE16540AC.root",
+        "root://dcache-cms-xrootd.desy.de:1094//store/data/Run2016G/SingleMuon/NANOAOD/UL2016_MiniAODv2_NanoAODv9-v1/130000/BC07CDBA-E54A-AD4A-BC24-960043783955.root"
     ]
 }

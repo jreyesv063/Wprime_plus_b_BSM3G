@@ -1,6 +1,6 @@
 {
     "MET_41": [
-        "root://cmsdcadisk.fnal.gov//dcache/uscmsdisk/store/data/Run2016E/MET/NANOAOD/HIPM_UL2016_MiniAODv2_NanoAODv9-v2/40000/384449B5-BD92-5A47-9351-12015774693F.root",
-        "root://cmsdcadisk.fnal.gov//dcache/uscmsdisk/store/data/Run2016E/MET/NANOAOD/HIPM_UL2016_MiniAODv2_NanoAODv9-v2/40000/4FF06C17-6440-3E4F-99CC-198E8B591258.root"
+        "root://maite.iihe.ac.be:1094//store/data/Run2016E/MET/NANOAOD/HIPM_UL2016_MiniAODv2_NanoAODv9-v2/40000/384449B5-BD92-5A47-9351-12015774693F.root",
+        "root://maite.iihe.ac.be:1094//store/data/Run2016E/MET/NANOAOD/HIPM_UL2016_MiniAODv2_NanoAODv9-v2/40000/4FF06C17-6440-3E4F-99CC-198E8B591258.root"
     ]
 }

@@ -1,6 +1,6 @@
 {
     "SingleElectron_65": [
-        "root://grid-cms-xrootd.physik.rwth-aachen.de:1094//store/data/Run2016C/SingleElectron/NANOAOD/HIPM_UL2016_MiniAODv2_NanoAODv9-v2/2520000/BA416FBA-E485-334C-86C2-05ECC297B048.root",
-        "root://eos.cms.rcac.purdue.edu//store/data/Run2016C/SingleElectron/NANOAOD/HIPM_UL2016_MiniAODv2_NanoAODv9-v2/2520000/BAEE8097-70DA-9345-8595-D70788142992.root"
+        "root://eos.cms.rcac.purdue.edu//store/data/Run2016C/SingleElectron/NANOAOD/HIPM_UL2016_MiniAODv2_NanoAODv9-v2/2520000/BA416FBA-E485-334C-86C2-05ECC297B048.root",
+        "root://dcache-cms-xrootd.desy.de:1094//store/data/Run2016C/SingleElectron/NANOAOD/HIPM_UL2016_MiniAODv2_NanoAODv9-v2/2520000/BAEE8097-70DA-9345-8595-D70788142992.root"
     ]
 }

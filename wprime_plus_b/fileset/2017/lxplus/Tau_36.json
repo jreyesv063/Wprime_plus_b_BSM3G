@@ -1,6 +1,6 @@
 {
     "Tau_36": [
         "root://gaexrdoor.ciemat.es:1094//store/data/Run2017C/Tau/NANOAOD/UL2017_MiniAODv2_NanoAODv9-v1/280000/9ABB3A2A-0EE7-1A40-B1D5-2C813786184B.root",
-        "root://cmsdcadisk.fnal.gov//dcache/uscmsdisk/store/data/Run2017C/Tau/NANOAOD/UL2017_MiniAODv2_NanoAODv9-v1/280000/A345D9D2-EAE2-0348-965F-2F8913889F5E.root"
+        "root://eos.cms.rcac.purdue.edu//store/data/Run2017C/Tau/NANOAOD/UL2017_MiniAODv2_NanoAODv9-v1/280000/A345D9D2-EAE2-0348-965F-2F8913889F5E.root"
     ]
 }

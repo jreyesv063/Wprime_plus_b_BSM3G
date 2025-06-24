@@ -1,6 +1,6 @@
 {
     "SingleElectron_81": [
-        "root://cmsdcadisk.fnal.gov//dcache/uscmsdisk/store/data/Run2017E/SingleElectron/NANOAOD/UL2017_MiniAODv2_NanoAODv9-v1/120000/FFD126DC-ADFD-4645-90A1-0C120255B245.root",
+        "root://maite.iihe.ac.be:1094//store/data/Run2017E/SingleElectron/NANOAOD/UL2017_MiniAODv2_NanoAODv9-v1/120000/FFD126DC-ADFD-4645-90A1-0C120255B245.root",
         "root://cmsdcadisk.fnal.gov//dcache/uscmsdisk/store/data/Run2017E/SingleElectron/NANOAOD/UL2017_MiniAODv2_NanoAODv9-v1/280000/11AAA948-34AB-DF45-AA8F-E13247D30E4B.root"
     ]
 }

@@ -1,0 +1,6 @@
+{
+    "Tau_31": [
+        "root://grid143.kfki.hu:1094//store/data/Run2018B/Tau/NANOAOD/UL2018_MiniAODv2_NanoAODv9-v1/270000/C1E7223D-3F44-C647-BDFE-24DE3D77B62F.root",
+        "root://k8s-redir.ultralight.org:1094//store/data/Run2018B/Tau/NANOAOD/UL2018_MiniAODv2_NanoAODv9-v1/270000/C67A84E7-81B1-CB42-A42F-05AD33F06FE2.root"
+    ]
+}

@@ -1,6 +1,6 @@
 {
     "WZ_8": [
-        "root://gaexrdoor.ciemat.es:1094//store/mc/RunIISummer20UL17NanoAODv9/WZ_TuneCP5_13TeV-pythia8/NANOAODSIM/106X_mc2017_realistic_v9-v1/280000/D7187C96-49C4-FE47-A9D1-919C7155E553.root",
-        "root://lyoeos.in2p3.fr:1094//eos/lyoeos.in2p3.fr/grid/cms/store/mc/RunIISummer20UL17NanoAODv9/WZ_TuneCP5_13TeV-pythia8/NANOAODSIM/106X_mc2017_realistic_v9-v1/280000/EF9CBF4E-A9FC-ED44-B5FF-EA26470BD4A0.root"
+        "root://skynet013.crc.nd.edu//store/mc/RunIISummer20UL17NanoAODv9/WZ_TuneCP5_13TeV-pythia8/NANOAODSIM/106X_mc2017_realistic_v9-v1/280000/D7187C96-49C4-FE47-A9D1-919C7155E553.root",
+        "root://gaexrdoor.ciemat.es:1094//store/mc/RunIISummer20UL17NanoAODv9/WZ_TuneCP5_13TeV-pythia8/NANOAODSIM/106X_mc2017_realistic_v9-v1/280000/EF9CBF4E-A9FC-ED44-B5FF-EA26470BD4A0.root"
     ]
 }

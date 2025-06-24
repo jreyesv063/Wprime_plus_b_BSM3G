@@ -1,0 +1,6 @@
+{
+    "Tau_88": [
+        "root://k8s-redir.ultralight.org:1094//store/data/Run2018D/Tau/NANOAOD/UL2018_MiniAODv2_NanoAODv9-v2/2500000/496BC914-F0F7-C44A-A91F-EE9353726D83.root",
+        "root://cmsdcadisk.fnal.gov//dcache/uscmsdisk/store/data/Run2018D/Tau/NANOAOD/UL2018_MiniAODv2_NanoAODv9-v2/2500000/504691FD-7A29-F64D-AC0E-9B5CD29CCBDB.root"
+    ]
+}

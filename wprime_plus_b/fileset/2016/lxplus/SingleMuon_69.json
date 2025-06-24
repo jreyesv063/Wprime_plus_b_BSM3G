@@ -1,6 +1,6 @@
 {
     "SingleMuon_69": [
-        "root://maite.iihe.ac.be:1094//store/data/Run2016H/SingleMuon/NANOAOD/UL2016_MiniAODv2_NanoAODv9-v1/70000/594F3D70-ED17-3D42-A322-269D0A074F9A.root",
+        "root://dcache-cms-xrootd.desy.de:1094//store/data/Run2016H/SingleMuon/NANOAOD/UL2016_MiniAODv2_NanoAODv9-v1/70000/594F3D70-ED17-3D42-A322-269D0A074F9A.root",
         "root://dcache-cms-xrootd.desy.de:1094//store/data/Run2016H/SingleMuon/NANOAOD/UL2016_MiniAODv2_NanoAODv9-v1/70000/626C68F8-9DBD-194B-993E-8672B8E73BAE.root"
     ]
 }

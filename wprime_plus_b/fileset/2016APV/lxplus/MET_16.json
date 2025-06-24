@@ -1,6 +1,6 @@
 {
     "MET_16": [
-        "root://t2-xrdcms.lnl.infn.it:7070//store/data/Run2016C/MET/NANOAOD/HIPM_UL2016_MiniAODv2_NanoAODv9-v2/2430000/228B3E28-0B47-864E-9A5C-EF9E2215FA24.root",
+        "root://cmsdcadisk.fnal.gov//dcache/uscmsdisk/store/data/Run2016C/MET/NANOAOD/HIPM_UL2016_MiniAODv2_NanoAODv9-v2/2430000/228B3E28-0B47-864E-9A5C-EF9E2215FA24.root",
         "root://t2-xrdcms.lnl.infn.it:7070//store/data/Run2016C/MET/NANOAOD/HIPM_UL2016_MiniAODv2_NanoAODv9-v2/2430000/23128BC1-1E9E-5B4B-AAAE-BE4E2C8BFDB8.root"
     ]
 }

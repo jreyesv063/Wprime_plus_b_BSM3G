@@ -1,6 +1,6 @@
 {
     "SingleMuon_8": [
-        "root://skynet013.crc.nd.edu//store/data/Run2017B/SingleMuon/NANOAOD/UL2017_MiniAODv2_NanoAODv9-v1/120000/5E86A60A-9770-2746-9752-44BD4487AF43.root",
-        "root://t3se01.psi.ch:1094//store/data/Run2017B/SingleMuon/NANOAOD/UL2017_MiniAODv2_NanoAODv9-v1/120000/630E1EAF-C5B9-5946-98A0-6BC8AC245A42.root"
+        "root://maite.iihe.ac.be:1094//store/data/Run2017B/SingleMuon/NANOAOD/UL2017_MiniAODv2_NanoAODv9-v1/120000/5E86A60A-9770-2746-9752-44BD4487AF43.root",
+        "root://xrootd-local.unl.edu:1094//store/data/Run2017B/SingleMuon/NANOAOD/UL2017_MiniAODv2_NanoAODv9-v1/120000/630E1EAF-C5B9-5946-98A0-6BC8AC245A42.root"
     ]
 }

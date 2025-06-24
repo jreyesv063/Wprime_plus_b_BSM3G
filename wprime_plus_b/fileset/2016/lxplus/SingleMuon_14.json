@@ -1,6 +1,6 @@
 {
     "SingleMuon_14": [
         "root://eospublic.cern.ch//eos/opendata/cms/Run2016G/SingleMuon/NANOAOD/UL2016_MiniAODv2_NanoAODv9-v1/70000/10573E58-8061-F349-B708-275CD2609AF7.root",
-        "root://maite.iihe.ac.be:1094//store/data/Run2016G/SingleMuon/NANOAOD/UL2016_MiniAODv2_NanoAODv9-v1/70000/16CB6056-D4D5-2046-9D30-82D8985F831F.root"
+        "root://eospublic.cern.ch//eos/opendata/cms/Run2016G/SingleMuon/NANOAOD/UL2016_MiniAODv2_NanoAODv9-v1/70000/16CB6056-D4D5-2046-9D30-82D8985F831F.root"
     ]
 }

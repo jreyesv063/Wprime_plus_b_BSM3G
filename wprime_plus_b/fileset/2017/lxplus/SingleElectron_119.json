@@ -1,6 +1,6 @@
 {
     "SingleElectron_119": [
-        "root://t3se01.psi.ch:1094//store/data/Run2017F/SingleElectron/NANOAOD/UL2017_MiniAODv2_NanoAODv9-v1/70000/99EE01B5-0EAE-134F-A736-C4310BCE1E86.root",
-        "root://grid-cms-xrootd.physik.rwth-aachen.de:1094//store/data/Run2017F/SingleElectron/NANOAOD/UL2017_MiniAODv2_NanoAODv9-v1/70000/A55B0A83-F283-6440-A542-5009E7E20456.root"
+        "root://grid-cms-xrootd.physik.rwth-aachen.de:1094//store/data/Run2017F/SingleElectron/NANOAOD/UL2017_MiniAODv2_NanoAODv9-v1/70000/99EE01B5-0EAE-134F-A736-C4310BCE1E86.root",
+        "root://gaexrdoor.ciemat.es:1094//store/data/Run2017F/SingleElectron/NANOAOD/UL2017_MiniAODv2_NanoAODv9-v1/70000/A55B0A83-F283-6440-A542-5009E7E20456.root"
     ]
 }

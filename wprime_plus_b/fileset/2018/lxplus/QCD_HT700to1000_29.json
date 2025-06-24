@@ -1,0 +1,6 @@
+{
+    "QCD_HT700to1000_29": [
+        "root://xrootd-local.unl.edu:1094//store/mc/RunIISummer20UL18NanoAODv9/QCD_HT700to1000_TuneCP5_PSWeights_13TeV-madgraph-pythia8/NANOAODSIM/106X_upgrade2018_realistic_v16_L1v1-v2/2430000/DF2FE5A0-81C9-CA41-ABD6-B089B60DAEF0.root",
+        "root://ccxrdcms.in2p3.fr:1094//store/mc/RunIISummer20UL18NanoAODv9/QCD_HT700to1000_TuneCP5_PSWeights_13TeV-madgraph-pythia8/NANOAODSIM/106X_upgrade2018_realistic_v16_L1v1-v2/2430000/F05E7DCF-6129-074C-96F9-3D437CE7B56A.root"
+    ]
+}

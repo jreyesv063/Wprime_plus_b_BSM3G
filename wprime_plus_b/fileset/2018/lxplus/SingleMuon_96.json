@@ -1,0 +1,6 @@
+{
+    "SingleMuon_96": [
+        "root://grid-cms-xrootd.physik.rwth-aachen.de:1094//store/data/Run2018C/SingleMuon/NANOAOD/UL2018_MiniAODv2_NanoAODv9-v2/260000/2603F50F-77AD-964E-A3D7-B80FEEB6275D.root",
+        "root://cmsdcache-kit-disk.gridka.de:1094//store/data/Run2018C/SingleMuon/NANOAOD/UL2018_MiniAODv2_NanoAODv9-v2/260000/315A274E-3BF0-3445-B3F9-C529F4F20C83.root"
+    ]
+}

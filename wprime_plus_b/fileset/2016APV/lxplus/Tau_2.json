@@ -1,6 +1,6 @@
 {
     "Tau_2": [
-        "root://maite.iihe.ac.be:1094//store/data/Run2016B/Tau/NANOAOD/ver2_HIPM_UL2016_MiniAODv2_NanoAODv9-v2/2430000/24E4C895-B6E0-E74D-8D9B-6A87C6E2DB8A.root",
+        "root://gfe02.grid.hep.ph.ic.ac.uk:1094//pnfs/hep.ph.ic.ac.uk/data/cms/store/data/Run2016B/Tau/NANOAOD/ver2_HIPM_UL2016_MiniAODv2_NanoAODv9-v2/2430000/24E4C895-B6E0-E74D-8D9B-6A87C6E2DB8A.root",
         "root://eoscms.cern.ch//eos/cms/store/data/Run2016B/Tau/NANOAOD/ver2_HIPM_UL2016_MiniAODv2_NanoAODv9-v2/2430000/3508DB05-8A00-D44C-BD30-1A708CF15AD5.root"
     ]
 }

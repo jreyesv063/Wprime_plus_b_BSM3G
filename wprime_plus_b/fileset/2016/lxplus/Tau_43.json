@@ -1,6 +1,6 @@
 {
     "Tau_43": [
-        "root://eospublic.cern.ch//eos/opendata/cms/Run2016H/Tau/NANOAOD/UL2016_MiniAODv2_NanoAODv9-v1/260000/A26B7833-F99A-5640-91BC-02248AF59976.root",
-        "root://sbgdcache.in2p3.fr//store/data/Run2016H/Tau/NANOAOD/UL2016_MiniAODv2_NanoAODv9-v1/260000/A8F55682-E1CF-144F-BFF3-CC98FDA503E1.root"
+        "root://sbgdcache.in2p3.fr//store/data/Run2016H/Tau/NANOAOD/UL2016_MiniAODv2_NanoAODv9-v1/260000/A26B7833-F99A-5640-91BC-02248AF59976.root",
+        "root://eos.cms.rcac.purdue.edu//store/data/Run2016H/Tau/NANOAOD/UL2016_MiniAODv2_NanoAODv9-v1/260000/A8F55682-E1CF-144F-BFF3-CC98FDA503E1.root"
     ]
 }

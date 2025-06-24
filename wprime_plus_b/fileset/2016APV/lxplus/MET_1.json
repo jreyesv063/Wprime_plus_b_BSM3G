@@ -1,6 +1,6 @@
 {
     "MET_1": [
-        "root://eoscms.cern.ch//eos/cms/store/data/Run2016B/MET/NANOAOD/ver1_HIPM_UL2016_MiniAODv2_NanoAODv9-v2/2530000/51EBF2FA-8EC4-BE4A-993E-C0376638A8C2.root",
-        "root://ccxrdcms.in2p3.fr:1094//store/data/Run2016B/MET/NANOAOD/ver2_HIPM_UL2016_MiniAODv2_NanoAODv9-v2/24310000/0DB82555-4433-BE44-8582-22E389553281.root"
+        "root://t2-xrdcms.lnl.infn.it:7070//store/data/Run2016B/MET/NANOAOD/ver1_HIPM_UL2016_MiniAODv2_NanoAODv9-v2/2530000/51EBF2FA-8EC4-BE4A-993E-C0376638A8C2.root",
+        "root://eos.cms.rcac.purdue.edu//store/data/Run2016B/MET/NANOAOD/ver2_HIPM_UL2016_MiniAODv2_NanoAODv9-v2/24310000/0DB82555-4433-BE44-8582-22E389553281.root"
     ]
 }

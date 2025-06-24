@@ -1,0 +1,6 @@
+{
+    "WJetsToLNu_HT-2500ToInf_22": [
+        "root://cmseos.fnal.gov//eos/uscms/store/mc/RunIISummer20UL18NanoAODv9/WJetsToLNu_HT-2500ToInf_TuneCP5_13TeV-madgraphMLM-pythia8/NANOAODSIM/106X_upgrade2018_realistic_v16_L1v1-v2/270000/CC8FBDD2-B220-0647-A813-DADA9280DD3F.root",
+        "root://xrootd-local.unl.edu:1094//store/mc/RunIISummer20UL18NanoAODv9/WJetsToLNu_HT-2500ToInf_TuneCP5_13TeV-madgraphMLM-pythia8/NANOAODSIM/106X_upgrade2018_realistic_v16_L1v1-v2/270000/CE5E8BCD-4BC5-704D-B530-0409185A41C6.root"
+    ]
+}

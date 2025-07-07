@@ -68,6 +68,7 @@ class ZToLLProcessor(processor.ProcessorABC):
         syst: str = "nominal",
         output_type: str = "hist",
         run_systematics: str = "false",
+        output_folder: str = "",
     ):
         self.year = year
         self.lepton_flavor = lepton_flavor

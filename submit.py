@@ -149,6 +149,7 @@ def main(args):
         "output_type",
         "syst",
         "run_systematics",
+        "output_folder",
     ]
     processor_kwargs = {k: args[k] for k in processor_args if args[k]}
     executors = {
@@ -744,8 +745,6 @@ def main(args):
 
 
 
-
-
         # save args to metadata
         args_dict = args.copy()
         metadata.update(args_dict)
@@ -873,5 +872,12 @@ if __name__ == "__main__":
         default="false",
         help="Run systematics (true/false)",
      )
+    parser.add_argument(
+        "--output_folder",
+        dest="output_folder",
+        type=str,
+        default="",
+        help="output folder",
+    )
     args = parser.parse_args()
     main(args)

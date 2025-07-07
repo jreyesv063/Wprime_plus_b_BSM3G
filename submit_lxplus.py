@@ -106,8 +106,6 @@ def main(args):
     # add facility and output path to args
     args["facility"] = "lxplus"
     args["output_path"] = build_output_directories(args)
-    # build filesets
-    #build_filesets(args)
 
 
     # get dataset config
@@ -226,6 +224,13 @@ if __name__ == "__main__":
         help="Run systematics (true/false)",
     )
 
+    parser.add_argument(
+        "--output_folder",
+        dest="output_folder",
+        type=str,
+        default="outs",
+        help="Output Folder",
+    )
 
     args = parser.parse_args()
 

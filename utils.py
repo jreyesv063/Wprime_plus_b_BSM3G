@@ -18,11 +18,16 @@ def build_output_directories(args: dict) -> str:
         [i for i in [args["processor"], args["channel"], args["lepton_flavor"]] if i]
     )
     processor_config = load_processor_config(config_name=processor_config_name)
+
     # get processor output path
     processor_output_path = paths.processor_path(
         processor_name=processor_config.name,
         processor_lepton_flavour=processor_config.lepton_flavor,
         processor_channel=processor_config.channel,
+        processor_output=os.path.join(
+            os.environ.get("ANALYSIS_PATH", ""),
+            args["output_folder"]
+        ),
         dataset_year=args["year"],
         mkdir=True,
     )

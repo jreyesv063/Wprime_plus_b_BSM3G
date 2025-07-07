@@ -43,11 +43,11 @@ channel="1j1l"           # top_tagger -> {}; signal -> {}; qcd_hadronic -> {cr_b
 
 lepton_flavor="tau"
 year="2017" # 2016APV; 2016; 2017; 2018
-nfiles="-1"
+nfiles="1"
 executor="futures"
 output_type="array" # hist/array
 nsample="" # Importante: Dejar nsample="" si no se quiere un nsample especifico, en caso de querer uno especifico nsample="3"
-output_folder="July/eff_wj/$year/den"
+output_folder="$ANALYSIS_PATH/test_output/$processor/$year"
 run_systematics="true" # Cambiar a "true" para activar sistemáticos a nivel de objeto (solo cuando sea necesario, ya que puede aumentar el tiempo de ejecución considerablemente)
 
 
@@ -141,7 +141,7 @@ if [ $processor == "ttbar" ] || [ $processor == "wjets" ] || [ $processor == "zt
     dir_to_create="wprime_plus_b/outs/$processor/$channel/$lepton_flavor/$year"
 
     for sample in "${samples[@]}"; do
-      python3 submit_lxplus.py --processor "$processor" --channel "$channel" --lepton_flavor "$lepton_flavor" --sample "$sample" --year "$year" --nfiles "$nfiles" --executor "$executor" --output_type "$output_type" --nsample "$nsample" --run_systematics "$run_systematics"
+      python3 submit_lxplus.py --processor "$processor" --channel "$channel" --lepton_flavor "$lepton_flavor" --sample "$sample" --year "$year" --nfiles "$nfiles" --executor "$executor" --output_type "$output_type" --nsample "$nsample" --run_systematics "$run_systematics" --output_folder "$output_folder"
       sleep 60 #  Wait for 60 seconds before sending the next sample  
     done
 
@@ -152,7 +152,7 @@ elif [ $processor == "top_tagger" ] || [ $processor == "signal" ]; then
 
 
     for sample in "${samples[@]}"; do
-      python3 submit_lxplus.py --processor "$processor" --lepton_flavor "$lepton_flavor" --sample "$sample" --year "$year" --nfiles "$nfiles" --executor "$executor" --output_type "$output_type" --nsample "$nsample" --run_systematics "$run_systematics"
+      python3 submit_lxplus.py --processor "$processor" --lepton_flavor "$lepton_flavor" --sample "$sample" --year "$year" --nfiles "$nfiles" --executor "$executor" --output_type "$output_type" --nsample "$nsample" --run_systematics "$run_systematics" --output_folder "$output_folder"
       sleep 60 #  Wait for 60 seconds before sending the next sample
     done
 fi

@@ -20,20 +20,20 @@ SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
 # Configuración de opciones
 considerar_MET=false
-considerar_SingleMuon=true
+considerar_SingleMuon=false
 considerar_SingleElectron=false 
 considerar_Tau=false 
 
 
 considerar_higgs=true
-considerar_wj=true
-considerar_inclusive_wj=true
-considerar_inclusive_ext_wj=true
-considerar_inclusive_dy_nlo=true
-considerar_tt=true
-considerar_st=true
-considerar_vv=true
-considerar_qcd=true
+considerar_wj=false
+considerar_inclusive_wj=false
+considerar_inclusive_ext_wj=false
+considerar_inclusive_dy_nlo=false
+considerar_tt=false
+considerar_st=false
+considerar_vv=false
+considerar_qcd=false
 
 
 considerar_signal_tau=false
@@ -72,6 +72,10 @@ nfiles=$(grep -o 'nfiles=".*"' "$archivo_run" | cut -d'"' -f2)
 executor=$(grep -o 'executor=".*"' "$archivo_run" | cut -d'"' -f2)
 output_type=$(grep -o 'output_type=".*"' "$archivo_run" | cut -d'"' -f2)
 run_systematics=$(grep -o 'run_systematics=".*"' "$archivo_run" | cut -d'"' -f2)
+
+
+output_folder_raw=$(grep -o 'output_folder=".*"' "$archivo_run" | cut -d'"' -f2)
+output_folder=$(eval echo "$output_folder_raw")
 
 
 
@@ -227,15 +231,16 @@ for nombre_base in "${!mapa[@]}"; do
     contador=0
 
     # Cambiar al directorio con los archivos de salida
-    if [ $processor == "ttbar" ] || [ $processor == "wjets" ] || [ "$processor" == "ztoll" ]  || [ "$processor" == "qcd_abcd" ] || [ $processor == "wplusjets" ] || [ $processor == "qcd_hadronic" ]; then
-        cd $SCRIPT_DIR/wprime_plus_b/$outfolder/$processor/$channel/$lepton_flavor/$year/metadata
-        #cd ~/wprime_plus_b_new/wprime_plus_b/wprime_plus_b/$outfolder/$processor/$channel/$lepton_flavor/$year/metadata
+    # if [ $processor == "ttbar" ] || [ $processor == "wjets" ] || [ "$processor" == "ztoll" ]  || [ "$processor" == "qcd_abcd" ] || [ $processor == "wplusjets" ] || [ $processor == "qcd_hadronic" ]; then
+    #     cd $SCRIPT_DIR/wprime_plus_b/$outfolder/$processor/$channel/$lepton_flavor/$year/metadata
+    #     #cd ~/wprime_plus_b_new/wprime_plus_b/wprime_plus_b/$outfolder/$processor/$channel/$lepton_flavor/$year/metadata
 
-    elif [ "$processor" == "top_tagger" ]  || [ "$processor" == "signal" ]; then
-        cd $SCRIPT_DIR/wprime_plus_b/$outfolder/$processor/$lepton_flavor/$year/metadata
-        #cd ~/wprime_plus_b_new/wprime_plus_b/wprime_plus_b/$outfolder/$processor/$lepton_flavor/$year/metadata
-    fi
+    # elif [ "$processor" == "top_tagger" ]  || [ "$processor" == "signal" ]; then
+    #     cd $SCRIPT_DIR/wprime_plus_b/$outfolder/$processor/$lepton_flavor/$year/metadata
+    #     #cd ~/wprime_plus_b_new/wprime_plus_b/wprime_plus_b/$outfolder/$processor/$lepton_flavor/$year/metadata
+    # fi
 
+    cd $output_folder/metadata
 
     # Si n_divisiones es 1, verificar solo el archivo con el nombre base
     if [ "$n_divisiones" -eq 1 ]; then

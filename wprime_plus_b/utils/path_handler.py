@@ -43,6 +43,7 @@ class Paths:
         processor_lepton_flavour: str = None,
         processor_channel: str = None,
         dataset_year: str = None,
+        processor_output: str=None, 
         mkdir: bool = None,
     ):
         processor_path = "/".join(
@@ -58,15 +59,20 @@ class Paths:
             ]
         )
         # make output directory
-        output_path = self.safe_return(
-            path=self.root_path / "outs" / processor_path,
-            path_type="directory",
-            mkdir=mkdir,
-        )
+        # output_path = self.safe_return(
+        #     path=self.root_path / "outs" / processor_path,
+        #     path_type="directory",
+        #     mkdir=mkdir,
+        # )
+
+        output_path = pathlib.Path(processor_output)
+
         # make output metadata directory 
         self.safe_return(
             path=output_path / "metadata",
             path_type="directory",
             mkdir=mkdir,
         )
+
+        #print(processor_output)
         return output_path

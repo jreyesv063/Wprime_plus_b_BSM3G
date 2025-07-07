@@ -87,6 +87,7 @@ class WplusJetsProcessor(processor.ProcessorABC):
         syst: str = "nominal",
         output_type: str = "hist",
         run_systematics: str = "false",
+        output_folder: str = "",
     ):
 
         self.run_systematics = run_systematics

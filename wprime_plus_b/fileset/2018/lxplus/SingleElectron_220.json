@@ -1,6 +1,0 @@
-{
-    "SingleElectron_220": [
-        "root://k8s-redir.ultralight.org:1094//store/data/Run2018D/EGamma/NANOAOD/UL2018_MiniAODv2_NanoAODv9-v3/230000/A9DF5E9B-8C09-964B-8D3B-A5C81CB8D53A.root",
-        "root://cmsdcache-kit-disk.gridka.de:1094//store/data/Run2018D/EGamma/NANOAOD/UL2018_MiniAODv2_NanoAODv9-v3/230000/B03A7ABD-0BD3-5E4E-91CA-931232B90507.root"
-    ]
-}

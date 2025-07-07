@@ -1,6 +1,0 @@
-{
-    "WJetsToLNu_HT-400To600_14": [
-        "root://cmseos.fnal.gov//eos/uscms/store/mc/RunIISummer20UL17NanoAODv9/WJetsToLNu_HT-400To600_TuneCP5_13TeV-madgraphMLM-pythia8/NANOAODSIM/106X_mc2017_realistic_v9-v1/280000/0C9B4E42-78BB-D341-8DFE-FF68A1EA75E3.root",
-        "root://kodiak-se.baylor.edu:1094//store/mc/RunIISummer20UL17NanoAODv9/WJetsToLNu_HT-400To600_TuneCP5_13TeV-madgraphMLM-pythia8/NANOAODSIM/106X_mc2017_realistic_v9-v1/280000/11641ECF-6603-934F-9EAB-3D4E4EDE757C.root"
-    ]
-}

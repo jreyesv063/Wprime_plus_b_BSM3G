@@ -1,6 +1,0 @@
-{
-    "SingleElectron_24": [
-        "root://xrootd-local.unl.edu:1094//store/data/Run2016B/SingleElectron/NANOAOD/ver2_HIPM_UL2016_MiniAODv2_NanoAODv9-v2/2520000/B608B471-9972-B344-B093-A20EA04836E7.root",
-        "root://gfe02.grid.hep.ph.ic.ac.uk:1094//pnfs/hep.ph.ic.ac.uk/data/cms/store/data/Run2016B/SingleElectron/NANOAOD/ver2_HIPM_UL2016_MiniAODv2_NanoAODv9-v2/2520000/B695C545-37A7-8049-8672-2B9389CBECD9.root"
-    ]
-}

@@ -1,6 +1,0 @@
-{
-    "QCD_HT200to300_15": [
-        "root://maite.iihe.ac.be:1094//store/mc/RunIISummer20UL17NanoAODv9/QCD_HT200to300_TuneCP5_PSWeights_13TeV-madgraph-pythia8/NANOAODSIM/106X_mc2017_realistic_v9-v1/260000/6FAFEC39-5DEC-DA4B-9E59-8E7338BBD01B.root",
-        "root://grid-cms-xrootd.physik.rwth-aachen.de:1094//store/mc/RunIISummer20UL17NanoAODv9/QCD_HT200to300_TuneCP5_PSWeights_13TeV-madgraph-pythia8/NANOAODSIM/106X_mc2017_realistic_v9-v1/260000/83C9DD32-4B21-DC46-A567-22D99CB27DC8.root"
-    ]
-}

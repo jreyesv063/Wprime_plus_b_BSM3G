@@ -5,7 +5,7 @@ top_tagger_trigger_selection = {
         },  
         "mu": {
             "trigger": "mu",
-            "trigger_eff": "",
+            "trigger_eff": "tau",
         },    
         "ele": {
             "trigger": "tau",

@@ -1,6 +1,0 @@
-{
-    "WJetsToLNu_inclusive_24": [
-        "root://xrootd-local.unl.edu:1094//store/mc/RunIISummer20UL17NanoAODv9/WJetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8/NANOAODSIM/106X_mc2017_realistic_v9-v1/280000/32906CDF-BCC2-9646-B166-1CDA9DB1A6B1.root",
-        "root://lyoeos.in2p3.fr:1094//eos/lyoeos.in2p3.fr/grid/cms/store/mc/RunIISummer20UL17NanoAODv9/WJetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8/NANOAODSIM/106X_mc2017_realistic_v9-v1/280000/34D4CB7B-6A1B-8445-B5DD-D736D963D4A9.root"
-    ]
-}

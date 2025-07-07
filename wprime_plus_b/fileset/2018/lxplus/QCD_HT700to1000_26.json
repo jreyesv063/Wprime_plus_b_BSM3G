@@ -1,6 +1,0 @@
-{
-    "QCD_HT700to1000_26": [
-        "root://cmseos.fnal.gov//eos/uscms/store/mc/RunIISummer20UL18NanoAODv9/QCD_HT700to1000_TuneCP5_PSWeights_13TeV-madgraph-pythia8/NANOAODSIM/106X_upgrade2018_realistic_v16_L1v1-v2/2430000/A05030ED-7F6D-3C46-93CD-74CB68127946.root",
-        "root://ccxrdcms.in2p3.fr:1094//store/mc/RunIISummer20UL18NanoAODv9/QCD_HT700to1000_TuneCP5_PSWeights_13TeV-madgraph-pythia8/NANOAODSIM/106X_upgrade2018_realistic_v16_L1v1-v2/2430000/A73823F2-F4FF-C342-96EB-5F563F7CE8EC.root"
-    ]
-}

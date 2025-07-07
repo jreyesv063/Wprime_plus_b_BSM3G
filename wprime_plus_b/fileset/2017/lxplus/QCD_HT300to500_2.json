@@ -1,6 +1,0 @@
-{
-    "QCD_HT300to500_2": [
-        "root://t3se01.psi.ch:1094//store/mc/RunIISummer20UL17NanoAODv9/QCD_HT300to500_TuneCP5_PSWeights_13TeV-madgraph-pythia8/NANOAODSIM/106X_mc2017_realistic_v9-v1/2520000/B7A8301B-942F-9D46-B8F7-E3CCA503CE7E.root",
-        "root://cmseos.fnal.gov//eos/uscms/store/mc/RunIISummer20UL17NanoAODv9/QCD_HT300to500_TuneCP5_PSWeights_13TeV-madgraph-pythia8/NANOAODSIM/106X_mc2017_realistic_v9-v1/2520000/D98B01A2-6DB6-E140-8A2D-F76FBB0E4F5A.root"
-    ]
-}

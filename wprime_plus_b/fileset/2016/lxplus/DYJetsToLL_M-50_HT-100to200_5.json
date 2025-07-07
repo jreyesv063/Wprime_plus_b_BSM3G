@@ -1,6 +1,0 @@
-{
-    "DYJetsToLL_M-50_HT-100to200_5": [
-        "root://ccxrdcms.in2p3.fr:1094//store/mc/RunIISummer20UL16NanoAODv9/DYJetsToLL_M-50_HT-100to200_TuneCP5_PSweights_13TeV-madgraphMLM-pythia8/NANOAODSIM/106X_mcRun2_asymptotic_v17-v2/230000/37E0A6C8-2CEB-C942-9FB8-BCF65A216763.root",
-        "root://eos.cms.rcac.purdue.edu//store/mc/RunIISummer20UL16NanoAODv9/DYJetsToLL_M-50_HT-100to200_TuneCP5_PSweights_13TeV-madgraphMLM-pythia8/NANOAODSIM/106X_mcRun2_asymptotic_v17-v2/230000/89F012B9-5031-5146-9B35-F94F2A4D2BE1.root"
-    ]
-}

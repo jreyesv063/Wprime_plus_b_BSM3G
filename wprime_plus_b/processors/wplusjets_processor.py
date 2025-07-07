@@ -194,35 +194,6 @@ class WplusJetsProcessor(processor.ProcessorABC):
         # -------------------------------------------------------------
         jet_veto_mask = jetvetomaps_mask(events.Jet, self.year, "jetvetomap")
         jets_veto = events.Jet[jet_veto_mask]
-
-        # -------------------------------------------------------------
-        # Weights
-        # -------------------------------------------------------------
-        # set weights container
-        weights_container = Weights(len(events), storeIndividual=True)
-
-
-        if self.is_mc:
-            # add gen weigths
-            genweight_values = lambda events: np.where(events.genWeight > 0, 1, -1)
-            weights_container.add("genweight", genweight_values(events))
-            
-            # add l1prefiring weigths
-            add_l1prefiring_weight(events, weights_container, self.year, self.syst)
-            # add pileup weigths
-            add_pileup_weight(events, weights_container, self.year, self.syst)
-
-
-            # add pujetid weigths
-            add_pujetid_weight(
-                jets=jets_veto,
-                weights=weights_container,
-                year=self.year,
-                working_point=wjets_bjet_selection[self.channel][self.lepton_flavor][
-                    "bjet_pileup_id"
-                ],
-                variation=self.syst,
-            )
             
 
         # -------------------------------------------------------------
@@ -297,6 +268,10 @@ class WplusJetsProcessor(processor.ProcessorABC):
                 self.lepton_flavor
             ]["prongs"],
             is_mc=self.is_mc,
+            bcd_qcd_estimation = self.channel,
+            tau_vs_jet_fail=wjets_tau_selection[self.channel][
+                self.lepton_flavor
+            ]["tau_vs_fail"]
         )
         good_taus = (
             (good_taus_masks["nominal"])
@@ -464,8 +439,35 @@ class WplusJetsProcessor(processor.ProcessorABC):
 
 
 
-        # New weights:
+  # -------------------------------------------------------------
+        # Weights
+        # -------------------------------------------------------------
+        # set weights container
+        weights_container = Weights(len(events), storeIndividual=True)
+
+
         if self.is_mc:
+            # add gen weigths
+            genweight_values = lambda events: np.where(events.genWeight > 0, 1, -1)
+            weights_container.add("genweight", genweight_values(events))
+            
+            # add l1prefiring weigths
+            add_l1prefiring_weight(events, weights_container, self.year, self.syst)
+            # add pileup weigths
+            add_pileup_weight(events, weights_container, self.year, self.syst)
+
+
+            # add pujetid weigths
+            add_pujetid_weight(
+                jets=jets_veto,
+                weights=weights_container,
+                year=self.year,
+                working_point=wjets_bjet_selection[self.channel][self.lepton_flavor][
+                    "bjet_pileup_id"
+                ],
+                variation=self.syst,
+            )
+            
             # b-tagging corrector
             btag_corrector = BTagCorrector(
                 jets=bjets,
@@ -814,24 +816,6 @@ class WplusJetsProcessor(processor.ProcessorABC):
         self.selections.add(f"mt_{mt_cut}_invert_{mt_invert}", mt_mask)
 
 
-        # --------------------------
-        # Fail tauvsJet wp
-        # --------------------------
-        with importlib.resources.open_text("wprime_plus_b.data", "tau_wps.json") as file:
-            taus_wps = json.load(file)
-
-        
-        fail_tau_wp = wjets_tau_selection[self.channel][self.lepton_flavor]["tau_vs_fail"]
-
-        
-        # Pass Loose, fail Tight
-        fail_tau_wp_mask = (
-            (ak.firsts(taus).idDeepTau2017v2p1VSjet < taus_wps["DeepTau2017"]["deep_tau_jet"][fail_tau_wp])
-        )
-
-        self.selections.add(f"tau_fail", fail_tau_wp_mask)
-
-
         # -------------------------------------------
         # define selection regions for each channel
         # -------------------------------------------
@@ -844,12 +828,11 @@ class WplusJetsProcessor(processor.ProcessorABC):
                         "Stitching",
                         f"trigger_{reference_trigger}",
                         "metfilters",
-                        f"delta_phi_jet_met_{delta_phi_cut}_{invert_delta_phi}",
                         "electron_veto",
                         "muon_veto",
                         "bjet_veto",
                         "one_tau",
-                        f"mt_{mt_cut}_invert_{mt_invert}",
+                        f"delta_phi_jet_met_{delta_phi_cut}_{invert_delta_phi}",
                         f"met_{met_threshold}",
                     ],
                     "mu": [
@@ -872,13 +855,11 @@ class WplusJetsProcessor(processor.ProcessorABC):
                         "Stitching",
                         f"trigger_{reference_trigger}",
                         "metfilters",
-                        f"delta_phi_jet_met_{delta_phi_cut}_{invert_delta_phi}",
                         "electron_veto",
                         "muon_veto",
                         "bjet_veto",
                         "one_tau",
-                        "tau_fail",
-                        f"mt_{mt_cut}_invert_{mt_invert}",
+                        f"delta_phi_jet_met_{delta_phi_cut}_{invert_delta_phi}",
                         f"met_{met_threshold}",
                     ],
                     "mu": [
@@ -901,13 +882,11 @@ class WplusJetsProcessor(processor.ProcessorABC):
                         "Stitching",
                         f"trigger_{reference_trigger}",
                         "metfilters",
-                        f"delta_phi_jet_met_{delta_phi_cut}_{invert_delta_phi}",
                         "electron_veto",
                         "muon_veto",
                         "bjet_veto",
                         "one_tau",
-                        "tau_fail",
-                        f"mt_{mt_cut}_invert_{mt_invert}",
+                        f"delta_phi_jet_met_{delta_phi_cut}_{invert_delta_phi}",
                         f"met_{met_threshold}",
                     ],
                     "mu": [
@@ -930,12 +909,11 @@ class WplusJetsProcessor(processor.ProcessorABC):
                         "Stitching",
                         f"trigger_{reference_trigger}",
                         "metfilters",
-                        f"delta_phi_jet_met_{delta_phi_cut}_{invert_delta_phi}",
                         "electron_veto",
                         "muon_veto",
                         "bjet_veto",
                         "one_tau",
-                        f"mt_{mt_cut}_invert_{mt_invert}",
+                        f"delta_phi_jet_met_{delta_phi_cut}_{invert_delta_phi}",
                         f"met_{met_threshold}",
                     ],
                     "mu": [
@@ -997,20 +975,6 @@ class WplusJetsProcessor(processor.ProcessorABC):
         # If we are in MC and we want to run systematics variations
         if self.run_systematics and self.is_mc:
             # Taus, muons, bjets, light_jets, fatjets, wjets change due to object-corrections. Electrons don't have object-corrections.
-            # map_variation = {"variation": 
-            #                               { "up": {
-            #                                   objects_modified : {},
-            #                                    new_met_pt:  {},
-            #                                    new_phi_pt: {},
-            #                                    met_180: {}        # Mask with met cut
-            #                               }, 
-            #                                 "down": {
-            #                                        .  
-            #                                        .
-            #                                        .
-            #                               }
-            #                               }, 
-            #                  }
             map_variation = systematic_variation_mask(events = events,
                                     lepton_flavor = self.lepton_flavor,
                                     jets_veto = jets_veto,

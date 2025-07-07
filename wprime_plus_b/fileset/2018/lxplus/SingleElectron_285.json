@@ -1,6 +1,0 @@
-{
-    "SingleElectron_285": [
-        "root://k8s-redir.ultralight.org:1094//store/data/Run2018D/EGamma/NANOAOD/UL2018_MiniAODv2_NanoAODv9-v3/250000/61110B55-01E5-F24A-A709-0229D7C98153.root",
-        "root://grid-cms-xrootd.physik.rwth-aachen.de:1094//store/data/Run2018D/EGamma/NANOAOD/UL2018_MiniAODv2_NanoAODv9-v3/250000/612CBAE1-7A75-594C-AB2F-3D3B6B15FDA5.root"
-    ]
-}

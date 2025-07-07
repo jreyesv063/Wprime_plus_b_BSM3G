@@ -1,6 +1,0 @@
-{
-    "WJetsToLNu_HT-100To200_13": [
-        "root://k8s-redir.ultralight.org:1094//store/mc/RunIISummer20UL18NanoAODv9/WJetsToLNu_HT-100To200_TuneCP5_13TeV-madgraphMLM-pythia8/NANOAODSIM/106X_upgrade2018_realistic_v16_L1v1-v1/80000/2D694A16-1C80-554A-8242-0E631F9D3D32.root",
-        "root://cmsdcadisk.fnal.gov//dcache/uscmsdisk/store/mc/RunIISummer20UL18NanoAODv9/WJetsToLNu_HT-100To200_TuneCP5_13TeV-madgraphMLM-pythia8/NANOAODSIM/106X_upgrade2018_realistic_v16_L1v1-v1/80000/2EC782F9-F4C1-7C4C-83C0-B07D600121F3.root"
-    ]
-}

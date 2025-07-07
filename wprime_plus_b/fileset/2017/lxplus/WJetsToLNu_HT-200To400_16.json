@@ -1,6 +1,0 @@
-{
-    "WJetsToLNu_HT-200To400_16": [
-        "root://t3se01.psi.ch:1094//store/mc/RunIISummer20UL17NanoAODv9/WJetsToLNu_HT-200To400_TuneCP5_13TeV-madgraphMLM-pythia8/NANOAODSIM/106X_mc2017_realistic_v9-v1/270000/A5F85333-8B4E-4845-8C2A-9D8A1B62F996.root",
-        "root://cmseos.fnal.gov//eos/uscms/store/mc/RunIISummer20UL17NanoAODv9/WJetsToLNu_HT-200To400_TuneCP5_13TeV-madgraphMLM-pythia8/NANOAODSIM/106X_mc2017_realistic_v9-v1/270000/AFD67294-9ED2-6244-A6A2-34D6295172FE.root"
-    ]
-}

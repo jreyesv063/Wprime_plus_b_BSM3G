@@ -1,6 +1,0 @@
-{
-    "TTToHadronic_92": [
-        "root://cms-xrdr.sdfarm.kr:1094//xrd/store/mc/RunIISummer20UL17NanoAODv9/TTToHadronic_TuneCP5_13TeV-powheg-pythia8/NANOAODSIM/106X_mc2017_realistic_v9-v1/80000/E104D478-AF6D-744F-A7E2-E1F802B8AE53.root",
-        "root://cmseos.fnal.gov//eos/uscms/store/mc/RunIISummer20UL17NanoAODv9/TTToHadronic_TuneCP5_13TeV-powheg-pythia8/NANOAODSIM/106X_mc2017_realistic_v9-v1/80000/E23BCC2E-5924-8146-B7B0-F76A0A9C7230.root"
-    ]
-}

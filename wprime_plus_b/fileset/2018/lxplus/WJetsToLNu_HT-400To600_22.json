@@ -1,6 +1,0 @@
-{
-    "WJetsToLNu_HT-400To600_22": [
-        "root://xrootd-local.unl.edu:1094//store/mc/RunIISummer20UL18NanoAODv9/WJetsToLNu_HT-400To600_TuneCP5_13TeV-madgraphMLM-pythia8/NANOAODSIM/106X_upgrade2018_realistic_v16_L1v1-v1/70000/40ED2BEF-0A1C-2D49-A2CC-D01F67AA3D19.root",
-        "root://cmseos.fnal.gov//eos/uscms/store/mc/RunIISummer20UL18NanoAODv9/WJetsToLNu_HT-400To600_TuneCP5_13TeV-madgraphMLM-pythia8/NANOAODSIM/106X_upgrade2018_realistic_v16_L1v1-v1/70000/D6F4DAD0-4FDF-6840-B75B-97C308E481AF.root"
-    ]
-}

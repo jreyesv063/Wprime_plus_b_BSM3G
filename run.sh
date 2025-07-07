@@ -24,7 +24,7 @@ cd wprime_plus_b/fileset/
 singularity shell -B /afs -B /eos -B /cvmfs /cvmfs/unpacked.cern.ch/registry.hub.docker.com/coffeateam/coffea-dask:latest-py3.10 << EOF
 
 # Ejecutar el script 'make_fileset_lxplus.py' dentro de Singularity
-#python make_fileset_lxplus.py
+python make_fileset_lxplus.py
 
 
 # Salir del shell de Singularity
@@ -38,16 +38,16 @@ cd "$SCRIPT_DIR"
 
 # Declarar variables
 processor="top_tagger"     # top_tagger; signal; qcd_hadronic; wplusjets (ttbar ; ztoll:  wjets; qcd_abcd) 
-channel="cr_d"           # top_tagger -> {}; signal -> {}; qcd_hadronic -> {cr_b, cr_c, cr_d}; wplusjets -> {wjets, cr_b, cr_c, cr_d}, wjets -> {1j1l*, 1l0b}; ztoll-> {ll, ll+c, ll_ISR}; (qcd_abcd -> {1l0b; 1l0b_A; 1l0b_B; 1l0b_C; 1l0b_D}; ttbar -> {2b1l, 1b1e1mu, 1b1l})
+channel="1j1l"           # top_tagger -> {}; signal -> {}; qcd_hadronic -> {cr_b, cr_c, cr_d}; wplusjets -> {wjets, cr_b, cr_c, cr_d}, wjets -> {1j1l*, 1l0b}; ztoll-> {ll, ll+c, ll_ISR}; (qcd_abcd -> {1l0b; 1l0b_A; 1l0b_B; 1l0b_C; 1l0b_D}; ttbar -> {2b1l, 1b1e1mu, 1b1l})
 
 
 lepton_flavor="tau"
-year="2016APV" # 2016APV; 2016; 2017; 2018
+year="2017" # 2016APV; 2016; 2017; 2018
 nfiles="-1"
 executor="futures"
 output_type="array" # hist/array
 nsample="" # Importante: Dejar nsample="" si no se quiere un nsample especifico, en caso de querer uno especifico nsample="3"
-output_folder="July/tt/$processor/$year"
+output_folder="July/eff_wj/$year/den"
 run_systematics="true" # Cambiar a "true" para activar sistemáticos a nivel de objeto (solo cuando sea necesario, ya que puede aumentar el tiempo de ejecución considerablemente)
 
 
@@ -58,10 +58,10 @@ samples=(
     "TTToHadronic"
     "DYJetsToLL_nlo_M-10to50"
     "DYJetsToLL_nlo_M-50"
-#    "SingleMuon"
+#   "SingleMuon"
     "MET"
-# #   "Tau"
-# #   "SingleElectron"
+#   "Tau"
+#   "SingleElectron"
     "ST_s-channel_4f_leptonDecays"
     "ST_t-channel_antitop_5f_InclusiveDecays"
     "ST_t-channel_top_5f_InclusiveDecays"
@@ -92,10 +92,10 @@ samples=(
     "GluGluHToWWToLNuQQ" 
     "VBFHToWWTo2L2Nu"
     "VBFHToWWToLNuQQ"
-  # "SignalTau_600GeV"
-  # "SignalTau_1TeV"
-  # "SignalTau_2TeV"
-  # "SignalTau_3TeV"
+#   "SignalTau_600GeV"
+#   "SignalTau_1TeV"
+#   "SignalTau_2TeV"
+#   "SignalTau_3TeV"
 #  "DYJetsToLL_M-50_CH3"
 #  "DYJetsToLL_M-10to50"
 #  "DYJetsToLL_M-50_HT-70to100"
@@ -168,7 +168,7 @@ do
 
     mv *.pkl $ANALYSIS_PATH/$output_folder
 
-    sleep 120  # 120 segundos = 2 minutos
+    sleep 60  # 120 segundos = 2 minutos
 done
 EOF
 # Dar permisos de ejecución al script creado
@@ -179,8 +179,6 @@ echo $ANALYSIS_PATH/$output_folder
 
 
 echo "###### Year: $year; processor $processor is over, now waiting for the jobs to finish #####"
-sleep 600
-./run_v1.sh
 
 echo "#######################################################################################################################################"
 echo "##################################### When all jobs have been sent ####################################################################"

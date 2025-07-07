@@ -1,6 +1,0 @@
-{
-    "TTToHadronic_10": [
-        "root://cmseos.fnal.gov//eos/uscms/store/mc/RunIISummer20UL17NanoAODv9/TTToHadronic_TuneCP5_13TeV-powheg-pythia8/NANOAODSIM/106X_mc2017_realistic_v9-v1/80000/1EC47DBF-7E00-134A-A146-AC661098BF12.root",
-        "root://maite.iihe.ac.be:1094//store/mc/RunIISummer20UL17NanoAODv9/TTToHadronic_TuneCP5_13TeV-powheg-pythia8/NANOAODSIM/106X_mc2017_realistic_v9-v1/80000/1F279F2D-26A0-FF41-950C-A0F6E658E376.root"
-    ]
-}

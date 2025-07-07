@@ -1,6 +1,0 @@
-{
-    "WJetsToLNu_HT-1200To2500_1": [
-        "root://xrootd-local.unl.edu:1094//store/mc/RunIISummer20UL16NanoAODAPVv9/WJetsToLNu_HT-1200To2500_TuneCP5_13TeV-madgraphMLM-pythia8/NANOAODSIM/106X_mcRun2_asymptotic_preVFP_v11-v1/110000/1D7CB192-8D74-C542-9FAB-AFC1DAAE4C52.root",
-        "root://maite.iihe.ac.be:1094//store/mc/RunIISummer20UL16NanoAODAPVv9/WJetsToLNu_HT-1200To2500_TuneCP5_13TeV-madgraphMLM-pythia8/NANOAODSIM/106X_mcRun2_asymptotic_preVFP_v11-v1/110000/2E57FA77-1124-D24E-A7F5-21DE90C4E528.root"
-    ]
-}

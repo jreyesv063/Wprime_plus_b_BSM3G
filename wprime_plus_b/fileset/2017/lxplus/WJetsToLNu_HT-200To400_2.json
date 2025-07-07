@@ -1,6 +1,0 @@
-{
-    "WJetsToLNu_HT-200To400_2": [
-        "root://gaexrdoor.ciemat.es:1094//store/mc/RunIISummer20UL17NanoAODv9/WJetsToLNu_HT-200To400_TuneCP5_13TeV-madgraphMLM-pythia8/NANOAODSIM/106X_mc2017_realistic_v9-v1/120000/184CF015-7480-FF4B-90EE-DA2E54FA4112.root",
-        "root://cmseos.fnal.gov//eos/uscms/store/mc/RunIISummer20UL17NanoAODv9/WJetsToLNu_HT-200To400_TuneCP5_13TeV-madgraphMLM-pythia8/NANOAODSIM/106X_mc2017_realistic_v9-v1/120000/2201287C-26D7-FF46-A3FC-341D4EBA49B7.root"
-    ]
-}

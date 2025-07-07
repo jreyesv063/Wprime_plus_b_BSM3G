@@ -1,6 +1,0 @@
-{
-    "WJetsToLNu_inclusive_6": [
-        "root://maite.iihe.ac.be:1094//store/mc/RunIISummer20UL16NanoAODv9/WJetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8/NANOAODSIM/106X_mcRun2_asymptotic_v17-v1/270000/DDCE98B4-9142-D041-A3BF-1F81DECC09D2.root",
-        "root://eospublic.cern.ch//eos/opendata/cms/mc/RunIISummer20UL16NanoAODv9/WJetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8/NANOAODSIM/106X_mcRun2_asymptotic_v17-v1/270000/ED909592-EDA1-7D48-9749-89E23280C916.root"
-    ]
-}

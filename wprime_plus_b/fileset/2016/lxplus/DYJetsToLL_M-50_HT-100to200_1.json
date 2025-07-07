@@ -1,6 +1,0 @@
-{
-    "DYJetsToLL_M-50_HT-100to200_1": [
-        "root://ccxrdcms.in2p3.fr:1094//store/mc/RunIISummer20UL16NanoAODv9/DYJetsToLL_M-50_HT-100to200_TuneCP5_PSweights_13TeV-madgraphMLM-pythia8/NANOAODSIM/106X_mcRun2_asymptotic_v17-v2/100000/26386219-82B4-E447-A286-680A5F6E8237.root",
-        "root://xrootd-local.unl.edu:1094//store/mc/RunIISummer20UL16NanoAODv9/DYJetsToLL_M-50_HT-100to200_TuneCP5_PSweights_13TeV-madgraphMLM-pythia8/NANOAODSIM/106X_mcRun2_asymptotic_v17-v2/100000/5F63B27D-8863-724D-BF61-5E19B5F6AD0F.root"
-    ]
-}

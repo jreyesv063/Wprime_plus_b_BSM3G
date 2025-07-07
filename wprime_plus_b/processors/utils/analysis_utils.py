@@ -4,6 +4,7 @@ import numpy as np
 import pandas as pd
 import awkward as ak
 import pyarrow as pa
+import importlib.resources
 import pyarrow.parquet as pq
 from datetime import datetime
 from typing import List, Union
@@ -737,3 +738,57 @@ def histograms_output_syst(
     # Top reconstructed mass
     self.add_feature(f"top_mrec{suffix}", region_tops)
 
+
+
+def efficiency_studies_numerator(trigger_option: str, region_name: str, year: str, events, region_selection_mask, mask_denominator, output_metadata, weights_container):
+    """
+    Calculate trigger efficiency mask for studies.
+    
+    Args:
+        trigger_name: Name of the trigger to study
+        region_mask: Region selection mask
+        year: Data year (e.g., '2016', '2017')
+        events: Event data array
+        mask_top: Additional mask to apply (e.g., top quark selection)
+        
+    Returns:
+        Boolean mask of events passing the trigger requirements
+    """
+
+    try:
+        with importlib.resources.path("wprime_plus_b.data", "triggers.json") as path:
+            with open(path, "r") as handle:
+                trigger_name = json.load(handle)[year][trigger_option]
+    except (FileNotFoundError, KeyError) as e:
+        raise ValueError(f"Error loading trigger information: {str(e)}")
+
+
+    eff_triggers = [
+        trigger for trigger in events.HLT.fields 
+        if any(trigger.startswith(r) for r in trigger_name)
+    ]
+
+    output_metadata.update({"Triggers_eff": eff_triggers})
+
+    mask_eff_trigger = ak.Array([False] * len(events))
+
+    for trigger in eff_triggers:
+        if trigger in events.HLT.fields:
+            mask_eff_trigger = mask_eff_trigger | events.HLT[trigger]
+
+
+    mask_numerator = mask_eff_trigger[region_selection_mask] & mask_denominator
+    nevents_numerator = ak.sum(mask_numerator)
+
+    # Apply the region selection to the trigger mask
+    if region_name == "nominal":
+        output_metadata[f"cutflow"][f"numerator_{trigger_option}_trigger"] = ak.sum(weights_container.weight()[region_selection_mask][mask_numerator])
+
+
+    
+    else:
+        output_metadata[f"cutflow_{region_name}"][f"numerator_{trigger_option}_trigger"] = ak.sum(weights_container.weight()[region_selection_mask][mask_numerator])
+
+
+    
+    return mask_numerator, nevents_numerator

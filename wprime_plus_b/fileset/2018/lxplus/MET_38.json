@@ -1,6 +1,0 @@
-{
-    "MET_38": [
-        "root://k8s-redir.ultralight.org:1094//store/data/Run2018C/MET/NANOAOD/UL2018_MiniAODv2_NanoAODv9-v1/280000/92EA6D1F-2F33-7B43-B429-A8422C679875.root",
-        "root://xrootd-cms.infn.it:1194//store/data/Run2018C/MET/NANOAOD/UL2018_MiniAODv2_NanoAODv9-v1/280000/95248FE4-BDED-754E-BD2A-CDF8FABC2A54.root"
-    ]
-}

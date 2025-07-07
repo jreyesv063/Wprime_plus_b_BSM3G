@@ -1,6 +1,0 @@
-{
-    "SingleElectron_219": [
-        "root://k8s-redir.ultralight.org:1094//store/data/Run2018D/EGamma/NANOAOD/UL2018_MiniAODv2_NanoAODv9-v3/230000/A8A0F86C-FE9D-414E-A5BC-B97A7855F489.root",
-        "root://k8s-redir.ultralight.org:1094//store/data/Run2018D/EGamma/NANOAOD/UL2018_MiniAODv2_NanoAODv9-v3/230000/A8C273EE-1C4E-0F42-865A-A8B80BCEC035.root"
-    ]
-}

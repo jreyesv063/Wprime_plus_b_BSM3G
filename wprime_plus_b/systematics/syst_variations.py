@@ -7,14 +7,19 @@ from wprime_plus_b.systematics.utils import one_var_per_event_MET
 
 
 def systematic_variation_mask(events, lepton_flavor, jets_veto, 
-                                electrons, muons, taus, bjets, jets, fatjets, wjets,
-                                muons_mask, taus_mask, bjets_mask, light_jets_mask, fatjets_mask, wjets_mask, 
+                                electrons, muons, taus, bjets, jets,
+                                muons_mask, taus_mask, bjets_mask, light_jets_mask,  
                                 delta_r_threshold, met_threshold,
                                 delta_list_met,
+                                fatjets = None, 
+                                wjets = None,
+                                fatjets_mask = None, 
+                                wjets_mask = None,
                                 mt_threshold = None,
                                 mt_inverted = False,
                                 delta_threshold = None,
-                                delta_inverted = False):
+                                delta_inverted = False,
+                                include_fatjets = True):
 
     # Muones
     good_muons_up = (muons_mask["up"]) & (
@@ -119,98 +124,99 @@ def systematic_variation_mask(events, lepton_flavor, jets_veto,
     jets_jer_down = jets_veto[good_jets_jer_down]
 
 
-    # Fatjets
-    good_fatjets_jes_up = (
-        fatjets_mask["JES_up"]
-        & (delta_r_mask(events.FatJet, electrons, threshold = 2*delta_r_threshold))
-        & (delta_r_mask(events.FatJet, muons, threshold = 2*delta_r_threshold))
-        & (delta_r_mask(events.FatJet, taus, threshold = 2*delta_r_threshold))
-        & (delta_r_mask(events.FatJet, bjets, threshold = 2*delta_r_threshold))
-        & (delta_r_mask(events.FatJet, jets, threshold = 2*delta_r_threshold))
-    )   
-    fatjets_jes_up = events.FatJet[good_fatjets_jes_up]
+    if include_fatjets:
+        # Fatjets
+        good_fatjets_jes_up = (
+            fatjets_mask["JES_up"]
+            & (delta_r_mask(events.FatJet, electrons, threshold = 2*delta_r_threshold))
+            & (delta_r_mask(events.FatJet, muons, threshold = 2*delta_r_threshold))
+            & (delta_r_mask(events.FatJet, taus, threshold = 2*delta_r_threshold))
+            & (delta_r_mask(events.FatJet, bjets, threshold = 2*delta_r_threshold))
+            & (delta_r_mask(events.FatJet, jets, threshold = 2*delta_r_threshold))
+        )   
+        fatjets_jes_up = events.FatJet[good_fatjets_jes_up]
 
 
-    good_fatjets_jes_down = (
-        fatjets_mask["JES_down"]
-        & (delta_r_mask(events.FatJet, electrons, threshold = 2*delta_r_threshold))
-        & (delta_r_mask(events.FatJet, muons, threshold = 2*delta_r_threshold))
-        & (delta_r_mask(events.FatJet, taus, threshold = 2*delta_r_threshold))
-        & (delta_r_mask(events.FatJet, bjets, threshold = 2*delta_r_threshold))
-        & (delta_r_mask(events.FatJet, jets, threshold = 2*delta_r_threshold))
-    )   
-    fatjets_jes_down = events.FatJet[good_fatjets_jes_down]
+        good_fatjets_jes_down = (
+            fatjets_mask["JES_down"]
+            & (delta_r_mask(events.FatJet, electrons, threshold = 2*delta_r_threshold))
+            & (delta_r_mask(events.FatJet, muons, threshold = 2*delta_r_threshold))
+            & (delta_r_mask(events.FatJet, taus, threshold = 2*delta_r_threshold))
+            & (delta_r_mask(events.FatJet, bjets, threshold = 2*delta_r_threshold))
+            & (delta_r_mask(events.FatJet, jets, threshold = 2*delta_r_threshold))
+        )   
+        fatjets_jes_down = events.FatJet[good_fatjets_jes_down]
 
 
-    good_fatjets_jer_up = (
-        fatjets_mask["JER_up"]
-        & (delta_r_mask(events.FatJet, electrons, threshold = 2*delta_r_threshold))
-        & (delta_r_mask(events.FatJet, muons, threshold = 2*delta_r_threshold))
-        & (delta_r_mask(events.FatJet, taus, threshold = 2*delta_r_threshold))
-        & (delta_r_mask(events.FatJet, bjets, threshold = 2*delta_r_threshold))
-        & (delta_r_mask(events.FatJet, jets, threshold = 2*delta_r_threshold))
-    )   
-    fatjets_jer_up = events.FatJet[good_fatjets_jer_up]
+        good_fatjets_jer_up = (
+            fatjets_mask["JER_up"]
+            & (delta_r_mask(events.FatJet, electrons, threshold = 2*delta_r_threshold))
+            & (delta_r_mask(events.FatJet, muons, threshold = 2*delta_r_threshold))
+            & (delta_r_mask(events.FatJet, taus, threshold = 2*delta_r_threshold))
+            & (delta_r_mask(events.FatJet, bjets, threshold = 2*delta_r_threshold))
+            & (delta_r_mask(events.FatJet, jets, threshold = 2*delta_r_threshold))
+        )   
+        fatjets_jer_up = events.FatJet[good_fatjets_jer_up]
 
 
-    good_fatjets_jer_down = (
-        fatjets_mask["JER_down"]
-        & (delta_r_mask(events.FatJet, electrons, threshold = 2*delta_r_threshold))
-        & (delta_r_mask(events.FatJet, muons, threshold = 2*delta_r_threshold))
-        & (delta_r_mask(events.FatJet, taus, threshold = 2*delta_r_threshold))
-        & (delta_r_mask(events.FatJet, bjets, threshold = 2*delta_r_threshold))
-        & (delta_r_mask(events.FatJet, jets, threshold = 2*delta_r_threshold))
-    )   
-    fatjets_jer_down = events.FatJet[good_fatjets_jer_down]
+        good_fatjets_jer_down = (
+            fatjets_mask["JER_down"]
+            & (delta_r_mask(events.FatJet, electrons, threshold = 2*delta_r_threshold))
+            & (delta_r_mask(events.FatJet, muons, threshold = 2*delta_r_threshold))
+            & (delta_r_mask(events.FatJet, taus, threshold = 2*delta_r_threshold))
+            & (delta_r_mask(events.FatJet, bjets, threshold = 2*delta_r_threshold))
+            & (delta_r_mask(events.FatJet, jets, threshold = 2*delta_r_threshold))
+        )   
+        fatjets_jer_down = events.FatJet[good_fatjets_jer_down]
 
 
-    # Wjets
-    good_wjets_jes_up = (
-        wjets_mask["JES_up"]
-        & (delta_r_mask(events.FatJet, electrons, threshold = 2*delta_r_threshold))
-        & (delta_r_mask(events.FatJet, muons, threshold = 2*delta_r_threshold))
-        & (delta_r_mask(events.FatJet, taus, threshold = 2*delta_r_threshold))
-        & (delta_r_mask(events.FatJet, bjets, threshold = 2*delta_r_threshold))
-        & (delta_r_mask(events.FatJet, jets, threshold = 2*delta_r_threshold))
-        & (delta_r_mask(events.FatJet, fatjets, threshold = 2*delta_r_threshold))
-    )   
-    wjets_jes_up = events.FatJet[good_wjets_jes_up]
+        # Wjets
+        good_wjets_jes_up = (
+            wjets_mask["JES_up"]
+            & (delta_r_mask(events.FatJet, electrons, threshold = 2*delta_r_threshold))
+            & (delta_r_mask(events.FatJet, muons, threshold = 2*delta_r_threshold))
+            & (delta_r_mask(events.FatJet, taus, threshold = 2*delta_r_threshold))
+            & (delta_r_mask(events.FatJet, bjets, threshold = 2*delta_r_threshold))
+            & (delta_r_mask(events.FatJet, jets, threshold = 2*delta_r_threshold))
+            & (delta_r_mask(events.FatJet, fatjets, threshold = 2*delta_r_threshold))
+        )   
+        wjets_jes_up = events.FatJet[good_wjets_jes_up]
 
 
-    good_wjets_jes_down = (
-        wjets_mask["JES_down"]
-        & (delta_r_mask(events.FatJet, electrons, threshold = 2*delta_r_threshold))
-        & (delta_r_mask(events.FatJet, muons, threshold = 2*delta_r_threshold))
-        & (delta_r_mask(events.FatJet, taus, threshold = 2*delta_r_threshold))
-        & (delta_r_mask(events.FatJet, bjets, threshold = 2*delta_r_threshold))
-        & (delta_r_mask(events.FatJet, jets, threshold = 2*delta_r_threshold))
-        & (delta_r_mask(events.FatJet, fatjets, threshold = 2*delta_r_threshold))
-    )   
-    wjets_jes_down = events.FatJet[good_wjets_jes_down] 
+        good_wjets_jes_down = (
+            wjets_mask["JES_down"]
+            & (delta_r_mask(events.FatJet, electrons, threshold = 2*delta_r_threshold))
+            & (delta_r_mask(events.FatJet, muons, threshold = 2*delta_r_threshold))
+            & (delta_r_mask(events.FatJet, taus, threshold = 2*delta_r_threshold))
+            & (delta_r_mask(events.FatJet, bjets, threshold = 2*delta_r_threshold))
+            & (delta_r_mask(events.FatJet, jets, threshold = 2*delta_r_threshold))
+            & (delta_r_mask(events.FatJet, fatjets, threshold = 2*delta_r_threshold))
+        )   
+        wjets_jes_down = events.FatJet[good_wjets_jes_down] 
 
 
-    good_wjets_jer_up = (
-        wjets_mask["JER_up"]
-        & (delta_r_mask(events.FatJet, electrons, threshold = 2*delta_r_threshold))
-        & (delta_r_mask(events.FatJet, muons, threshold = 2*delta_r_threshold))
-        & (delta_r_mask(events.FatJet, taus, threshold = 2*delta_r_threshold))
-        & (delta_r_mask(events.FatJet, bjets, threshold = 2*delta_r_threshold))
-        & (delta_r_mask(events.FatJet, jets, threshold = 2*delta_r_threshold))
-        & (delta_r_mask(events.FatJet, fatjets, threshold = 2*delta_r_threshold))
-    )  
-    wjets_jer_up = events.FatJet[good_wjets_jer_up]
+        good_wjets_jer_up = (
+            wjets_mask["JER_up"]
+            & (delta_r_mask(events.FatJet, electrons, threshold = 2*delta_r_threshold))
+            & (delta_r_mask(events.FatJet, muons, threshold = 2*delta_r_threshold))
+            & (delta_r_mask(events.FatJet, taus, threshold = 2*delta_r_threshold))
+            & (delta_r_mask(events.FatJet, bjets, threshold = 2*delta_r_threshold))
+            & (delta_r_mask(events.FatJet, jets, threshold = 2*delta_r_threshold))
+            & (delta_r_mask(events.FatJet, fatjets, threshold = 2*delta_r_threshold))
+        )  
+        wjets_jer_up = events.FatJet[good_wjets_jer_up]
 
 
-    good_wjets_jer_down = (
-        wjets_mask["JER_down"]
-        & (delta_r_mask(events.FatJet, electrons, threshold = 2*delta_r_threshold))
-        & (delta_r_mask(events.FatJet, muons, threshold = 2*delta_r_threshold))
-        & (delta_r_mask(events.FatJet, taus, threshold = 2*delta_r_threshold))
-        & (delta_r_mask(events.FatJet, bjets, threshold = 2*delta_r_threshold))
-        & (delta_r_mask(events.FatJet, jets, threshold = 2*delta_r_threshold))
-        & (delta_r_mask(events.FatJet, fatjets, threshold = 2*delta_r_threshold))
-    )   
-    wjets_jer_down = events.FatJet[good_wjets_jer_down]
+        good_wjets_jer_down = (
+            wjets_mask["JER_down"]
+            & (delta_r_mask(events.FatJet, electrons, threshold = 2*delta_r_threshold))
+            & (delta_r_mask(events.FatJet, muons, threshold = 2*delta_r_threshold))
+            & (delta_r_mask(events.FatJet, taus, threshold = 2*delta_r_threshold))
+            & (delta_r_mask(events.FatJet, bjets, threshold = 2*delta_r_threshold))
+            & (delta_r_mask(events.FatJet, jets, threshold = 2*delta_r_threshold))
+            & (delta_r_mask(events.FatJet, fatjets, threshold = 2*delta_r_threshold))
+        )   
+        wjets_jer_down = events.FatJet[good_wjets_jer_down]
             
     lepton = {
         "tau": {
@@ -361,6 +367,7 @@ def systematic_variation_mask(events, lepton_flavor, jets_veto,
             "up": {
                 "one_bjet": (ak.num(bjets_jes_up) == 1),
                 "bjet_veto": (ak.num(bjets_jes_up) == 0),
+                "at_least_one_jet": (ak.num(jets_jes_up) >= 1),
                 "bjet": bjets_jes_up,
                 "jet": jets_jes_up,
                 "new_met_pt": map_met_mask["Jet_JES"]["up"]["new_met_pt"],
@@ -380,6 +387,7 @@ def systematic_variation_mask(events, lepton_flavor, jets_veto,
             "down": {
                 "one_bjet": (ak.num(bjets_jes_down) == 1),
                 "bjet_veto": (ak.num(bjets_jes_down) == 0),
+                "at_least_one_jet": (ak.num(jets_jes_down) >= 1),
                 "bjet": bjets_jes_down,
                 "jet": jets_jes_down,
                 "new_met_pt": map_met_mask["Jet_JES"]["down"]["new_met_pt"],
@@ -401,6 +409,7 @@ def systematic_variation_mask(events, lepton_flavor, jets_veto,
             "up": {
                 "one_bjet": (ak.num(bjets_jer_up) == 1),
                 "bjet_veto": (ak.num(bjets_jer_up) == 0),
+                "at_least_one_jet": (ak.num(jets_jer_up) >= 1),
                 "bjet": bjets_jer_up,
                 "jet": jets_jer_up,
                 "new_met_pt": map_met_mask["Jet_JER"]["up"]["new_met_pt"],
@@ -420,6 +429,7 @@ def systematic_variation_mask(events, lepton_flavor, jets_veto,
             "down": {
                 "one_bjet": (ak.num(bjets_jer_down) == 1),
                 "bjet_veto": (ak.num(bjets_jer_down) == 0),
+                "at_least_one_jet": (ak.num(jets_jer_down) >= 1),
                 "bjet": bjets_jer_down,
                 "jet": jets_jer_down,
                 "new_met_pt": map_met_mask["Jet_JER"]["down"]["new_met_pt"],

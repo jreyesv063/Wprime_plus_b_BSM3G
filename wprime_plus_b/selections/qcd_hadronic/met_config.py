@@ -1,5 +1,5 @@
 qcd_hadronic_met_selection = {
-    "cr_d": {
+    "cr_b": {
         "tau": {
             "met_threshold": 180,
             "delta_phi_jet_met": 0.7,
@@ -33,7 +33,7 @@ qcd_hadronic_met_selection = {
             "invert_delta_phi": False
         },
     },
-    "cr_b": {
+    "cr_d": {
         "tau": {
             "met_threshold": 180,
             "delta_phi_jet_met": 0.7,
@@ -49,5 +49,5 @@ qcd_hadronic_met_selection = {
             "delta_phi_jet_met": 0.7,
             "invert_delta_phi": False
         },
-    }
+    },
 }

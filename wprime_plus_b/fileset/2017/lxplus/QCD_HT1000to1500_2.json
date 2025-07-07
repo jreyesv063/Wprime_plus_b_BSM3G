@@ -1,6 +1,0 @@
-{
-    "QCD_HT1000to1500_2": [
-        "root://cmseos.fnal.gov//eos/uscms/store/mc/RunIISummer20UL17NanoAODv9/QCD_HT1000to1500_TuneCP5_PSWeights_13TeV-madgraph-pythia8/NANOAODSIM/106X_mc2017_realistic_v9-v1/2540000/4B4F04DA-13F5-E743-889A-CE645F9E4BB5.root",
-        "root://xrootd-local.unl.edu:1094//store/mc/RunIISummer20UL17NanoAODv9/QCD_HT1000to1500_TuneCP5_PSWeights_13TeV-madgraph-pythia8/NANOAODSIM/106X_mc2017_realistic_v9-v1/2540000/5ED13A51-99D7-3847-8E1D-1EA074009F1A.root"
-    ]
-}

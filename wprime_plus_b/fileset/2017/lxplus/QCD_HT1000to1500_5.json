@@ -1,6 +1,0 @@
-{
-    "QCD_HT1000to1500_5": [
-        "root://t3se01.psi.ch:1094//store/mc/RunIISummer20UL17NanoAODv9/QCD_HT1000to1500_TuneCP5_PSWeights_13TeV-madgraph-pythia8/NANOAODSIM/106X_mc2017_realistic_v9-v1/2540000/E30A6A6C-3765-2A40-A19B-384FBC4FB4D3.root",
-        "root://cmsdcadisk.fnal.gov//dcache/uscmsdisk/store/mc/RunIISummer20UL17NanoAODv9/QCD_HT1000to1500_TuneCP5_PSWeights_13TeV-madgraph-pythia8/NANOAODSIM/106X_mc2017_realistic_v9-v1/2550000/8E94935C-FC4D-D54C-8EB6-A3CCEDDCD843.root"
-    ]
-}

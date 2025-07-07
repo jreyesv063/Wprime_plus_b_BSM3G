@@ -1,6 +1,0 @@
-{
-    "TTToSemiLeptonic_135": [
-        "root://xrootd-vanderbilt.sites.opensciencegrid.org:1094//store/mc/RunIISummer20UL17NanoAODv9/TTToSemiLeptonic_TuneCP5_13TeV-powheg-pythia8/NANOAODSIM/106X_mc2017_realistic_v9-v1/280000/D6A8C8AF-E6AD-D44E-9F18-B808EF81CF7C.root",
-        "root://cms-xrdr.sdfarm.kr:1094//xrd/store/mc/RunIISummer20UL17NanoAODv9/TTToSemiLeptonic_TuneCP5_13TeV-powheg-pythia8/NANOAODSIM/106X_mc2017_realistic_v9-v1/280000/D720CA9E-A884-7149-B764-AC17799B2EE8.root"
-    ]
-}

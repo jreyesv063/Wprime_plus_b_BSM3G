@@ -1,6 +1,0 @@
-{
-    "WJetsToLNu_HT-800To1200_2": [
-        "root://t3se01.psi.ch:1094//store/mc/RunIISummer20UL17NanoAODv9/WJetsToLNu_HT-800To1200_TuneCP5_13TeV-madgraphMLM-pythia8/NANOAODSIM/106X_mc2017_realistic_v9-v3/2520000/0A8619D3-933B-0B4B-8221-BC27FBD31202.root",
-        "root://gaexrdoor.ciemat.es:1094//store/mc/RunIISummer20UL17NanoAODv9/WJetsToLNu_HT-800To1200_TuneCP5_13TeV-madgraphMLM-pythia8/NANOAODSIM/106X_mc2017_realistic_v9-v3/2520000/0F1A9ADC-CDA7-5940-914A-64D2B25EFD88.root"
-    ]
-}

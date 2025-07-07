@@ -16,6 +16,9 @@ def select_good_taus(
     tau_vs_mu: str,
     prong: int,
     is_mc: bool,
+    bcd_qcd_estimation: str,
+    tau_vs_jet_fail: str,
+
 ) -> ak.highlevel.Array:
     """
     Selects and filters "good" taus from a collection of events based on specified criteria.
@@ -82,6 +85,14 @@ def select_good_taus(
                 )
                 & (decay_mode_mask)
             )
+
+ 
+            if bcd_qcd_estimation in ["cr_c", "cr_d"]:
+                good_taus = (
+                    (good_taus) & 
+                    (events.Tau.idDeepTau2017v2p1VSjet < taus_wps["DeepTau2017"]["deep_tau_jet"][tau_vs_jet_fail])
+                )
+
             good_taus_masks[variation] = good_taus
 
 
@@ -106,6 +117,11 @@ def select_good_taus(
             )
             & (decay_mode_mask)
         )
+
+        if bcd_qcd_estimation in ["cr_b", "cr_c"]:
+            good_taus = good_taus & (
+            events.Tau.idDeepTau2017v2p1VSjet < taus_wps["DeepTau2017"]["deep_tau_jet"][tau_vs_jet_fail]
+            )
 
         good_taus_masks["nominal"] = good_taus
 

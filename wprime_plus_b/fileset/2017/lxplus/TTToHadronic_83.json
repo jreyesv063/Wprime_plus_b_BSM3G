@@ -1,6 +1,0 @@
-{
-    "TTToHadronic_83": [
-        "root://t3se01.psi.ch:1094//store/mc/RunIISummer20UL17NanoAODv9/TTToHadronic_TuneCP5_13TeV-powheg-pythia8/NANOAODSIM/106X_mc2017_realistic_v9-v1/80000/CED6B668-DC39-6444-ACB8-A5C19A4EA3F0.root",
-        "root://cmsdcadisk.fnal.gov//dcache/uscmsdisk/store/mc/RunIISummer20UL17NanoAODv9/TTToHadronic_TuneCP5_13TeV-powheg-pythia8/NANOAODSIM/106X_mc2017_realistic_v9-v1/80000/CEE3A13A-EDEA-414B-A943-E4606F1A7A55.root"
-    ]
-}

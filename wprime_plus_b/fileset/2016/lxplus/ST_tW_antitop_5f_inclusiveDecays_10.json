@@ -1,6 +1,0 @@
-{
-    "ST_tW_antitop_5f_inclusiveDecays_10": [
-        "root://xrootd01.jinr-t1.ru:1094//pnfs/jinr-t1.ru/data/cms/store/mc/RunIISummer20UL16NanoAODv9/ST_tW_antitop_5f_inclusiveDecays_TuneCP5_13TeV-powheg-pythia8/NANOAODSIM/106X_mcRun2_asymptotic_v17-v2/270000/D9FCDB16-CBB3-D24E-B6D7-D5BA74D60C8C.root",
-        "root://cmseos.fnal.gov//eos/uscms/store/mc/RunIISummer20UL16NanoAODv9/ST_tW_antitop_5f_inclusiveDecays_TuneCP5_13TeV-powheg-pythia8/NANOAODSIM/106X_mcRun2_asymptotic_v17-v2/270000/F30ADC0F-706E-ED4E-8699-D252F6E37996.root"
-    ]
-}

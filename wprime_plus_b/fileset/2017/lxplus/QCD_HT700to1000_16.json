@@ -1,6 +1,0 @@
-{
-    "QCD_HT700to1000_16": [
-        "root://cmseos.fnal.gov//eos/uscms/store/mc/RunIISummer20UL17NanoAODv9/QCD_HT700to1000_TuneCP5_PSWeights_13TeV-madgraph-pythia8/NANOAODSIM/106X_mc2017_realistic_v9-v1/270000/90E0EC3F-EBF3-884F-AAE0-FFB9F48CE6B9.root",
-        "root://t2dsk0011.cmsaf.mit.edu:1094//store/mc/RunIISummer20UL17NanoAODv9/QCD_HT700to1000_TuneCP5_PSWeights_13TeV-madgraph-pythia8/NANOAODSIM/106X_mc2017_realistic_v9-v1/270000/A1F63DA8-4A17-7846-BA25-2D30F46F44A6.root"
-    ]
-}

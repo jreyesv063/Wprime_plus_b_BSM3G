@@ -1,6 +1,0 @@
-{
-    "WJetsToLNu_HT-800To1200_18": [
-        "root://maite.iihe.ac.be:1094//store/mc/RunIISummer20UL16NanoAODv9/WJetsToLNu_HT-800To1200_TuneCP5_13TeV-madgraphMLM-pythia8/NANOAODSIM/106X_mcRun2_asymptotic_v17-v1/280000/D2E2F9D6-3AE0-DB4A-95B1-DFF475A2F4E0.root",
-        "root://cmsdcache-kit-disk.gridka.de:1094//store/mc/RunIISummer20UL16NanoAODv9/WJetsToLNu_HT-800To1200_TuneCP5_13TeV-madgraphMLM-pythia8/NANOAODSIM/106X_mcRun2_asymptotic_v17-v1/280000/DE9EF0B9-8101-DE43-9EDA-75BD8F8D2CC9.root"
-    ]
-}

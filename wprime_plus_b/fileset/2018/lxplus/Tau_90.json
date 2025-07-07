@@ -1,6 +1,0 @@
-{
-    "Tau_90": [
-        "root://xrootd-local.unl.edu:1094//store/data/Run2018D/Tau/NANOAOD/UL2018_MiniAODv2_NanoAODv9-v2/2500000/54C16A2F-AE1A-0640-954E-C71BEB2C4333.root",
-        "root://k8s-redir.ultralight.org:1094//store/data/Run2018D/Tau/NANOAOD/UL2018_MiniAODv2_NanoAODv9-v2/2500000/561D852E-E18B-DD48-AE89-793D95F0583D.root"
-    ]
-}

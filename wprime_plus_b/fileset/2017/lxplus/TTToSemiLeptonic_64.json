@@ -1,6 +1,0 @@
-{
-    "TTToSemiLeptonic_64": [
-        "root://eos.cms.rcac.purdue.edu//store/mc/RunIISummer20UL17NanoAODv9/TTToSemiLeptonic_TuneCP5_13TeV-powheg-pythia8/NANOAODSIM/106X_mc2017_realistic_v9-v1/280000/48701415-7FA2-8446-A0C5-5CD18A54F449.root",
-        "root://cms-xrdr.sdfarm.kr:1094//xrd/store/mc/RunIISummer20UL17NanoAODv9/TTToSemiLeptonic_TuneCP5_13TeV-powheg-pythia8/NANOAODSIM/106X_mc2017_realistic_v9-v1/280000/4A9B408A-09EE-2A42-8F99-B9FA4084BB4B.root"
-    ]
-}

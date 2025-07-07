@@ -1,6 +1,0 @@
-{
-    "TTToSemiLeptonic_112": [
-        "root://cmseos.fnal.gov//eos/uscms/store/mc/RunIISummer20UL17NanoAODv9/TTToSemiLeptonic_TuneCP5_13TeV-powheg-pythia8/NANOAODSIM/106X_mc2017_realistic_v9-v1/280000/AB7EE379-DE7E-0F45-8AD1-9AAAF1C94250.root",
-        "root://eos.cms.rcac.purdue.edu//store/mc/RunIISummer20UL17NanoAODv9/TTToSemiLeptonic_TuneCP5_13TeV-powheg-pythia8/NANOAODSIM/106X_mc2017_realistic_v9-v1/280000/AC04B64B-D618-BC47-93B4-8D4D10293469.root"
-    ]
-}

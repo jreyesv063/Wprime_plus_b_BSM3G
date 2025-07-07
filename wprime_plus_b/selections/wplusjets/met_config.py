@@ -20,7 +20,7 @@ wjets_met_selection = {
         "tau": {
             "met_threshold": 180,
             "delta_phi_jet_met": 0.7,
-            "invert_delta_phi": False
+            "invert_delta_phi": True
         },
         "mu": {
             "met_threshold": 60,
@@ -54,7 +54,7 @@ wjets_met_selection = {
         "tau": {
             "met_threshold": 180,
             "delta_phi_jet_met": 0.7,
-            "invert_delta_phi": False
+            "invert_delta_phi": True
         },
         "mu": {
             "met_threshold": 60,

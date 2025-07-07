@@ -1,6 +1,0 @@
-{
-    "WJetsToLNu_inclusive_25": [
-        "root://maite.iihe.ac.be:1094//store/mc/RunIISummer20UL16NanoAODv9/WJetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8/NANOAODSIM/106X_mcRun2_asymptotic_v17-v1/280000/A37CAFA8-A439-BC43-85AD-AA4C8EDA2CE2.root",
-        "root://lyoeos.in2p3.fr:1094//eos/lyoeos.in2p3.fr/grid/cms/store/mc/RunIISummer20UL16NanoAODv9/WJetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8/NANOAODSIM/106X_mcRun2_asymptotic_v17-v1/280000/A98EE025-E4E9-A749-AE54-D55F9A134C7B.root"
-    ]
-}

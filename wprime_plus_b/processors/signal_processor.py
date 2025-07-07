@@ -196,34 +196,6 @@ class SignalProccessor(processor.ProcessorABC):
 
 
         # -------------------------------------------------------------
-        # Weights
-        # -------------------------------------------------------------
-        # set weights container
-        weights_container = Weights(len(events), storeIndividual=True)
-
-
-        if self.is_mc:
-            # add gen weigths
-            genweight_values = lambda events: np.where(events.genWeight > 0, 1, -1)
-            weights_container.add("genweight", genweight_values(events))
-            
-            # add l1prefiring weigths
-            add_l1prefiring_weight(events, weights_container, self.year, self.syst)
-            # add pileup weigths
-            add_pileup_weight(events, weights_container, self.year, self.syst)
-
-            # add pujetid weigths
-            add_pujetid_weight(
-                jets=jets_veto,
-                weights=weights_container,
-                year=self.year,
-                working_point=signal_bjet_selection[self.lepton_flavor][
-                    "bjet_pileup_id"
-                ],
-                variation=self.syst,
-            )
-
-        # -------------------------------------------------------------
         # object selection
         # -------------------------------------------------------------
 
@@ -459,8 +431,34 @@ class SignalProccessor(processor.ProcessorABC):
             trigger_match_mask = np.ones(len(events), dtype="bool")
 
 
-        # New weights:
+        # -------------------------------------------------------------
+        # Weights
+        # -------------------------------------------------------------
+        # set weights container
+        weights_container = Weights(len(events), storeIndividual=True)
+
+
         if self.is_mc:
+            # add gen weigths
+            genweight_values = lambda events: np.where(events.genWeight > 0, 1, -1)
+            weights_container.add("genweight", genweight_values(events))
+            
+            # add l1prefiring weigths
+            add_l1prefiring_weight(events, weights_container, self.year, self.syst)
+            # add pileup weigths
+            add_pileup_weight(events, weights_container, self.year, self.syst)
+
+            # add pujetid weigths
+            add_pujetid_weight(
+                jets=jets_veto,
+                weights=weights_container,
+                year=self.year,
+                working_point=signal_bjet_selection[self.lepton_flavor][
+                    "bjet_pileup_id"
+                ],
+                variation=self.syst,
+            )
+            
             # b-tagging corrector
             btag_corrector = BTagCorrector(
                 jets=bjets,
@@ -888,22 +886,7 @@ class SignalProccessor(processor.ProcessorABC):
         # -------------------------------------------------------------
         # If we are in MC and we want to run systematics variations
         if self.run_systematics and self.is_mc:
-
             # Taus, muons, bjets, light_jets, fatjets, wjets change due to object-corrections. Electrons don't have object-corrections.
-            # map_variation = {"variation": 
-            #                               { "up": {
-            #                                   objects_modified : {},
-            #                                    new_met_pt:  {},
-            #                                    new_phi_pt: {},
-            #                                    met_180: {}        # Mask with met cut
-            #                               }, 
-            #                                 "down": {
-            #                                        .  
-            #                                        .
-            #                                        .
-            #                               }
-            #                               }, 
-            #                  }
             map_variation = systematic_variation_mask(events = events,
                                     lepton_flavor = self.lepton_flavor,                                                      
                                     jets_veto = jets_veto,

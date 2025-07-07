@@ -1,6 +1,0 @@
-{
-    "TTToSemiLeptonic_88": [
-        "root://gaexrdoor.ciemat.es:1094//store/mc/RunIISummer20UL17NanoAODv9/TTToSemiLeptonic_TuneCP5_13TeV-powheg-pythia8/NANOAODSIM/106X_mc2017_realistic_v9-v1/280000/7EB2D0FE-DA19-0A4A-B18D-0FAD74AAAC65.root",
-        "root://lyoeos.in2p3.fr:1094//eos/lyoeos.in2p3.fr/grid/cms/store/mc/RunIISummer20UL17NanoAODv9/TTToSemiLeptonic_TuneCP5_13TeV-powheg-pythia8/NANOAODSIM/106X_mc2017_realistic_v9-v1/280000/7ED61085-7E87-344D-B97D-F3F530CB1C7A.root"
-    ]
-}

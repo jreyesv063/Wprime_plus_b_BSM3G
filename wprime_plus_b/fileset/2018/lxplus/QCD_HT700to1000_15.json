@@ -1,6 +1,0 @@
-{
-    "QCD_HT700to1000_15": [
-        "root://eoscms.cern.ch//eos/cms/store/mc/RunIISummer20UL18NanoAODv9/QCD_HT700to1000_TuneCP5_PSWeights_13TeV-madgraph-pythia8/NANOAODSIM/106X_upgrade2018_realistic_v16_L1v1-v2/230000/A0A9DE2E-6BCC-8747-AB5C-6B74E82A6AF2.root",
-        "root://xrootd-cms.infn.it:1194//store/mc/RunIISummer20UL18NanoAODv9/QCD_HT700to1000_TuneCP5_PSWeights_13TeV-madgraph-pythia8/NANOAODSIM/106X_upgrade2018_realistic_v16_L1v1-v2/230000/B8A7C511-B85A-1349-8BDC-A4D9C75E3A90.root"
-    ]
-}

@@ -1,6 +1,0 @@
-{
-    "SingleElectron_1": [
-        "root://xrootd-cmst1-door.pic.es:1094//pnfs/pic.es/data/cms/disk/store/data/Run2016F/SingleElectron/NANOAOD/UL2016_MiniAODv2_NanoAODv9-v1/130000/0F8521B0-5770-9244-915E-F643EDAA32D2.root",
-        "root://lyoeos.in2p3.fr:1094//eos/lyoeos.in2p3.fr/grid/cms/store/data/Run2016F/SingleElectron/NANOAOD/UL2016_MiniAODv2_NanoAODv9-v1/130000/31BADB98-BCD8-4B40-9825-7709B08299BD.root"
-    ]
-}

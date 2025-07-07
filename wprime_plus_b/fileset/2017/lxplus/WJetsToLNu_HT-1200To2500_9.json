@@ -1,6 +1,0 @@
-{
-    "WJetsToLNu_HT-1200To2500_9": [
-        "root://gaexrdoor.ciemat.es:1094//store/mc/RunIISummer20UL17NanoAODv9/WJetsToLNu_HT-1200To2500_TuneCP5_13TeV-madgraphMLM-pythia8/NANOAODSIM/106X_mc2017_realistic_v9-v1/280000/6311AFAF-D1BD-2349-B3CD-9F0C88A4B81A.root",
-        "root://cmsdcadisk.fnal.gov//dcache/uscmsdisk/store/mc/RunIISummer20UL17NanoAODv9/WJetsToLNu_HT-1200To2500_TuneCP5_13TeV-madgraphMLM-pythia8/NANOAODSIM/106X_mc2017_realistic_v9-v1/280000/70E7D168-6366-DF45-B3CC-3F7151C56EBC.root"
-    ]
-}

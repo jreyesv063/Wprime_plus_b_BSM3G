@@ -55,7 +55,7 @@ from wprime_plus_b.systematics.syst_variations import systematic_variation_mask
 from wprime_plus_b.systematics.utils import update_region_map, update_region_selection
 
 
-from wprime_plus_b.processors.utils.analysis_utils import delta_r_mask, normalize, trigger_match, top_tagger, output_metadata, histograms_output, histograms_output_syst
+from wprime_plus_b.processors.utils.analysis_utils import delta_r_mask, normalize, trigger_match, top_tagger, output_metadata, histograms_output_syst, efficiency_studies_numerator
 
 
 class TopTaggerProccessor(processor.ProcessorABC):
@@ -189,34 +189,6 @@ class TopTaggerProccessor(processor.ProcessorABC):
         jet_veto_mask = jetvetomaps_mask(events.Jet, self.year, "jetvetomap")
         jets_veto = events.Jet[jet_veto_mask]
 
-
-        # -------------------------------------------------------------
-        # Weights
-        # -------------------------------------------------------------
-        # set weights container
-        weights_container = Weights(len(events), storeIndividual=True)
-        
-        if self.is_mc:
-            # add gen weigths
-            genweight_values = lambda events: np.where(events.genWeight > 0, 1, -1)
-            weights_container.add("genweight", genweight_values(events))
-
-            # add l1prefiring weigths
-            add_l1prefiring_weight(events, weights_container, self.year, self.syst)
-            # add pileup weigths
-            add_pileup_weight(events, weights_container, self.year, self.syst)
-
-            # add pujetid weigths
-            add_pujetid_weight(
-                jets=jets_veto,
-                weights=weights_container,
-                year=self.year,
-                working_point=top_tagger_bjet_selection[self.lepton_flavor][
-                    "bjet_pileup_id"
-                ],
-                variation=self.syst,
-            )
-            
                 
         # -------------------------------------------------------------
         # object selection
@@ -456,8 +428,33 @@ class TopTaggerProccessor(processor.ProcessorABC):
             trigger_match_mask = np.ones(len(events), dtype="bool")
 
 
-        # New weights:
+        # -------------------------------------------------------------
+        # Weights
+        # -------------------------------------------------------------
+        # set weights container
+        weights_container = Weights(len(events), storeIndividual=True)
+        
         if self.is_mc:
+            # add gen weigths
+            genweight_values = lambda events: np.where(events.genWeight > 0, 1, -1)
+            weights_container.add("genweight", genweight_values(events))
+
+            # add l1prefiring weigths
+            add_l1prefiring_weight(events, weights_container, self.year, self.syst)
+            # add pileup weigths
+            add_pileup_weight(events, weights_container, self.year, self.syst)
+
+            # add pujetid weigths
+            add_pujetid_weight(
+                jets=jets_veto,
+                weights=weights_container,
+                year=self.year,
+                working_point=top_tagger_bjet_selection[self.lepton_flavor][
+                    "bjet_pileup_id"
+                ],
+                variation=self.syst,
+            )
+            
             # b-tagging corrector
             btag_corrector = BTagCorrector(
                 jets=bjets,
@@ -506,6 +503,8 @@ class TopTaggerProccessor(processor.ProcessorABC):
                 mu_corrector = MuonHighPtCorrector
             else:
                 mu_corrector = MuonCorrector
+
+                
             muon_corrector = mu_corrector(
                 muons=muons,
                 weights=weights_container,
@@ -783,27 +782,6 @@ class TopTaggerProccessor(processor.ProcessorABC):
         
         print(f"Triggers: {reference_triggers}")
 
-        
-        # Trigger under study
-        study_trigger_option =  top_tagger_trigger_selection[self.lepton_flavor]["trigger_eff"] 
-        if study_trigger_option == "tau":
-            with importlib.resources.path(
-                "wprime_plus_b.data", "triggers.json"
-            ) as path:
-                with open(path, "r") as handle:
-                    study_trigger = json.load(handle)[self.year][study_trigger_option]
-
-
-            triggers_under_study = [
-                trigger for trigger in events.HLT.fields if any(trigger.startswith(r) for r in study_trigger)
-            ]           
-            mask_under_study = np.zeros(len(events), dtype="bool")
-            for trigger_under_study in triggers_under_study:
-                if trigger_under_study in events.HLT.fields:
-                    
-                    mask_under_study = mask_under_study | events.HLT[trigger_under_study]
-
-            print(f"Study trigger (eff tau channel): {triggers_under_study}")
 
         # --------------------------
         # deltaphi_cut cut: 
@@ -854,6 +832,8 @@ class TopTaggerProccessor(processor.ProcessorABC):
         }
 
 
+        trigger_eff =  top_tagger_trigger_selection[self.lepton_flavor]["trigger_eff"]
+
         # --------------
         # save cutflow 
         # --------------
@@ -896,20 +876,6 @@ class TopTaggerProccessor(processor.ProcessorABC):
         if self.run_systematics and self.is_mc:
 
             # Taus, muons, bjets, light_jets, fatjets, wjets change due to object-corrections. Electrons don't have object-corrections.
-            # map_variation = {"variation": 
-            #                               { "up": {
-            #                                   objects_modified : {},
-            #                                    new_met_pt:  {},
-            #                                    new_phi_pt: {},
-            #                                    met_180: {}        # Mask with met cut
-            #                               }, 
-            #                                 "down": {
-            #                                        .  
-            #                                        .
-            #                                        .
-            #                               }
-            #                               }, 
-            #                  }
             map_variation = systematic_variation_mask(events = events,
                                     lepton_flavor = self.lepton_flavor,                                                      
                                     jets_veto = jets_veto,
@@ -999,9 +965,14 @@ class TopTaggerProccessor(processor.ProcessorABC):
 
 
                 if nevents_after == 0:
+
                     if region_name == "nominal":
                         
                         output["metadata"]["cutflow"]["passing_top_tagger"] = ak.sum(weights_container.weight()[region_mask])
+
+                        if trigger_eff == "tau":
+                             output["metadata"][f"cutflow"][f"numerator_{trigger_eff}_trigger"] = ak.sum(weights_container.weight()[region_mask])
+
                         
                         output["metadata"].update({
                             "weighted_final_nevents": ak.sum(weights_container.weight()[region_mask]),
@@ -1012,6 +983,10 @@ class TopTaggerProccessor(processor.ProcessorABC):
                         
                         output["metadata"][f"cutflow_{region_name}"]["passing_top_tagger"] = ak.sum(weights_container.weight()[region_mask])
 
+
+                        if trigger_eff == "tau":
+                             output["metadata"][f"cutflow_{region_name}"][f"numerator_{trigger_eff}_trigger"] = ak.sum(weights_container.weight()[region_mask])
+                             
 
                         output["metadata"].update({
                             f"weighted_final_nevents_{region_name}": ak.sum(weights_container.weight()[region_mask]),
@@ -1078,8 +1053,35 @@ class TopTaggerProccessor(processor.ProcessorABC):
                     
                     # Save metadata
                     if region_name == "nominal":
-
+                        
                         output["metadata"]["cutflow"]["passing_top_tagger"] = ak.sum(weights_container.weight()[region_mask][mask_top])
+
+
+                    else:
+
+                        output["metadata"][f"cutflow_{region_name}"]["passing_top_tagger"] = ak.sum(weights_container.weight()[region_mask][mask_top])
+
+                   
+                    # -----------------------------------------
+                    #  Eff studies
+                    # -----------------------------------------
+                    if trigger_eff == "tau":
+                        mask_numerator, nevents_numerator = efficiency_studies_numerator(trigger_option=trigger_eff, 
+                                                                                        region_name = region_name,
+                                                                                        year = self.year, 
+                                                                                        events = events,
+                                                                                        region_selection_mask = region_mask, 
+                                                                                        mask_denominator = mask_top, 
+                                                                                        output_metadata = output["metadata"], 
+                                                                                        weights_container=weights_container
+                                                            )
+                        nevents_top_tagger = nevents_numerator
+                        mask_top = mask_numerator
+                    
+
+
+                    if region_name == "nominal":
+
                         output_metadata(output=output["metadata"], weights=weights_container.weight()[region_mask], masks=masks, mask_top=mask_top)
 
                         output["metadata"].update({
@@ -1088,14 +1090,11 @@ class TopTaggerProccessor(processor.ProcessorABC):
                         })
 
                     else:
-
-                        output["metadata"][f"cutflow_{region_name}"]["passing_top_tagger"] = ak.sum(weights_container.weight()[region_mask][mask_top])
-
-
                         output["metadata"].update({
                             f"weighted_final_nevents_{region_name}": ak.sum(weights_container.weight()[region_mask][mask_top]),
                             f"raw_final_nevents_{region_name}": nevents_top_tagger,
                         })
+
 
                     if nevents_top_tagger > 0:
                         # Histograms
@@ -1109,8 +1108,6 @@ class TopTaggerProccessor(processor.ProcessorABC):
 
                         if self.output_type == "array":
                             # Create a dictionary to store the arrays
-                            #array_dict = {}
-
                             if region_name == "nominal":
                                 self.add_feature(
                                     f"weights", weights_container.weight()[region_mask][mask_top]
@@ -1159,6 +1156,11 @@ class TopTaggerProccessor(processor.ProcessorABC):
 
                 output["metadata"]["cutflow"]["passing_top_tagger"] = ak.sum(weights_container.weight()[region_mask])
 
+
+                if trigger_eff == "tau":
+                    output["metadata"]["cutflow"][f"numerator_{trigger_eff}_trigger"] = ak.sum(weights_container.weight()[region_mask])
+                        
+
             else:
                 
                 # Create a dictionary of objects to simplify handling
@@ -1194,22 +1196,44 @@ class TopTaggerProccessor(processor.ProcessorABC):
 
                 # Number of events after top tagger/efficiency
                 nevents_top_tagger = ak.sum(mask_top)
-                output_metadata(output=output["metadata"], weights=weights_container.weight()[region_mask], masks=masks, mask_top=mask_top)
+
                 output["metadata"]["cutflow"]["passing_top_tagger"] = ak.sum(weights_container.weight()[region_mask][mask_top])
 
 
+                # -----------------------------------------
+                #  Eff studies
+                # -----------------------------------------
+                if trigger_eff == "tau":
+                    mask_numerator, nevents_numerator = efficiency_studies_numerator(trigger_option=trigger_eff, 
+                                                                                    region_name = "nominal",
+                                                                                    year = self.year, 
+                                                                                    events = events,
+                                                                                    region_selection_mask = region_mask, 
+                                                                                    mask_denominator = mask_top, 
+                                                                                    output_metadata = output["metadata"], 
+                                                                                    weights_container=weights_container
+                                                        )
+                    nevents_top_tagger = nevents_numerator
+                    mask_top = mask_numerator
+                
+
+                output_metadata(output=output["metadata"], weights=weights_container.weight()[region_mask], masks=masks, mask_top=mask_top)
+                
                 # save weighted events to metadata
                 output["metadata"].update({
                     "weighted_final_nevents": ak.sum(weights_container.weight()[region_mask][mask_top]),
                     "raw_final_nevents": nevents_top_tagger,
                 })
+              
+
 
                 if nevents_top_tagger > 0:
                     # Histograms
-                    histograms_output(self, selected_objects["bjets"], selected_objects["jets"],
+                    histograms_output_syst(self, selected_objects["bjets"], selected_objects["jets"],
                                     selected_objects["electrons"], selected_objects["muons"],
                                     selected_objects["taus"], selected_objects["met"],
-                                    tops, mask_top, self.lepton_flavor, self.is_mc, selected_objects["events"])
+                                    tops, mask_top, self.lepton_flavor, self.is_mc, selected_objects["events"],
+                                    "nominal")
 
 
                     if self.output_type == "array":

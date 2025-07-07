@@ -1,6 +1,0 @@
-{
-    "SingleElectron_32": [
-        "root://xrootd01.jinr-t1.ru:1094//pnfs/jinr-t1.ru/data/cms/store/data/Run2016G/SingleElectron/NANOAOD/UL2016_MiniAODv2_NanoAODv9-v1/270000/8F883EE8-B7D4-904E-A511-6536F689A700.root",
-        "root://cmsdcadisk.fnal.gov//dcache/uscmsdisk/store/data/Run2016G/SingleElectron/NANOAOD/UL2016_MiniAODv2_NanoAODv9-v1/270000/ACFAC4F3-D8E2-F943-8E4C-9737F393B90C.root"
-    ]
-}

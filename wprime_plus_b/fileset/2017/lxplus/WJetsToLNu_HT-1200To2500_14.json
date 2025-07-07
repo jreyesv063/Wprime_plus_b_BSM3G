@@ -1,6 +1,0 @@
-{
-    "WJetsToLNu_HT-1200To2500_14": [
-        "root://maite.iihe.ac.be:1094//store/mc/RunIISummer20UL17NanoAODv9/WJetsToLNu_HT-1200To2500_TuneCP5_13TeV-madgraphMLM-pythia8/NANOAODSIM/106X_mc2017_realistic_v9-v1/70000/7DFB0609-8774-6242-B015-E4D0C5740A43.root",
-        "root://eoscms.cern.ch//eos/cms/store/mc/RunIISummer20UL17NanoAODv9/WJetsToLNu_HT-1200To2500_TuneCP5_13TeV-madgraphMLM-pythia8/NANOAODSIM/106X_mc2017_realistic_v9-v1/70000/7E8D9751-C567-3947-8608-1E8CAAB5D3B9.root"
-    ]
-}

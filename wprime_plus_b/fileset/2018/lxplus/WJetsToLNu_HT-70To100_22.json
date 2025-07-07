@@ -1,6 +1,0 @@
-{
-    "WJetsToLNu_HT-70To100_22": [
-        "root://osg-se.sprace.org.br:1094//store/mc/RunIISummer20UL18NanoAODv9/WJetsToLNu_HT-70To100_TuneCP5_13TeV-madgraphMLM-pythia8/NANOAODSIM/106X_upgrade2018_realistic_v16_L1v1-v1/270000/943BE763-C2B6-314A-A3A0-612A0F46B09C.root",
-        "root://k8s-redir.ultralight.org:1094//store/mc/RunIISummer20UL18NanoAODv9/WJetsToLNu_HT-70To100_TuneCP5_13TeV-madgraphMLM-pythia8/NANOAODSIM/106X_upgrade2018_realistic_v16_L1v1-v1/270000/99DE6E66-AD7E-5640-BCAA-DC9A1BDB0273.root"
-    ]
-}

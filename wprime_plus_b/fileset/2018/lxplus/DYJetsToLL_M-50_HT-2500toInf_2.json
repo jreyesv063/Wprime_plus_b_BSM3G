@@ -1,6 +1,0 @@
-{
-    "DYJetsToLL_M-50_HT-2500toInf_2": [
-        "root://eoscms.cern.ch//eos/cms/store/mc/RunIISummer20UL18NanoAODv9/DYJetsToLL_M-50_HT-2500toInf_TuneCP5_PSweights_13TeV-madgraphMLM-pythia8/NANOAODSIM/106X_upgrade2018_realistic_v16_L1v1-v1/110000/02EB81F4-E8B2-DE4D-8B9E-46D813CBBADA.root",
-        "root://k8s-redir.ultralight.org:1094//store/mc/RunIISummer20UL18NanoAODv9/DYJetsToLL_M-50_HT-2500toInf_TuneCP5_PSweights_13TeV-madgraphMLM-pythia8/NANOAODSIM/106X_upgrade2018_realistic_v16_L1v1-v1/110000/13B87B90-8E83-014C-B5BD-4921277D4342.root"
-    ]
-}

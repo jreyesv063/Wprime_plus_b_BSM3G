@@ -1,6 +1,0 @@
-{
-    "WJetsToLNu_HT-600To800_16": [
-        "root://cmseos.fnal.gov//eos/uscms/store/mc/RunIISummer20UL18NanoAODv9/WJetsToLNu_HT-600To800_TuneCP5_13TeV-madgraphMLM-pythia8/NANOAODSIM/106X_upgrade2018_realistic_v16_L1v1-v1/70000/F86F7C02-ACEF-2A4C-9680-CF71ACC5DA16.root",
-        "root://ccxrdcms.in2p3.fr:1094//store/mc/RunIISummer20UL18NanoAODv9/WJetsToLNu_HT-600To800_TuneCP5_13TeV-madgraphMLM-pythia8/NANOAODSIM/106X_upgrade2018_realistic_v16_L1v1-v1/70000/F9E210BC-84BC-6640-89BF-7EE0DDF2A7B3.root"
-    ]
-}

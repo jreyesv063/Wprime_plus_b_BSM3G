@@ -1,6 +1,0 @@
-{
-    "DYJetsToLL_M-50_HT-400to600_6": [
-        "root://t3se01.psi.ch:1094//store/mc/RunIISummer20UL17NanoAODv9/DYJetsToLL_M-50_HT-400to600_TuneCP5_PSweights_13TeV-madgraphMLM-pythia8/NANOAODSIM/106X_mc2017_realistic_v9-v1/280000/7F3AE582-74D1-0941-BEC9-E0D2C806BDB8.root",
-        "root://t3se01.psi.ch:1094//store/mc/RunIISummer20UL17NanoAODv9/DYJetsToLL_M-50_HT-400to600_TuneCP5_PSweights_13TeV-madgraphMLM-pythia8/NANOAODSIM/106X_mc2017_realistic_v9-v1/280000/9376CFCC-F3BD-1441-B0D1-2C345914D3D1.root"
-    ]
-}

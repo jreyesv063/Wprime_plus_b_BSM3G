@@ -1,6 +1,0 @@
-{
-    "TTToHadronic_51": [
-        "root://kodiak-se.baylor.edu:1094//store/mc/RunIISummer20UL17NanoAODv9/TTToHadronic_TuneCP5_13TeV-powheg-pythia8/NANOAODSIM/106X_mc2017_realistic_v9-v1/80000/7AA798CA-0AAA-D843-88BE-1D99ADBF9C90.root",
-        "root://grid-cms-xrootd.physik.rwth-aachen.de:1094//store/mc/RunIISummer20UL17NanoAODv9/TTToHadronic_TuneCP5_13TeV-powheg-pythia8/NANOAODSIM/106X_mc2017_realistic_v9-v1/80000/7E194EF8-333F-6845-AFCA-49702CC6D2AE.root"
-    ]
-}

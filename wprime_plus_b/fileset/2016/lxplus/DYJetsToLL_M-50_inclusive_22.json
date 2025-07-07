@@ -1,6 +1,0 @@
-{
-    "DYJetsToLL_M-50_inclusive_22": [
-        "root://maite.iihe.ac.be:1094//store/mc/RunIISummer20UL16NanoAODv9/DYJetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8/NANOAODSIM/106X_mcRun2_asymptotic_v17-v1/40000/C242B6F4-9B82-0C44-86E4-09DDA79E84F2.root",
-        "root://eospublic.cern.ch//eos/opendata/cms/mc/RunIISummer20UL16NanoAODv9/DYJetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8/NANOAODSIM/106X_mcRun2_asymptotic_v17-v1/40000/C549AC88-74B4-5747-8E62-F3482F1B151A.root"
-    ]
-}

@@ -6,6 +6,8 @@ from pathlib import Path
 from coffea.nanoevents.methods.base import NanoEventsArray
 
 
+
+
 def select_good_muons(
     events: ak.Array, muon_pt_threshold: int, muon_eta_threshold: float, muon_id_wp: str, muon_iso_wp: str
 ) -> ak.highlevel.Array:
@@ -31,10 +33,13 @@ def select_good_muons(
         An Awkward Array mask containing the selected "good" muons that satisfy the specified criteria.
     """
     # muon pT threshold
-    muon_pt_mask = (
-        (events.Muon.pt >= muon_pt_threshold)
-#        & (events.Muon.pt < 120.0)
-    )
+    pt_shifts = {
+        "nominal": events.Muon.pt,
+        "up": events.Muon.pt_up,
+        "down": events.Muon.pt_down
+    }
+
+    muon_pt_mask = events.Muon.pt >= muon_pt_threshold
 
     # electron pseudorapidity mask
     muon_eta_mask = np.abs(events.Muon.eta) < muon_eta_threshold
@@ -69,4 +74,13 @@ def select_good_muons(
     }
     muon_iso_mask = iso_wps[muon_iso_wp]
 
-    return (muon_pt_mask) & (muon_eta_mask) & (muon_id_mask) & (muon_iso_mask)
+    # Create masks for each pt variation
+    good_muon_masks = {}
+    for variation, muon_pt in pt_shifts.items():
+        muon_pt_mask = muon_pt >= muon_pt_threshold
+        good_muon_masks[variation] = (
+            muon_pt_mask & muon_eta_mask & muon_id_mask & muon_iso_mask
+        )
+
+
+    return good_muon_masks

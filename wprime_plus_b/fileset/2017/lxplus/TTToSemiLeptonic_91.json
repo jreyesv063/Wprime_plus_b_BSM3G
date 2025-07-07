@@ -1,6 +1,0 @@
-{
-    "TTToSemiLeptonic_91": [
-        "root://cms-xrdr.sdfarm.kr:1094//xrd/store/mc/RunIISummer20UL17NanoAODv9/TTToSemiLeptonic_TuneCP5_13TeV-powheg-pythia8/NANOAODSIM/106X_mc2017_realistic_v9-v1/280000/87B1A704-8F56-6E41-BC6C-01DF543E5C6B.root",
-        "root://eos.cms.rcac.purdue.edu//store/mc/RunIISummer20UL17NanoAODv9/TTToSemiLeptonic_TuneCP5_13TeV-powheg-pythia8/NANOAODSIM/106X_mc2017_realistic_v9-v1/280000/87CB2347-B72E-DC42-9CC6-7B239C39813C.root"
-    ]
-}

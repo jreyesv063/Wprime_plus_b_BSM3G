@@ -196,32 +196,6 @@ class QCDProccessor(processor.ProcessorABC):
         jets_veto = events.Jet[jet_veto_mask]
 
 
-        # -------------------------------------------------------------
-        # Weights
-        # -------------------------------------------------------------
-        # set weights container
-        weights_container = Weights(len(events), storeIndividual=True)
-        
-        if self.is_mc:
-            # add gen weigths
-            genweight_values = lambda events: np.where(events.genWeight > 0, 1, -1)
-            weights_container.add("genweight", genweight_values(events))
-
-            # add l1prefiring weigths
-            add_l1prefiring_weight(events, weights_container, self.year, self.syst)
-            # add pileup weigths
-            add_pileup_weight(events, weights_container, self.year, self.syst)
-
-            # add pujetid weigths
-            add_pujetid_weight(
-                jets=jets_veto,
-                weights=weights_container,
-                year=self.year,
-                working_point=qcd_hadronic_bjet_selection[self.channel][self.lepton_flavor][
-                    "bjet_pileup_id"
-                ],
-                variation=self.syst,
-            )
             
         # -------------------------------------------------------------
         # object selection
@@ -295,6 +269,10 @@ class QCDProccessor(processor.ProcessorABC):
                 self.lepton_flavor
             ]["prongs"],
             is_mc=self.is_mc,
+            bcd_qcd_estimation = self.channel,
+            tau_vs_jet_fail=qcd_hadronic_tau_selection[self.channel][
+                self.lepton_flavor
+            ]["tau_vs_fail"]
         )
         good_taus = (
             (good_taus_masks["nominal"])
@@ -462,8 +440,33 @@ class QCDProccessor(processor.ProcessorABC):
             trigger_match_mask = np.ones(len(events), dtype="bool")
 
 
-        # New weights:
+        # -------------------------------------------------------------
+        # Weights
+        # -------------------------------------------------------------
+        # set weights container
+        weights_container = Weights(len(events), storeIndividual=True)
+        
         if self.is_mc:
+            # add gen weigths
+            genweight_values = lambda events: np.where(events.genWeight > 0, 1, -1)
+            weights_container.add("genweight", genweight_values(events))
+
+            # add l1prefiring weigths
+            add_l1prefiring_weight(events, weights_container, self.year, self.syst)
+            # add pileup weigths
+            add_pileup_weight(events, weights_container, self.year, self.syst)
+
+            # add pujetid weigths
+            add_pujetid_weight(
+                jets=jets_veto,
+                weights=weights_container,
+                year=self.year,
+                working_point=qcd_hadronic_bjet_selection[self.channel][self.lepton_flavor][
+                    "bjet_pileup_id"
+                ],
+                variation=self.syst,
+            )
+
             # b-tagging corrector
             btag_corrector = BTagCorrector(
                 jets=bjets,
@@ -837,12 +840,12 @@ class QCDProccessor(processor.ProcessorABC):
                         "Stitching",
                         f"trigger_{reference_trigger}",
                         "metfilters",
-                        f"delta_phi_jet_met_{delta_phi_cut}_{invert_delta_phi}",
-                        f"met_{met_threshold}",
                         "electron_veto",
                         "muon_veto",
                         f"one_tau",
-                        "one_bjet"
+                        "one_bjet",
+                        f"delta_phi_jet_met_{delta_phi_cut}_{invert_delta_phi}",
+                        f"met_{met_threshold}",
                     ],
                     "mu": [
                         "goodvertex",
@@ -851,10 +854,10 @@ class QCDProccessor(processor.ProcessorABC):
                         f"trigger_{reference_trigger}",
                         "trigger_match",
                         "HEMCleaning",
-                        f"met_{met_threshold}",
                         "electron_veto",
                         "tau_veto",
                         "one_muon",
+                        f"met_{met_threshold}",
                     ],
             }, 
             "cr_c": {
@@ -864,13 +867,12 @@ class QCDProccessor(processor.ProcessorABC):
                         "Stitching",
                         f"trigger_{reference_trigger}",
                         "metfilters",
-                        f"delta_phi_jet_met_{delta_phi_cut}_{invert_delta_phi}",
-                        f"met_{met_threshold}",
                         "electron_veto",
                         "muon_veto",
                         f"one_tau",
-                        f"tau_fail",
-                        "one_bjet"
+                        "one_bjet",
+                        f"delta_phi_jet_met_{delta_phi_cut}_{invert_delta_phi}",
+                        f"met_{met_threshold}",
                     ],
                     "mu": [
                         "goodvertex",
@@ -879,10 +881,10 @@ class QCDProccessor(processor.ProcessorABC):
                         f"trigger_{reference_trigger}",
                         "trigger_match",
                         "HEMCleaning",
-                        f"met_{met_threshold}",
                         "electron_veto",
                         "tau_veto",
                         "one_muon",
+                        f"met_{met_threshold}",
                     ],
             }, 
             "cr_d": {
@@ -892,13 +894,12 @@ class QCDProccessor(processor.ProcessorABC):
                         "Stitching",
                         f"trigger_{reference_trigger}",
                         "metfilters",
-                        f"delta_phi_jet_met_{delta_phi_cut}_{invert_delta_phi}",
-                        f"met_{met_threshold}",
                         "electron_veto",
                         "muon_veto",
                         f"one_tau",
-                        f"tau_fail",
-                        "one_bjet"
+                        "one_bjet",
+                        f"delta_phi_jet_met_{delta_phi_cut}_{invert_delta_phi}",
+                        f"met_{met_threshold}",
                     ],
                     "mu": [
                         "goodvertex",
@@ -907,10 +908,10 @@ class QCDProccessor(processor.ProcessorABC):
                         f"trigger_{reference_trigger}",
                         "trigger_match",
                         "HEMCleaning",
-                        f"met_{met_threshold}",
                         "electron_veto",
                         "tau_veto",
                         "one_muon",
+                        f"met_{met_threshold}",
                     ],
             }, 
         }

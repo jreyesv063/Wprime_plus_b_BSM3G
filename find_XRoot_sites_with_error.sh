@@ -45,7 +45,7 @@ declare -A host_to_site=(
     ["xrootd-hep.nd.edu"]="T3_US_NotreDame"
     ["xrootd.grid.baylor.edu"]="T3_US_Baylor"
     ["xrootd-cms-mirror.cr.cnaf.infn.it"]="T1_IT_CNAF_Disk"
-    ["xrootd-local.unl.edu"]="T2_US_Wisconsin"
+    ["xrootd-local.unl.edu"]="T2_US_Nebraska"
     ["xrootd2.hepgrid.uerj.br"]="T2_BR_UERJ"
     ["xrootd01.jinr-t1.ru"]="T1_RU_JINR_Disk"
     ["grid142.kfki.hu"]="T2_HU_Budapest" 
@@ -60,6 +60,7 @@ declare -A host_to_site=(
     ["cmsxrootd.hep.wisc.edu"]="T2_US_Wisconsin"
     ["eoscms.cern.ch"]="T2_CH_CERN"
     ["eos01.grid.cyfronet.pl"]="T2_PL_Cyfronet"
+    ["k8s-redir.ultralight.org"]="T2_US_Caltech"
 )
 
 # Mapa de años con sus sitios válidos

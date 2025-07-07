@@ -1,6 +1,0 @@
-{
-    "MET_46": [
-        "root://k8s-redir.ultralight.org:1094//store/data/Run2018D/MET/NANOAOD/UL2018_MiniAODv2_NanoAODv9-v1/120000/9C6B6080-C25E-7C4D-8084-2D507290534B.root",
-        "root://cmsdcache-kit-disk.gridka.de:1094//store/data/Run2018D/MET/NANOAOD/UL2018_MiniAODv2_NanoAODv9-v1/120000/BD860AE2-8A02-9540-8201-B37760145E43.root"
-    ]
-}

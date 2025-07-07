@@ -1,6 +1,0 @@
-{
-    "DYJetsToLL_M-50_inclusive_19": [
-        "root://eoscms.cern.ch//eos/cms/store/mc/RunIISummer20UL16NanoAODv9/DYJetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8/NANOAODSIM/106X_mcRun2_asymptotic_v17-v1/40000/910BA432-A76D-BA4A-AF79-DD34B445DB7B.root",
-        "root://eospublic.cern.ch//eos/opendata/cms/mc/RunIISummer20UL16NanoAODv9/DYJetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8/NANOAODSIM/106X_mcRun2_asymptotic_v17-v1/40000/9C9AD313-82D7-9B42-ABBB-3EDB90AC5FCE.root"
-    ]
-}

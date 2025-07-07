@@ -1,6 +1,0 @@
-{
-    "QCD_HT300to500_5": [
-        "root://xrootd-local.unl.edu:1094//store/mc/RunIISummer20UL16NanoAODv9/QCD_HT300to500_TuneCP5_PSWeights_13TeV-madgraph-pythia8/NANOAODSIM/106X_mcRun2_asymptotic_v17-v1/260000/33FD3FEF-B141-CF48-98DD-4E7EC451114C.root",
-        "root://eospublic.cern.ch//eos/opendata/cms/mc/RunIISummer20UL16NanoAODv9/QCD_HT300to500_TuneCP5_PSWeights_13TeV-madgraph-pythia8/NANOAODSIM/106X_mcRun2_asymptotic_v17-v1/260000/527D7EFD-7081-6B42-8A3B-F3ED40C989C3.root"
-    ]
-}

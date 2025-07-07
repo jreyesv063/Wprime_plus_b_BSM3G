@@ -1,6 +1,0 @@
-{
-    "QCD_HT2000toInf_10": [
-        "root://ccxrdcms.in2p3.fr:1094//store/mc/RunIISummer20UL16NanoAODv9/QCD_HT2000toInf_TuneCP5_PSWeights_13TeV-madgraph-pythia8/NANOAODSIM/106X_mcRun2_asymptotic_v17-v1/270000/A25D0D3B-7FAF-2B4C-B4E9-3082F5129BD5.root",
-        "root://eoscms.cern.ch//eos/cms/store/mc/RunIISummer20UL16NanoAODv9/QCD_HT2000toInf_TuneCP5_PSWeights_13TeV-madgraph-pythia8/NANOAODSIM/106X_mcRun2_asymptotic_v17-v1/270000/A93F1F4E-E09D-0E42-AFA9-2F1D2D8DA05C.root"
-    ]
-}

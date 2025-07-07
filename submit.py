@@ -695,9 +695,17 @@ def main(args):
             metadata.update({"Triggers": str(triggers)})
 
 
+            if "Triggers_eff" in output_metadata:
+                triggers_eff = list(dict.fromkeys(output_metadata["Triggers_eff"]))
+                metadata.update({"Triggers_eff": str(triggers_eff)})
+            else:
+                metadata.update({"Triggers_eff": "Not activated"})
+
+
 
         if args["run_systematics"] == "true" and args["sample"] not in ["MET", "SingleMuon", "SingleElectron", "Tau"]:
             
+
             # Systematic variations object-corrections:
             syst_var_object = ["ROCHESTER_up", "ROCHESTER_down", 
                                "TES_up", "TES_down", 
@@ -709,13 +717,17 @@ def main(args):
                                ]
 
 
-            has_fatjets = output_metadata[f"Are there Fatjets?"]
-            # If has_fatjets is False, remove fatjet systematic variations
-            if not has_fatjets:
+            # Si el processor es 'wjets', eliminar sistemáticas relacionadas con fatjets
+            if args["processor"] == "wjets":
                 syst_var_object = [s for s in syst_var_object if "fatjet" not in s.lower()]
+            else:
+                has_fatjets = output_metadata.get("Are there Fatjets?", False)
+                # Si no hay fatjets, eliminar sistemáticas relacionadas con fatjets
+                if not has_fatjets:
+                    syst_var_object = [s for s in syst_var_object if "fatjet" not in s.lower()]
 
 
-            if args["processor"] in ["top_tagger", "wplusjets", "qcd_hadronic", "signal"]:
+            if args["processor"] in ["top_tagger", "wplusjets", "qcd_hadronic", "signal", "wjets"]:
                 # Save cutflow for each systematic variation
                 for syst in syst_var_object:
                     for cut_selection, nevents in output_metadata[f"cutflow_{syst}"].items():

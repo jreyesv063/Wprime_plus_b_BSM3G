@@ -1,6 +1,0 @@
-{
-    "QCD_HT1500to2000_11": [
-        "root://cmseos.fnal.gov//eos/uscms/store/mc/RunIISummer20UL16NanoAODv9/QCD_HT1500to2000_TuneCP5_PSWeights_13TeV-madgraph-pythia8/NANOAODSIM/106X_mcRun2_asymptotic_v17-v1/260000/515A2E55-7255-6F4E-ACAD-2CFB3D243B33.root",
-        "root://maite.iihe.ac.be:1094//store/mc/RunIISummer20UL16NanoAODv9/QCD_HT1500to2000_TuneCP5_PSWeights_13TeV-madgraph-pythia8/NANOAODSIM/106X_mcRun2_asymptotic_v17-v1/260000/7EDFA9AC-430D-EA42-AAE6-67A95BC453AC.root"
-    ]
-}

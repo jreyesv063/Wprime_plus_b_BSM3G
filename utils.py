@@ -23,6 +23,10 @@ def build_output_directories(args: dict) -> str:
         processor_name=processor_config.name,
         processor_lepton_flavour=processor_config.lepton_flavor,
         processor_channel=processor_config.channel,
+        processor_output=os.path.join(
+            os.environ.get("ANALYSIS_PATH", ""),
+            args["output_folder"]
+        ),
         dataset_year=args["year"],
         mkdir=True,
     )

@@ -42,6 +42,7 @@ class Paths:
         processor_name: str,
         processor_lepton_flavour: str = None,
         processor_channel: str = None,
+        processor_output: str=None, 
         dataset_year: str = None,
         mkdir: bool = None,
     ):
@@ -57,12 +58,9 @@ class Paths:
                 if elem is not None
             ]
         )
-        # make output directory
-        output_path = self.safe_return(
-            path=self.root_path / "outs" / processor_path,
-            path_type="directory",
-            mkdir=mkdir,
-        )
+
+        output_path = pathlib.Path(processor_output)
+
         # make output metadata directory 
         self.safe_return(
             path=output_path / "metadata",

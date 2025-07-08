@@ -695,48 +695,55 @@ def histograms_output_syst(
     region_ST_full = region_ST + muon_pt_addition + electron_pt_addition + tau_pt_addition 
 
    
-    # Add features to the object (assumed to have a method `add_feature`)
-    self.add_feature(f"lepton_pt{suffix}", region_leptons.pt)
-    self.add_feature(f"lepton_eta{suffix}", region_leptons.eta)
-    self.add_feature(f"lepton_phi{suffix}", region_leptons.phi)
+    if syst_flag == "nominal":
+        # Add features to the object (assumed to have a method `add_feature`)
+        # Lepton: Tau; Electron: Muon
+        self.add_feature(f"lepton_pt{suffix}", region_leptons.pt)
+        self.add_feature(f"lepton_eta{suffix}", region_leptons.eta)
+        self.add_feature(f"lepton_phi{suffix}", region_leptons.phi)
 
-    self.add_feature(f"bjet_pt{suffix}", region_bjets.pt)
-    self.add_feature(f"bjet_eta{suffix}", region_bjets.eta)
-    self.add_feature(f"bjet_phi{suffix}", region_bjets.phi)
+        # Bjets
+        self.add_feature(f"bjet_pt{suffix}", region_bjets.pt)
+        self.add_feature(f"bjet_eta{suffix}", region_bjets.eta)
+        self.add_feature(f"bjet_phi{suffix}", region_bjets.phi)
 
-    self.add_feature(f"jet_pt{suffix}", region_jets.pt)
-    self.add_feature(f"jet_eta{suffix}", region_jets.eta)
-    self.add_feature(f"jet_phi{suffix}", region_jets.phi)
-    
-    
-    self.add_feature(f"met{suffix}", region_met.pt)
-    self.add_feature(f"met_phi{suffix}", region_met.phi)
+        # Light jets
+        self.add_feature(f"jet_pt{suffix}", region_jets.pt)
+        self.add_feature(f"jet_eta{suffix}", region_jets.eta)
+        self.add_feature(f"jet_phi{suffix}", region_jets.phi)
+        
+        # MET
+        self.add_feature(f"met{suffix}", region_met.pt)
+        self.add_feature(f"met_phi{suffix}", region_met.phi)
 
-    # Recoil
-    self.add_feature(f"recoil_pt{suffix}", region_met.pt_recoil)
-    self.add_feature(f"recoil_phi{suffix}", region_met.phi_recoil)
+        # Recoil
+        self.add_feature(f"recoil_pt{suffix}", region_met.pt_recoil)
+        self.add_feature(f"recoil_phi{suffix}", region_met.phi_recoil)
 
-    # New met variables    
-    self.add_feature(f"lepton_met_mass{suffix}", lepton_met_mass)
+        # Transverse mass: lepton; met.   
+        self.add_feature(f"lepton_met_mass{suffix}", lepton_met_mass)
 
 
-    # Number of objects
-    self.add_feature(f"njets_full{suffix}", ak.num(region_jets) + ak.num(region_bjets))
-    self.add_feature(f"njets{suffix}", ak.num(region_jets))
-    self.add_feature(f"nbjets{suffix}", ak.num(region_bjets))
-    self.add_feature(f"npvs{suffix}", events.PV.npvsGood[mask])
-    self.add_feature(f"nmuons{suffix}", ak.num(region_muons))
-    self.add_feature(f"nelectrons{suffix}", ak.num(region_electrons))
-    self.add_feature(f"ntaus{suffix}", ak.num(region_taus))
+        # Number of objects
+        self.add_feature(f"njets_full{suffix}", ak.num(region_jets) + ak.num(region_bjets))
+        self.add_feature(f"njets{suffix}", ak.num(region_jets))
+        self.add_feature(f"nbjets{suffix}", ak.num(region_bjets))
+        self.add_feature(f"npvs{suffix}", events.PV.npvsGood[mask])
+        self.add_feature(f"nmuons{suffix}", ak.num(region_muons))
+        self.add_feature(f"nelectrons{suffix}", ak.num(region_electrons))
+        self.add_feature(f"ntaus{suffix}", ak.num(region_taus))
 
-    # Scalar sum of transverse momenta
-    self.add_feature(f"HT{suffix}", region_HT)    
-    self.add_feature(f"ST{suffix}", region_ST)  
-    self.add_feature(f"ST_met{suffix}", region_ST_met)  
-    self.add_feature(f"ST_full{suffix}", region_ST_full)
+        # Scalar sum of transverse momenta
+        self.add_feature(f"HT{suffix}", region_HT)    
+        self.add_feature(f"ST{suffix}", region_ST)  
+        self.add_feature(f"ST_met{suffix}", region_ST_met)  
+        self.add_feature(f"ST_full{suffix}", region_ST_full)
 
-    # Top reconstructed mass
-    self.add_feature(f"top_mrec{suffix}", region_tops)
+        # Top reconstructed mass
+        self.add_feature(f"top_mrec{suffix}", region_tops)
+
+    else:
+        self.add_feature(f"lepton_met_mass{suffix}", lepton_met_mass)
 
 
 

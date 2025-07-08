@@ -47,7 +47,7 @@ nfiles="-1"
 executor="futures"
 output_type="array" # hist/array
 nsample="" # Importante: Dejar nsample="" si no se quiere un nsample especifico, en caso de querer uno especifico nsample="3"
-output_folder="July/eff_wj/$year/den"
+output_folder="$ANALYSIS_PATH/July/eff_wj/$year/den"
 run_systematics="true" # Cambiar a "true" para activar sistemáticos a nivel de objeto (solo cuando sea necesario, ya que puede aumentar el tiempo de ejecución considerablemente)
 
 
@@ -57,8 +57,8 @@ samples=(
     "TTTo2L2Nu"
     "TTToHadronic"
     "DYJetsToLL_nlo_M-10to50"
-    "DYJetsToLL_nlo_M-50"
-#   "SingleMuon"
+#     # "DYJetsToLL_nlo_M-50"
+# #   "SingleMuon"
     "MET"
 #   "Tau"
 #   "SingleElectron"
@@ -141,7 +141,7 @@ if [ $processor == "ttbar" ] || [ $processor == "wjets" ] || [ $processor == "zt
     dir_to_create="wprime_plus_b/outs/$processor/$channel/$lepton_flavor/$year"
 
     for sample in "${samples[@]}"; do
-      python3 submit_lxplus.py --processor "$processor" --channel "$channel" --lepton_flavor "$lepton_flavor" --sample "$sample" --year "$year" --nfiles "$nfiles" --executor "$executor" --output_type "$output_type" --nsample "$nsample" --run_systematics "$run_systematics"
+      python3 submit_lxplus.py --processor "$processor" --channel "$channel" --lepton_flavor "$lepton_flavor" --sample "$sample" --year "$year" --nfiles "$nfiles" --executor "$executor" --output_type "$output_type" --nsample "$nsample" --run_systematics "$run_systematics"  --output_folder "$output_folder"
       sleep 60 #  Wait for 60 seconds before sending the next sample  
     done
 
@@ -152,27 +152,11 @@ elif [ $processor == "top_tagger" ] || [ $processor == "signal" ]; then
 
 
     for sample in "${samples[@]}"; do
-      python3 submit_lxplus.py --processor "$processor" --lepton_flavor "$lepton_flavor" --sample "$sample" --year "$year" --nfiles "$nfiles" --executor "$executor" --output_type "$output_type" --nsample "$nsample" --run_systematics "$run_systematics"
+      python3 submit_lxplus.py --processor "$processor" --lepton_flavor "$lepton_flavor" --sample "$sample" --year "$year" --nfiles "$nfiles" --executor "$executor" --output_type "$output_type" --nsample "$nsample" --run_systematics "$run_systematics"  --output_folder "$output_folder"
       sleep 60 #  Wait for 60 seconds before sending the next sample
     done
 fi
 
-# Crear la carpeta de destino si no existe
-mkdir -p "$ANALYSIS_PATH/$output_folder"
-
-# Crear el archivo mover_archivos.sh con el contenido deseado
-cat > "$dir_to_create/mover_archivos.sh" <<EOF
-#!/bin/bash
-while true
-do
-
-    mv *.pkl $ANALYSIS_PATH/$output_folder
-
-    sleep 60  # 120 segundos = 2 minutos
-done
-EOF
-# Dar permisos de ejecución al script creado
-chmod +x "$dir_to_create/mover_archivos.sh"
 
 echo $ANALYSIS_PATH/$output_folder
 

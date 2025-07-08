@@ -1,0 +1,25 @@
+# Ignorar todos los archivos .pyc
+*.pyc
+
+# Ignorar todas las carpetas __pycache__ y su contenido
+__pycache__/
+**/__pycache__/
+
+#cc file
+jreyesve.cc
+
+# Ignorar archivo específico
+archivos_faltantes.txt
+
+
+# Ignorar todas las carpetas dentro de condor/
+condor/*/
+
+
+# Ignorar carpetas dentro de fileset
+wprime_plus_b/fileset/*/
+
+
+# Ignorar archivos fileset
+wprime_plus_b/fileset/fileset_*.json
+

@@ -227,6 +227,14 @@ if __name__ == "__main__":
     )
 
 
+    parser.add_argument(
+        "--output_folder",
+        dest="output_folder",
+        type=str,
+        default="false",
+        help="Output folder (str)",
+     )
+
     args = parser.parse_args()
 
     main(args)

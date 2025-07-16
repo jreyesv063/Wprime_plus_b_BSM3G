@@ -13,13 +13,16 @@ def systematic_variation_mask(events, lepton_flavor, jets_veto,
                                 delta_list_met,
                                 fatjets = None, 
                                 wjets = None,
+                                cjets = None,
+                                cjets_mask = None,
                                 fatjets_mask = None, 
                                 wjets_mask = None,
                                 mt_threshold = None,
                                 mt_inverted = False,
                                 delta_threshold = None,
                                 delta_inverted = False,
-                                include_fatjets = True):
+                                include_fatjets = True,
+                                include_cjets = False):
 
     # Muones
     good_muons_up = (muons_mask["up"]) & (
@@ -85,6 +88,7 @@ def systematic_variation_mask(events, lepton_flavor, jets_veto,
         & (delta_r_mask(jets_veto, taus, threshold=delta_r_threshold))
     )
     bjets_jer_down = jets_veto[good_bjets_jer_down]
+
 
 
     # light_jets
@@ -217,7 +221,53 @@ def systematic_variation_mask(events, lepton_flavor, jets_veto,
             & (delta_r_mask(events.FatJet, fatjets, threshold = 2*delta_r_threshold))
         )   
         wjets_jer_down = events.FatJet[good_wjets_jer_down]
-            
+
+    if include_cjets:
+        # Cjets
+        good_cjets_jes_up = (
+            cjets_mask["JES_up"]
+            & (delta_r_mask(jets_veto, electrons, threshold=delta_r_threshold))
+            & (delta_r_mask(jets_veto, muons, threshold=delta_r_threshold))
+            & (delta_r_mask(jets_veto, taus, threshold=delta_r_threshold))
+            & (delta_r_mask(jets_veto, bjets, threshold = delta_r_threshold))
+            & (delta_r_mask(jets_veto, jets, threshold = delta_r_threshold))            
+        ) 
+        cjets_jes_up = jets_veto[good_cjets_jes_up]
+
+
+        good_cjets_jes_down = (
+            cjets_mask["JES_down"]
+            & (delta_r_mask(jets_veto, electrons, threshold=delta_r_threshold))
+            & (delta_r_mask(jets_veto, muons, threshold=delta_r_threshold))
+            & (delta_r_mask(jets_veto, taus, threshold=delta_r_threshold))
+            & (delta_r_mask(jets_veto, bjets, threshold = delta_r_threshold))
+            & (delta_r_mask(jets_veto, jets, threshold = delta_r_threshold))                
+        )
+        cjets_jes_down = jets_veto[good_cjets_jes_down]
+
+
+        good_cjets_jer_up = (
+            cjets_mask["JER_up"]
+            & (delta_r_mask(jets_veto, electrons, threshold=delta_r_threshold))
+            & (delta_r_mask(jets_veto, muons, threshold=delta_r_threshold))
+            & (delta_r_mask(jets_veto, taus, threshold=delta_r_threshold))
+            & (delta_r_mask(jets_veto, bjets, threshold = delta_r_threshold))
+            & (delta_r_mask(jets_veto, jets, threshold = delta_r_threshold))                
+        )
+        cjets_jer_up = jets_veto[good_cjets_jer_up]
+
+
+        good_cjets_jer_down = (
+            bjets_mask["JER_down"]
+            & (delta_r_mask(jets_veto, electrons, threshold=delta_r_threshold))
+            & (delta_r_mask(jets_veto, muons, threshold=delta_r_threshold))
+            & (delta_r_mask(jets_veto, taus, threshold=delta_r_threshold))
+            & (delta_r_mask(jets_veto, bjets, threshold = delta_r_threshold))
+            & (delta_r_mask(jets_veto, jets, threshold = delta_r_threshold))                
+        )
+        cjets_jer_down = jets_veto[good_cjets_jer_down]
+
+
     lepton = {
         "tau": {
           "nom":  taus,
@@ -290,7 +340,9 @@ def systematic_variation_mask(events, lepton_flavor, jets_veto,
         "ROCHESTER": {
             "up": {
                 "one_muon": (ak.num(muons_up) == 1),
+                "two_muons": (ak.num(muons_up) == 2),
                 "muon_veto": (ak.num(muons_up) == 0),
+                "at_least_two_muons": (ak.num(muons_up) >= 2),
                 "muon": muons_up,
                 "new_met_pt": map_met_mask["Muon"]["up"]["new_met_pt"],
                 "new_met_phi": map_met_mask["Muon"]["up"]["new_met_phi"],
@@ -308,7 +360,9 @@ def systematic_variation_mask(events, lepton_flavor, jets_veto,
             },
             "down": {
                 "one_muon": (ak.num(muons_down) == 1),
+                "two_muons": (ak.num(muons_up) == 2),
                 "muon_veto": (ak.num(muons_down) == 0),
+                "at_least_two_muons": (ak.num(muons_down) >= 2),
                 "muon": muons_down,
                 "new_met_pt": map_met_mask["Muon"]["down"]["new_met_pt"],
                 "new_met_phi": map_met_mask["Muon"]["down"]["new_met_phi"],
@@ -328,6 +382,7 @@ def systematic_variation_mask(events, lepton_flavor, jets_veto,
         "TES": {
             "up": {
                 "one_tau": (ak.num(taus_up) == 1),
+                "two_taus": (ak.num(taus_up) == 2),
                 "tau_veto": (ak.num(taus_up) == 0),
                 "tau": taus_up,
                 "new_met_pt": map_met_mask["Tau"]["up"]["new_met_pt"],
@@ -347,6 +402,7 @@ def systematic_variation_mask(events, lepton_flavor, jets_veto,
             "down": {
                 "one_tau": (ak.num(taus_down) == 1),
                 "tau_veto": (ak.num(taus_down) == 0),
+                "two_taus": (ak.num(taus_down) == 2),
                 "tau": taus_down,
                 "new_met_pt": map_met_mask["Tau"]["down"]["new_met_pt"],
                 "new_met_phi": map_met_mask["Tau"]["down"]["new_met_phi"],
@@ -555,6 +611,88 @@ def systematic_variation_mask(events, lepton_flavor, jets_veto,
                 )
             }
         }
+
+    if include_cjets:
+        output_map["cjet_JES"] = {
+            "up": {
+                "one_cjet": (ak.num(cjets_jes_up) == 1),
+                "cjet_veto": (ak.num(cjets_jes_up) == 0),
+                "at_least_one_cjet": (ak.num(cjets_jes_up) >= 1),
+                "cjet": cjets_jes_up,
+                "new_met_pt": map_met_mask["CJet_JES"]["up"]["new_met_pt"],
+                "new_met_phi": map_met_mask["CJet_JES"]["up"]["new_met_phi"],
+                f"met_{met_threshold}": map_met_mask["CJet_JES"]["up"]["mask"],
+                **(
+                    {f"delta_phi_jet_met_{delta_threshold}_{delta_inverted}": map_met_mask["CJet_JES"]["up"]["delta_phi"]}
+                    if "delta_phi" in map_met_mask["CJet_JES"]["up"]
+                    else {}
+                ),
+                **(
+                    {f"mt_{mt_threshold}_{mt_inverted}": map_met_mask["CJet_JES"]["up"]["mt_mask"]}
+                    if "mt_mask" in map_met_mask["CJet_JES"]["up"]
+                    else {}
+                )
+            },
+            "down": {
+                "one_cjet": (ak.num(cjets_jes_down) == 1),
+                "cjet_veto": (ak.num(cjets_jes_down) == 0),
+                "at_least_one_cjet": (ak.num(cjets_jes_down) >= 1),
+                "cjet": cjets_jes_down,
+                "new_met_pt": map_met_mask["CJet_JES"]["down"]["new_met_pt"],
+                "new_met_phi": map_met_mask["CJet_JES"]["down"]["new_met_phi"],
+                f"met_{met_threshold}": map_met_mask["CJet_JES"]["down"]["mask"],
+                **(
+                    {f"delta_phi_jet_met_{delta_threshold}_{delta_inverted}": map_met_mask["CJet_JES"]["down"]["delta_phi"]}
+                    if "delta_phi" in map_met_mask["CJet_JES"]["down"]
+                    else {}
+                ),
+                **(
+                    {f"mt_{mt_threshold}_{mt_inverted}": map_met_mask["CJet_JES"]["down"]["mt_mask"]}
+                    if "mt_mask" in map_met_mask["CJet_JES"]["down"]
+                    else {}
+                )
+            }
+        }
+        output_map["cjet_JER"] = {
+            "up": {
+                "one_cjet": (ak.num(cjets_jer_up) == 1),
+                "cjet_veto": (ak.num(cjets_jer_up) == 0),
+                "at_least_one_cjet": (ak.num(cjets_jer_up) >= 1),
+                "cjet": cjets_jer_up,
+                "new_met_pt": map_met_mask["CJet_JER"]["up"]["new_met_pt"],
+                "new_met_phi": map_met_mask["CJet_JER"]["up"]["new_met_phi"],
+                f"met_{met_threshold}": map_met_mask["CJet_JER"]["up"]["mask"],
+                **(
+                    {f"delta_phi_jet_met_{delta_threshold}_{delta_inverted}": map_met_mask["CJet_JER"]["up"]["delta_phi"]}
+                    if "delta_phi" in map_met_mask["CJet_JER"]["up"]
+                    else {}
+                ),
+                **(
+                    {f"mt_{mt_threshold}_{mt_inverted}": map_met_mask["CJet_JER"]["up"]["mt_mask"]}
+                    if "mt_mask" in map_met_mask["CJet_JER"]["up"]
+                    else {}
+                )
+            },
+            "down": {
+                "one_cjet": (ak.num(cjets_jer_down) == 1),
+                "cjet_veto": (ak.num(cjets_jer_down) == 0),
+                "at_least_one_cjet": (ak.num(cjets_jer_down) >= 1),
+                "cjet": cjets_jer_down,
+                "new_met_pt": map_met_mask["CJet_JER"]["down"]["new_met_pt"],
+                "new_met_phi": map_met_mask["CJet_JER"]["down"]["new_met_phi"],
+                f"met_{met_threshold}": map_met_mask["CJet_JER"]["down"]["mask"],
+                **(
+                    {f"delta_phi_jet_met_{delta_threshold}_{delta_inverted}": map_met_mask["CJet_JER"]["down"]["delta_phi"]}
+                    if "delta_phi" in map_met_mask["CJet_JER"]["down"]
+                    else {}
+                ),
+                **(
+                    {f"mt_{mt_threshold}_{mt_inverted}": map_met_mask["CJet_JER"]["down"]["mt_mask"]}
+                    if "mt_mask" in map_met_mask["CJet_JER"]["down"]
+                    else {}
+                )
+            }
+        }   
 
 
     return output_map

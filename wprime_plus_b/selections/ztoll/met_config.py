@@ -1,17 +1,13 @@
 ztoll_met_selection = {
-    "ll": {
-        "mu": {
-            "met_threshold": 0.0,
-        },
-    },
     "ll+c": {
         "mu": {
             "met_threshold": 0.0,
         },
     },
-    "ll_ISR": {
+    "ll": {
         "mu": {
             "met_threshold": 0.0,
         },
     }
 }
+

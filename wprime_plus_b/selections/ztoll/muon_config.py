@@ -1,12 +1,4 @@
 ztoll_muon_selection = {
-    "ll": {
-        "mu": {
-                "muon_pt_threshold": 30,
-                "muon_eta_threshold": 2.1,
-                "muon_id_wp": "tight",
-                "muon_iso_wp": "tight",
-        },     
-    },
     "ll+c": {
         "mu": {
                 "muon_pt_threshold": 30,
@@ -15,7 +7,7 @@ ztoll_muon_selection = {
                 "muon_iso_wp": "tight",
         },     
     },
-    "ll_ISR": {
+    "ll": {
         "mu": {
                 "muon_pt_threshold": 30,
                 "muon_eta_threshold": 2.1,

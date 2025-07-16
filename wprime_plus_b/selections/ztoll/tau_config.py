@@ -1,15 +1,4 @@
 ztoll_tau_selection = {
-    "ll": {
-        "mu": {
-                "tau_pt_threshold": 20,  
-                "tau_eta_threshold": 2.1, 
-                "tau_dz_threshold": 0.2, 
-                "tau_vs_jet": "Tight",
-                "tau_vs_ele": "Tight", 
-                "tau_vs_mu": "Tight",
-                "prongs": 13,     
-        }, 
-    },
     "ll+c": {
         "mu": {
                 "tau_pt_threshold": 20,  
@@ -21,7 +10,7 @@ ztoll_tau_selection = {
                 "prongs": 13,     
         }, 
     },
-    "ll_ISR": {
+    "ll": {
         "mu": {
                 "tau_pt_threshold": 20,  
                 "tau_eta_threshold": 2.1, 

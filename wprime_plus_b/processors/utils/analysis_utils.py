@@ -746,6 +746,87 @@ def histograms_output_syst(
         self.add_feature(f"lepton_met_mass{suffix}", lepton_met_mass)
 
 
+def histograms_output_Z_analysis_syst(
+    self,
+    bjets, cjets, jets, 
+    electrons, muons, taus, 
+    met, 
+    mask, 
+    lepton_flavor,
+    channel, 
+    is_mc,
+    events,
+    syst_flag
+):
+
+    suffix = "" if syst_flag == "nominal" else f"_{syst_flag}"
+
+    # Select region objects
+    region_bjets = bjets[mask]
+    region_cjets = cjets[mask]
+    region_jets = jets[mask]
+    region_electrons = electrons[mask]
+    region_muons = muons[mask]
+    region_taus = taus[mask]
+    region_met = met[mask]
+
+
+    # Define region leptons
+    lepton_region_map = {
+        "ele": region_electrons,
+        "mu": region_muons,
+        "tau": region_taus
+    }
+    region_leptons = lepton_region_map[lepton_flavor]
+
+    region_leading_lepton = ak.pad_none(region_leptons, 2)[:, 0]
+    region_subleading_lepton = ak.pad_none(region_leptons, 2)[:, 1]
+
+    # leading bjets
+    leading_bjets = ak.firsts(region_bjets)    
+    leading_cjets = ak.firsts(region_cjets)
+    leading_jets = ak.firsts(region_jets)
+
+
+    if syst_flag == "nominal":
+        self.add_feature(f"ptl1{suffix}", region_leading_lepton.pt)
+        # self.add_feature(f"etal1{suffix}", region_leading_lepton.eta)
+        # self.add_feature(f"phil1{suffix}", region_leading_lepton.phi)
+
+        self.add_feature(f"ptl2{suffix}", region_subleading_lepton.pt)
+        # self.add_feature(f"etal2{suffix}", region_subleading_lepton.eta)
+        # self.add_feature(f"phil2{suffix}", region_subleading_lepton.phi)
+
+
+        self.add_feature(f"ptll{suffix}", (region_leading_lepton + region_subleading_lepton).pt)
+        # self.add_feature(f"etall{suffix}", (region_leading_lepton + region_subleading_lepton).eta)
+        # self.add_feature(f"phill{suffix}", (region_leading_lepton + region_subleading_lepton).phi)
+        self.add_feature(f"mll{suffix}", (region_leading_lepton + region_subleading_lepton).mass)
+        
+
+        self.add_feature(f"njets{suffix}", ak.num(region_jets))
+        # self.add_feature(f"npvs{suffix}", events.PV.npvsGood[mask])
+
+        self.add_feature(f"met{suffix}", region_met.pt)
+        # self.add_feature(f"met_phi{suffix}", region_met.phi)
+
+
+        if channel == "ll+c":
+            self.add_feature(f"cjet_pt{suffix}", region_cjets.pt)
+            self.add_feature(f"cjet_eta{suffix}", region_cjets.eta)
+            self.add_feature(f"cjet_phi{suffix}", region_cjets.phi)
+
+        else:
+            self.add_feature(f"jet_pt{suffix}", region_jets.pt)
+            self.add_feature(f"jet_eta", region_jets.eta)
+            self.add_feature(f"jet_phi{suffix}", region_jets.phi)
+            self.add_feature(f"HT{suffix}", ak.sum(region_jets.pt, axis=1))
+
+
+    else:
+        self.add_feature(f"mll{suffix}", (region_leading_lepton + region_subleading_lepton).mass)
+
+
 
 def efficiency_studies_numerator(trigger_option: str, region_name: str, year: str, events, region_selection_mask, mask_denominator, output_metadata, weights_container):
     """

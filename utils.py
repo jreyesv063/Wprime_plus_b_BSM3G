@@ -82,10 +82,6 @@ def build_filesets(args: dict) -> None:
                     file.unlink()
                 except Exception as e:
                     print(f"Failed to create {file}: {e}")
-    # if output_directory.exists():
-    #     for file in output_directory.glob("*"):
-    #         if file.is_file():
-    #             file.unlink()
 
     else:
         output_directory.mkdir(parents=True)

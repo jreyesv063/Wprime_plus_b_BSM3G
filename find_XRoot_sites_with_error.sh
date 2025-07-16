@@ -5,7 +5,7 @@ declare -A host_to_site=(
 ["xrootd.hep.kbfi.ee"]="T2_EE_Estonia"
     ["cmsxrootd.fnal.gov"]="T1_US_FNAL_Disk"
     ["xrootd-redir.ultralight.org"]="T2_US_Nebraska"
-    ["xrootd-cms.infn.it"]="T3_IT_Trieste"
+    ["xrootd-cms.infn.it"]="T1_IT_CNAF_Disk"
     ["xrootd-cms-psu0.fnal.gov"]="T3_US_FNALLPC"
     ["xrootd-cmsbdii.physik.rwth-aachen.de"]="T2_DE_RWTH"
     ["xrootd-cms.ucl.ac.be"]="T2_BE_UCL"
@@ -17,7 +17,6 @@ declare -A host_to_site=(
     ["xrootd.unl.edu"]="T2_US_Nebraska"
     ["cmsxrootd.gridka.de"]="T1_DE_KIT_Disk"
     ["xrootd.cmsaf.mit.edu"]="T2_US_MIT"
-    ["xrootd.cmsaf.vanderbilt.edu"]="T2_US_Vanderbilt"
     ["xrootd-cms.psu.edu"]="T3_US_FNALLPC"
     ["cms.sscc.uos.ac.kr"]="T3_KR_UOS"
     ["ccxrootd.in2p3.fr"]="T1_FR_CCIN2P3_Disk"
@@ -61,6 +60,15 @@ declare -A host_to_site=(
     ["eoscms.cern.ch"]="T2_CH_CERN"
     ["eos01.grid.cyfronet.pl"]="T2_PL_Cyfronet"
     ["k8s-redir.ultralight.org"]="T2_US_Caltech"
+    ["xrootd-cmst1-door.pic.es"]="T1_ES_PIC_Disk"
+    ["cmsdcache-kit-disk.gridka.de"]="T1_DE_KIT_Disk"
+    ["xrootd.cmsaf.vanderbilt.edu"]="T2_US_Vanderbilt"
+    ["skynet013.crc.nd.edu"]="T3_US_NotreDame"
+    ["cmsdcadisk.fnal.gov"]="T1_US_FNAL_Disk"
+    ["xrootd-vanderbilt.sites.opensciencegrid.org"]="T2_US_Vanderbilt"
+    ["sbgdcache.in2p3.fr"]="T1_FR_CCIN2P3_Disk"
+    ["eos01.grid.cyfronet.pl:1094"]="T2_PL_Cyfronet"
+    ["rdr.echo.stfc.ac.uk"]="T1_UK_RAL"
 )
 
 # Mapa de años con sus sitios válidos

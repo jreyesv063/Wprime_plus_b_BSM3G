@@ -370,7 +370,7 @@ class WjetsProccessor(processor.ProcessorABC):
             trigger_match_mask = np.ones(len(events), dtype="bool")
 
 
-         # -------------------------------------------------------------
+        # -------------------------------------------------------------
         # Weights
         # -------------------------------------------------------------
         # set weights container
@@ -737,7 +737,7 @@ class WjetsProccessor(processor.ProcessorABC):
                     f"mt_{mt_cut}_invert_{mt_invert}",
                     f"delta_phi_jet_met_{delta_phi_cut}_{invert_delta_phi}",
                     f"met_{met_threshold}",
-                    f"trigger_{efficiency_trigger}",
+#                    f"trigger_{efficiency_trigger}",
                 ],
             },
             "1l0b":{

@@ -596,20 +596,20 @@ class QCDProccessor(processor.ProcessorABC):
         # -------------------------
         weights_copy = copy.deepcopy(weights_container)
 
-        # if self.lepton_flavor == "tau":
-        #     add_ttbar_boost_corrections(
-        #             jets = jets,
-        #             bjets = bjets,
-        #             muons = muons,
-        #             electrons = electrons,
-        #             taus = taus,
-        #             met = events.MET,
-        #             lepton_flavor = self.lepton_flavor,
-        #             dataset = dataset,
-        #             weights = weights_container,
-        #             year = self.year,
-        #             variation = self.syst,
-        #     ) 
+        if self.lepton_flavor == "tau":
+            add_ttbar_boost_corrections(
+                    jets = jets,
+                    bjets = bjets,
+                    muons = muons,
+                    electrons = electrons,
+                    taus = taus,
+                    met = events.MET,
+                    lepton_flavor = self.lepton_flavor,
+                    dataset = dataset,
+                    weights = weights_container,
+                    year = self.year,
+                    variation = self.syst,
+            ) 
 
         # -------------------------------------------------------------
         # event selection
@@ -783,8 +783,8 @@ class QCDProccessor(processor.ProcessorABC):
                 mask_reference_trigger = mask_reference_trigger | events.HLT[trigger_reference]
 
 
-        # if self.lepton_flavor == "tau":
-        #     add_met_trigger_corrections(mask_reference_trigger, dataset, events.MET, weights_container, self.year, "", syst_var) 
+        if self.lepton_flavor == "tau":
+            add_met_trigger_corrections(mask_reference_trigger, dataset, events.MET, weights_container, self.year, "", self.syst) 
         
         output["metadata"].update({"Triggers": reference_triggers})
         self.selections.add(f"trigger_{reference_trigger}", mask_reference_trigger)

@@ -585,19 +585,19 @@ class WplusJetsProcessor(processor.ProcessorABC):
         # -------------------------
         weights_copy = copy.deepcopy(weights_container)
 
-        # add_ttbar_boost_corrections(
-        #         jets = jets,
-        #         bjets = bjets,
-        #         muons = muons,
-        #         electrons = electrons,
-        #         taus = taus,
-        #         met = events.MET,
-        #         lepton_flavor = self.lepton_flavor,
-        #         dataset = dataset,
-        #         weights = weights_container,
-        #         year = self.year,
-        #         variation = self.syst,
-        # ) 
+        add_ttbar_boost_corrections(
+                jets = jets,
+                bjets = bjets,
+                muons = muons,
+                electrons = electrons,
+                taus = taus,
+                met = events.MET,
+                lepton_flavor = self.lepton_flavor,
+                dataset = dataset,
+                weights = weights_container,
+                year = self.year,
+                variation = self.syst,
+        ) 
             
             
         # -------------------------------------------------------------
@@ -774,8 +774,8 @@ class WplusJetsProcessor(processor.ProcessorABC):
                 mask_reference_trigger = mask_reference_trigger | events.HLT[trigger_reference]
 
 
-        #if self.lepton_flavor == "tau":
-        #    add_met_trigger_corrections(mask_reference_trigger, dataset, events.MET, weights_container, self.year, "", self.syst)  
+        if self.lepton_flavor == "tau":
+            add_met_trigger_corrections(mask_reference_trigger, dataset, events.MET, weights_container, self.year, "", self.syst)  
 
         output["metadata"].update({"Triggers": reference_triggers})
 

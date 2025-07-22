@@ -118,7 +118,7 @@ def select_good_taus(
             & (decay_mode_mask)
         )
 
-        if bcd_qcd_estimation in ["cr_b", "cr_c"]:
+        if bcd_qcd_estimation in ["cr_c", "cr_d"]:
             good_taus = good_taus & (
             events.Tau.idDeepTau2017v2p1VSjet < taus_wps["DeepTau2017"]["deep_tau_jet"][tau_vs_jet_fail]
             )

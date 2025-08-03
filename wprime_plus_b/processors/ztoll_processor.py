@@ -12,7 +12,6 @@ from wprime_plus_b.processors.utils import histograms
 # Corrections
 from wprime_plus_b.corrections.ISR import ISR_weight
 from wprime_plus_b.corrections.ArbitraryWeight import ArbitraryWeight
-from wprime_plus_b.corrections.ttbar_boost import add_ttbar_boost_corrections
 from wprime_plus_b.corrections.jec import apply_jet_corrections, apply_fatjet_corrections
 from wprime_plus_b.corrections.met import apply_met_phi_corrections, add_met_trigger_corrections
 from wprime_plus_b.corrections.rochester import apply_rochester_corrections

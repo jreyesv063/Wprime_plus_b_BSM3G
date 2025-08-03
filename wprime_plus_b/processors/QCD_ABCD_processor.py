@@ -24,7 +24,6 @@ from wprime_plus_b.corrections.tau import TauCorrector
 from wprime_plus_b.corrections.electron import ElectronCorrector
 from wprime_plus_b.corrections.jetvetomaps import jetvetomaps_mask
 from wprime_plus_b.corrections.ISR import ISR_weight
-from wprime_plus_b.corrections.ttbar_boost import add_ttbar_boost_corrections
 
 # Selections: Config
 from wprime_plus_b.selections.QCD_ABCD.bjet_config import QCD_ABCD_bjet_selection
@@ -566,24 +565,7 @@ class QCD_ABCD_Proccessor(processor.ProcessorABC):
             # -------------------------
             update_met_jet_veto(events = events, jets_veto = jets_veto) 
             met_recoil(events = events, muons = muons, electrons = electrons, taus = taus)
-
-
-            # -------------------------
-            # ST correction
-            # -------------------------
-            add_ttbar_boost_corrections(
-                    jets = jets,
-                    bjets = bjets,
-                    muons = muons,
-                    electrons = electrons,
-                    taus = taus,
-                    met = events.MET,
-                    lepton_flavor = self.lepton_flavor,
-                    dataset = dataset,
-                    weights = weights_container,
-                    year = self.year,
-                    variation = syst_var,
-            )            
+    
 
             # -------------------------------------------------------------
             # event selection

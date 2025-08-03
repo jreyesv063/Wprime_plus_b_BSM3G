@@ -24,8 +24,7 @@ from wprime_plus_b.corrections.electron import ElectronCorrector
 from wprime_plus_b.corrections.jetvetomaps import jetvetomaps_mask
 from wprime_plus_b.corrections.wjets_topjets import add_QCD_vs_W_weight, add_QCD_vs_Top_weight
 from wprime_plus_b.corrections.ISR import ISR_weight
-#from wprime_plus_b.corrections.top_boost import add_top_boost_corrections
-from wprime_plus_b.corrections.ttbar_boost import add_ttbar_boost_corrections
+from wprime_plus_b.corrections.top_boost import add_top_boost_corrections
 
 # Selections: Config
 from wprime_plus_b.selections.qcd_hadronic.bjet_config import qcd_hadronic_bjet_selection
@@ -597,19 +596,21 @@ class QCDProccessor(processor.ProcessorABC):
         weights_copy = copy.deepcopy(weights_container)
 
         if self.lepton_flavor == "tau":
-            add_ttbar_boost_corrections(
-                    jets = jets,
-                    bjets = bjets,
-                    muons = muons,
-                    electrons = electrons,
-                    taus = taus,
-                    met = events.MET,
-                    lepton_flavor = self.lepton_flavor,
-                    dataset = dataset,
-                    weights = weights_container,
-                    year = self.year,
-                    variation = self.syst,
-            ) 
+            add_top_boost_corrections(
+                            jets = jets,
+                            bjets = bjets,
+                            fatjets=fatjets,
+                            wjets=wjets,
+                            muons = muons,
+                            electrons = electrons,
+                            taus = taus,
+                            met = events.MET,
+                            lepton_flavor = self.lepton_flavor,
+                            dataset = dataset,
+                            weights = weights_container,
+                            year = self.year,
+                            variation = self.syst,
+                    ) 
 
         # -------------------------------------------------------------
         # event selection

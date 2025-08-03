@@ -23,7 +23,7 @@ from wprime_plus_b.corrections.electron import ElectronCorrector
 from wprime_plus_b.corrections.jetvetomaps import jetvetomaps_mask
 from wprime_plus_b.corrections.wjets_topjets import add_QCD_vs_W_weight, add_QCD_vs_Top_weight
 from wprime_plus_b.corrections.ISR import ISR_weight
-from wprime_plus_b.corrections.ttbar_boost import add_ttbar_boost_corrections
+from wprime_plus_b.corrections.top_boost import add_top_boost_corrections
 
 # Selections: Config
 from wprime_plus_b.selections.top_tagger.bjet_config import top_tagger_bjet_selection
@@ -55,7 +55,7 @@ from wprime_plus_b.systematics.syst_variations import systematic_variation_mask
 from wprime_plus_b.systematics.utils import update_region_map, update_region_selection
 
 
-from wprime_plus_b.processors.utils.analysis_utils import delta_r_mask, normalize, trigger_match, top_tagger, output_metadata, histograms_output_syst, efficiency_studies_numerator
+from wprime_plus_b.processors.utils.analysis_utils import delta_r_mask, normalize, trigger_match, top_tagger, output_metadata, histograms_output_syst, efficiency_studies_numerator, njets_no_used_top_tagger
 
 
 class TopTaggerProccessor(processor.ProcessorABC):
@@ -584,9 +584,11 @@ class TopTaggerProccessor(processor.ProcessorABC):
         # -------------------------
         # ST correction
         # -------------------------
-        add_ttbar_boost_corrections(
+        add_top_boost_corrections(
                 jets = jets,
                 bjets = bjets,
+                fatjets=fatjets,
+                wjets=wjets,
                 muons = muons,
                 electrons = electrons,
                 taus = taus,
@@ -837,7 +839,9 @@ class TopTaggerProccessor(processor.ProcessorABC):
         # --------------
         cut_names = region_selection[self.lepton_flavor]
         output["metadata"].update({"cutflow": {}})
+        output["metadata"].update({"cutflow_raw": {}})
         output["metadata"]["cutflow"]["sumw"] = ak.sum(weights_container.weight())
+        output["metadata"]["cutflow_raw"]["sumw"] = len(weights_container.weight())        
         selections = []        
         for cut_name in cut_names:
             selections.append(cut_name)
@@ -845,6 +849,9 @@ class TopTaggerProccessor(processor.ProcessorABC):
             output["metadata"]["cutflow"][cut_name] = ak.sum(
                 weights_container.weight()[current_selection]
             )
+            output["metadata"]["cutflow_raw"][cut_name] = len(
+                weights_container.weight()[current_selection]
+            )               
             
         # ----------------------------
         # Save weights statistics
@@ -967,11 +974,13 @@ class TopTaggerProccessor(processor.ProcessorABC):
                     if region_name == "nominal":
                         
                         output["metadata"]["cutflow"]["passing_top_tagger"] = ak.sum(weights_container.weight()[region_mask])
+                        output["metadata"]["cutflow_raw"]["passing_top_tagger"] = len(weights_container.weight()[region_mask])
 
                         if trigger_eff == "tau":
                              output["metadata"][f"cutflow"][f"numerator_{trigger_eff}_trigger"] = ak.sum(weights_container.weight()[region_mask])
+                             output["metadata"][f"cutflow_raw"][f"numerator_{trigger_eff}_trigger"] = len(weights_container.weight()[region_mask])
 
-                        
+
                         output["metadata"].update({
                             "weighted_final_nevents": ak.sum(weights_container.weight()[region_mask]),
                             "raw_final_nevents": nevents_top_tagger,
@@ -1044,7 +1053,35 @@ class TopTaggerProccessor(processor.ProcessorABC):
 
                     tops, mask_top, masks = top_tagger(topX, top_tagger_cases=cases)
 
-        
+                    njets_no_top = None
+
+                    if region_name == "nominal":
+                        escenario_base = {
+                            ("case_1", "case_2", "case_9", "case_10"): {"njets": 0, "nbjets": 0, "nfatjets": 1, "nwjets": 0},
+                            ("case_3", "case_4", "case_11", "case_12"): {"njets": 0, "nbjets": 1, "nfatjets": 0, "nwjets": 1},
+                            ("case_5", "case_6", "case_7", "case_8", "case_13"): {"njets": 2, "nbjets": 1, "nfatjets": 0, "nwjets": 0},
+                        }
+                        # Expandir el diccionario a clave individual
+                        escenarios = {case: valores for claves, valores in escenario_base.items() for case in claves}      
+                   
+
+                        njets_no_top = {
+                            "njets_no_top": ak.zeros_like(masks[list(masks.keys())[0]], dtype=int),  
+                            "nbjets_no_top": ak.zeros_like(masks[list(masks.keys())[0]], dtype=int),
+                            "nfatjets_no_top": ak.zeros_like(masks[list(masks.keys())[0]], dtype=int),
+                            "nwjets_no_top": ak.zeros_like(masks[list(masks.keys())[0]], dtype=int)
+                        }
+                        for case_name, mask_case in masks.items():
+                            njets_no_top = njets_no_used_top_tagger(
+                                                 jets = selected_objects["jets"], njets = escenarios[case_name]["njets"], 
+                                                 bjets = selected_objects["bjets"], nbjets = escenarios[case_name]["nbjets"], 
+                                                 fatjets = selected_objects["fatjets"], nfatjets = escenarios[case_name]["nfatjets"], 
+                                                 wjets = selected_objects["wjets"], nwjets = escenarios[case_name]["nwjets"], 
+                                                 prev_counts=njets_no_top,
+                                                 mask = mask_case)
+                        
+
+
                     # Number of events after top tagger/efficiency
                     nevents_top_tagger = ak.sum(mask_top)
 
@@ -1053,7 +1090,7 @@ class TopTaggerProccessor(processor.ProcessorABC):
                     if region_name == "nominal":
                         
                         output["metadata"]["cutflow"]["passing_top_tagger"] = ak.sum(weights_container.weight()[region_mask][mask_top])
-
+                        output["metadata"]["cutflow_raw"]["passing_top_tagger"] = len(weights_container.weight()[region_mask][mask_top])
 
                     else:
 
@@ -1096,11 +1133,16 @@ class TopTaggerProccessor(processor.ProcessorABC):
 
                     if nevents_top_tagger > 0:
                         # Histograms
-                        histograms_output_syst(self, selected_objects["bjets"], selected_objects["jets"],
-                                        selected_objects["electrons"], selected_objects["muons"],
-                                        selected_objects["taus"], selected_objects["met"],
-                                        tops, mask_top, self.lepton_flavor, self.is_mc, selected_objects["events"],
-                                        region_name)
+                        histograms_output_syst(self, 
+                                        njets_no_top = njets_no_top,
+                                        bjets = selected_objects["bjets"], jets = selected_objects["jets"],
+                                        fatjets = selected_objects["fatjets"], wjets = selected_objects["wjets"],
+                                        electrons = selected_objects["electrons"],  muons = selected_objects["muons"],
+                                        taus = selected_objects["taus"], met = selected_objects["met"],
+                                        tops = tops , mask = mask_top, 
+                                        lepton_flavor = self.lepton_flavor, is_mc = self.is_mc, 
+                                        events = selected_objects["events"],
+                                        syst_flag = region_name)
 
 
 
@@ -1153,11 +1195,13 @@ class TopTaggerProccessor(processor.ProcessorABC):
             if nevents_after == 0:
 
                 output["metadata"]["cutflow"]["passing_top_tagger"] = ak.sum(weights_container.weight()[region_mask])
+                output["metadata"]["cutflow_raw"]["passing_top_tagger"] = len(weights_container.weight()[region_mask])
 
 
                 if trigger_eff == "tau":
                     output["metadata"]["cutflow"][f"numerator_{trigger_eff}_trigger"] = ak.sum(weights_container.weight()[region_mask])
-                        
+                    output["metadata"]["cutflow_raw"][f"numerator_{trigger_eff}_trigger"] = len(weights_container.weight()[region_mask])
+                       
 
             else:
                 
@@ -1191,12 +1235,35 @@ class TopTaggerProccessor(processor.ProcessorABC):
 
                 tops, mask_top, masks = top_tagger(topX, top_tagger_cases=cases)
 
+                escenario_base = {
+                    ("case_1", "case_2", "case_9", "case_10"): {"njets": 0, "nbjets": 0, "nfatjets": 1, "nwjets": 0},
+                    ("case_3", "case_4", "case_11", "case_12"): {"njets": 0, "nbjets": 1, "nfatjets": 0, "nwjets": 1},
+                    ("case_5", "case_6", "case_7", "case_8", "case_13"): {"njets": 2, "nbjets": 1, "nfatjets": 0, "nwjets": 0},
+                }
+                # Expandir el diccionario a clave individual
+                escenarios = {case: valores for claves, valores in escenario_base.items() for case in claves}      
+            
+
+                njets_no_top = {
+                    "njets_no_top": ak.zeros_like(masks[list(masks.keys())[0]], dtype=int),  
+                    "nbjets_no_top": ak.zeros_like(masks[list(masks.keys())[0]], dtype=int),
+                    "nfatjets_no_top": ak.zeros_like(masks[list(masks.keys())[0]], dtype=int),
+                    "nwjets_no_top": ak.zeros_like(masks[list(masks.keys())[0]], dtype=int)
+                }
+                for case_name, mask_case in masks.items():
+                    njets_no_top = njets_no_used_top_tagger(
+                                            jets = selected_objects["jets"], njets = escenarios[case_name]["njets"], 
+                                            bjets = selected_objects["bjets"], nbjets = escenarios[case_name]["nbjets"], 
+                                            fatjets = selected_objects["fatjets"], nfatjets = escenarios[case_name]["nfatjets"], 
+                                            wjets = selected_objects["wjets"], nwjets = escenarios[case_name]["nwjets"], 
+                                            prev_counts=njets_no_top,
+                                            mask = mask_case)
 
                 # Number of events after top tagger/efficiency
                 nevents_top_tagger = ak.sum(mask_top)
 
                 output["metadata"]["cutflow"]["passing_top_tagger"] = ak.sum(weights_container.weight()[region_mask][mask_top])
-
+                output["metadata"]["cutflow_raw"]["passing_top_tagger"] = len(weights_container.weight()[region_mask][mask_top])
 
                 # -----------------------------------------
                 #  Eff studies
@@ -1227,11 +1294,16 @@ class TopTaggerProccessor(processor.ProcessorABC):
 
                 if nevents_top_tagger > 0:
                     # Histograms
-                    histograms_output_syst(self, selected_objects["bjets"], selected_objects["jets"],
-                                    selected_objects["electrons"], selected_objects["muons"],
-                                    selected_objects["taus"], selected_objects["met"],
-                                    tops, mask_top, self.lepton_flavor, self.is_mc, selected_objects["events"],
-                                    "nominal")
+                    histograms_output_syst(self, 
+                                    njets_no_top = njets_no_top,
+                                    bjets = selected_objects["bjets"], jets = selected_objects["jets"],
+                                    fatjets = selected_objects["fatjets"], wjets = selected_objects["wjets"],
+                                    electrons = selected_objects["electrons"],  muons = selected_objects["muons"],
+                                    taus = selected_objects["taus"], met = selected_objects["met"],
+                                    tops = tops , mask = mask_top, 
+                                    lepton_flavor = self.lepton_flavor, is_mc = self.is_mc, 
+                                    events = selected_objects["events"],
+                                    syst_flag = "nominal")
 
 
                     if self.output_type == "array":

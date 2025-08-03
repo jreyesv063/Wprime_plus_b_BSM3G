@@ -1022,8 +1022,8 @@ class topXfinder:
 
         
         good_w_mass = (
-            (dijets["p4"].mass > top_tagger_mW_mTop_Njets_selection[self.lepton_flavor]["m_W_min"]) 
-            & (dijets["p4"].mass < top_tagger_mW_mTop_Njets_selection[self.lepton_flavor]["m_W_max"]) 
+            (dijets["p4"].mass > w_low_mass)
+            & (dijets["p4"].mass < w_up_mass) 
         )       
         
         ws = dijets["p4"].mask[good_w_mass]  
@@ -1038,8 +1038,8 @@ class topXfinder:
         trijet = ws + bs
         
         good_top_mass = (
-            (trijet.mass > top_tagger_mW_mTop_Njets_selection[self.lepton_flavor]["m_Top_min"])
-            & (trijet.mass < top_tagger_mW_mTop_Njets_selection[self.lepton_flavor]["m_Top_max"])
+            (trijet.mass > top_low_mass)
+            & (trijet.mass < top_up_mass)
         )
 
 

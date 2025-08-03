@@ -23,8 +23,7 @@ from wprime_plus_b.corrections.electron import ElectronCorrector
 from wprime_plus_b.corrections.jetvetomaps import jetvetomaps_mask
 from wprime_plus_b.corrections.wjets_topjets import add_QCD_vs_W_weight, add_QCD_vs_Top_weight
 from wprime_plus_b.corrections.ISR import ISR_weight
-#from wprime_plus_b.corrections.top_boost import add_top_boost_corrections
-from wprime_plus_b.corrections.ttbar_boost import add_ttbar_boost_corrections
+from wprime_plus_b.corrections.top_boost import add_top_boost_corrections
 
 # Selections: Config
 from wprime_plus_b.selections.wplusjets.bjet_config import wjets_bjet_selection
@@ -585,9 +584,11 @@ class WplusJetsProcessor(processor.ProcessorABC):
         # -------------------------
         weights_copy = copy.deepcopy(weights_container)
 
-        add_ttbar_boost_corrections(
+        add_top_boost_corrections(
                 jets = jets,
                 bjets = bjets,
+                fatjets=fatjets,
+                wjets=wjets,
                 muons = muons,
                 electrons = electrons,
                 taus = taus,

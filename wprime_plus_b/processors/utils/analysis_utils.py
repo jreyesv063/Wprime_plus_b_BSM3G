@@ -451,6 +451,50 @@ def top_tagger(topX, top_tagger_cases=None):
     return selected_tops, mask_top, masks
 
 
+def njets_no_used_top_tagger(
+    jets, njets,
+    bjets, nbjets,
+    fatjets, nfatjets,
+    wjets, nwjets,
+    mask,
+    prev_counts=None  # Opcional: si no se pasa, se inicializa
+):
+    """
+    Versión acumulativa que:
+    - Inicializa prev_counts si no se proporciona.
+    - Devuelve un diccionario con los conteos actualizados.
+    
+    Args:
+        prev_counts: Diccionario con campos:
+            - njets_no_top, nbjets_no_top, nfatjets_no_top, nwjets_no_top
+            Si es None, se inicializan a cero.
+    """
+    # Inicializar prev_counts si no existe
+    if prev_counts is None:
+        zeros = ak.zeros_like(mask, dtype=int)
+        prev_counts = {
+            "njets_no_top": zeros,
+            "nbjets_no_top": zeros,
+            "nfatjets_no_top": zeros,
+            "nwjets_no_top": zeros,
+        }
+    
+    def safe_update(collection, prev, n_removed):
+        has_objects = ak.num(collection) > 0
+        do_update = mask & has_objects
+        return ak.where(
+            do_update,
+            ak.num(collection) + prev - n_removed,  # Acumula
+            prev  # Mantiene el valor previo si no se cumple mask
+        )
+    
+    return {
+        "njets_no_top": safe_update(jets, prev_counts["njets_no_top"], njets),
+        "nbjets_no_top": safe_update(bjets, prev_counts["nbjets_no_top"], nbjets),
+        "nfatjets_no_top": safe_update(fatjets, prev_counts["nfatjets_no_top"], nfatjets),
+        "nwjets_no_top": safe_update(wjets, prev_counts["nwjets_no_top"], nwjets),
+    }
+
 
 def output_metadata(output, weights=None, masks=None, mask_top=None):
     keys = [
@@ -637,7 +681,9 @@ def histograms_output(
 
 def histograms_output_syst(
     self,
+    njets_no_top,
     bjets, jets, 
+    fatjets, wjets,
     electrons, muons, taus, 
     met, 
     tops,
@@ -653,11 +699,14 @@ def histograms_output_syst(
     # Select region objects
     region_bjets = bjets[mask]
     region_jets = jets[mask]
+    region_fatjets = fatjets[mask]
+    region_wjets = wjets[mask]       
     region_electrons = electrons[mask]
     region_muons = muons[mask]
     region_taus = taus[mask]
     region_met = met[mask]
     region_tops = tops[mask]
+
 
     # Define region leptons
     lepton_region_map = {
@@ -680,67 +729,80 @@ def histograms_output_syst(
     )
 
 
-
     # HT and  ST variables
     jet_pt_addition = ak.sum(region_jets.pt, axis=1)
     bjet_pt_addition = ak.sum(region_bjets.pt, axis=1)
+    fatjet_pt_addition = ak.sum(region_fatjets.pt, axis=1)
+    wjet_pt_addition = ak.sum(region_wjets.pt, axis=1)    
     tau_pt_addition = ak.sum(region_taus.pt, axis=1)
     lepton_pt_addition = ak.sum(region_leptons.pt, axis = 1)  # Depending of the channel, we will have muons, taus, or electrons.
     muon_pt_addition = ak.sum(region_muons.pt, axis=1)
     electron_pt_addition = ak.sum(region_electrons.pt, axis=1)
+    
 
-    region_HT = jet_pt_addition + bjet_pt_addition 
-    region_ST = lepton_pt_addition + region_HT
-    region_ST_met = lepton_pt_addition + region_HT + region_met.pt
-    region_ST_full = region_ST + muon_pt_addition + electron_pt_addition + tau_pt_addition 
+
+    region_ST_met_old = lepton_pt_addition + jet_pt_addition + bjet_pt_addition + region_met.pt
+
+    region_HT = jet_pt_addition + bjet_pt_addition + fatjet_pt_addition + wjet_pt_addition
+    region_ST = region_HT + lepton_pt_addition
+    region_ST_met = region_ST + region_met.pt 
+    region_ST_full = region_ST_met + muon_pt_addition + electron_pt_addition
 
    
     if syst_flag == "nominal":
+
+        region_counts = {
+            key: array[mask]
+            for key, array in njets_no_top.items()
+        }
         # Add features to the object (assumed to have a method `add_feature`)
         # Lepton: Tau; Electron: Muon
-        self.add_feature(f"lepton_pt{suffix}", region_leptons.pt)
-        self.add_feature(f"lepton_eta{suffix}", region_leptons.eta)
-        self.add_feature(f"lepton_phi{suffix}", region_leptons.phi)
+    # Add features to the object (assumed to have a method `add_feature`)
+        # Lepton: Tau; Electron: Muon
+        self.add_feature(f"lepton_pt", region_leptons.pt)
+        self.add_feature(f"lepton_eta", region_leptons.eta)
+        self.add_feature(f"lepton_phi", region_leptons.phi)
 
         # Bjets
-        self.add_feature(f"bjet_pt{suffix}", region_bjets.pt)
-        self.add_feature(f"bjet_eta{suffix}", region_bjets.eta)
-        self.add_feature(f"bjet_phi{suffix}", region_bjets.phi)
+        self.add_feature(f"bjet_pt", region_bjets.pt)
+        self.add_feature(f"bjet_eta", region_bjets.eta)
+        self.add_feature(f"bjet_phi", region_bjets.phi)
 
         # Light jets
-        self.add_feature(f"jet_pt{suffix}", region_jets.pt)
-        self.add_feature(f"jet_eta{suffix}", region_jets.eta)
-        self.add_feature(f"jet_phi{suffix}", region_jets.phi)
+        self.add_feature(f"jet_pt", region_jets.pt)
+        self.add_feature(f"jet_eta", region_jets.eta)
+        self.add_feature(f"jet_phi", region_jets.phi)
         
         # MET
-        self.add_feature(f"met{suffix}", region_met.pt)
-        self.add_feature(f"met_phi{suffix}", region_met.phi)
+        self.add_feature(f"met", region_met.pt)
+        self.add_feature(f"met_phi", region_met.phi)
 
         # Recoil
-        self.add_feature(f"recoil_pt{suffix}", region_met.pt_recoil)
-        self.add_feature(f"recoil_phi{suffix}", region_met.phi_recoil)
+        self.add_feature(f"recoil_pt", region_met.pt_recoil)
+        self.add_feature(f"recoil_phi", region_met.phi_recoil)
 
         # Transverse mass: lepton; met.   
-        self.add_feature(f"lepton_met_mass{suffix}", lepton_met_mass)
-
+        self.add_feature(f"lepton_met_mass", lepton_met_mass)
 
         # Number of objects
-        self.add_feature(f"njets_full{suffix}", ak.num(region_jets) + ak.num(region_bjets))
-        self.add_feature(f"njets{suffix}", ak.num(region_jets))
-        self.add_feature(f"nbjets{suffix}", ak.num(region_bjets))
-        self.add_feature(f"npvs{suffix}", events.PV.npvsGood[mask])
-        self.add_feature(f"nmuons{suffix}", ak.num(region_muons))
-        self.add_feature(f"nelectrons{suffix}", ak.num(region_electrons))
-        self.add_feature(f"ntaus{suffix}", ak.num(region_taus))
+        self.add_feature(f"njets_old", ak.num(region_jets) + ak.num(region_bjets))
+        self.add_feature(f"njets_full", ak.num(region_jets) + ak.num(region_bjets) +  ak.num(region_fatjets) + ak.num(region_wjets))
+        self.add_feature(f"njets_no_top_tagger", region_counts["njets_no_top"]+ region_counts["nbjets_no_top"] + region_counts["nfatjets_no_top"] + region_counts["nwjets_no_top"])
+        self.add_feature(f"njets", ak.num(region_jets))
+        self.add_feature(f"nbjets", ak.num(region_bjets))
+        self.add_feature(f"npvs", events.PV.npvsGood[mask])
+        self.add_feature(f"nmuons", ak.num(region_muons))
+        self.add_feature(f"nelectrons", ak.num(region_electrons))
+        self.add_feature(f"ntaus", ak.num(region_taus))
 
         # Scalar sum of transverse momenta
-        self.add_feature(f"HT{suffix}", region_HT)    
-        self.add_feature(f"ST{suffix}", region_ST)  
-        self.add_feature(f"ST_met{suffix}", region_ST_met)  
-        self.add_feature(f"ST_full{suffix}", region_ST_full)
+        self.add_feature(f"ST_met_old", region_ST_met_old)  
+        self.add_feature(f"ST", region_ST)  
+        self.add_feature(f"ST_met", region_ST_met)          
+        self.add_feature(f"ST_full", region_ST_full)
 
         # Top reconstructed mass
-        self.add_feature(f"top_mrec{suffix}", region_tops)
+        self.add_feature(f"top_mrec", region_tops)
 
     else:
         self.add_feature(f"lepton_met_mass{suffix}", lepton_met_mass)

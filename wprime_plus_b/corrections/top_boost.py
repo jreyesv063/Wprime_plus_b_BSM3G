@@ -1,16 +1,17 @@
-import correctionlib
 import numpy as np
+import correctionlib
 import awkward as ak
-from .utils import unflat_sf
 from typing import Type
 from typing import Tuple
-from wprime_plus_b.corrections.utils import get_pog_json
 from coffea.analysis_tools import Weights
+from wprime_plus_b.corrections.utils import get_pog_json
 
 
 def add_top_boost_corrections(
     jets: ak.Array,
     bjets: ak.Array,
+    fatjets: ak.Array,
+    wjets: ak.Array,
     muons: ak.Array,
     electrons: ak.Array,
     taus: ak.Array,
@@ -20,78 +21,79 @@ def add_top_boost_corrections(
     weights: Type[Weights],
     year: str,
     variation: str = "nominal",
-) -> Tuple[ak.Array, ak.Array]:
-    
-    
-    if dataset.startswith('TTTo'):
-        # get top boost correction, using the ST variable
-        cset = correctionlib.CorrectionSet.from_file(
-            f"wprime_plus_b/data/top_boost_{lepton_flavor}_{year}.json"
-        )
+) -> None:
 
-        jet_pt = ak.sum(jets.pt, axis=1)
-        bjet_pt = ak.sum(bjets.pt, axis=1)
-        njets = ak.num(jets) + ak.num(bjets)
-        electron_pt = ak.sum(electrons.pt, axis=1)
-        muon_pt = ak.sum(muons.pt, axis=1)
-        tau_pt = ak.sum(taus.pt, axis=1)
+    if not dataset.startswith("TTTo"):
+        return    
 
-        lepton = {
-            "ele": electron_pt,
-            "mu": muon_pt,
-            "tau": tau_pt
+    if year not in {"2016APV", "2016", "2017", "2018"}:
+        raise ValueError(f"Año no reconocido: {year}")
+
+    if lepton_flavor not in {"tau", "mu"}:
+        raise ValueError(f"Lepton flavor no reconocido: {lepton_flavor}")        
+
+    cset = correctionlib.CorrectionSet.from_file(
+        f"wprime_plus_b/data/top_boost_{lepton_flavor}_{year}.json"
+    )
+
+    lepton_map = {"ele": electrons, "mu": muons, "tau": taus}
+    lepton = lepton_map[lepton_flavor]
+
+    casos = {
+        "2016APV": {
+            "njets": (0, 10),
+            "ST": (300, 2000)
+        },
+        "2016": {
+            "njets": (0, 10),
+            "ST": (300, 2000)
+        },
+        "2017": {
+            "njets": (0, 10),
+            "ST": (300, 2000)
+        },
+        "2018": {
+            "njets": (0, 10),
+            "ST": (300, 2000)   
         }
+    }
 
-        st = lepton[lepton_flavor] + jet_pt + bjet_pt + met.pt
+    # Calcular cantidades físicas para todos los eventos
+    lepton_pt = ak.fill_none(ak.firsts(lepton.pt), 0.0)   # Solo un tau
+    met_pt = ak.fill_none(met.pt, 0.0)
+    jet_pt_sum = ak.fill_none(ak.sum(jets.pt, axis=1), 0.0)
+    bjet_pt_sum = ak.fill_none(ak.sum(bjets.pt, axis=1), 0.0)
+    fatjet_pt_sum = ak.fill_none(ak.sum(fatjets.pt, axis=1), 0.0)
+    wjet_pt_sum = ak.fill_none(ak.sum(wjets.pt, axis=1), 0.0)
 
-        # ST range
-        in_st_mask = (
-            (st >= 100.0)
-            & (st <= 9000.0)
-        )
-        # njets range
-        in_nt_mask = (
-             (njets >= 0)
-            & (njets <= 16)
-        )
-        
-        mask = in_st_mask & in_nt_mask
-        
-        st_masked = st.mask[mask]
-        njet = ak.fill_none(njets.mask[mask],0)
-        
-        st_pt = ak.fill_none(st_masked, 250)
-        
+    ST = lepton_pt + met_pt + jet_pt_sum + bjet_pt_sum + fatjet_pt_sum + wjet_pt_sum
 
-        sf = cset[f"Top_boost_weight_{year}_UL_{lepton_flavor}"].evaluate(njet, st_pt ,"nominal")
+    jet_count = ak.num(jets)
+    bjet_count = ak.num(bjets)
+    fatjet_count = ak.num(fatjets)
+    wjet_count = ak.num(wjets)
 
+    #total_jets = jet_count + bjet_count + fatjet_count + wjet_count - 2 # Se descuentan ~2 jets usados en la reconstrucción del top
+    #njets = ak.where(total_jets < 0, 0, total_jets)
+    njets = jet_count + bjet_count + fatjet_count + wjet_count
 
-        nominal_sf = np.where(in_st_mask, sf, 1.0)
-    
+    # Máscara con todas las condiciones
+    selection_mask = (
+        (ak.num(lepton) > 0) # Se tenga al menos un lepton
+        & (njets > casos[year]["njets"][0]) # se tenga njets mayor a 0
+        & (ST >= casos[year]["ST"][0]) # ST sea mayor al minimo observado en los resultados
+    )
 
-        if variation == "nominal":
-            # get 'up' and 'down' scale factors
-            sf_up = cset[f"Top_boost_weight_{year}_UL_{lepton_flavor}"].evaluate(njet, st_pt ,"up")
-            up_sf = np.where(in_st_mask, sf_up, 1.0)
-            
-            sf_down =  cset[f"Top_boost_weight_{year}_UL_{lepton_flavor}"].evaluate(njet, st_pt ,"down")
-            down_sf = np.where(in_st_mask, sf_down, 1.0)
-                    
-            # add scale factors to weights container
-            weights.add(
-                name=f"top_boost_weight_{year}_{lepton_flavor}",
-                weight=nominal_sf,
-                weightUp=up_sf,
-                weightDown=down_sf,
-            )
+    # Evaluar peso y aplicar máscara
+    sf = ak.where(
+        selection_mask,
+        cset["top_boost_weight"].evaluate(ST, njets, variation),
+        1.0
+    )
 
-        else:
-            weights.add(
-                name=f"top_boost_weight_{year}_{lepton_flavor}",
-                weight=nominal_sf,
-            )
+    weights.add(
+        name=f"top_boost_weight_{lepton_flavor}_{year}",
+        weight=sf,
+    )
 
-    else:
-        return
-    
     

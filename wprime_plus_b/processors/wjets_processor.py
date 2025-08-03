@@ -23,8 +23,6 @@ from wprime_plus_b.corrections.muon_highpt import MuonHighPtCorrector
 from wprime_plus_b.corrections.tau import TauCorrector
 from wprime_plus_b.corrections.electron import ElectronCorrector
 from wprime_plus_b.corrections.jetvetomaps import jetvetomaps_mask
-#from wprime_plus_b.corrections.ISR import ISR_weight
-#from wprime_plus_b.corrections.ttbar_boost import add_ttbar_boost_corrections
 
 # Selections: Config
 from wprime_plus_b.selections.wjets.bjet_config import wjet_bjet_selection

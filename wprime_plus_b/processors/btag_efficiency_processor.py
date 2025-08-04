@@ -1,9 +1,11 @@
 import json
 import hist 
-import importlib.resources
 import awkward as ak
+import importlib.resources
 from coffea import processor
 from wprime_plus_b.processors.utils.analysis_utils import normalize
+from wprime_plus_b.corrections.jetvetomaps import jetvetomaps_mask
+
 
 class BTagEfficiencyProcessor(processor.ProcessorABC):
     """
@@ -20,11 +22,12 @@ class BTagEfficiencyProcessor(processor.ProcessorABC):
         wp:
             worging point {'L', 'M', 'T'}
     """
-    def __init__(self, year="2017", yearmod="", tagger="deepJet", wp="M", output_type="hist"):
-        self._year = year + yearmod
+    def __init__(self, year="2017", yearmod="", tagger="deepJet", wp="T", output_type="hist", run_systematics = False, output_folder = ""):
+        self._year = year 
         self._tagger = tagger
         self._wp = wp
         self._output_type = output_type
+        
         
         with importlib.resources.path("wprime_plus_b.data", "btagWPs.json") as path:
             with open(path, "r") as handle:
@@ -33,11 +36,18 @@ class BTagEfficiencyProcessor(processor.ProcessorABC):
         
         self.make_output = lambda: hist.Hist(
             hist.axis.StrCategory([], growth=True, name="dataset"),
-            hist.axis.Variable([20, 30, 50, 70, 100, 140, 200, 300, 600, 1000], name="pt"),
-            hist.axis.Regular(4, 0, 2.5, name="abseta"),
+            #hist.axis.Variable([20, 30, 50, 70, 100, 140, 200, 300, 600, 1000], name="pt"),
+            #hist.axis.Regular(4, 0, 2.5, name="abseta"),
+            hist.axis.Variable([20, 30, 50, 70, 100, 140, 200, 300, 600, 1000], name="pt", overflow=True), # Overflow is included.
+            hist.axis.Regular(4, 0, 2.5, name="abseta", overflow=True),
+
+
+
             hist.axis.IntCategory([0, 4, 5], name="flavor"),
             hist.axis.Regular(2, 0, 2, name="passWP"),
         )
+
+        print(self._wp, self._btagwp)
         
     @property
     def accumulator(self):
@@ -45,12 +55,49 @@ class BTagEfficiencyProcessor(processor.ProcessorABC):
 
     def process(self, events):
         dataset = events.metadata["dataset"]
+
+        good_vertex_mask = (events.PV.npvsGood > 0) 
+
+        events_masked =  ak.copy(events[good_vertex_mask])
+
+        jet_veto_mask = jetvetomaps_mask(events_masked.Jet, self._year, "jetvetomap")
+        jets_veto = events_masked.Jet[jet_veto_mask]
+
+        jet_id_flags = {
+            "2016APV": {
+                "loose": 1,
+                "tight": 3,
+                "tightLepVeto": 6,
+            },
+            "2016": {
+                "loose": 1,
+                "tight": 3,
+                "tightLepVeto": 6,
+            },       
+            "2017": {
+                "tight": 2,
+                "tightLepVeto": 6,
+            },
+            "2018": {
+                "tight": 2,
+                "tightLepVeto": 6,
+            }
+        }
+
+        puid_wps = {
+            "fail": 0,
+            "L": 4,
+            "M": 6,
+            "T": 7,
+        }
         
         phasespace_cuts = (
-            (abs(events.Jet.eta) < 2.5)
-            & (events.Jet.pt > 20.)
+            (abs(jets_veto.eta) < 2.5)
+            & (jets_veto.pt > 20.)
+            & (jets_veto.jetId == jet_id_flags[self._year]["tightLepVeto"])
+            & (jets_veto.puId == puid_wps["T"])
         )
-        jets = events.Jet[phasespace_cuts]
+        jets = jets_veto[phasespace_cuts]
         passbtag = jets.btagDeepFlavB > self._btagwp
         
         out = {}

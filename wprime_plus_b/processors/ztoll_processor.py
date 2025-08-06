@@ -513,14 +513,7 @@ class ZToLLProcessor(processor.ProcessorABC):
             # add trigger weights
             
             if self.lepton_flavor == "mu":
-                #muon_corrector.add_triggeriso_weight(
-                #    trigger_mask=trigger_mask,
-                #    trigger_match_mask=trigger_match_mask,
-                #)
-                muon_corrector.add_dimuon_trigger_weight(
-                    trigger_mask=trigger_mask,
-                    trigger_match_mask=trigger_match_mask
-                )
+                muon_corrector.add_dimuon_trigger_weight()
             
             # add tau weights
             tau_corrector = TauCorrector(
@@ -784,7 +777,8 @@ class ZToLLProcessor(processor.ProcessorABC):
                     f"trigger_{reference_trigger}",
                     "trigger_match",
                     "HEMCleaning",
-                    f"met_{met_threshold}",
+                    #f"met_{met_threshold}",
+                    "bjet_veto",
                     "electron_veto",
                     "tau_veto",
                     "two_muons",
@@ -1003,8 +997,6 @@ class ZToLLProcessor(processor.ProcessorABC):
             })
 
             if nevents_after != 0:
-                print(jets_veto)
-                print(region_mask)
                 # Histograms
                 histograms_output_Z_analysis_syst(self, 
                         bjets = bjets, cjets = cjets, jets = jets_veto, 

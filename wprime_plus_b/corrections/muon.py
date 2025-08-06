@@ -431,3 +431,90 @@ class MuonCorrector:
                 name=f"muon_triggeriso",
                 weight=nominal_sf,
             )
+
+    def add_dimuon_trigger_weight(self) -> None:        
+        """
+        https://cms.cern.ch/iCMS/jsp/openfile.jsp?tp=draft&files=AN2015_324_v15.pdf
+
+        dilepton events should be computed as
+        ε(l1, l2) = 1 - P(both leptons fail)  = 1 - (1 - ε(l1, trig)) · (1 - ε(l2, trig))  = ε(l1, trig) + ε(l2, trig) - ε(l1, trig) · ε(l2, trig)
+
+        ε_data and ε_MC are measured in bins of pT and η
+
+        Thanks Daniel: https://github.com/deoache/bsm3g_coffea/blob/main/notebooks/muon_trigger_eff.ipynb
+
+        """    
+        
+        pt_threshold = {
+            "2016APV": 26.0,
+            "2016": 26.0,
+            "2017": 29.0,
+            "2018": 29.0,
+        }
+        # get 'in-limits' muons
+        muon_pt_mask = (
+            (self.m.pt > pt_threshold[self.year]) 
+            & (self.m.pt < 199.99) 
+        )
+        muon_eta_mask = (np.abs(self.m.eta) < 2.399)
+
+        in_muon_mask = muon_pt_mask & muon_eta_mask  
+
+        in_muons = self.m.mask[in_muon_mask]
+            
+        muon_pt = ak.fill_none(in_muons.pt, 30.0)
+        muon_eta = np.abs(ak.fill_none(in_muons.eta, 0.0))
+
+        sfs_keys = {
+            "2016APV": "NUM_IsoMu24_or_IsoTkMu24_DEN_CutBasedIdTight_and_PFIsoTight",
+            "2016": "NUM_IsoMu24_or_IsoTkMu24_DEN_CutBasedIdTight_and_PFIsoTight",
+            "2017": "NUM_IsoMu27_DEN_CutBasedIdTight_and_PFIsoTight",
+            "2018": "NUM_IsoMu24_DEN_CutBasedIdTight_and_PFIsoTight",
+        }
+
+
+        double_cset = correctionlib.CorrectionSet.from_file(
+                f"{Path.cwd()}/wprime_plus_b/data/{self.year}_Muon_HLT_Eff.json"
+        )
+
+        data_eff = double_cset["Muon-HLT-DataEff"].evaluate(
+                self.variation,
+                sfs_keys[self.year],
+                muon_eta,
+                muon_pt,
+        )
+
+        mc_eff = double_cset["Muon-HLT-McEff"].evaluate(
+                self.variation,
+                sfs_keys[self.year],
+                muon_eta,
+                muon_pt,
+        )
+
+        # Removing arbitrary values
+        data_eff = ak.where(in_muon_mask, data_eff, ak.ones_like(data_eff))
+        mc_eff = ak.where(in_muon_mask, mc_eff, ak.ones_like(mc_eff))
+
+        # Unflattening the arrays
+        data_eff = ak.unflatten(data_eff, self.n)
+        mc_eff = ak.unflatten(mc_eff, self.n)
+
+
+        # Obtening the first and second elements of the arrays
+        data_eff_1 = ak.firsts(data_eff)
+        data_eff_2 = ak.pad_none(data_eff, target=2)[:, 1]
+
+        
+        mc_eff_1 = ak.firsts(mc_eff)
+        mc_eff_2 = ak.pad_none(mc_eff, target=2)[:, 1]        
+
+        # Calculating the full efficiency
+        full_data_eff = data_eff_1 + data_eff_2 - data_eff_1 * data_eff_2
+        full_mc_eff = mc_eff_1 + mc_eff_2 - mc_eff_1 * mc_eff_2
+
+        nominal_sf = full_data_eff / full_mc_eff
+
+        self.weights.add(
+                    name=f"dimuon_trigger_{self.year}",
+                    weight=nominal_sf,
+        )

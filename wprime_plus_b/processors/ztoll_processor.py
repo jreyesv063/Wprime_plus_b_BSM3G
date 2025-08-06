@@ -539,8 +539,8 @@ class ZToLLProcessor(processor.ProcessorABC):
             tau_corrector.add_id_weight_DeepTau2017v2p1VSjet()
 
             # add ISR weights
-            if self.channel == "ll":
-                ISR_weight(events=events, jets=jets_veto, dataset=dataset, weights=weights_container, year=self.year, channel=self.channel, variation=self.syst)
+            # if self.channel == "ll":
+            #     ISR_weight(events=events, jets=jets_veto, dataset=dataset, weights=weights_container, year=self.year, channel=self.channel, variation=self.syst)
           
            
         # -------------------------------------------------------------
@@ -810,12 +810,17 @@ class ZToLLProcessor(processor.ProcessorABC):
         # --------------
         cut_names = region_selection[self.channel][self.lepton_flavor]
         output["metadata"].update({"cutflow": {}})
+        output["metadata"].update({"cutflow_raw": {}})
         output["metadata"]["cutflow"]["sumw"] = ak.sum(weights_container.weight())
+        output["metadata"]["cutflow_raw"]["sumw"] = len(weights_container.weight())
         selections = []        
         for cut_name in cut_names:
             selections.append(cut_name)
             current_selection = self.selections.all(*selections)
             output["metadata"]["cutflow"][cut_name] = ak.sum(
+                weights_container.weight()[current_selection]
+            )
+            output["metadata"]["cutflow_raw"][cut_name] = len(
                 weights_container.weight()[current_selection]
             )
 

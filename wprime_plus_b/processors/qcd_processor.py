@@ -925,12 +925,17 @@ class QCDProccessor(processor.ProcessorABC):
         # --------------
         cut_names = region_selection[self.channel][self.lepton_flavor]
         output["metadata"].update({"cutflow": {}})
+        output["metadata"].update({"cutflow_raw": {}})
         output["metadata"]["cutflow"]["sumw"] = ak.sum(weights_container.weight())
+        output["metadata"]["cutflow_raw"]["sumw"] = len(weights_container.weight())
         selections = []
         for cut_name in cut_names:
             selections.append(cut_name)
             current_selection = self.selections.all(*selections)
             output["metadata"]["cutflow"][cut_name] = ak.sum(
+                weights_container.weight()[current_selection]
+            )
+            output["metadata"]["cutflow_raw"][cut_name] = len(
                 weights_container.weight()[current_selection]
             )
 
@@ -1071,6 +1076,7 @@ class QCDProccessor(processor.ProcessorABC):
                     if region_name == "nominal":
                         
                         output["metadata"]["cutflow"]["failing_top_tagger"] = ak.sum(weights_container.weight()[region_mask])
+                        output["metadata"]["cutflow_raw"]["failing_top_tagger"] = len(weights_container.weight()[region_mask])
                         
                         output["metadata"].update({
                             "weighted_final_nevents": ak.sum(weights_container.weight()[region_mask]),
@@ -1152,6 +1158,7 @@ class QCDProccessor(processor.ProcessorABC):
                     if region_name == "nominal":
 
                         output["metadata"]["cutflow"]["failing_top_tagger"] = ak.sum(weights_container.weight()[region_mask][mask_top])
+                        output["metadata"]["cutflow_raw"]["failing_top_tagger"] = len(weights_container.weight()[region_mask][mask_top])
                         output_metadata(output=output["metadata"], weights=weights_container.weight()[region_mask], masks=masks, mask_top=mask_top)
 
                         output["metadata"].update({
@@ -1173,11 +1180,16 @@ class QCDProccessor(processor.ProcessorABC):
 
                     if nevents_top_tagger > 0:
                         # Histograms
-                        histograms_output_syst(self, selected_objects["bjets"], selected_objects["jets"],
-                                        selected_objects["electrons"], selected_objects["muons"],
-                                        selected_objects["taus"], selected_objects["met"],
-                                        tops, mask_top, self.lepton_flavor, self.is_mc, selected_objects["events"],
-                                        region_name)
+                        histograms_output_syst(self, 
+                                        njets_no_top = None,
+                                        bjets = selected_objects["bjets"], jets = selected_objects["jets"],
+                                        fatjets = selected_objects["fatjets"], wjets = selected_objects["wjets"],
+                                        electrons = selected_objects["electrons"],  muons = selected_objects["muons"],
+                                        taus = selected_objects["taus"], met = selected_objects["met"],
+                                        tops = tops , mask = mask_top, 
+                                        lepton_flavor = self.lepton_flavor, is_mc = self.is_mc, 
+                                        events = selected_objects["events"],
+                                        syst_flag = region_name)
 
 
 
@@ -1232,6 +1244,7 @@ class QCDProccessor(processor.ProcessorABC):
             if nevents_after == 0:
 
                 output["metadata"]["cutflow"]["failing_top_tagger"] = ak.sum(weights_container.weight()[region_mask])
+                output["metadata"]["cutflow_raw"]["failing_top_tagger"] = len(weights_container.weight()[region_mask])
 
 
             else:           
@@ -1262,7 +1275,8 @@ class QCDProccessor(processor.ProcessorABC):
 
                 mask_top = np.logical_not(mask_top_tmp)
 
-                output["metadata"]["cutflow"]["failing_top_tagger"] = ak.sum(weights_container.weight()[region_selection][mask_top])    
+                output["metadata"]["cutflow"]["failing_top_tagger"] = ak.sum(weights_container.weight()[region_selection][mask_top])
+                output["metadata"]["cutflow_raw"]["failing_top_tagger"] = len(weights_container.weight()[region_selection][mask_top])    
 
 
                 # Number of events after top tagger/efficiency
@@ -1280,10 +1294,16 @@ class QCDProccessor(processor.ProcessorABC):
             
                 if nevents_top_tagger > 0:
                     # Histograms
-                    histograms_output(self, selected_objects["bjets"], selected_objects["jets"], 
-                                    selected_objects["electrons"], selected_objects["muons"], 
-                                    selected_objects["taus"], selected_objects["met"], 
-                                    tops, mask_top, self.lepton_flavor, self.is_mc, selected_objects["events"])
+                    histograms_output_syst(self, 
+                                    njets_no_top = None,
+                                    bjets = selected_objects["bjets"], jets = selected_objects["jets"],
+                                    fatjets = selected_objects["fatjets"], wjets = selected_objects["wjets"],
+                                    electrons = selected_objects["electrons"],  muons = selected_objects["muons"],
+                                    taus = selected_objects["taus"], met = selected_objects["met"],
+                                    tops = tops , mask = mask_top, 
+                                    lepton_flavor = self.lepton_flavor, is_mc = self.is_mc, 
+                                    events = selected_objects["events"],
+                                    syst_flag = "nominal")
 
  
                 

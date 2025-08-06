@@ -743,7 +743,7 @@ def main(args):
                         {f"weighted_final_nevents_{syst}": float(output_metadata[f"weighted_final_nevents_{syst}"])}
                     )
 
-            if args["processor"] in ["top_tagger", "ztoll"]:
+            if args["processor"] in ["top_tagger", "ztoll", "qcd_hadronic", "wplusjets", "signal"]:
                 for cut_selection, nevents in output_metadata["cutflow_raw"].items():
                     output_metadata["cutflow_raw"][cut_selection] = str(nevents)
                 metadata.update({"cutflow_raw": output_metadata["cutflow_raw"]})

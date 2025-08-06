@@ -751,13 +751,16 @@ def histograms_output_syst(
    
     if syst_flag == "nominal":
 
-        region_counts = {
-            key: array[mask]
-            for key, array in njets_no_top.items()
-        }
+        if njets_no_top is not None:
+            region_counts = {
+                key: array[mask]
+                for key, array in njets_no_top.items()
+            }
+            self.add_feature(f"njets_no_top_tagger", region_counts["njets_no_top"]+ region_counts["nbjets_no_top"] + region_counts["nfatjets_no_top"] + region_counts["nwjets_no_top"])
+
         # Add features to the object (assumed to have a method `add_feature`)
         # Lepton: Tau; Electron: Muon
-    # Add features to the object (assumed to have a method `add_feature`)
+        # Add features to the object (assumed to have a method `add_feature`)
         # Lepton: Tau; Electron: Muon
         self.add_feature(f"lepton_pt", region_leptons.pt)
         self.add_feature(f"lepton_eta", region_leptons.eta)
@@ -787,7 +790,6 @@ def histograms_output_syst(
         # Number of objects
         self.add_feature(f"njets_old", ak.num(region_jets) + ak.num(region_bjets))
         self.add_feature(f"njets_full", ak.num(region_jets) + ak.num(region_bjets) +  ak.num(region_fatjets) + ak.num(region_wjets))
-        self.add_feature(f"njets_no_top_tagger", region_counts["njets_no_top"]+ region_counts["nbjets_no_top"] + region_counts["nfatjets_no_top"] + region_counts["nwjets_no_top"])
         self.add_feature(f"njets", ak.num(region_jets))
         self.add_feature(f"nbjets", ak.num(region_bjets))
         self.add_feature(f"npvs", events.PV.npvsGood[mask])

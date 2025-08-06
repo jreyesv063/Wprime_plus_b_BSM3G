@@ -513,9 +513,13 @@ class ZToLLProcessor(processor.ProcessorABC):
             # add trigger weights
             
             if self.lepton_flavor == "mu":
-                muon_corrector.add_triggeriso_weight(
+                #muon_corrector.add_triggeriso_weight(
+                #    trigger_mask=trigger_mask,
+                #    trigger_match_mask=trigger_match_mask,
+                #)
+                muon_corrector.add_dimuon_trigger_weight(
                     trigger_mask=trigger_mask,
-                    trigger_match_mask=trigger_match_mask,
+                    trigger_match_mask=trigger_match_mask
                 )
             
             # add tau weights
@@ -849,7 +853,7 @@ class ZToLLProcessor(processor.ProcessorABC):
                                     muons = muons,
                                     taus = taus,
                                     bjets = bjets,
-                                    jets = jets,
+                                    jets = jets_veto,
                                     muons_mask = good_muons_masks, 
                                     taus_mask = good_taus_masks, 
                                     bjets_mask = good_bjets_masks, 
@@ -932,11 +936,17 @@ class ZToLLProcessor(processor.ProcessorABC):
 
                 if nevents_after != 0:
                     # Histograms
-                    histograms_output_Z_analysis_syst(self, bjets, cjets, jets, 
-                                    electrons, muons, taus, 
-                                    events.MET,
-                                    region_mask, self.lepton_flavor, self.channel, self.is_mc, events,
-                                    region_name)
+                    histograms_output_Z_analysis_syst(self, 
+                            bjets = bjets, cjets = cjets, jets = jets_veto, 
+                            electrons = electrons, muons = muons, taus = taus, 
+                            met = events.MET, 
+                            mask = region_mask, 
+                            lepton_flavor= self.lepton_flavor,
+                            channel= self.channel, 
+                            is_mc = self.is_mc,
+                            events = events,
+                            syst_flag = region_name
+                    )
 
 
                     if self.output_type == "array":
@@ -993,12 +1003,21 @@ class ZToLLProcessor(processor.ProcessorABC):
             })
 
             if nevents_after != 0:
+                print(jets_veto)
+                print(region_mask)
                 # Histograms
-                histograms_output_Z_analysis_syst(self, bjets, cjets, jets,
-                                electrons, muons, taus, 
-                                events.MET,
-                                region_mask, self.lepton_flavor, self.channel, self.is_mc, events,
-                                "nominal")
+                histograms_output_Z_analysis_syst(self, 
+                        bjets = bjets, cjets = cjets, jets = jets_veto, 
+                        electrons = electrons, muons = muons, taus = taus, 
+                        met = events.MET, 
+                        mask = region_mask, 
+                        lepton_flavor= self.lepton_flavor,
+                        channel= self.channel, 
+                        is_mc = self.is_mc,
+                        events = events,
+                        syst_flag = "nominal"
+                )
+
 
 
                 if self.output_type == "array":

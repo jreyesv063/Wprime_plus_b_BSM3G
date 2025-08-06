@@ -853,38 +853,38 @@ def histograms_output_Z_analysis_syst(
 
 
     if syst_flag == "nominal":
-        self.add_feature(f"ptl1{suffix}", region_leading_lepton.pt)
+        self.add_feature(f"ptl1", region_leading_lepton.pt)
         # self.add_feature(f"etal1{suffix}", region_leading_lepton.eta)
         # self.add_feature(f"phil1{suffix}", region_leading_lepton.phi)
 
-        self.add_feature(f"ptl2{suffix}", region_subleading_lepton.pt)
+        self.add_feature(f"ptl2", region_subleading_lepton.pt)
         # self.add_feature(f"etal2{suffix}", region_subleading_lepton.eta)
         # self.add_feature(f"phil2{suffix}", region_subleading_lepton.phi)
 
 
-        self.add_feature(f"ptll{suffix}", (region_leading_lepton + region_subleading_lepton).pt)
+        self.add_feature(f"ptll", (region_leading_lepton + region_subleading_lepton).pt)
         # self.add_feature(f"etall{suffix}", (region_leading_lepton + region_subleading_lepton).eta)
         # self.add_feature(f"phill{suffix}", (region_leading_lepton + region_subleading_lepton).phi)
-        self.add_feature(f"mll{suffix}", (region_leading_lepton + region_subleading_lepton).mass)
+        self.add_feature(f"mll", (region_leading_lepton + region_subleading_lepton).mass)
         
 
-        self.add_feature(f"njets{suffix}", ak.num(region_jets))
+        self.add_feature(f"njets", ak.num(region_jets))
         # self.add_feature(f"npvs{suffix}", events.PV.npvsGood[mask])
 
-        self.add_feature(f"met{suffix}", region_met.pt)
+        self.add_feature(f"met", region_met.pt)
         # self.add_feature(f"met_phi{suffix}", region_met.phi)
 
 
         if channel == "ll+c":
-            self.add_feature(f"cjet_pt{suffix}", region_cjets.pt)
-            self.add_feature(f"cjet_eta{suffix}", region_cjets.eta)
-            self.add_feature(f"cjet_phi{suffix}", region_cjets.phi)
+            self.add_feature(f"cjet_pt", region_cjets.pt)
+            self.add_feature(f"cjet_eta", region_cjets.eta)
+            self.add_feature(f"cjet_phi", region_cjets.phi)
 
         else:
-            self.add_feature(f"jet_pt{suffix}", region_jets.pt)
+            self.add_feature(f"jet_pt", region_jets.pt)
             self.add_feature(f"jet_eta", region_jets.eta)
-            self.add_feature(f"jet_phi{suffix}", region_jets.phi)
-            self.add_feature(f"HT{suffix}", ak.sum(region_jets.pt, axis=1))
+            self.add_feature(f"jet_phi", region_jets.phi)
+            self.add_feature(f"HT", ak.sum(region_jets.pt, axis=1))
 
 
     else:

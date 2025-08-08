@@ -39,7 +39,6 @@ def select_good_muons(
         "down": events.Muon.pt_down
     }
 
-    muon_pt_mask = events.Muon.pt >= muon_pt_threshold
 
     # electron pseudorapidity mask
     muon_eta_mask = np.abs(events.Muon.eta) < muon_eta_threshold
@@ -77,7 +76,7 @@ def select_good_muons(
     # Create masks for each pt variation
     good_muon_masks = {}
     for variation, muon_pt in pt_shifts.items():
-        muon_pt_mask = muon_pt >= muon_pt_threshold
+        muon_pt_mask = muon_pt >= 15.0
         good_muon_masks[variation] = (
             muon_pt_mask & muon_eta_mask & muon_id_mask & muon_iso_mask
         )

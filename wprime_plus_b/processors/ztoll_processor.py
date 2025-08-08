@@ -750,6 +750,18 @@ class ZToLLProcessor(processor.ProcessorABC):
         self.selections.add("Z_boson", good_Z_mask) 
 
 
+
+        # -------------------------------------------------------------
+        #      Leading muon
+        # -------------------------------------------------------------
+        lepton_map = {
+            "ele": electrons,
+            "mu": muons,
+            "tau": taus
+        }
+        leading_muon = ak.firsts(lepton_map[self.lepton_flavor])
+        self.selections.add("leading_lepton", leading_muon.pt > 30.0) 
+
         
         # define selection regions for each channel
         region_selection = {
@@ -782,7 +794,8 @@ class ZToLLProcessor(processor.ProcessorABC):
                     "electron_veto",
                     "tau_veto",
                     "two_muons",
-                     "Z_boson",
+                    "leading_lepton",
+                    "Z_boson",
                 ]
             },
             "ll_ISR": {

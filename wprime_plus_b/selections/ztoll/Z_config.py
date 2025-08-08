@@ -22,7 +22,7 @@ ztoll_mrec_ll_selection = {
     "ll": {
         "mu":{
             "m_Z_min": 71.0, 
-            "m_Z_max": 111.0,
+            "m_Z_max": 121.0,
         },
     }
 }

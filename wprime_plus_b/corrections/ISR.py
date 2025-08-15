@@ -22,51 +22,48 @@ def ISR_weight(
     # Apply ISR weights only to specific datasets
     if dataset.startswith('WJetsToLNu') or dataset.startswith('DYJetsToLL'):
         
-        if channel == "ll":
-            json_correction = "wprime_plus_b/data/ISR_Zmumu_weight.json"
-        elif channel == "ll+c":
+        # Determine the JSON file for ISR corrections based on the channel and year          
+        if channel == "ll+c":
             json_correction = "wprime_plus_b/data/ISR_Z+c_weight.json"
 
-        # Determine the pdgId based on the dataset
-        if dataset.startswith('WJetsToLNu'):
-            pdgId = 24  # W boson
         else:
-            pdgId = 23  # Z boson
+            json_correction = f"wprime_plus_b/data/ISR_Zmumu_weight_{year}.json"
+
+        # Determine the pdgId based on the dataset
+        pdgId = 24 if dataset.startswith("WJetsToLNu") else 23
 
         # get correction
         cset = correctionlib.CorrectionSet.from_file(json_correction)
 
-        general_mask = (np.abs(events.GenPart.pdgId) == pdgId) & (events.GenPart.status == 62)
-        ISR_Z_bosons = events.GenPart[general_mask]  # Select bosons from GenPart
-        
-        Z_pt = ak.firsts(ISR_Z_bosons.pt)  # Get the pt of the first boson in each event
-        Z_pt = ak.fill_none(Z_pt,2000)
-        Z_njets = ak.num(jets)
-        
+        general_mask = (
+            (np.abs(events.GenPart.pdgId) == pdgId) 
+            & (events.GenPart.status == 62)
+        )
+
+        boson_count = ak.sum(general_mask, axis=1)
+        event_mask = (boson_count == 1)  # Create a mask for events with exactly one boson
+
+        # Select the Z bosons from GenPart based on the general mask
+        ISR_Z_bosons = ak.firsts(events.GenPart[general_mask])
+        Z_pt = ak.fill_none(ISR_Z_bosons.pt, 1000) # Arbritrary number
+
+        # Select jets where a Z boson pt is identified
+        ISR_jets = jets.mask[event_mask]
+        njets = ak.num(ISR_jets)
+
+        # Variables for ISR weight calculation
+        Z_pt_var = ak.fill_none(Z_pt, 0)
+        njets_var = ak.fill_none(njets, 0)
+
 
         # Calculate the ISR weight using the mother pt
-        sf = cset[f"ISR_weight_{year}_UL"].evaluate("nominal", Z_njets, Z_pt)  # Calculate the ISR weight using the weight_ISR function
+        sf = cset[f"ISR_weight_{year}_UL"].evaluate("nominal", njets_var, Z_pt_var)
+
         
-        
-        # Apply variations if specified
-        if variation == "nominal":
-            # Calculate the ISR weight for the "up" variation
-            sf_up = cset[f"ISR_weight_{year}_UL"].evaluate("nominal", Z_njets, Z_pt) 
-            
-            
-            # Calculate the ISR weight for the "down" variation
-            sf_down = cset[f"ISR_weight_{year}_UL"].evaluate("nominal", Z_njets, Z_pt) 
-            
-            # Add the calculated scale factors to the weights object
-            weights.add(
-                name="ISR_weight",  # Name of the weight
-                weight=sf,  # Nominal weight
-                weightUp=sf_up,  # Up variation weight
-                weightDown=sf_down,  # Down variation weight
-            )
-        else:
-            # If variation is not "nominal", add only the nominal scale factor
-            weights.add(
-                name="ISR_weight",  # Name of the weight
-                weight=sf,  # Nominal weight
-            )
+        sf_nominal = ak.where(event_mask, sf, 1.0)  # Apply the ISR weight only where the mask is true, otherwise set to 1.0
+       
+        # Add nominal variation to the weights object
+        weights.add(
+            name=f"ISR_weight_{year}",  # Name of the weight
+            weight=sf_nominal,  # Nominal weight
+        )

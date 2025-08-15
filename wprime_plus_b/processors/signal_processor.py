@@ -574,19 +574,9 @@ class SignalProccessor(processor.ProcessorABC):
                     variation=self.syst
             )
 
-        # -------------------------
-        # p_T^{miss} variables
-        # -------------------------
-        update_met_jet_veto(events = events, jets_veto = jets_veto)  
-        met_noMu_cal(events = events, muons = muons)
-        met_noMu_plus(events = events, muons = muons)
-        met_noMu_minus(events = events, muons = muons)
-        met_recoil(events = events, muons = muons, electrons = electrons, taus = taus)
-
-        # -------------------------
-        # ST correction
-        # -------------------------
-        if self.lepton_flavor == "tau":
+            # -------------------------
+            # ttbar boost correction
+            # -------------------------
             add_top_boost_corrections(
                             jets = jets,
                             bjets = bjets,
@@ -601,7 +591,27 @@ class SignalProccessor(processor.ProcessorABC):
                             weights = weights_container,
                             year = self.year,
                             variation = self.syst,
-                    ) 
+            ) 
+
+            # -------------------------
+            # ISR correction
+            # -------------------------
+            ISR_weight(events=events, 
+                        jets=jets_veto, 
+                        dataset=dataset, 
+                        weights=weights_container, 
+                        year=self.year, 
+                        channel="", 
+                        variation=self.syst
+            )            
+
+        # -------------------------
+        # p_T^{miss} variables
+        # -------------------------
+        update_met_jet_veto(events = events, jets_veto = jets_veto)  
+        met_recoil(events = events, muons = muons, electrons = electrons, taus = taus)
+
+
 
         # -------------------------------------------------------------
         # event selection

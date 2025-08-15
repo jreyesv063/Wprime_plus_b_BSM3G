@@ -69,6 +69,8 @@ declare -A host_to_site=(
     ["sbgdcache.in2p3.fr"]="T1_FR_CCIN2P3_Disk"
     ["eos01.grid.cyfronet.pl:1094"]="T2_PL_Cyfronet"
     ["rdr.echo.stfc.ac.uk"]="T1_UK_RAL"
+    ["t3se01.psi.ch"]="T3_CH_PSI"
+    ["grid143.kfki.hu"]="T2_HU_Budapest"
 )
 
 # Mapa de años con sus sitios válidos

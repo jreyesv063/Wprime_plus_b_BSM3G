@@ -11,7 +11,6 @@ from wprime_plus_b.processors.utils import histograms
 
 # Corrections
 from wprime_plus_b.corrections.ISR import ISR_weight
-from wprime_plus_b.corrections.ArbitraryWeight import ArbitraryWeight
 from wprime_plus_b.corrections.jec import apply_jet_corrections, apply_fatjet_corrections
 from wprime_plus_b.corrections.met import apply_met_phi_corrections, add_met_trigger_corrections
 from wprime_plus_b.corrections.rochester import apply_rochester_corrections
@@ -106,7 +105,10 @@ class ZToLLProcessor(processor.ProcessorABC):
         output["metadata"] = {}
         output["metadata"].update({"raw_initial_nevents": nevents})
 
-       
+
+        # MET without corrections
+        events["MET", "pt_no_recal"] = events.MET.pt
+
         # -------------------------------------------------------------
         # object corrections
         # -------------------------------------------------------------
@@ -535,11 +537,18 @@ class ZToLLProcessor(processor.ProcessorABC):
             tau_corrector.add_id_weight_DeepTau2017v2p1VSmu()
             tau_corrector.add_id_weight_DeepTau2017v2p1VSjet()
 
-            # add ISR weights
-            # if self.channel == "ll":
-            #     ISR_weight(events=events, jets=jets_veto, dataset=dataset, weights=weights_container, year=self.year, channel=self.channel, variation=self.syst)
-          
-           
+            # -------------------------
+            # ISR correction
+            # -------------------------
+            ISR_weight(events=events, 
+                        jets=jets_veto, 
+                        dataset=dataset, 
+                        weights=weights_container, 
+                        year=self.year, 
+                        channel=self.channel, 
+                        variation=self.syst
+            )
+
         # -------------------------------------------------------------
         # event selection
         # -------------------------------------------------------------
@@ -708,28 +717,24 @@ class ZToLLProcessor(processor.ProcessorABC):
                     ref_trigger = trigger_data[self.year][reference_trigger]
 
 
-        # Obtener los nombres reales de los triggers en el archivo HLT
-        reference_triggers = [
-            trigger for trigger in events.HLT.fields if any(trigger.startswith(r) for r in ref_trigger)
-        ]
 
         # Inicializar máscaras booleanas
         mask_reference_trigger = np.zeros(len(events), dtype="bool")
 
         # Llenar las máscaras combinando los triggers que correspondan
-        for trigger_reference in reference_triggers:
+        for trigger_reference in ref_trigger:
             if trigger_reference in events.HLT.fields:
                 mask_reference_trigger = mask_reference_trigger | events.HLT[trigger_reference]
 
 
         # Actualizar metadatos
-        output["metadata"].update({"Triggers": reference_triggers})
+        output["metadata"].update({"Triggers": ref_trigger})
 
 
         # Agregar selecciones
         self.selections.add(f"trigger_{reference_trigger}", mask_reference_trigger)
 
-        print(f"Triggers: {reference_triggers}")
+        print(f"Triggers: {ref_trigger}")
 
 
         # -------------------------------------------------------------

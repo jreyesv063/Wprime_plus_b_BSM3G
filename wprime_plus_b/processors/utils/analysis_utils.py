@@ -740,9 +740,6 @@ def histograms_output_syst(
     electron_pt_addition = ak.sum(region_electrons.pt, axis=1)
     
 
-
-    region_ST_met_old = lepton_pt_addition + jet_pt_addition + bjet_pt_addition + region_met.pt
-
     region_HT = jet_pt_addition + bjet_pt_addition + fatjet_pt_addition + wjet_pt_addition
     region_ST = region_HT + lepton_pt_addition
     region_ST_met = region_ST + region_met.pt 
@@ -758,10 +755,7 @@ def histograms_output_syst(
             }
             self.add_feature(f"njets_no_top_tagger", region_counts["njets_no_top"]+ region_counts["nbjets_no_top"] + region_counts["nfatjets_no_top"] + region_counts["nwjets_no_top"])
 
-        # Add features to the object (assumed to have a method `add_feature`)
-        # Lepton: Tau; Electron: Muon
-        # Add features to the object (assumed to have a method `add_feature`)
-        # Lepton: Tau; Electron: Muon
+
         self.add_feature(f"lepton_pt", region_leptons.pt)
         self.add_feature(f"lepton_eta", region_leptons.eta)
         self.add_feature(f"lepton_phi", region_leptons.phi)
@@ -798,7 +792,6 @@ def histograms_output_syst(
         self.add_feature(f"ntaus", ak.num(region_taus))
 
         # Scalar sum of transverse momenta
-        self.add_feature(f"ST_met_old", region_ST_met_old)  
         self.add_feature(f"ST", region_ST)  
         self.add_feature(f"ST_met", region_ST_met)          
         self.add_feature(f"ST_full", region_ST_full)
@@ -833,6 +826,7 @@ def histograms_output_Z_analysis_syst(
     region_muons = muons[mask]
     region_taus = taus[mask]
     region_met = met[mask]
+    region_events = events[mask]
 
 
     # Define region leptons
@@ -874,17 +868,26 @@ def histograms_output_Z_analysis_syst(
         self.add_feature(f"met", region_met.pt)
         # self.add_feature(f"met_phi{suffix}", region_met.phi)
 
+        self.add_feature(f"met_raw", region_met.pt_no_recal)
+
 
         if channel == "ll+c":
             self.add_feature(f"cjet_pt", region_cjets.pt)
             self.add_feature(f"cjet_eta", region_cjets.eta)
             self.add_feature(f"cjet_phi", region_cjets.phi)
 
-        else:
-            self.add_feature(f"jet_pt", region_jets.pt)
-            self.add_feature(f"jet_eta", region_jets.eta)
-            self.add_feature(f"jet_phi", region_jets.phi)
+        elif channel == "ll":            
             self.add_feature(f"HT", ak.sum(region_jets.pt, axis=1))
+            
+            if hasattr(events, "GenPart"):
+                general_mask = (
+                    (np.abs(region_events.GenPart.pdgId) == 23) 
+                    & (region_events.GenPart.status == 62)
+                )
+
+                Z_bosons_gen = ak.firsts(region_events.GenPart[general_mask])
+                self.add_feature(f"Z_gen_pt", Z_bosons_gen.pt)
+                self.add_feature(f"Z_gen_num", ak.sum(general_mask, axis=1))
 
 
     else:

@@ -581,21 +581,9 @@ class QCDProccessor(processor.ProcessorABC):
                     variation=self.syst
             )
 
-        # -------------------------
-        # p_T^{miss} variables
-        # -------------------------
-        update_met_jet_veto(events = events, jets_veto = jets_veto)  
-        met_noMu_cal(events = events, muons = muons)
-        met_noMu_plus(events = events, muons = muons)
-        met_noMu_minus(events = events, muons = muons)
-        met_recoil(events = events, muons = muons, electrons = electrons, taus = taus)
-
-        # -------------------------
-        # ST correction
-        # -------------------------
-        weights_copy = copy.deepcopy(weights_container)
-
-        if self.lepton_flavor == "tau":
+            # -------------------------
+            # ttbar boost correction
+            # -------------------------
             add_top_boost_corrections(
                             jets = jets,
                             bjets = bjets,
@@ -610,7 +598,25 @@ class QCDProccessor(processor.ProcessorABC):
                             weights = weights_container,
                             year = self.year,
                             variation = self.syst,
-                    ) 
+            ) 
+
+            # -------------------------
+            # ISR correction
+            # -------------------------
+            ISR_weight(events=events, 
+                        jets=jets_veto, 
+                        dataset=dataset, 
+                        weights=weights_container, 
+                        year=self.year, 
+                        channel=self.channel, 
+                        variation=self.syst
+            )   
+        # -------------------------
+        # p_T^{miss} variables
+        # -------------------------
+        update_met_jet_veto(events = events, jets_veto = jets_veto)  
+        met_recoil(events = events, muons = muons, electrons = electrons, taus = taus)
+
 
         # -------------------------------------------------------------
         # event selection
@@ -944,8 +950,6 @@ class QCDProccessor(processor.ProcessorABC):
         # ----------------------------    
         # save sum of weights before selections
         output["metadata"].update({"sumw": ak.sum(weights_container.weight())})
-        # save sum of weights before selections without ttbar boost
-        output["metadata"].update({"sumw_no_ttboost": ak.sum(weights_copy.weight())})
         # save weights statistics
         output["metadata"].update({"weight_statistics": {}})
         for weight, statistics in weights_container.weightStatistics.items():

@@ -14,7 +14,7 @@ echo "########################################"
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
 # Certificado GRID
-echo $GRID_PASSWORD | voms-proxy-init --voms cms
+#echo $GRID_PASSWORD | voms-proxy-init --voms cms
 
 
 # Moverse al directorio del conjunto de archivos
@@ -24,7 +24,7 @@ cd wprime_plus_b/fileset/
 singularity shell -B /afs -B /eos -B /cvmfs /cvmfs/unpacked.cern.ch/registry.hub.docker.com/coffeateam/coffea-dask:latest-py3.10 << EOF
 
 # Ejecutar el script 'make_fileset_lxplus.py' dentro de Singularity
-python make_fileset_lxplus.py
+#python make_fileset_lxplus.py
 
 
 # Salir del shell de Singularity
@@ -37,17 +37,17 @@ EOF
 cd "$SCRIPT_DIR"
 
 # Declarar variables
-processor="top_tagger"     # top_tagger; signal; qcd_hadronic; wplusjets (ttbar ; ztoll:  wjets; qcd_abcd) 
-channel="1j1l"           # top_tagger -> {}; signal -> {}; qcd_hadronic -> {cr_b, cr_c, cr_d}; wplusjets -> {wjets, cr_b, cr_c, cr_d}, wjets -> {1j1l*, 1l0b}; ztoll-> {ll, ll+c, ll_ISR}; (qcd_abcd -> {1l0b; 1l0b_A; 1l0b_B; 1l0b_C; 1l0b_D}; ttbar -> {2b1l, 1b1e1mu, 1b1l})
+processor="ztoll"     # top_tagger; signal; qcd_hadronic; wplusjets; ztoll:  wjets; btag_eff
+channel="ll"           # top_tagger -> {}; signal -> {}; qcd_hadronic -> {cr_b, cr_c, cr_d}; wplusjets -> {wjets, cr_b, cr_c, cr_d}, wjets -> {1j1l*, 1l0b}; ztoll-> {ll, ll+c}
 
 
-lepton_flavor="tau"
+lepton_flavor="mu"
 year="2017" # 2016APV; 2016; 2017; 2018
 nfiles="-1"
 executor="futures"
 output_type="array" # hist/array
 nsample="" # Importante: Dejar nsample="" si no se quiere un nsample especifico, en caso de querer uno especifico nsample="3"
-output_folder="$ANALYSIS_PATH/July/eff_wj/$year/den"
+output_folder="/eos/user/j/jreyesve/WINDOWS/Desktop/final/$processor/$year"
 run_systematics="true" # Cambiar a "true" para activar sistemáticos a nivel de objeto (solo cuando sea necesario, ya que puede aumentar el tiempo de ejecución considerablemente)
 
 
@@ -57,9 +57,9 @@ samples=(
     "TTTo2L2Nu"
     "TTToHadronic"
     "DYJetsToLL_nlo_M-10to50"
-#     # "DYJetsToLL_nlo_M-50"
-# #   "SingleMuon"
-    "MET"
+    "DYJetsToLL_nlo_M-50"
+    "SingleMuon"
+#    "MET"
 #   "Tau"
 #   "SingleElectron"
     "ST_s-channel_4f_leptonDecays"
@@ -145,7 +145,7 @@ if [ $processor == "ttbar" ] || [ $processor == "wjets" ] || [ $processor == "zt
       sleep 60 #  Wait for 60 seconds before sending the next sample  
     done
 
-elif [ $processor == "top_tagger" ] || [ $processor == "signal" ]; then
+elif [ $processor == "top_tagger" ] || [ $processor == "signal" ] || [ $processor == "btag_eff" ]; then
     
     # Definir la ruta donde se creará mover_archivos.sh
     dir_to_create="wprime_plus_b/outs/$processor/$lepton_flavor/$year"
@@ -160,6 +160,8 @@ fi
 
 echo $ANALYSIS_PATH/$output_folder
 
+# sleep 600
+# ./run_v1.sh
 
 
 echo "###### Year: $year; processor $processor is over, now waiting for the jobs to finish #####"
@@ -168,7 +170,5 @@ echo "##########################################################################
 echo "##################################### When all jobs have been sent ####################################################################"
 echo "### Use find_XRoot_sites_with_error.sh to find the sites with errors in the condor logs, and comment them in make_fileset_lxplus.py ###"
 echo "##################### Use checkfiles.sh file to sent the complete list of the missing jobs  ###########################################"
-echo "############ Use move_files.sh inside the outs folder to move the pkl files to SWAN (free scapce in lxplus) space. ####################"
-echo "### Once checkfiles does not return any missing files, move the metadata folder to SWAN and run the analysis code there. ##############"
 echo "#######################################################################################################################################"
 

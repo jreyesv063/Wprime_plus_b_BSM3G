@@ -613,6 +613,11 @@ def main(args):
 
 
 
+        if args["processor"] in ["ztoll"]:
+            metadata.update(
+                        {f"sumw_no_ISR": float(output_metadata[f"sumw_no_ISR"])}
+                    )
+
 
         # save args to metadata
         args_dict = args.copy()

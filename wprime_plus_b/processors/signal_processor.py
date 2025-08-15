@@ -1230,7 +1230,6 @@ class SignalProccessor(processor.ProcessorABC):
                         )
 
                         if self.is_mc == True:
-
                             if region_name == "nominal":
                                 # Agregar variaciones de peso
                                 for variation_case, weights_case in weights_container._modifiers.items():

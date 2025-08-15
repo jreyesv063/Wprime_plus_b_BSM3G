@@ -537,6 +537,8 @@ class ZToLLProcessor(processor.ProcessorABC):
             tau_corrector.add_id_weight_DeepTau2017v2p1VSmu()
             tau_corrector.add_id_weight_DeepTau2017v2p1VSjet()
 
+            output["metadata"].update({"sumw_no_ISR": ak.sum(weights_container.weight())})
+
             # -------------------------
             # ISR correction
             # -------------------------
@@ -548,6 +550,9 @@ class ZToLLProcessor(processor.ProcessorABC):
                         channel=self.channel, 
                         variation=self.syst
             )
+
+        else:
+            output["metadata"].update({"sumw_no_ISR": ak.sum(weights_container.weight())})
 
         # -------------------------------------------------------------
         # event selection

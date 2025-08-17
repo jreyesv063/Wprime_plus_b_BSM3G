@@ -55,7 +55,7 @@ from wprime_plus_b.systematics.syst_variations import systematic_variation_mask
 from wprime_plus_b.systematics.utils import update_region_map, update_region_selection
 
 
-from wprime_plus_b.processors.utils.analysis_utils import delta_r_mask, normalize, trigger_match, output_metadata, histograms_output_syst, efficiency_studies_numerator
+from wprime_plus_b.processors.utils.analysis_utils import delta_r_mask, normalize, trigger_match, output_metadata, histograms_output_syst_eff_wj
 
 
 class WjetsProccessor(processor.ProcessorABC):
@@ -384,6 +384,9 @@ class WjetsProccessor(processor.ProcessorABC):
             # add pileup weigths
             add_pileup_weight(events, weights_container, self.year, self.syst)
             
+
+            output["metadata"].update({"sumw_case_1": ak.sum(weights_container.weight())})
+
             # add pujetid weigths               
             add_pujetid_weight(
                 jets=jets_veto,
@@ -485,6 +488,11 @@ class WjetsProccessor(processor.ProcessorABC):
             tau_corrector.add_id_weight_DeepTau2017v2p1VSmu()
             tau_corrector.add_id_weight_DeepTau2017v2p1VSjet()
             
+
+            output["metadata"].update({"sumw_case_2": ak.sum(weights_container.weight())})
+
+            output["metadata"].update({"sumw_case_3": ak.sum(weights_container.weight())})            
+
         # -------------------------
         # p_T^{miss} variables
         # -------------------------
@@ -765,6 +773,7 @@ class WjetsProccessor(processor.ProcessorABC):
         # --------------
         cut_names = region_selection[self.channel][self.lepton_flavor]
         output["metadata"].update({"cutflow": {}})
+        output["metadata"].update({"cutflow_raw": {}})        
         output["metadata"]["cutflow"]["sumw"] = ak.sum(weights_container.weight())
         selections = []        
         for cut_name in cut_names:
@@ -773,6 +782,9 @@ class WjetsProccessor(processor.ProcessorABC):
             output["metadata"]["cutflow"][cut_name] = ak.sum(
                 weights_container.weight()[current_selection]
             )
+            output["metadata"]["cutflow_raw"][cut_name] = len(
+                weights_container.weight()[current_selection]
+            )            
             
         # ----------------------------
         # Save weights statistics
@@ -853,7 +865,6 @@ class WjetsProccessor(processor.ProcessorABC):
             # save cutflow 
             # --------------
             for case in region_selection_cases:
-                print(case)
                 cut_names = region_selection_cases[case]
                 output["metadata"].update({f"cutflow_{case}": {}})
                 output["metadata"][f"cutflow_{case}"]["sumw"] = ak.sum(weights_container.weight())
@@ -872,8 +883,6 @@ class WjetsProccessor(processor.ProcessorABC):
                 # check that there are events left after selection
                 nevents_after = ak.sum(region_mask)
 
-                tops = ak.zeros_like(region_mask)
-
                 if region_name == "nominal":
                     output["metadata"].update({
                                 f"weighted_final_nevents": ak.sum(weights_container.weight()[region_mask]),
@@ -888,13 +897,15 @@ class WjetsProccessor(processor.ProcessorABC):
 
                 if nevents_after != 0:
                     # Histograms
-                    histograms_output_syst(self, bjets, jets,
-                                    electrons, muons,
-                                    taus, events.MET,
-                                    tops, region_mask, self.lepton_flavor, self.is_mc, events,
-                                    region_name)
-
-
+                    histograms_output_syst_eff_wj(self, 
+                                    bjets = bjets, jets = jets,
+                                    electrons = electrons,  muons = muons,
+                                    taus = taus, met = events.MET,
+                                    mask = region_mask, 
+                                    lepton_flavor = self.lepton_flavor, is_mc = self.is_mc, 
+                                    events = events,
+                                    syst_flag = region_name)   
+                                                        
                     if self.output_type == "array":
                         # Create a dictionary to store the arrays
                         if region_name == "nominal":
@@ -953,11 +964,14 @@ class WjetsProccessor(processor.ProcessorABC):
                 tops = ak.zeros_like(region_mask)
 
                 # Histograms
-                histograms_output_syst(self, bjets, jets,
-                                electrons, muons,
-                                taus, events.MET,
-                                tops, region_mask, self.lepton_flavor, self.is_mc, events,
-                                "nominal")
+                histograms_output_syst_eff_wj(self, 
+                                bjets = bjets, jets = jets,
+                                electrons = electrons,  muons = muons,
+                                taus = taus, met = events.MET,
+                                mask = region_mask, 
+                                lepton_flavor = self.lepton_flavor, is_mc = self.is_mc, 
+                                events = events,
+                                syst_flag = "nominal")   
 
 
                 if self.output_type == "array":

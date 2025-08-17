@@ -198,7 +198,7 @@ def main(args):
 
 
         if sample.startswith("SignalTau"):
-            fileset[sample] = [file for file in root_file]
+            fileset[sample] = [f"root://cmsxrootd.fnal.gov/" + file for file in root_file]
         elif sample.startswith("SignalMuon") or sample.startswith("SignalElectron"):
             fileset[sample] = [f"root://eoscms.cern.ch//eos/cms/" + file for file in root_file]
         elif args["facility"] == "coffea-casa":
@@ -613,11 +613,21 @@ def main(args):
 
 
 
-        if args["processor"] in ["ztoll"]:
+        if args["processor"] in ["ztoll"] and args["sample"] not in ["MET", "SingleMuon", "SingleElectron", "Tau"]:
             metadata.update(
                         {f"sumw_no_ISR": float(output_metadata[f"sumw_no_ISR"])}
                     )
 
+        if args["processor"] in ["top_tagger", "ztoll", "qcd_hadronic", "wplusjets", "signal", "wjets"]  and args["sample"] not in ["MET", "SingleMuon", "SingleElectron", "Tau"]:
+            metadata.update(
+                        {f"sumw_case_1": float(output_metadata[f"sumw_case_1"])}
+                    )
+            metadata.update(
+                        {f"sumw_case_2": float(output_metadata[f"sumw_case_2"])}
+                    )                    
+            metadata.update(
+                        {f"sumw_case_3": float(output_metadata[f"sumw_case_3"])}
+                    )                    
 
         # save args to metadata
         args_dict = args.copy()

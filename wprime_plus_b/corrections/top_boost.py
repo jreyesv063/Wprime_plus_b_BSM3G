@@ -23,7 +23,7 @@ def add_top_boost_corrections(
     variation: str = "nominal",
 ) -> None:
 
-    if not dataset.startswith("TTTo"):
+    if not (dataset.startswith("TTTo") and lepton_flavor in ["tau"]):
         return    
 
     if year not in {"2016APV", "2016", "2017", "2018"}:
@@ -79,7 +79,7 @@ def add_top_boost_corrections(
 
     # Máscara con todas las condiciones
     selection_mask = (
-        (ak.num(lepton) > 0) # Se tenga al menos un lepton
+        (ak.num(lepton) == 1) # Se tenga al menos un lepton
         & (njets > casos[year]["njets"][0]) # se tenga njets mayor a 0
         & (ST >= casos[year]["ST"][0]) # ST sea mayor al minimo observado en los resultados
     )

@@ -420,7 +420,9 @@ class ZToLLProcessor(processor.ProcessorABC):
             add_l1prefiring_weight(events, weights_container, self.year, self.syst)
             # add pileup weigths
             add_pileup_weight(events, weights_container, self.year, self.syst)
-            
+
+            output["metadata"].update({"sumw_case_1": ak.sum(weights_container.weight())})
+
             # add pujetid weigths               
             add_pujetid_weight(
                 jets=jets_veto,
@@ -537,6 +539,7 @@ class ZToLLProcessor(processor.ProcessorABC):
             tau_corrector.add_id_weight_DeepTau2017v2p1VSmu()
             tau_corrector.add_id_weight_DeepTau2017v2p1VSjet()
 
+            output["metadata"].update({"sumw_case_2": ak.sum(weights_container.weight())})
             output["metadata"].update({"sumw_no_ISR": ak.sum(weights_container.weight())})
 
             # -------------------------
@@ -551,8 +554,8 @@ class ZToLLProcessor(processor.ProcessorABC):
                         variation=self.syst
             )
 
-        else:
-            output["metadata"].update({"sumw_no_ISR": ak.sum(weights_container.weight())})
+            output["metadata"].update({"sumw_case_3": ak.sum(weights_container.weight())})
+
 
         # -------------------------------------------------------------
         # event selection

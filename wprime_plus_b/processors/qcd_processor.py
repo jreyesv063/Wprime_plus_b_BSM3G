@@ -456,6 +456,8 @@ class QCDProccessor(processor.ProcessorABC):
             # add pileup weigths
             add_pileup_weight(events, weights_container, self.year, self.syst)
 
+            output["metadata"].update({"sumw_case_1": ak.sum(weights_container.weight())})
+
             # add pujetid weigths
             add_pujetid_weight(
                 jets=jets_veto,
@@ -581,6 +583,8 @@ class QCDProccessor(processor.ProcessorABC):
                     variation=self.syst
             )
 
+            output["metadata"].update({"sumw_case_2": ak.sum(weights_container.weight())})
+
             # -------------------------
             # ttbar boost correction
             # -------------------------
@@ -611,6 +615,9 @@ class QCDProccessor(processor.ProcessorABC):
                         channel=self.channel, 
                         variation=self.syst
             )   
+
+            output["metadata"].update({"sumw_case_3": ak.sum(weights_container.weight())})
+
         # -------------------------
         # p_T^{miss} variables
         # -------------------------

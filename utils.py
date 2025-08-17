@@ -60,63 +60,91 @@ def divide_list(lst: list, n: int) -> list:
 
 def build_filesets(args: dict) -> None:
     """
-    build filesets partitions for an specific facility
+    Build filesets partitions for a specific facility by combining signal and background datasets.
+    
+    Args:
+        args (dict): Configuration dictionary containing:
+            - year: Data year (e.g., '2016', '2017', '2018')
+            - facility: Computing facility ('lxplus' or others)
+            - sample: Sample name (optional, for legacy support)
+            - run_systematics: Boolean flag for systematics processing
     """
     main_dir = Path.cwd()
     fileset_path = Path(f"{main_dir}/wprime_plus_b/fileset")
-    if args['sample'].startswith("Signal"):
-        with open(f"{fileset_path}/signal_{args['year']}.json", "r") as f:
-            datasets = json.load(f)
-    else:
-        with open(f"{fileset_path}/das_datasets.json", "r") as f:
-            datasets = json.load(f)[f"{args['year']}_UL"]
 
-     # make output filesets directory
+    # Determine JSON files to load based on facility and signal/background
+    json_files = [
+        f"{fileset_path}/signal_{args['year']}.json",  # Signal datasets
+        f"{fileset_path}/fileset_{args['year']}_UL_NANO_lxplus.json" 
+        if args['facility'] == "lxplus" 
+        else f"{fileset_path}/fileset_{args['year']}_UL_NANO.json"  # Background datasets
+    ]
+
+    # Combine datasets from all JSON files
+    combined_datasets = {}
+    for json_file in json_files:
+        if Path(json_file).exists():
+            with open(json_file, "r") as f:
+                try:
+                    data = json.load(f)
+                    combined_datasets.update(data)
+                except json.JSONDecodeError as e:
+                    print(f"Error loading {json_file}: {e}")
+                    continue
+
+    # Prepare output directory (clean if exists)
     output_directory = Path(f"{fileset_path}/{args['year']}/{args['facility']}")
-
+    
     if output_directory.exists():
-        files = list(output_directory.glob("*"))
-        for file in tqdm(files, desc=f"Creating JSON files {args['year']}", unit="file"):
+        # Remove existing files with progress bar
+        existing_files = list(output_directory.glob("*"))
+        for file in tqdm(existing_files, desc="Deleting old files", unit="file"):
             if file.is_file():
                 try:
                     file.unlink()
                 except Exception as e:
-                    print(f"Failed to create {file}: {e}")
-
+                    print(f"Error deleting {file}: {e}")
     else:
-        output_directory.mkdir(parents=True)
-    for sample in datasets:
-        if args['sample'].startswith("Signal"):            
-            json_file = f"{fileset_path}/signal_{args['year']}.json"
-        elif args['facility'] == "lxplus":
-            json_file = f"{fileset_path}/fileset_{args['year']}_UL_NANO_lxplus.json"
-        else:
-            json_file = f"{fileset_path}/fileset_{args['year']}_UL_NANO.json"
-            
-        with open(json_file, "r") as handle:
-            data = json.load(handle)
-        # split fileset and save filesets
-        filesets = {}
-        # load dataset config
-        dataset_config = load_dataset_config(config_name=sample, object_syst = args["run_systematics"])
-        if dataset_config.nsplit == 1:
-            filesets[sample] = f"{output_directory}/{sample}.json"
-            sample_data = {sample: data[sample]}
-            with open(f"{output_directory}/{sample}.json", "w") as json_file:
-                json.dump(sample_data, json_file, indent=4, sort_keys=True)
-        else:
-            root_files_list = divide_list(data[sample], dataset_config.nsplit)
-            keys = ".".join(
-                f"{sample}_{i}" for i in range(1, dataset_config.nsplit + 1)
-            ).split(".")
-            for key, value in zip(keys, root_files_list):
-                sample_data = {}
-                sample_data[key] = list(value)
+        output_directory.mkdir(parents=True, exist_ok=True)
 
-                filesets[key] = f"{output_directory}/{key}.json"
-                with open(f"{output_directory}/{key}.json", "w") as json_file:
-                    json.dump(sample_data, json_file, indent=4, sort_keys=True)
+    # First pass: Count total files that will be generated
+    total_files = 0
+    for sample in combined_datasets:
+        dataset_config = load_dataset_config(
+            config_name=sample,
+            object_syst=args.get("run_systematics", False)
+        )
+        # Count 1 file if no split, or N files if split
+        total_files += 1 if dataset_config.nsplit == 1 else dataset_config.nsplit
 
+    # Second pass: Process samples with accurate progress tracking
+    with tqdm(total=total_files, desc="Generating JSON files", unit="file") as pbar:
+        for sample in combined_datasets:
+            try:
+                dataset_config = load_dataset_config(
+                    config_name=sample,
+                    object_syst=args.get("run_systematics", False)
+                )
+                
+                if dataset_config.nsplit == 1:
+                    # Case: Single file per sample
+                    output_path = output_directory / f"{sample}.json"
+                    with open(output_path, "w") as f:
+                        json.dump({sample: combined_datasets[sample]}, f, indent=4, sort_keys=True)
+                    pbar.update(1)  # Update progress by 1 file
+                else:
+                    # Case: Split sample into multiple files
+                    root_files_list = divide_list(combined_datasets[sample], dataset_config.nsplit)
+                    for i in range(1, dataset_config.nsplit + 1):
+                        key = f"{sample}_{i}"
+                        output_path = output_directory / f"{key}.json"
+                        with open(output_path, "w") as f:
+                            json.dump({key: root_files_list[i-1]}, f, indent=4, sort_keys=True)
+                        pbar.update(1)  # Update progress for each split file
+                        
+            except Exception as e:
+                tqdm.write(f"Error processing {sample}: {e}")
+                continue
 
 
 def get_filesets(sample: str, year: str, facility: str) -> dict:

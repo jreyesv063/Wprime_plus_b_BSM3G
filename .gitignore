@@ -23,3 +23,8 @@ wprime_plus_b/fileset/*/
 # Ignorar archivos fileset
 wprime_plus_b/fileset/fileset_*.json
 
+
+# Ignorar run.sh y checkfiles.sh: Varian cada vez que se corra algo
+run*
+checkfiles*
+

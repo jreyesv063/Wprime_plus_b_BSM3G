@@ -456,6 +456,7 @@ class WplusJetsProcessor(processor.ProcessorABC):
             # add pileup weigths
             add_pileup_weight(events, weights_container, self.year, self.syst)
 
+            output["metadata"].update({"sumw_case_1": ak.sum(weights_container.weight())})
 
             # add pujetid weigths
             add_pujetid_weight(
@@ -569,6 +570,8 @@ class WplusJetsProcessor(processor.ProcessorABC):
             )
 
 
+            output["metadata"].update({"sumw_case_2": ak.sum(weights_container.weight())})
+
             # -------------------------
             # ttbar boost correction
             # -------------------------
@@ -601,6 +604,9 @@ class WplusJetsProcessor(processor.ProcessorABC):
                         variation=self.syst
             )
 
+
+            output["metadata"].update({"sumw_case_3": ak.sum(weights_container.weight())})
+            
         # -------------------------
         # p_T^{miss} variables
         # -------------------------

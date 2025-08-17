@@ -78,8 +78,14 @@ SignalMuon_2TeV:
   nsplit: 1
 SignalMuon_600GeV:
   nsplit: 1
+SignalTau_300GeV:
+  nsplit: 1  
+SignalTau_400GeV:
+  nsplit: 1    
 SignalTau_600GeV:
   nsplit: 1
+SignalTau_750GeV:
+  nsplit: 1    
 SignalTau_1TeV:
   nsplit: 1
 SignalTau_2TeV:

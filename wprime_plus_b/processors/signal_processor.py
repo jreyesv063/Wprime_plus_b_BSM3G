@@ -449,6 +449,8 @@ class SignalProccessor(processor.ProcessorABC):
             # add pileup weigths
             add_pileup_weight(events, weights_container, self.year, self.syst)
 
+            output["metadata"].update({"sumw_case_1": ak.sum(weights_container.weight())})
+
             # add pujetid weigths
             add_pujetid_weight(
                 jets=jets_veto,
@@ -574,6 +576,8 @@ class SignalProccessor(processor.ProcessorABC):
                     variation=self.syst
             )
 
+            output["metadata"].update({"sumw_case_2": ak.sum(weights_container.weight())})
+
             # -------------------------
             # ttbar boost correction
             # -------------------------
@@ -605,6 +609,8 @@ class SignalProccessor(processor.ProcessorABC):
                         variation=self.syst
             )            
 
+            output["metadata"].update({"sumw_case_3": ak.sum(weights_container.weight())})
+            
         # -------------------------
         # p_T^{miss} variables
         # -------------------------
@@ -1230,16 +1236,15 @@ class SignalProccessor(processor.ProcessorABC):
                         )
 
                         if self.is_mc == True:
-                            if region_name == "nominal":
-                                # Agregar variaciones de peso
-                                for variation_case, weights_case in weights_container._modifiers.items():
-                                    array_dict[f"{variation_case}"] = processor.column_accumulator(
-                                        weights_case[region_mask][mask_top]
-                                    )
-                                # Guardar pesos individuales filtrados por region_mask
-                                for weight in weights_container.weightStatistics:
-                                    filtered_weight = weights_container.partial_weight(include=[weight])[region_mask][mask_top]
-                                    self.add_feature(weight, filtered_weight)
+                            # Agregar variaciones de peso
+                            for variation_case, weights_case in weights_container._modifiers.items():
+                                array_dict[f"{variation_case}"] = processor.column_accumulator(
+                                    weights_case[region_mask][mask_top]
+                                )
+                        # Guardar pesos individuales filtrados por region_mask
+                        for weight in weights_container.weightStatistics:
+                            filtered_weight = weights_container.partial_weight(include=[weight])[region_mask][mask_top]
+                            self.add_feature(weight, filtered_weight)
     
 
                         # select variables and put them in column accumulators

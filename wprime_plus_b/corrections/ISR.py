@@ -21,13 +21,26 @@ def ISR_weight(
 
     # Apply ISR weights only to specific datasets
     if dataset.startswith('WJetsToLNu') or dataset.startswith('DYJetsToLL'):
-        
-        # Determine the JSON file for ISR corrections based on the channel and year          
-        if channel == "ll+c":
-            json_correction = "wprime_plus_b/data/ISR_Z+c_weight.json"
+        # Determine the JSON file for ISR corrections based on the channel and year   
+        if (
+            dataset.startswith("WJetsToLNu") 
+            or dataset.startswith("DYJetsToLL_M-50")
+            or dataset.startswith("DYJetsToLL_M-10to50")            
+        ):
+            json_correction = f"wprime_plus_b/data/ISR_Zmumu_weight_MLM_{year}.json"
+            ISR_type = "MLM"
+
+        elif dataset.startswith("DYJetsToLL_nlo"):
+            json_correction = f"wprime_plus_b/data/ISR_Zmumu_weight_FxFx_{year}.json"
+            ISR_type = "FxFx"            
 
         else:
-            json_correction = f"wprime_plus_b/data/ISR_Zmumu_weight_{year}.json"
+            raise ValueError(
+                f"Dataset '{dataset}' is not one of the expected samples "
+                "(WJetsToLNu*, DYJetsToLL_M-50*, DYJetsToLL_nlo*)."
+            )
+
+
 
         # Determine the pdgId based on the dataset
         pdgId = 24 if dataset.startswith("WJetsToLNu") else 23
@@ -64,6 +77,6 @@ def ISR_weight(
        
         # Add nominal variation to the weights object
         weights.add(
-            name=f"ISR_weight_{year}",  # Name of the weight
+            name=f"ISR_{ISR_type}_{year}",  # Name of the weight
             weight=sf_nominal,  # Nominal weight
         )

@@ -18,7 +18,7 @@ SITES = {
        "T1_FR_CCIN2P3_Disk",
         "T1_FR_CCIN2P3_Tape",
     #   "T1_RU_JINR_Disk",
-        "T1_UK_RAL_Disk",
+    #    "T1_UK_RAL_Disk",
         "T1_US_FNAL_Disk",
         # ---- T2 sites ----
         "T2_BE_IIHE",
@@ -34,7 +34,7 @@ SITES = {
         "T2_UK_London_IC",
         "T2_US_MIT",
     #   "T2_US_Nebraska",
-        "T2_US_Purdue",
+    #   "T2_US_Purdue",
     #   "T2_US_Vanderbilt",
         "T3_CH_CERN_OpenData",
         # ---- T3 sites ----
@@ -101,19 +101,19 @@ SITES = {
         "T3_IT_Trieste",
     #   "T3_KR_KISTI",
     #   "T3_KR_UOS",
-        "T3_US_Baylor",
+    #   "T3_US_Baylor",
         "T3_US_FNALLPC",
     #   "T3_US_NotreDame"
     ],
     "2018": [
         # ---- T1 sites ----
-    #   "T1_DE_KIT_Disk",
+       #"T1_DE_KIT_Disk",
         "T1_FR_CCIN2P3_Disk",
         "T1_FR_CCIN2P3_Tape",
         "T1_IT_CNAF_Disk",
-        #"T1_RU_JINR_Disk",
-        "T1_UK_RAL_Disk",
-        "T1_US_FNAL_Disk",
+        "T1_RU_JINR_Disk",
+       # "T1_UK_RAL_Disk",
+       "T1_US_FNAL_Disk",
        # ---- T2 sites ----
         "T2_BE_IIHE",
         "T2_BE_UCL",
@@ -129,7 +129,7 @@ SITES = {
         "T2_US_Caltech",
         "T2_US_Nebraska",
         "T2_US_Purdue",
-        #"T2_US_Vanderbilt",
+        "T2_US_Vanderbilt",
         "T2_US_Wisconsin",
         # ---- T3 sites ----
         "T3_IT_Trieste",

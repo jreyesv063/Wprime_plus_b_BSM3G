@@ -71,6 +71,7 @@ declare -A host_to_site=(
     ["rdr.echo.stfc.ac.uk"]="T1_UK_RAL"
     ["t3se01.psi.ch"]="T3_CH_PSI"
     ["grid143.kfki.hu"]="T2_HU_Budapest"
+    ["cmseos.fnal.gov"]="T1_US_FNAL_Disk"
 )
 
 # Mapa de años con sus sitios válidos

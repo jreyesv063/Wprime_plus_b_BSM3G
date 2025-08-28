@@ -86,11 +86,13 @@ SignalTau_600GeV:
   nsplit: 1
 SignalTau_750GeV:
   nsplit: 1    
-SignalTau_1TeV:
+SignalTau_1000GeV:
   nsplit: 1
-SignalTau_2TeV:
+SignalTau_1500GeV:
   nsplit: 1
-SignalTau_3TeV:
+SignalTau_2000GeV:
+  nsplit: 1
+SignalTau_3000GeV:
   nsplit: 1
 DYJetsToLL_M-50_inclusive:
   nsplit: 10

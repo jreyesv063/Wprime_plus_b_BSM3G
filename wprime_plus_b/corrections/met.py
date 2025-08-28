@@ -282,7 +282,7 @@ def add_met_trigger_corrections(
     # We have the tigger name restriction
     in_limit_met = met.mask[mask_trigger]
     
-    met_pt = ak.fill_none(in_limit_met.pt, 10.0)
+    met_pt = ak.fill_none(in_limit_met.pt_recoil, 10.0)
 
     
     # get met trigger correction
@@ -470,8 +470,8 @@ def met_recoil(events: ak.Array, muons, electrons, taus) -> None:
     taus_phi = taus.phi
     
     # propagate changes to MET (x, y) 
-    recoil_px = met_pt * np.cos(met_phi) + (ak.sum(muons_pt*np.cos(muons_phi) , axis =-1) + ak.sum(electrons_pt*np.cos(electrons_phi) , axis =-1) + ak.sum(taus_pt*np.cos(taus_phi) , axis =-1))
-    recoil_py = met_pt * np.sin(met_phi) + (ak.sum(muons_pt*np.sin(muons_phi) , axis =-1) + ak.sum(electrons_pt*np.sin(electrons_phi) , axis =-1) + ak.sum(taus_pt*np.sin(taus_phi) , axis =-1)) 
+    recoil_px = met_pt * np.cos(met_phi) + (ak.sum(muons_pt*np.cos(muons_phi) , axis =-1)) 
+    recoil_py = met_pt * np.sin(met_phi) + (ak.sum(muons_pt*np.sin(muons_phi) , axis =-1)) 
 
     # propagate changes to MET (pT, phi) components
     recoil_pt = np.sqrt((recoil_px ** 2.0 + recoil_py ** 2.0))

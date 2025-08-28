@@ -676,8 +676,6 @@ class ZToLLProcessor(processor.ProcessorABC):
         # -------------------------
         # List of patterns for the datasets that should have the HT filter
         ht_filtered_datasets = [
-            "DYJetsToLL_M-50_inclusive",
-            "DYJetsToLL_M-50_ext",
             "WJetsToLNu_inclusive",
             "WJetsToLNu_ext"
         ]
@@ -798,6 +796,7 @@ class ZToLLProcessor(processor.ProcessorABC):
                 "mu": [
                     "goodvertex",
                     "lumi",
+                    "Stitching",
                     "metfilters",
                     f"trigger_{reference_trigger}",
                     "trigger_match",

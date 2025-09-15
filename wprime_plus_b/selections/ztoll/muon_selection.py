@@ -76,7 +76,7 @@ def select_good_muons(
     # Create masks for each pt variation
     good_muon_masks = {}
     for variation, muon_pt in pt_shifts.items():
-        muon_pt_mask = muon_pt >= 15.0
+        muon_pt_mask = muon_pt >= muon_pt_threshold
         good_muon_masks[variation] = (
             muon_pt_mask & muon_eta_mask & muon_id_mask & muon_iso_mask
         )

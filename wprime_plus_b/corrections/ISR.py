@@ -20,7 +20,8 @@ def ISR_weight(
     """
 
     # Apply ISR weights only to specific datasets
-    if dataset.startswith('WJetsToLNu') or dataset.startswith('DYJetsToLL'):
+    #if dataset.startswith('WJetsToLNu') or dataset.startswith('DYJetsToLL'):
+    if dataset.startswith('DYJetsToLL'):
         # Determine the JSON file for ISR corrections based on the channel and year   
         if (
             dataset.startswith("WJetsToLNu") 

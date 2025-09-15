@@ -771,7 +771,7 @@ class ZToLLProcessor(processor.ProcessorABC):
             "tau": taus
         }
         leading_muon = ak.firsts(lepton_map[self.lepton_flavor])
-        self.selections.add("leading_lepton", leading_muon.pt > 30.0) 
+        self.selections.add("leading_lepton", leading_muon.pt > ztoll_muon_selection[self.channel][self.lepton_flavor]["leading_muon_pt"]) 
 
         
         # define selection regions for each channel
@@ -801,7 +801,6 @@ class ZToLLProcessor(processor.ProcessorABC):
                     f"trigger_{reference_trigger}",
                     "trigger_match",
                     "HEMCleaning",
-                    #f"met_{met_threshold}",
                     "bjet_veto",
                     "electron_veto",
                     "tau_veto",

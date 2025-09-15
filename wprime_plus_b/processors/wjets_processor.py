@@ -23,6 +23,7 @@ from wprime_plus_b.corrections.muon_highpt import MuonHighPtCorrector
 from wprime_plus_b.corrections.tau import TauCorrector
 from wprime_plus_b.corrections.electron import ElectronCorrector
 from wprime_plus_b.corrections.jetvetomaps import jetvetomaps_mask
+from wprime_plus_b.corrections.ISR import ISR_weight
 
 # Selections: Config
 from wprime_plus_b.selections.wjets.bjet_config import wjet_bjet_selection
@@ -491,15 +492,24 @@ class WjetsProccessor(processor.ProcessorABC):
 
             output["metadata"].update({"sumw_case_2": ak.sum(weights_container.weight())})
 
+            # -------------------------
+            # ISR correction
+            # -------------------------
+            ISR_weight(events=events, 
+                        jets=jets_veto, 
+                        dataset=dataset, 
+                        weights=weights_container, 
+                        year=self.year, 
+                        channel=self.channel, 
+                        variation=self.syst
+            )
+
             output["metadata"].update({"sumw_case_3": ak.sum(weights_container.weight())})            
 
         # -------------------------
         # p_T^{miss} variables
         # -------------------------
         update_met_jet_veto(events = events, jets_veto = jets_veto)  
-        met_noMu_cal(events = events, muons = muons)
-        met_noMu_plus(events = events, muons = muons)
-        met_noMu_minus(events = events, muons = muons)
         met_recoil(events = events, muons = muons, electrons = electrons, taus = taus)
 
         # -------------------------------------------------------------
@@ -644,6 +654,9 @@ class WjetsProccessor(processor.ProcessorABC):
                     ref_trigger = trigger_data[self.year][reference_trigger][mu_id]
                     eff_trigger = trigger_data[self.year][efficiency_trigger]
 
+            reference_triggers = ref_trigger
+
+
         elif self.lepton_flavor == "ele":
             ele_id = wjet_electron_selection[self.channel][self.lepton_flavor]["electron_id_wp"]
             with importlib.resources.path("wprime_plus_b.data", "triggers.json") as path:
@@ -651,6 +664,8 @@ class WjetsProccessor(processor.ProcessorABC):
                     trigger_data = json.load(handle)
                     ref_trigger = trigger_data[self.year][reference_trigger][ele_id]
                     eff_trigger = trigger_data[self.year][efficiency_trigger]
+                
+            reference_triggers = ref_trigger
 
         elif self.lepton_flavor == "tau":
             with importlib.resources.path("wprime_plus_b.data", "triggers.json") as path:
@@ -659,10 +674,12 @@ class WjetsProccessor(processor.ProcessorABC):
                     ref_trigger = trigger_data[self.year][reference_trigger]
                     eff_trigger = trigger_data[self.year][efficiency_trigger]
 
+            reference_triggers = ref_trigger
+
         # Obtener los nombres reales de los triggers en el archivo HLT
-        reference_triggers = [
-            trigger for trigger in events.HLT.fields if any(trigger.startswith(r) for r in ref_trigger)
-        ]
+        # reference_triggers = [
+        #     trigger for trigger in events.HLT.fields if any(trigger.startswith(r) for r in ref_trigger)
+        # ]
 
         efficiency_triggers = [
             trigger for trigger in events.HLT.fields if any(trigger.startswith(r) for r in eff_trigger)
@@ -743,7 +760,7 @@ class WjetsProccessor(processor.ProcessorABC):
                     f"mt_{mt_cut}_invert_{mt_invert}",
                     f"delta_phi_jet_met_{delta_phi_cut}_{invert_delta_phi}",
                     f"met_{met_threshold}",
-#                    f"trigger_{efficiency_trigger}",
+                    f"trigger_{efficiency_trigger}",
                 ],
             },
             "1l0b":{

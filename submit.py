@@ -166,7 +166,6 @@ def main(args):
     else:
         fileset_name_nsample = f"{args['sample']}"
 
-    #fileset_name_nsample = f"{args['sample']}_{args['nsample']}"
 
     if fileset_name_nsample not in filesets:
         print(f"❌ Error :  No fileset {fileset_name_nsample} found in fileset/{args['year']}/{args['facility']}. Check the folder", file=sys.stderr)
@@ -174,13 +173,6 @@ def main(args):
     else:
         print(f"✅ Fileset found: fileset/{args['year']}/{args['facility']}/{fileset_name_nsample}.json")
 
-
-    # if not filesets:
-    #     print(f"❌ No filesets found for sample={args['sample']}, year={args['year']}, facility={args['facility']}", file=sys.stderr)
-    #     return
-    # else:
-    #     print("✅ Filesets found:", list(filesets.keys()))
-        
 
     for sample, fileset_path in filesets.items():
 
@@ -300,7 +292,7 @@ def main(args):
                 )
             
             # save top tagger selectios to metadata
-            elif args["processor"] in ["top_tagger"]:  
+            if args["processor"] in ["top_tagger"]:  
              
                 selections = {
                     "electron_selection": top_tagger_electron_selection[
@@ -606,7 +598,7 @@ def main(args):
                         {f"weighted_final_nevents_{syst}": float(output_metadata[f"weighted_final_nevents_{syst}"])}
                     )
 
-        if args["processor"] in ["top_tagger", "ztoll", "qcd_hadronic", "wplusjets", "signal"]:
+        if args["processor"] in ["top_tagger", "ztoll", "qcd_hadronic", "wplusjets", "signal", "wjets"]:
             for cut_selection, nevents in output_metadata["cutflow_raw"].items():
                 output_metadata["cutflow_raw"][cut_selection] = str(nevents)
             metadata.update({"cutflow_raw": output_metadata["cutflow_raw"]})

@@ -728,6 +728,8 @@ def histograms_output_syst(
         )
     )
 
+    # Delta-phi
+    delta_phi_lepton_met = region_leptons.delta_phi(region_met)
 
     # HT and  ST variables
     jet_pt_addition = ak.sum(region_jets.pt, axis=1)
@@ -761,14 +763,14 @@ def histograms_output_syst(
         self.add_feature(f"lepton_phi", region_leptons.phi)
 
         # Bjets
-        self.add_feature(f"bjet_pt", region_bjets.pt)
-        self.add_feature(f"bjet_eta", region_bjets.eta)
-        self.add_feature(f"bjet_phi", region_bjets.phi)
+        self.add_feature(f"bjet_pt", ak.firsts(region_bjets).pt)
+        self.add_feature(f"bjet_eta",  ak.firsts(region_bjets).eta)
+        self.add_feature(f"bjet_phi",  ak.firsts(region_bjets).phi)
 
         # Light jets
-        self.add_feature(f"jet_pt", region_jets.pt)
-        self.add_feature(f"jet_eta", region_jets.eta)
-        self.add_feature(f"jet_phi", region_jets.phi)
+        self.add_feature(f"jet_pt",  ak.firsts(region_jets).pt)
+        self.add_feature(f"jet_eta",  ak.firsts(region_jets).eta)
+        self.add_feature(f"jet_phi",  ak.firsts(region_jets).phi)
         
         # MET
         self.add_feature(f"met", region_met.pt)
@@ -778,13 +780,16 @@ def histograms_output_syst(
         self.add_feature(f"recoil_pt", region_met.pt_recoil)
         self.add_feature(f"recoil_phi", region_met.phi_recoil)
 
-        # Transverse mass: lepton; met.   
+        # Transverse mass and delta_phi: lepton; met.   
         self.add_feature(f"lepton_met_mass", lepton_met_mass)
+        self.add_feature(f"lepton_met_phi", delta_phi_lepton_met)
 
         # Number of objects
-        self.add_feature(f"njets_old", ak.num(region_jets) + ak.num(region_bjets))
+        #self.add_feature(f"njets_old", ak.num(region_jets) + ak.num(region_bjets))
         self.add_feature(f"njets_full", ak.num(region_jets) + ak.num(region_bjets) +  ak.num(region_fatjets) + ak.num(region_wjets))
         self.add_feature(f"njets", ak.num(region_jets))
+        self.add_feature(f"nfatjets", ak.num(region_fatjets))   
+        self.add_feature(f"nwjets", ak.num(region_wjets))                
         self.add_feature(f"nbjets", ak.num(region_bjets))
         self.add_feature(f"npvs", events.PV.npvsGood[mask])
         self.add_feature(f"nmuons", ak.num(region_muons))

@@ -23,7 +23,7 @@ def add_top_boost_corrections(
     variation: str = "nominal",
 ) -> None:
 
-    if not (dataset.startswith("TTTo") and lepton_flavor in ["tau"]):
+    if not (dataset.startswith("TTTo") and lepton_flavor in ["tau" , "mu"]):
         return    
 
     if year not in {"2016APV", "2016", "2017", "2018"}:
@@ -73,8 +73,6 @@ def add_top_boost_corrections(
     fatjet_count = ak.num(fatjets)
     wjet_count = ak.num(wjets)
 
-    #total_jets = jet_count + bjet_count + fatjet_count + wjet_count - 2 # Se descuentan ~2 jets usados en la reconstrucción del top
-    #njets = ak.where(total_jets < 0, 0, total_jets)
     njets = jet_count + bjet_count + fatjet_count + wjet_count
 
     # Máscara con todas las condiciones
@@ -84,12 +82,20 @@ def add_top_boost_corrections(
         & (ST >= casos[year]["ST"][0]) # ST sea mayor al minimo observado en los resultados
     )
 
-    # Evaluar peso y aplicar máscara
-    sf = ak.where(
-        selection_mask,
-        cset["top_boost_weight"].evaluate(ST, njets, variation),
-        1.0
-    )
+    if lepton_flavor  == "mu":
+        # Evaluar peso y aplicar máscara
+        sf = ak.where(
+            selection_mask,
+            cset["top_boost_weight"].evaluate(njets, ST, "nominal"),
+            1.0
+        )
+    else:
+        # Evaluar peso y aplicar máscara
+        sf = ak.where(
+            selection_mask,
+            cset["top_boost_weight"].evaluate(ST, njets, "nominal"),
+            1.0
+        )        
 
     weights.add(
         name=f"top_boost_weight_{lepton_flavor}_{year}",

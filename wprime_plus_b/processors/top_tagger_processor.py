@@ -761,7 +761,8 @@ class TopTaggerProccessor(processor.ProcessorABC):
                 with open(path, "r") as handle:
                     ref_trigger = json.load(handle)[self.year][reference_trigger][mu_id]
 
-        
+            reference_triggers = ref_trigger
+                    
         elif self.lepton_flavor ==  "ele":
             ele_id = top_tagger_electron_selection[self.lepton_flavor]["electron_id_wp"]
             with importlib.resources.path(
@@ -770,6 +771,7 @@ class TopTaggerProccessor(processor.ProcessorABC):
                 with open(path, "r") as handle:
                     ref_trigger = json.load(handle)[self.year][reference_trigger][ele_id]
             
+            reference_triggers = ref_trigger
 
         elif self.lepton_flavor ==  "tau":
             with importlib.resources.path(
@@ -779,14 +781,13 @@ class TopTaggerProccessor(processor.ProcessorABC):
                     ref_trigger = json.load(handle)[self.year][reference_trigger]
                     
 
-        reference_triggers = [
-            trigger for trigger in events.HLT.fields if any(trigger.startswith(r) for r in ref_trigger)
-        ]
-        
+            reference_triggers = [
+                trigger for trigger in events.HLT.fields if any(trigger.startswith(r) for r in ref_trigger)
+            ]
+            
+           
         mask_reference_trigger = np.zeros(len(events), dtype="bool")
-
-
-        
+            
         for trigger_reference in reference_triggers:
             if trigger_reference in events.HLT.fields:
                 mask_reference_trigger = mask_reference_trigger | events.HLT[trigger_reference]

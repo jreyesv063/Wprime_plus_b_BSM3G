@@ -24,7 +24,7 @@ cd wprime_plus_b/fileset/
 singularity shell -B /afs -B /eos -B /cvmfs /cvmfs/unpacked.cern.ch/registry.hub.docker.com/coffeateam/coffea-dask:latest-py3.10 << EOF
 
 # Ejecutar el script 'make_fileset_lxplus.py' dentro de Singularity
-#python make_fileset_lxplus.py
+python make_fileset_lxplus.py
 
 
 # Salir del shell de Singularity
@@ -38,7 +38,7 @@ cd "$SCRIPT_DIR"
 
 # Declarar variables
 processor="top_tagger"     # top_tagger; signal; qcd_hadronic; wplusjets; ztoll:  wjets; btag_eff
-channel="wjets"           # top_tagger -> {}; signal -> {}; qcd_hadronic -> {cr_b, cr_c, cr_d}; wplusjets -> {wjets, cr_b, cr_c, cr_d}, wjets -> {1j1l*, 1l0b}; ztoll-> {ll, ll+c}
+channel=""           # top_tagger -> {}; signal -> {}; qcd_hadronic -> {cr_b, cr_c, cr_d}; wplusjets -> {wjets, cr_b, cr_c, cr_d}, wjets -> {1j1l*, 1l0b}; ztoll-> {ll, ll+c}
 
 
 lepton_flavor="tau"
@@ -47,10 +47,9 @@ nfiles="-1"
 executor="futures"
 output_type="array" # hist/array
 nsample="" # Importante: Dejar nsample="" si no se quiere un nsample especifico, en caso de querer uno especifico nsample="3"
-output_folder="$ANALYSIS_PATH/New_results_v2/$processor/$channel/$year"   # /$channel/$year"
+
+output_folder="$ANALYSIS_PATH/$processor/$channel/$year"   
 run_systematics="true" # Cambiar a "true" para activar sistemáticos a nivel de objeto (solo cuando sea necesario, ya que puede aumentar el tiempo de ejecución considerablemente)
-
-
 
 samples=(
     "TTToSemiLeptonic"
@@ -58,7 +57,7 @@ samples=(
     "TTToHadronic"
     "DYJetsToLL_nlo_M-10to50"
     "DYJetsToLL_nlo_M-50"
-    # "SingleMuon"
+    # #"SingleMuon"
     "MET"
     # "Tau"
     # "SingleElectron"
@@ -80,25 +79,26 @@ samples=(
     "WW"
     "WZ"
     "ZZ"
-    "QCD_HT50to100"
-    "QCD_HT100to200"
-    "QCD_HT200to300"
-    "QCD_HT300to500"
-    "QCD_HT500to700"
-    "QCD_HT700to1000"
-    "QCD_HT1000to1500"
-    "QCD_HT1500to2000"
-    "QCD_HT2000toInf"
+    # "QCD_HT50to100"
+    # "QCD_HT100to200"
+    # "QCD_HT200to300"
+    # "QCD_HT300to500"
+    # "QCD_HT500to700"
+    # "QCD_HT700to1000"
+    # "QCD_HT1000to1500"
+    # "QCD_HT1500to2000"
+    # "QCD_HT2000toInf"
     "GluGluHToWWToLNuQQ" 
     "VBFHToWWTo2L2Nu"
     "VBFHToWWToLNuQQ"
     "SignalTau_300GeV" 
-    # "SignalTau_400GeV"    
+    "SignalTau_400GeV"    
     "SignalTau_600GeV"
-    # "SignalTau_750GeV"    
+    "SignalTau_750GeV"    
     "SignalTau_1000GeV"
     "SignalTau_1500GeV"
-    # "SignalTau_3000MeV"
+    "SignalTau_2000GeV"    
+    "SignalTau_3000MeV"
     # "DYJetsToLL_M-50_CH3"
     # "DYJetsToLL_M-10to50"
     # "DYJetsToLL_M-50_HT-70to100"

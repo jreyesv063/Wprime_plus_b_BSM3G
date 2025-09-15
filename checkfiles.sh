@@ -19,10 +19,10 @@ create_fileset=true #Si se quiere crear el fileset, si no se quiere crear, poner
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
 # Configuración de opciones
-considerar_MET=false
+considerar_MET=true
 considerar_SingleMuon=false
-considerar_SingleElectron=false 
-considerar_Tau=false 
+considerar_SingleElectron=false
+considerar_Tau=false
 
 
 considerar_higgs=true
@@ -87,7 +87,7 @@ cd wprime_plus_b/configs/dataset
 declare -A mapa
 
 
-# Leer el archivo 
+# Leer el archivo
 while IFS= read -r nombre_archivo && IFS= read -r divisiones; do
 
     # Extraer el nombre del archivo y el número de divisiones
@@ -159,14 +159,14 @@ if ! $considerar_tt; then
     unset mapa["TTToHadronic"]
 fi
 if ! $considerar_signal_tau; then
-    unset mapa["SignalTau_300GeV"]  
-    unset mapa["SignalTau_400GeV"]         
-    unset mapa["SignalTau_600GeV"]  
-    unset mapa["SignalTau_750GeV"]      
-    unset mapa["SignalTau_1000GeV"]  
-    unset mapa["SignalTau_1500GeV"]      
-    unset mapa["SignalTau_2000GeV"]  
-    unset mapa["SignalTau_3000GeV"]  
+    unset mapa["SignalTau_300GeV"]
+    unset mapa["SignalTau_400GeV"]
+    unset mapa["SignalTau_600GeV"]
+    unset mapa["SignalTau_750GeV"]
+    unset mapa["SignalTau_1000GeV"]
+    unset mapa["SignalTau_1500GeV"]
+    unset mapa["SignalTau_2000GeV"]
+    unset mapa["SignalTau_3000GeV"]
 fi
 if ! $considerar_signal_ele; then
     unset mapa["SignalElectron_1TeV"]
@@ -176,11 +176,11 @@ fi
 if ! $considerar_signal_mu; then
     unset mapa["SignalMuon_1TeV"]
     unset mapa["SignalMuon_2TeV"]
-    unset mapa["SignalMuon_600GeV"]    
+    unset mapa["SignalMuon_600GeV"]
 fi
 if ! $considerar_inclusive_dy; then
     unset mapa["DYJetsToLL_M-50_inclusive"]
-    unset mapa["DYJetsToLL_M-10to50"]    
+    unset mapa["DYJetsToLL_M-10to50"]
 fi
 if ! $considerar_inclusive_wj; then
     unset mapa["WJetsToLNu_inclusive"]
@@ -335,10 +335,10 @@ for archivo_faltante in "${archivos_faltantes[@]}"; do
     elif [ "$processor" == "top_tagger" ] || [ "$processor" == "signal" ] || [ $processor == "btag_eff" ]; then
         comando="python3 submit_lxplus.py --processor $processor --lepton_flavor $lepton_flavor --sample $nombre_base --year $year --nfiles $nfiles --executor $executor --output_type $output_type $extra_arg --run_systematics $run_systematics --output_folder $output_folder"
     fi
-   
+
 
     cd $SCRIPT_DIR
-   
+
     # Enviar jobs
     eval "$comando"
 done

@@ -307,28 +307,23 @@ def add_met_trigger_corrections(
 
     sf = cset[weight_background].evaluate(met_pt, "nominal")
     nominal_sf = np.where(mask_trigger, sf, 1.0)
-    
-    if variation == "nominal":
-        # get 'up' and 'down' scale factors
-        sf_up = cset[weight_background].evaluate(met_pt, "up")
-        sf_down = cset[weight_background].evaluate(met_pt, "down")
-            
-        up_sf = np.where(mask_trigger, sf_up, 1.0)
-        down_sf = np.where(mask_trigger, sf_down, 1.0)
 
-        # add scale factors to weights container
-        weights.add(
-            name=f"met_trigger_{type_weight}",
-            weight=nominal_sf,
-            weightUp=up_sf,
-            weightDown=down_sf,
-        )
-    else:
-        weights.add(
-            name=f"met_trigger_{type_weight}",
-            weight=nominal_sf,
-        )
-             
+
+    # get 'up' and 'down' scale factors
+    sf_up = cset[weight_background].evaluate(met_pt, "up")
+    sf_down = cset[weight_background].evaluate(met_pt, "down")
+        
+    up_sf = np.where(mask_trigger, sf_up, 1.0)
+    down_sf = np.where(mask_trigger, sf_down, 1.0)
+
+    # add scale factors to weights container
+    weights.add(
+        name=f"met_trigger_{type_weight}",
+        weight=nominal_sf,
+        weightUp=up_sf,
+        weightDown=down_sf,
+    )    
+                
 
 def update_met_jet_veto(events: ak.Array, jets_veto) -> None:
     """

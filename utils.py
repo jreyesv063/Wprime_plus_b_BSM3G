@@ -170,6 +170,7 @@ def manage_processor_args(args: dict) -> dict:
     processor_args_mapping = {
         "qcd": ["syst"],
         "btag_eff": ["lepton_flavor", "channel", "syst"],
+        "ctag_eff": ["lepton_flavor", "channel", "syst"],
         "trigger_eff": ["channel", "syst"],
     }
     processor = args.get("processor")
@@ -225,7 +226,7 @@ def update_nsplit(year: str) -> None:
 
 def run_checker(args: dict) -> None:
     # check processor
-    available_processors = ["ttbar", "ztoll", "qcd", "btag_eff", "trigger_eff", "top_tagger", "signal", "wjets", "qcd_abcd", "qcd_hadronic", "wplusjets"]
+    available_processors = ["ttbar", "ztoll", "qcd", "btag_eff", "ctag_eff", "trigger_eff", "top_tagger", "signal", "wjets", "qcd_abcd", "qcd_hadronic", "wplusjets"]
     if args["processor"] not in available_processors:
         raise ValueError(
             f"Incorrect processor. Available processors are: {available_processors}"

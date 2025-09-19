@@ -19,7 +19,7 @@ create_fileset=true #Si se quiere crear el fileset, si no se quiere crear, poner
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
 # Configuración de opciones
-considerar_MET=true
+considerar_MET=false
 considerar_SingleMuon=false
 considerar_SingleElectron=false
 considerar_Tau=false
@@ -36,7 +36,7 @@ considerar_vv=true
 considerar_qcd=true
 
 
-considerar_signal_tau=true
+considerar_signal_tau=false
 considerar_signal_ele=false
 considerar_signal_mu=false
 
@@ -332,7 +332,7 @@ for archivo_faltante in "${archivos_faltantes[@]}"; do
     if [ "$processor" == "ttbar" ] || [ "$processor" == "wjets" ] || [ "$processor" == "ztoll" ] || [ "$processor" == "qcd_abcd" ] || [ "$processor" == "wplusjets" ]  || [ "$processor" == "qcd_hadronic" ]; then
         comando="python3 submit_lxplus.py --processor $processor --channel $channel --lepton_flavor $lepton_flavor --sample $nombre_base --year $year --nfiles $nfiles --executor $executor --output_type $output_type $extra_arg --run_systematics $run_systematics --output_folder $output_folder"
 
-    elif [ "$processor" == "top_tagger" ] || [ "$processor" == "signal" ] || [ $processor == "btag_eff" ]; then
+    elif [ "$processor" == "top_tagger" ] || [ "$processor" == "signal" ] || [ $processor == "btag_eff" ] || [ $processor == "ctag_eff" ]; then
         comando="python3 submit_lxplus.py --processor $processor --lepton_flavor $lepton_flavor --sample $nombre_base --year $year --nfiles $nfiles --executor $executor --output_type $output_type $extra_arg --run_systematics $run_systematics --output_folder $output_folder"
     fi
 

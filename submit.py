@@ -22,6 +22,7 @@ from wprime_plus_b.processors.wplusjets_processor import WplusJetsProcessor
 from wprime_plus_b.processors.qcd_processor import QCDProccessor
 from wprime_plus_b.processors.ztoll_processor import ZToLLProcessor
 from wprime_plus_b.processors.btag_efficiency_processor import BTagEfficiencyProcessor
+from wprime_plus_b.processors.ctag_efficiency_processor import CTagEfficiencyProcessor
 
 # Top tagger configs
 from wprime_plus_b.selections.top_tagger.bjet_config import top_tagger_bjet_selection
@@ -108,6 +109,7 @@ def main(args):
     processors = {
         "ztoll": ZToLLProcessor,
         "btag_eff": BTagEfficiencyProcessor,
+        "ctag_eff": CTagEfficiencyProcessor,
         "top_tagger": TopTaggerProccessor,
         "signal": SignalProccessor,
         "wjets": WjetsProccessor,
@@ -641,7 +643,7 @@ if __name__ == "__main__":
         dest="processor",
         type=str,
         default="",
-        help="processor to be used {ttbar, ztoll, qcd, trigger_eff, btag_eff, signal, wjets, qcd_abcd, qcd_hadronic} (default ttbar)",
+        help="processor to be used {ttbar, ztoll, qcd, trigger_eff, btag_eff, ctag_eff, signal, wjets, qcd_abcd, qcd_hadronic} (default ttbar)",
     )
     parser.add_argument(
         "--channel",

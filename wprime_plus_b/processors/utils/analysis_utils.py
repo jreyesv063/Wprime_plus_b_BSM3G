@@ -894,6 +894,85 @@ def histograms_output_syst_eff_wj(
 
 def histograms_output_Z_analysis_syst(
     self,
+    bjets, jets, 
+    electrons, muons, taus, 
+    met, 
+    mask, 
+    lepton_flavor,
+    channel, 
+    is_mc,
+    events,
+    syst_flag
+):
+
+    suffix = "" if syst_flag == "nominal" else f"_{syst_flag}"
+
+    # Select region objects
+    region_bjets = bjets[mask]
+    region_jets = jets[mask]
+    region_electrons = electrons[mask]
+    region_muons = muons[mask]
+    region_taus = taus[mask]
+    region_met = met[mask]
+    region_events = events[mask]
+
+
+    # Define region leptons
+    lepton_region_map = {
+        "ele": region_electrons,
+        "mu": region_muons,
+        "tau": region_taus
+    }
+    region_leptons = lepton_region_map[lepton_flavor]
+
+    region_leading_lepton = ak.pad_none(region_leptons, 2)[:, 0]
+    region_subleading_lepton = ak.pad_none(region_leptons, 2)[:, 1]
+
+    # leading bjets
+    leading_bjets = ak.firsts(region_bjets)    
+    leading_jets = ak.firsts(region_jets)
+
+
+    if syst_flag == "nominal":
+
+        self.add_feature(f"mll", (region_leading_lepton + region_subleading_lepton).mass)
+
+        self.add_feature(f"ptll", (region_leading_lepton + region_subleading_lepton).pt)
+        self.add_feature(f"ptl1", region_leading_lepton.pt)
+        self.add_feature(f"ptl2", region_subleading_lepton.pt)
+
+
+        
+
+        self.add_feature(f"njets", ak.num(region_jets))
+
+        self.add_feature(f"met", region_met.pt)
+        self.add_feature(f"met_raw", region_met.pt_no_recal)
+
+
+         
+        self.add_feature(f"HT", ak.sum(region_jets.pt, axis=1))
+        
+        if hasattr(events, "GenPart"):
+            general_mask = (
+                (np.abs(region_events.GenPart.pdgId) == 23) 
+                & (region_events.GenPart.status == 62)
+            )
+
+            Z_bosons_gen = ak.firsts(region_events.GenPart[general_mask])
+            self.add_feature(f"Z_gen_pt", Z_bosons_gen.pt)
+
+        else:
+            Z_rec = region_leading_lepton + region_subleading_lepton
+            self.add_feature(f"Z_gen_pt", Z_rec.pt)
+
+    else:
+        self.add_feature(f"mll{suffix}", (region_leading_lepton + region_subleading_lepton).mass)
+
+
+
+def histograms_output_Zplusc_analysis_syst(
+    self,
     bjets, cjets, jets, 
     electrons, muons, taus, 
     met, 
@@ -952,26 +1031,10 @@ def histograms_output_Z_analysis_syst(
         self.add_feature(f"met_raw", region_met.pt_no_recal)
 
 
-        if channel == "ll+c":
-            self.add_feature(f"cjet_pt", region_cjets.pt)
-            self.add_feature(f"cjet_eta", region_cjets.eta)
-            self.add_feature(f"cjet_phi", region_cjets.phi)
+        self.add_feature(f"cjet_pt", region_cjets.pt)
+        self.add_feature(f"cjet_eta", region_cjets.eta)
+        self.add_feature(f"cjet_phi", region_cjets.phi)
 
-        elif channel == "ll":            
-            self.add_feature(f"HT", ak.sum(region_jets.pt, axis=1))
-            
-            if hasattr(events, "GenPart"):
-                general_mask = (
-                    (np.abs(region_events.GenPart.pdgId) == 23) 
-                    & (region_events.GenPart.status == 62)
-                )
-
-                Z_bosons_gen = ak.firsts(region_events.GenPart[general_mask])
-                self.add_feature(f"Z_gen_pt", Z_bosons_gen.pt)
-
-            else:
-                Z_rec = region_leading_lepton + region_subleading_lepton
-                self.add_feature(f"Z_gen_pt", Z_rec.pt)
 
     else:
         self.add_feature(f"mll{suffix}", (region_leading_lepton + region_subleading_lepton).mass)

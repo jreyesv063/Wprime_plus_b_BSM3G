@@ -1,3 +1,4 @@
+import warnings
 import numpy as np
 import awkward as ak
 from wprime_plus_b.corrections.met import update_met, update_met_list
@@ -10,6 +11,8 @@ def apply_rochester_corrections(
     rochester_data = txt_converters.convert_rochester_file(
         f"wprime_plus_b/data/RoccoR{year}UL.txt", loaduncs=True
     )
+
+    warnings.filterwarnings("ignore", message="overflow encountered in power")
     rochester = rochester_lookup.rochester_lookup(rochester_data)
 
     # define muon pt_raw field
@@ -95,7 +98,7 @@ def apply_rochester_corrections(
             object = muon_list,       
         )
 
-        return delta_list #met_pt_list, met_phi_list, delta_list
+        return delta_list 
         
     else:
         update_met(events=events, lepton="Muon")

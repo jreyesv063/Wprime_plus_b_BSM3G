@@ -19,6 +19,7 @@ from wprime_plus_b.corrections.pileup import add_pileup_weight
 from wprime_plus_b.corrections.l1prefiring import add_l1prefiring_weight
 from wprime_plus_b.corrections.pujetid import add_pujetid_weight
 from wprime_plus_b.corrections.btag import BTagCorrector
+from wprime_plus_b.corrections.ctag import CTagCorrector
 from wprime_plus_b.corrections.muon import MuonCorrector
 from wprime_plus_b.corrections.muon_highpt import MuonHighPtCorrector
 from wprime_plus_b.corrections.tau import TauCorrector
@@ -26,25 +27,25 @@ from wprime_plus_b.corrections.electron import ElectronCorrector
 from wprime_plus_b.corrections.jetvetomaps import jetvetomaps_mask
 
 # Selections: Config
-from wprime_plus_b.selections.ztoll.bjet_config import ztoll_bjet_selection
-from wprime_plus_b.selections.ztoll.electron_config import ztoll_electron_selection
-from wprime_plus_b.selections.ztoll.general_config import ztoll_cross_cleaning_selection, ztoll_trigger_selection
-from wprime_plus_b.selections.ztoll.leading_jet_config import ztoll_leading_jet_selection
-from wprime_plus_b.selections.ztoll.jet_config import ztoll_jet_selection
-from wprime_plus_b.selections.ztoll.met_config import ztoll_met_selection
-from wprime_plus_b.selections.ztoll.muon_config import ztoll_muon_selection
-from wprime_plus_b.selections.ztoll.tau_config import ztoll_tau_selection
-from wprime_plus_b.selections.ztoll.Z_config import ztoll_charges_selection, ztoll_mrec_ll_selection
+from wprime_plus_b.selections.zplusc.cjet_config import zplusc_cjet_selection
+from wprime_plus_b.selections.zplusc.bjet_config import zplusc_bjet_selection
+from wprime_plus_b.selections.zplusc.electron_config import zplusc_electron_selection
+from wprime_plus_b.selections.zplusc.general_config import zplusc_cross_cleaning_selection, zplusc_trigger_selection
+from wprime_plus_b.selections.zplusc.jet_config import zplusc_jet_selection
+from wprime_plus_b.selections.zplusc.met_config import zplusc_met_selection
+from wprime_plus_b.selections.zplusc.muon_config import zplusc_muon_selection
+from wprime_plus_b.selections.zplusc.tau_config import zplusc_tau_selection
+from wprime_plus_b.selections.zplusc.Z_config import zplusc_charges_selection, zplusc_mrec_ll_selection
 
 
 # Selections: objects
-from wprime_plus_b.selections.ztoll.bjet_selection import select_good_bjets
-from wprime_plus_b.selections.ztoll.electron_selection import select_good_electrons
-from wprime_plus_b.selections.ztoll.jet_selection import select_good_jets
-from wprime_plus_b.selections.ztoll.leading_jet_selection import select_good_leading_jets
-from wprime_plus_b.selections.ztoll.muon_selection import select_good_muons
-from wprime_plus_b.selections.ztoll.tau_selection import select_good_taus
-from wprime_plus_b.selections.ztoll.Z_selection import select_good_Z
+from wprime_plus_b.selections.zplusc.cjet_selection import select_good_cjets
+from wprime_plus_b.selections.zplusc.bjet_selection import select_good_bjets
+from wprime_plus_b.selections.zplusc.electron_selection import select_good_electrons
+from wprime_plus_b.selections.zplusc.jet_selection import select_good_jets
+from wprime_plus_b.selections.zplusc.muon_selection import select_good_muons
+from wprime_plus_b.selections.zplusc.tau_selection import select_good_taus
+from wprime_plus_b.selections.zplusc.Z_selection import select_good_Z
 
 
 # Systematics: Object - level
@@ -52,11 +53,11 @@ from wprime_plus_b.systematics.syst_variations import systematic_variation_mask
 from wprime_plus_b.systematics.utils import update_region_map, update_region_selection
 
 
-from wprime_plus_b.processors.utils.analysis_utils import delta_r, delta_r_mask, normalize, trigger_match, histograms_output_Z_analysis_syst
+from wprime_plus_b.processors.utils.analysis_utils import delta_r, delta_r_mask, normalize, trigger_match, histograms_output_Zplusc_analysis_syst
 
 
 
-class ZToLLProcessor(processor.ProcessorABC):
+class ZplusCProcessor(processor.ProcessorABC):
 
     def __init__(
         self,
@@ -111,46 +112,30 @@ class ZToLLProcessor(processor.ProcessorABC):
         # -------------------------------------------------------------
         # apply JEC/JER corrections to jets (in data, the corrections are already applied)
         if self.is_mc:
-
-            if self.run_systematics and self.is_mc:
-                delta_list = {}
-
-                # JER; JES and MET unclestered
-                delta_list = apply_jet_corrections(events, self.year, self.run_systematics)
+            # Jet, JER and MET unclestered corrections
+            apply_jet_corrections(events, self.year, variation=self.run_systematics)
 
 
-                # Tau energy scale corrections
-                delta_list.update(apply_tau_energy_scale_corrections(events, self.year, self.run_systematics))
-
-                # Rochester corrections
-                delta_list.update(apply_rochester_corrections(events, self.is_mc, self.year, self.run_systematics))
-
-                    
-            else:
-                # Jet, JER and MET unclestered corrections
-                apply_jet_corrections(events, self.year, variation=self.run_systematics)
+            # JET and JER for FatJets
+            if ak.any(ak.num(events.FatJet) > 0):
+                # fatjets
+                apply_fatjet_corrections(events, self.year, variation=self.run_systematics)
 
 
-                # JET and JER for FatJets
-                if ak.any(ak.num(events.FatJet) > 0):
-                    # fatjets
-                    apply_fatjet_corrections(events, self.year, variation=self.run_systematics)
+            # Tau energy scale corrections
+            apply_tau_energy_scale_corrections(
+                events=events, 
+                year=self.year, 
+                variation=self.run_systematics 
+            )         
 
-
-                # Tau energy scale corrections
-                apply_tau_energy_scale_corrections(
-                    events=events, 
-                    year=self.year, 
-                    variation=self.run_systematics 
-                )         
-
-                # Rochester corrections
-                apply_rochester_corrections(
-                    events=events, 
-                    is_mc=self.is_mc, 
-                    year=self.year,
-                    variation=self.run_systematics
-                )
+            # Rochester corrections
+            apply_rochester_corrections(
+                events=events, 
+                is_mc=self.is_mc, 
+                year=self.year,
+                variation=self.run_systematics
+            )
 
         else:    
             # Apply rochester for data
@@ -182,22 +167,25 @@ class ZToLLProcessor(processor.ProcessorABC):
         # -------------------------------------------------------------
 
         # Cross_cleaning:
-        cc = ztoll_cross_cleaning_selection[self.channel][self.lepton_flavor]["DR"]
+        cc = zplusc_cross_cleaning_selection[self.channel][self.lepton_flavor]["DR"]
            
            
         # select good electrons
         good_electrons = select_good_electrons(
             events=events,
-            electron_pt_threshold=ztoll_electron_selection[self.channel][
+            electron_pt_threshold=zplusc_electron_selection[self.channel][
                 self.lepton_flavor
             ]["electron_pt_threshold"],
-            electron_eta_threshold = ztoll_electron_selection[self.channel][
+            electron_pt_leading=zplusc_electron_selection[self.channel][
+                self.lepton_flavor
+            ]["electron_pt_leading"],            
+            electron_eta_threshold = zplusc_electron_selection[self.channel][
                 self.lepton_flavor
             ]["electron_eta_threshold"],
-            electron_id_wp=ztoll_electron_selection[self.channel][
+            electron_id_wp=zplusc_electron_selection[self.channel][
                 self.lepton_flavor
             ]["electron_id_wp"],
-            electron_iso_wp=ztoll_electron_selection[self.channel][
+            electron_iso_wp=zplusc_electron_selection[self.channel][
                 self.lepton_flavor
             ]["electron_iso_wp"],
         )
@@ -206,16 +194,19 @@ class ZToLLProcessor(processor.ProcessorABC):
         # select good muons
         good_muons_masks = select_good_muons(
             events=events,
-            muon_pt_threshold=ztoll_muon_selection[self.channel][
+            muon_pt_threshold=zplusc_muon_selection[self.channel][
                 self.lepton_flavor
             ]["muon_pt_threshold"],
-            muon_eta_threshold = ztoll_muon_selection[self.channel][
+            muon_pt_leading=zplusc_muon_selection[self.channel][
+                self.lepton_flavor
+            ]["muon_pt_leading"],                        
+            muon_eta_threshold = zplusc_muon_selection[self.channel][
                 self.lepton_flavor
             ]["muon_eta_threshold"],
-            muon_id_wp= ztoll_muon_selection[self.channel][
+            muon_id_wp= zplusc_muon_selection[self.channel][
                 self.lepton_flavor
             ]["muon_id_wp"],
-            muon_iso_wp=ztoll_muon_selection[self.channel][
+            muon_iso_wp=zplusc_muon_selection[self.channel][
                 self.lepton_flavor
             ]["muon_iso_wp"],
         )
@@ -227,25 +218,25 @@ class ZToLLProcessor(processor.ProcessorABC):
         # select good taus
         good_taus_masks = select_good_taus(
             events=events,
-            tau_pt_threshold=ztoll_tau_selection[self.channel][
+            tau_pt_threshold=zplusc_tau_selection[self.channel][
                 self.lepton_flavor
             ]["tau_pt_threshold"],
-            tau_eta_threshold=ztoll_tau_selection[self.channel][
+            tau_eta_threshold=zplusc_tau_selection[self.channel][
                 self.lepton_flavor
             ]["tau_eta_threshold"],
-            tau_dz_threshold=ztoll_tau_selection[self.channel][
+            tau_dz_threshold=zplusc_tau_selection[self.channel][
                 self.lepton_flavor
             ]["tau_dz_threshold"],
-            tau_vs_jet=ztoll_tau_selection[self.channel][
+            tau_vs_jet=zplusc_tau_selection[self.channel][
                 self.lepton_flavor
             ]["tau_vs_jet"],
-            tau_vs_ele=ztoll_tau_selection[self.channel][
+            tau_vs_ele=zplusc_tau_selection[self.channel][
                 self.lepton_flavor
             ]["tau_vs_ele"],
-            tau_vs_mu=ztoll_tau_selection[self.channel][
+            tau_vs_mu=zplusc_tau_selection[self.channel][
                 self.lepton_flavor
             ]["tau_vs_mu"],
-            prong=ztoll_tau_selection[self.channel][
+            prong=zplusc_tau_selection[self.channel][
                 self.lepton_flavor
             ]["prongs"],
             is_mc=self.is_mc,            
@@ -261,19 +252,19 @@ class ZToLLProcessor(processor.ProcessorABC):
         good_bjets_masks = select_good_bjets(
             jets=jets_veto,
             year=self.year,
-            btag_working_point=ztoll_bjet_selection[self.channel][
+            btag_working_point=zplusc_bjet_selection[self.channel][
                 self.lepton_flavor
             ]["btag_working_point"],
-            jet_pt_threshold=ztoll_bjet_selection[self.channel][
+            jet_pt_threshold=zplusc_bjet_selection[self.channel][
                 self.lepton_flavor
             ]["bjet_pt_threshold"],
-            jet_eta_threshold = ztoll_bjet_selection[self.channel][
+            jet_eta_threshold = zplusc_bjet_selection[self.channel][
                 self.lepton_flavor
             ]["bjet_eta_threshold"],
-            jet_id_wp=ztoll_bjet_selection[self.channel][
+            jet_id_wp=zplusc_bjet_selection[self.channel][
                 self.lepton_flavor
             ]["bjet_id_wp"],
-            jet_pileup_id=ztoll_bjet_selection[self.channel][
+            jet_pileup_id=zplusc_bjet_selection[self.channel][
                 self.lepton_flavor
             ]["bjet_pileup_id"],
             is_mc=self.is_mc,            
@@ -291,25 +282,19 @@ class ZToLLProcessor(processor.ProcessorABC):
         good_jets_masks = select_good_jets(
             jets=jets_veto,
             year=self.year,
-            btag_working_point=ztoll_jet_selection[self.channel][
-                self.lepton_flavor
-            ]["fail_btag_working_point"],
-            jet_pt_threshold=ztoll_jet_selection[self.channel][
+            jet_pt_threshold=zplusc_jet_selection[self.channel][
                 self.lepton_flavor
             ]["jet_pt_threshold"],
-            jet_eta_threshold =ztoll_jet_selection[self.channel][
+            jet_eta_threshold =zplusc_jet_selection[self.channel][
                 self.lepton_flavor
             ]["jet_eta_threshold"],
-            jet_id_wp=ztoll_jet_selection[self.channel][
+            jet_id_wp=zplusc_jet_selection[self.channel][
                 self.lepton_flavor
             ]["jet_id_wp"],
-            jet_pileup_id=ztoll_jet_selection[self.channel][
+            jet_pileup_id=zplusc_jet_selection[self.channel][
                 self.lepton_flavor
             ]["jet_pileup_id"],
             is_mc=self.is_mc,    
-            leading_jet_pt_threshold = ztoll_leading_jet_selection[self.channel][
-                self.lepton_flavor
-            ]["jet_pt_threshold"],    
         )
         good_jets = (
             good_jets_masks["nominal"]
@@ -320,6 +305,39 @@ class ZToLLProcessor(processor.ProcessorABC):
         )
 
         jets = jets_veto[good_jets]
+
+           
+        # select good cjets
+        good_cjets_masks = select_good_cjets(
+            jets=jets_veto,
+            year=self.year,
+            ctag_working_point=zplusc_cjet_selection[self.channel][
+                self.lepton_flavor
+            ]["ctag_working_point"],
+            jet_pt_threshold=zplusc_cjet_selection[self.channel][
+                self.lepton_flavor
+            ]["cjet_pt_threshold"],
+            jet_eta_threshold =zplusc_cjet_selection[self.channel][
+                self.lepton_flavor
+            ]["cjet_eta_threshold"],
+            jet_id_wp=zplusc_cjet_selection[self.channel][
+                self.lepton_flavor
+            ]["cjet_id_wp"],
+            jet_pileup_id=zplusc_cjet_selection[self.channel][
+                self.lepton_flavor
+            ]["cjet_pileup_id"],
+            is_mc=self.is_mc,      
+        )
+
+        good_cjets = (
+            good_cjets_masks["nominal"]
+            & (delta_r_mask(jets_veto, electrons, threshold=cc))
+            & (delta_r_mask(jets_veto, muons, threshold=cc))
+            & (delta_r_mask(jets_veto, taus, threshold=cc))
+            & (delta_r_mask(jets_veto, bjets, threshold=cc))
+            & (delta_r_mask(jets_veto, jets, threshold=cc))            
+        )
+        cjets = events.Jet[good_cjets]
         
            
         # ------------------------------------------------
@@ -342,8 +360,8 @@ class ZToLLProcessor(processor.ProcessorABC):
                     
         if self.lepton_flavor != "tau":
             lepton_id_config = {
-                "ele": ztoll_electron_selection[self.channel][self.lepton_flavor]["electron_id_wp"],
-                "mu": ztoll_muon_selection[self.channel][self.lepton_flavor]["muon_id_wp"]
+                "ele": zplusc_electron_selection[self.channel][self.lepton_flavor]["electron_id_wp"],
+                "mu": zplusc_muon_selection[self.channel][self.lepton_flavor]["muon_id_wp"]
             } 
             trigger_paths = self._triggers[lepton_id_config[self.lepton_flavor]]
 
@@ -392,7 +410,7 @@ class ZToLLProcessor(processor.ProcessorABC):
                 jets=jets_veto,
                 weights=weights_container,
                 year=self.year,
-                working_point=ztoll_bjet_selection[self.channel][self.lepton_flavor][
+                working_point=zplusc_bjet_selection[self.channel][self.lepton_flavor][
                     "bjet_pileup_id"
                 ],
                 variation=self.syst,
@@ -403,7 +421,7 @@ class ZToLLProcessor(processor.ProcessorABC):
                 jets=bjets,
                 weights=weights_container,
                 sf_type="comb",
-                worging_point=ztoll_bjet_selection[self.channel][self.lepton_flavor][
+                worging_point=zplusc_bjet_selection[self.channel][self.lepton_flavor][
                     "btag_working_point"
                 ],
                 tagger="deepJet",
@@ -415,7 +433,20 @@ class ZToLLProcessor(processor.ProcessorABC):
             btag_corrector.add_btag_weights(flavor="bc")
             btag_corrector.add_btag_weights(flavor="light")
 
+            # c-tagging corrector
+            # cjet_corrector = CTagCorrector(
+            #     jets=events.Jet,
+            #     weights=weights_container,
+            #     working_point=zplusc_cjet_selection[self.channel][self.lepton_flavor][
+            #         "ctag_working_point"
+            #     ],
+            #     tagger="deepJet",
+            #     year=self.year,
+            #     variation=self.syst,
+            # )
 
+            # cjet_corrector.add_ctag_weights("bc")
+            # cjet_corrector.add_ctag_weights("light")
 
             # electron corrector
             electron_corrector = ElectronCorrector(
@@ -425,7 +456,7 @@ class ZToLLProcessor(processor.ProcessorABC):
             )
             # add electron ID weights
             electron_corrector.add_id_weight(
-                id_working_point=ztoll_electron_selection[self.channel][self.lepton_flavor]["electron_id_wp"]
+                id_working_point=zplusc_electron_selection[self.channel][self.lepton_flavor]["electron_id_wp"]
             )
             # add electron reco weights
             electron_corrector.add_reco_weight("Above")
@@ -436,7 +467,7 @@ class ZToLLProcessor(processor.ProcessorABC):
             
             # muon corrector
             if (
-                ztoll_muon_selection[self.channel][self.lepton_flavor]["muon_id_wp"]
+                zplusc_muon_selection[self.channel][self.lepton_flavor]["muon_id_wp"]
                 == "highpt"
             ):
                 mu_corrector = MuonHighPtCorrector
@@ -448,10 +479,10 @@ class ZToLLProcessor(processor.ProcessorABC):
                 weights=weights_container,
                 year=self.year,
                 variation=self.syst,
-                id_wp=ztoll_muon_selection[self.channel][self.lepton_flavor][
+                id_wp=zplusc_muon_selection[self.channel][self.lepton_flavor][
                     "muon_id_wp"
                 ],
-                iso_wp=ztoll_muon_selection[self.channel][self.lepton_flavor][
+                iso_wp=zplusc_muon_selection[self.channel][self.lepton_flavor][
                     "muon_iso_wp"
                 ],
             )
@@ -472,13 +503,13 @@ class ZToLLProcessor(processor.ProcessorABC):
                 taus=taus,
                 weights=weights_container,
                 year=self.year,
-                tau_vs_jet=ztoll_tau_selection[self.channel][self.lepton_flavor][
+                tau_vs_jet=zplusc_tau_selection[self.channel][self.lepton_flavor][
                     "tau_vs_jet"
                 ],
-                tau_vs_ele=ztoll_tau_selection[self.channel][self.lepton_flavor][
+                tau_vs_ele=zplusc_tau_selection[self.channel][self.lepton_flavor][
                     "tau_vs_ele"
                 ],
-                tau_vs_mu=ztoll_tau_selection[self.channel][self.lepton_flavor][
+                tau_vs_mu=zplusc_tau_selection[self.channel][self.lepton_flavor][
                     "tau_vs_mu"
                 ],
                 variation=self.syst,
@@ -539,7 +570,7 @@ class ZToLLProcessor(processor.ProcessorABC):
         self.selections.add("metfilters", metfilters)
 
         # check that there be a minimum MET greater than 50 GeV
-        met_threshold =  ztoll_met_selection[self.channel][self.lepton_flavor]["met_threshold"]
+        met_threshold =  zplusc_met_selection[self.channel][self.lepton_flavor]["met_threshold"]
         self.selections.add(f"met_{met_threshold}", events.MET.pt > met_threshold)
         
         # select events with at least one good vertex
@@ -555,21 +586,17 @@ class ZToLLProcessor(processor.ProcessorABC):
                 "trigger_match", trigger_match_mask 
             )                
         # add number of leptons and jets
-        self.selections.add("one_electron", ak.num(electrons) == 1)
         self.selections.add("two_electrons", ak.num(electrons) == 2)
         self.selections.add("electron_veto", ak.num(electrons) == 0)
 
-        self.selections.add("one_muon", ak.num(muons) == 1)
         self.selections.add("two_muons", ak.num(muons) == 2)        
         self.selections.add("muon_veto", ak.num(muons) == 0)
-        self.selections.add("at_least_two_muons", ak.num(muons) >= 2)
-
-        self.selections.add("one_tau", ak.num(taus) == 1)
-        self.selections.add("two_taus", ak.num(taus) == 2)        
+     
         self.selections.add("tau_veto", ak.num(taus) == 0)
 
         self.selections.add("bjet_veto", ak.num(bjets) == 0)
 
+        self.selections.add("one_cjet", ak.num(cjets) == 1)
 
 
         
@@ -639,17 +666,17 @@ class ZToLLProcessor(processor.ProcessorABC):
         # -------------------------------
         # -------- Trigger: OR ----------
         # -------------------------------
-        reference_trigger =  ztoll_trigger_selection[self.channel][self.lepton_flavor]["trigger"]
+        reference_trigger =  zplusc_trigger_selection[self.channel][self.lepton_flavor]["trigger"]
                
         if self.lepton_flavor == "mu":
-            mu_id = ztoll_muon_selection[self.channel][self.lepton_flavor]["muon_id_wp"]
+            mu_id = zplusc_muon_selection[self.channel][self.lepton_flavor]["muon_id_wp"]
             with importlib.resources.path("wprime_plus_b.data", "triggers.json") as path:
                 with open(path, "r") as handle:
                     trigger_data = json.load(handle)
                     ref_trigger = trigger_data[self.year][reference_trigger][mu_id]
 
         elif self.lepton_flavor == "ele":
-            ele_id = ztoll_electron_selection[self.channel][self.lepton_flavor]["electron_id_wp"]
+            ele_id = zplusc_electron_selection[self.channel][self.lepton_flavor]["electron_id_wp"]
             with importlib.resources.path("wprime_plus_b.data", "triggers.json") as path:
                 with open(path, "r") as handle:
                     trigger_data = json.load(handle)
@@ -692,61 +719,48 @@ class ZToLLProcessor(processor.ProcessorABC):
                 self.lepton_flavor,
                 cross_cleaning = cc,
                 year=self.year,
-                charge_selection = ztoll_charges_selection[self.channel][self.lepton_flavor]["Charge_ll"],
-                Z_mass_min = ztoll_mrec_ll_selection[self.channel][self.lepton_flavor]["m_Z_min"],
-                Z_mass_max = ztoll_mrec_ll_selection[self.channel][self.lepton_flavor]["m_Z_max"]               
+                charge_selection = zplusc_charges_selection[self.channel][self.lepton_flavor]["Charge_ll"],
+                Z_mass_min = zplusc_mrec_ll_selection[self.channel][self.lepton_flavor]["m_Z_min"],
+                Z_mass_max = zplusc_mrec_ll_selection[self.channel][self.lepton_flavor]["m_Z_max"]               
         )
 
         self.selections.add("Z_boson", good_Z_mask) 
 
 
-
-        # -------------------------------------------------------------
-        #      Leading muon
-        # -------------------------------------------------------------
-        lepton_map = {
-            "ele": electrons,
-            "mu": muons,
-            "tau": taus
-        }
-        leading_muon = ak.firsts(lepton_map[self.lepton_flavor])
-        self.selections.add("leading_lepton", leading_muon.pt > ztoll_muon_selection[self.channel][self.lepton_flavor]["leading_muon_pt"]) 
-
         
         # define selection regions for each channel
         region_selection = {
-            "ll": {
+            "ll+c": {
                 "mu": [
                     "goodvertex",
                     "lumi",
-                    "Stitching",
                     "metfilters",
                     f"trigger_{reference_trigger}",
                     "trigger_match",
                     "HEMCleaning",
-                    "bjet_veto",
+                    #f"met_{met_threshold}",
                     "electron_veto",
                     "tau_veto",
+                    "bjet_veto",
                     "two_muons",
-                    "leading_lepton",
                     "Z_boson",
-                ]
-            },
-            "ll_ISR": {
-                "mu": [
+                    "one_cjet",
+                ],
+                "ele": [
                     "goodvertex",
-                    "Stitching",
                     "lumi",
                     "metfilters",
                     f"trigger_{reference_trigger}",
                     "trigger_match",
-                    "electron_veto",
+                    "HEMCleaning",
+                    #f"met_{met_threshold}",
+                    "muon_veto",
                     "tau_veto",
-                    "two_muons",
-                    "bjet_veto",
-                    "Z_boson",                   
-                    "at_least_one_jet",
-                ]
+                    "bjet_veto",                    
+                    "two_electrons",
+                    "Z_boson",
+                    "one_cjet",
+                ]                
             }
         }
 
@@ -780,214 +794,68 @@ class ZToLLProcessor(processor.ProcessorABC):
             output["metadata"]["weight_statistics"][weight] = statistics
 
         # -------------------------------------------------------------
+        # event variables
         # -------------------------------------------------------------
-        #                     Systematics variations
-        # -------------------------------------------------------------
-        # -------------------------------------------------------------
-        # If we are in MC and we want to run systematics variations
-        if self.run_systematics and self.is_mc:
-            # Taus, muons, bjets, light_jets, fatjets, wjets change due to object-corrections. Electrons don't have object-corrections.
-            map_variation = systematic_variation_mask(events = events,
-                                    lepton_flavor = self.lepton_flavor,                                                      
-                                    jets_veto = jets_veto,
-                                    electrons = electrons,
-                                    muons = muons,
-                                    taus = taus,
-                                    bjets = bjets,
-                                    jets = jets_veto,
-                                    muons_mask = good_muons_masks, 
-                                    taus_mask = good_taus_masks, 
-                                    bjets_mask = good_bjets_masks, 
-                                    light_jets_mask = good_jets_masks, 
-                                    delta_r_threshold = cc,
-                                    met_threshold = met_threshold,
-                                    delta_list_met = delta_list,
-                                    include_fatjets = False)
+        self.selections.add(
+            self.region,
+            self.selections.all(
+                *region_selection[self.channel][self.lepton_flavor]
+            ),
+        )
+        region_selection = self.selections.all(self.region)
+        # check that there are events left after selection
+        nevents_after = ak.sum(region_selection)
+        
+        region_mask = region_selection 
 
+        output["metadata"].update({
+            f"weighted_final_nevents": ak.sum(weights_container.weight()[region_mask]),
+            f"raw_final_nevents": nevents_after,
+        })
 
-            # Names of the regions to be selected depending on the object-variation
-            region_selection_cases = update_region_map(
-                region_map = region_selection[self.channel][self.lepton_flavor], 
-                map_variation = map_variation, 
-                met_threshold = met_threshold                
+        if nevents_after != 0:
+            # Histograms
+            histograms_output_Zplusc_analysis_syst(self, 
+                    bjets = bjets, cjets = cjets, jets = jets_veto, 
+                    electrons = electrons, muons = muons, taus = taus, 
+                    met = events.MET, 
+                    mask = region_mask, 
+                    lepton_flavor= self.lepton_flavor,
+                    channel= self.channel, 
+                    is_mc = self.is_mc,
+                    events = events,
+                    syst_flag = "nominal"
             )
 
 
 
-            # Store new selections in the PackedSelection object: self.selections
-            selections_variations = update_region_selection(
-                map_variation = map_variation, 
-                selections_nominal = self.selections
-            )
-
-
-            # -------------------------------------------------------------
-            # Save region selections: Nominal + Up/Down object-correction variations
-            # -------------------------------------------------------------
-            region_selection_map = {}
-            self.selections.add("nominal",  self.selections.all(*region_selection[self.channel][self.lepton_flavor]))
-
-
-            # Save nominal selection before the top tagger: Without systematic variations
-            region_selection_map["nominal"] = self.selections.all("nominal")
-
-
-            for variation, selection_names in region_selection_cases.items():
-                sel_var = selections_variations[variation]
-                sel_var.add(variation, sel_var.all(*selection_names))
-                # Region_selection_map: Variation name as key and the selection mask as value
-                region_selection_map[variation] = sel_var.all(variation)
-
-
-
-            # --------------
-            # save cutflow 
-            # --------------
-            for case in region_selection_cases:
-                cut_names = region_selection_cases[case]
-                output["metadata"].update({f"cutflow_{case}": {}})
-                output["metadata"][f"cutflow_{case}"]["sumw"] = ak.sum(weights_container.weight())
-                selections_var = []
-                sel = self.selections if case == "nominal" else selections_variations[case]
-                for cut_name in cut_names:
-                    selections_var.append(cut_name)
-                    current_selection = sel.all(*selections_var)
-                    output["metadata"][f"cutflow_{case}"][cut_name] = ak.sum(
-                        weights_container.weight()[current_selection]
-                    )
-
-
-            # -------------------------------------------------------------
-            for region_name, region_mask in region_selection_map.items():
-                # check that there are events left after selection
-                nevents_after = ak.sum(region_mask)
-
-                if region_name == "nominal":
-                    output["metadata"].update({
-                                f"weighted_final_nevents": ak.sum(weights_container.weight()[region_mask]),
-                                f"raw_final_nevents": nevents_after,
-                    })
-
-                else:
-                    output["metadata"].update({
-                        f"weighted_final_nevents_{region_name}": ak.sum(weights_container.weight()[region_mask]),
-                        f"raw_final_nevents_{region_name}": nevents_after,
-                    })
-
-
-                if nevents_after != 0:
-                    # Histograms
-                    histograms_output_Z_analysis_syst(self, 
-                            bjets = bjets, jets = jets_veto, 
-                            electrons = electrons, muons = muons, taus = taus, 
-                            met = events.MET, 
-                            mask = region_mask, 
-                            lepton_flavor= self.lepton_flavor,
-                            channel= self.channel, 
-                            is_mc = self.is_mc,
-                            events = events,
-                            syst_flag = region_name
-                    )
-
-
-                    if self.output_type == "array":
-                        # Create a dictionary to store the arrays
-                        if region_name == "nominal":
-                            self.add_feature(
-                                f"weights", weights_container.weight()[region_mask]
-                            )
-
-                            for variation_case, weights_case in weights_container._modifiers.items():
-                                self.add_feature(
-                                    f"{variation_case}", weights_case[region_mask]
-                                )
-
-                            for weight in weights_container.weightStatistics:
-                                filtered_weight = weights_container.partial_weight(include=[weight])[region_mask]
-                                self.add_feature(weight, filtered_weight)
-
-                        else:
-                            self.add_feature(
-                                f"weights_{region_name}", weights_container.weight()[region_mask]
-                            )
-
-                        # select variables and put them in column accumulators
-                        array_dict.update(
-                            {
-                                feature_name: processor.column_accumulator(
-                                    normalize(feature_array)
-                                )
-                                for feature_name, feature_array in self.features.items()
-                            }
-                        )
-
-
-        else:
-            # -------------------------------------------------------------
-            # event variables
-            # -------------------------------------------------------------
-            self.selections.add(
-                self.region,
-                self.selections.all(
-                    *region_selection[self.channel][self.lepton_flavor]
-                ),
-            )
-            region_selection = self.selections.all(self.region)
-            # check that there are events left after selection
-            nevents_after = ak.sum(region_selection)
-            
-            region_mask = region_selection 
-
-            output["metadata"].update({
-                f"weighted_final_nevents": ak.sum(weights_container.weight()[region_mask]),
-                f"raw_final_nevents": nevents_after,
-            })
-
-            if nevents_after != 0:
-                # Histograms
-                histograms_output_Z_analysis_syst(self, 
-                        bjets = bjets, jets = jets_veto, 
-                        electrons = electrons, muons = muons, taus = taus, 
-                        met = events.MET, 
-                        mask = region_mask, 
-                        lepton_flavor= self.lepton_flavor,
-                        channel= self.channel, 
-                        is_mc = self.is_mc,
-                        events = events,
-                        syst_flag = "nominal"
+            if self.output_type == "array":
+                array_dict = {}
+                self.add_feature(
+                    "weights", weights_container.weight()[region_mask]
                 )
 
 
+                if self.is_mc == True:
+                    # Agregar variaciones de peso
+                    for variation_case, weights_case in weights_container._modifiers.items():
+                        array_dict[f"{variation_case}"] = processor.column_accumulator(
+                            weights_case[region_mask]
+                        )
+                    # Guardar pesos individuales filtrados por region_mask
+                    for weight in weights_container.weightStatistics:
+                        filtered_weight = weights_container.partial_weight(include=[weight])[region_mask]
+                        self.add_feature(weight, filtered_weight)
 
-                if self.output_type == "array":
-                    array_dict = {}
-                    self.add_feature(
-                        "weights", weights_container.weight()[region_mask]
-                    )
-
-
-                    if self.is_mc == True:
-
-                        if region_name == "nominal":
-                            # Agregar variaciones de peso
-                            for variation_case, weights_case in weights_container._modifiers.items():
-                                array_dict[f"{variation_case}"] = processor.column_accumulator(
-                                    weights_case[region_mask]
-                                )
-                            # Guardar pesos individuales filtrados por region_mask
-                            for weight in weights_container.weightStatistics:
-                                filtered_weight = weights_container.partial_weight(include=[weight])[region_mask]
-                                self.add_feature(weight, filtered_weight)
-
-                    # select variables and put them in column accumulators
-                    array_dict.update(
-                        {
-                            feature_name: processor.column_accumulator(
-                                normalize(feature_array)
-                            )
-                            for feature_name, feature_array in self.features.items()
-                        }
-                    )
+                # select variables and put them in column accumulators
+                array_dict.update(
+                    {
+                        feature_name: processor.column_accumulator(
+                            normalize(feature_array)
+                        )
+                        for feature_name, feature_array in self.features.items()
+                    }
+                )
 
         # define output dictionary accumulator
         if self.output_type == "array":

@@ -226,7 +226,7 @@ def update_nsplit(year: str) -> None:
 
 def run_checker(args: dict) -> None:
     # check processor
-    available_processors = ["ttbar", "ztoll", "qcd", "btag_eff", "ctag_eff", "trigger_eff", "top_tagger", "signal", "wjets", "qcd_abcd", "qcd_hadronic", "wplusjets"]
+    available_processors = ["ttbar", "ztoll", "zplusc", "qcd", "btag_eff", "ctag_eff", "trigger_eff", "top_tagger", "signal", "wjets", "qcd_abcd", "qcd_hadronic", "wplusjets"]
     if args["processor"] not in available_processors:
         raise ValueError(
             f"Incorrect processor. Available processors are: {available_processors}"

@@ -329,7 +329,7 @@ for archivo_faltante in "${archivos_faltantes[@]}"; do
         extra_arg="--nsample $nsample"
     fi
 
-    if [ "$processor" == "ttbar" ] || [ "$processor" == "wjets" ] || [ "$processor" == "ztoll" ] || [ "$processor" == "qcd_abcd" ] || [ "$processor" == "wplusjets" ]  || [ "$processor" == "qcd_hadronic" ]; then
+    if [ "$processor" == "ttbar" ] || [ "$processor" == "wjets" ] || [ "$processor" == "ztoll" ] || [ "$processor" == "zplusc" ] || [ "$processor" == "qcd_abcd" ] || [ "$processor" == "wplusjets" ]  || [ "$processor" == "qcd_hadronic" ]; then
         comando="python3 submit_lxplus.py --processor $processor --channel $channel --lepton_flavor $lepton_flavor --sample $nombre_base --year $year --nfiles $nfiles --executor $executor --output_type $output_type $extra_arg --run_systematics $run_systematics --output_folder $output_folder"
 
     elif [ "$processor" == "top_tagger" ] || [ "$processor" == "signal" ] || [ $processor == "btag_eff" ] || [ $processor == "ctag_eff" ]; then

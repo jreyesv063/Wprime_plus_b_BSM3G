@@ -4,10 +4,10 @@ import awkward as ak
 import importlib.resources
 
 
-def select_good_cjets(
+def select_good_bjets(
     jets,
     year: str = "2017",
-    ctag_working_point: str = "M",
+    btag_working_point: str = "M",
     jet_pt_threshold: int = 20,
     jet_eta_threshold: float = 2.4,
     jet_id_wp: str = "tight_tightLepVeto",
@@ -15,7 +15,7 @@ def select_good_cjets(
     is_mc: bool = True,
 ) -> ak.highlevel.Array:
     """
-    Selects and filters 'good' c-jets from a collection of jets based on specified criteria
+    Selects and filters 'good' b-jets from a collection of jets based on specified criteria
 
     Parameters:
     -----------
@@ -47,7 +47,7 @@ def select_good_cjets(
 
     Returns:
     --------
-        An Awkward Array mask containing the selected "good" c-jets that satisfy the specified criteria.
+        An Awkward Array mask containing the selected "good" b-jets that satisfy the specified criteria.
     """
    
     puid_wps = {
@@ -79,32 +79,23 @@ def select_good_cjets(
 
     jet_id = jet_id_flags[year][jet_id_wp]
 
+    # open and load btagDeepFlavB working point
+    with importlib.resources.open_text("wprime_plus_b.data", "btagWPs.json") as file:
+        btag_threshold = json.load(file)["deepJet"][year][btag_working_point]
 
-    discriminator = "CvB_cut"
-    opposite_discriminator = "CvL_cut"
-
-    # open and load ctagDeepFlavB working point
-    with importlib.resources.open_text("wprime_plus_b.data", "ctagWPs.json") as file:
-        ctagwps = json.load(file)
-        ctag_threshold = (
-                        ctagwps["deepJet"][year][discriminator][ctag_working_point], 
-                        ctagwps["deepJet"][year][opposite_discriminator][ctag_working_point]
-                        )
-
-
-    good_cjet_masks = {}
+    good_bjet_masks = {}
     
 
     if is_mc:
         jet_shift = {
             "JES": {"nominal": jets,
-                    "up":  jets.JES_jes.up,
-                    "down": jets.JES_jes.down
+                    # "up":  jets.JES_jes.up,
+                    # "down": jets.JES_jes.down
             },
-            "JER": {
-                    "up":  jets.JER.up,
-                    "down": jets.JER.down
-            },  
+            # "JER": {
+            #         "up":  jets.JER.up,
+            #         "down": jets.JER.down
+            # },  
         }
 
 
@@ -117,8 +108,7 @@ def select_good_cjets(
                     & (np.abs(shift.eta) < jet_eta_threshold)
                     & (shift.jetId == jet_id)
                     & (shift.puId == puid_wps[jet_pileup_id])
-                    #& (shift.btagDeepFlavCvB > ctag_threshold[0])
-                    #& (shift.btagDeepFlavCvL > ctag_threshold[1])
+                    & (shift.btagDeepFlavB > btag_threshold)
                 )
 
                 # Máscara para jets de alto pT
@@ -126,19 +116,18 @@ def select_good_cjets(
                     (shift.pt >= 50)
                     & (np.abs(shift.eta) < 2.4)
                     & (shift.jetId == jet_id)
-                    #& (shift.btagDeepFlavCvB > ctag_threshold[0])
-                    #& (shift.btagDeepFlavCvL > ctag_threshold[1])
+                    & (shift.btagDeepFlavB > btag_threshold)
                 )
 
                 # Guardar las máscaras en el diccionario
                 if variation == "nominal":
-                    good_cjet_masks[variation] = ak.where(
+                    good_bjet_masks[variation] = ak.where(
                         (shift.pt > jet_pt_threshold) & (shift.pt < 50),
                         low_pt_jets_mask,
                         high_pt_jets_mask,
                     )
                 else:
-                    good_cjet_masks[f"{shift_type}_{variation}"] = ak.where(
+                    good_bjet_masks[f"{shift_type}_{variation}"] = ak.where(
                         (shift.pt > jet_pt_threshold) & (shift.pt < 50),
                         low_pt_jets_mask,
                         high_pt_jets_mask,
@@ -151,23 +140,21 @@ def select_good_cjets(
             & (np.abs(jets.eta) < jet_eta_threshold)
             & (jets.jetId == jet_id)
             & (jets.puId == puid_wps[jet_pileup_id])
-            #& (jets.btagDeepFlavCvB > ctag_threshold[0])
-            #& (jets.btagDeepFlavCvL > ctag_threshold[1])
+            & (jets.btagDeepFlavB > btag_threshold)
         )
 
         high_pt_jets_mask = (
             (jets.pt >= 50)
             & (np.abs(jets.eta) < 2.4)
             & (jets.jetId == jet_id)
-            #& (jets.btagDeepFlavCvB > ctag_threshold[0])
-            #& (jets.btagDeepFlavCvL > ctag_threshold[1])
+            & (jets.btagDeepFlavB > btag_threshold)
         )
 
-        good_cjet_masks["nominal"] = ak.where(
+        good_bjet_masks["nominal"] = ak.where(
             (jets.pt > jet_pt_threshold) & (jets.pt < 50),
             low_pt_jets_mask,
             high_pt_jets_mask,
         )
 
 
-    return good_cjet_masks
+    return good_bjet_masks

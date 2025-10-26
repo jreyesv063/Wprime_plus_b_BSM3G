@@ -21,6 +21,7 @@ from wprime_plus_b.processors.signal_processor import SignalProccessor
 from wprime_plus_b.processors.wplusjets_processor import WplusJetsProcessor
 from wprime_plus_b.processors.qcd_processor import QCDProccessor
 from wprime_plus_b.processors.ztoll_processor import ZToLLProcessor
+from wprime_plus_b.processors.zplusc_processor import ZplusCProcessor
 from wprime_plus_b.processors.btag_efficiency_processor import BTagEfficiencyProcessor
 from wprime_plus_b.processors.ctag_efficiency_processor import CTagEfficiencyProcessor
 
@@ -96,18 +97,25 @@ from wprime_plus_b.selections.ztoll.tau_config import ztoll_tau_selection
 from wprime_plus_b.selections.ztoll.Z_config import ztoll_charges_selection, ztoll_mrec_ll_selection
 
 
+
+# Zplusc configs
+from wprime_plus_b.selections.zplusc.bjet_config import zplusc_bjet_selection
+from wprime_plus_b.selections.zplusc.electron_config import zplusc_electron_selection
+from wprime_plus_b.selections.zplusc.general_config import zplusc_cross_cleaning_selection, zplusc_trigger_selection
+from wprime_plus_b.selections.zplusc.jet_config import zplusc_jet_selection
+from wprime_plus_b.selections.zplusc.met_config import zplusc_met_selection
+from wprime_plus_b.selections.zplusc.muon_config import zplusc_muon_selection
+from wprime_plus_b.selections.zplusc.tau_config import zplusc_tau_selection
+from wprime_plus_b.selections.zplusc.Z_config import zplusc_charges_selection, zplusc_mrec_ll_selection
+
+
 def main(args):
-
-    # New
-    print(">>> submit.py: script iniciado")
-    import sys
-    print(">>> Argumentos:", sys.argv)
-
 
     args = vars(args)
     # define processors and executors
     processors = {
         "ztoll": ZToLLProcessor,
+        "zplusc": ZplusCProcessor,
         "btag_eff": BTagEfficiencyProcessor,
         "ctag_eff": CTagEfficiencyProcessor,
         "top_tagger": TopTaggerProccessor,
@@ -265,7 +273,7 @@ def main(args):
                 })            
                         
             # save metadata
-            if args["processor"] in ["ztoll", "top_tagger", "signal", "wjets", "qcd_hadronic", "wplusjets"]:
+            if args["processor"] in ["ztoll", "zplusc", "top_tagger", "signal", "wjets", "qcd_hadronic", "wplusjets"]:
              
                 # save raw and weighted number of events after selection
                 if "raw_final_nevents" in output_metadata:
@@ -525,25 +533,36 @@ def main(args):
                         args["lepton_flavor"]
                     ],
                 }
-
-                if args["channel"] in ["ll_ISR"]:
-                    selections.update({
-
-                    "jet_selection": ztoll_jet_selection[args["channel"]][
-                        args["lepton_flavor"]
-                    ],
-                    "leading_jet_selection": ztoll_leading_jet_selection[args["channel"]][
-                        args["lepton_flavor"]
-                    ],
-                    "bjet_selection": ztoll_bjet_selection[args["channel"]][
-                        args["lepton_flavor"]
-                    ],
-                })
                         
                 metadata.update({"selections": selections})
 
+            # save zplusc selectios to metadata
+            elif args["processor"] in ["zplusc"]:  
+            
+                selections = {
+                    "electron_selection": zplusc_electron_selection[args["channel"]][
+                        args["lepton_flavor"]
+                    ],
+                    "muon_selection": zplusc_muon_selection[args["channel"]][
+                        args["lepton_flavor"]
+                    ],
+                    "tau_selection": zplusc_tau_selection[args["channel"]][
+                        args["lepton_flavor"]
+                    ],
+                    "met_selection": zplusc_met_selection[args["channel"]][
+                        args["lepton_flavor"]
+                    ],
+                    "Charge_dilepton": zplusc_charges_selection[args["channel"]][
+                        args["lepton_flavor"]
+                    ],
+                    "Dilepton_mass_rec": zplusc_mrec_ll_selection[args["channel"]][
+                        args["lepton_flavor"]
+                    ],
+                }
+                        
+                metadata.update({"selections": selections})
 
-        if args["processor"] in ["top_tagger", "signal", "wjets", "qcd_hadronic", "ztoll", "wplusjets"]:
+        if args["processor"] in ["top_tagger", "signal", "wjets", "qcd_hadronic", "ztoll", "zplusc", "wplusjets"]:
 
             # Remove duplicates while preserving the original order
             triggers = list(dict.fromkeys(output_metadata["Triggers"]))
@@ -585,7 +604,7 @@ def main(args):
                     syst_var_object = [s for s in syst_var_object if "fatjet" not in s.lower()]
 
 
-            if args["processor"] in ["top_tagger", "wplusjets", "qcd_hadronic", "signal", "wjets", "ztoll"]:
+            if args["processor"] in ["top_tagger", "wplusjets", "qcd_hadronic", "signal", "wjets", "ztoll", "zplusc"]:
                 # Save cutflow for each systematic variation
                 for syst in syst_var_object:
                     for cut_selection, nevents in output_metadata[f"cutflow_{syst}"].items():
@@ -600,7 +619,7 @@ def main(args):
                         {f"weighted_final_nevents_{syst}": float(output_metadata[f"weighted_final_nevents_{syst}"])}
                     )
 
-        if args["processor"] in ["top_tagger", "ztoll", "qcd_hadronic", "wplusjets", "signal", "wjets"]:
+        if args["processor"] in ["top_tagger", "ztoll", "zplusc", "qcd_hadronic", "wplusjets", "signal", "wjets"]:
             for cut_selection, nevents in output_metadata["cutflow_raw"].items():
                 output_metadata["cutflow_raw"][cut_selection] = str(nevents)
             metadata.update({"cutflow_raw": output_metadata["cutflow_raw"]})
@@ -612,7 +631,7 @@ def main(args):
                         {f"sumw_no_ISR": float(output_metadata[f"sumw_no_ISR"])}
                     )
 
-        if args["processor"] in ["top_tagger", "ztoll", "qcd_hadronic", "wplusjets", "signal", "wjets"]  and args["sample"] not in ["MET", "SingleMuon", "SingleElectron", "Tau"]:
+        if args["processor"] in ["top_tagger", "ztoll", "zplusc", "qcd_hadronic", "wplusjets", "signal", "wjets"]  and args["sample"] not in ["MET", "SingleMuon", "SingleElectron", "Tau"]:
             metadata.update(
                         {f"sumw_case_1": float(output_metadata[f"sumw_case_1"])}
                     )
@@ -643,7 +662,7 @@ if __name__ == "__main__":
         dest="processor",
         type=str,
         default="",
-        help="processor to be used {ttbar, ztoll, qcd, trigger_eff, btag_eff, ctag_eff, signal, wjets, qcd_abcd, qcd_hadronic} (default ttbar)",
+        help="processor to be used {ttbar, ztoll, zplusc, qcd, trigger_eff, btag_eff, ctag_eff, signal, wjets, qcd_abcd, qcd_hadronic} (default ttbar)",
     )
     parser.add_argument(
         "--channel",

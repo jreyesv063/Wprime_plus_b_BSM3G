@@ -37,60 +37,60 @@ EOF
 cd "$SCRIPT_DIR"
 
 # Declarar variables
-processor="ctag_eff"     # top_tagger; signal; qcd_hadronic; wplusjets; ztoll:  wjets; btag_eff; ctag_eff
-channel=""           # top_tagger -> {}; signal -> {}; qcd_hadronic -> {cr_b, cr_c, cr_d}; wplusjets -> {wjets, cr_b, cr_c, cr_d}, wjets -> {1j1l*, 1l0b}; ztoll-> {ll, ll+c}
+processor="zplusc"     # top_tagger; signal; qcd_hadronic; wplusjets; ztoll:  wjets; btag_eff; ctag_eff; zplusc
+channel="ll+c"           # top_tagger -> {}; signal -> {}; qcd_hadronic -> {cr_b, cr_c, cr_d}; wplusjets -> {wjets, cr_b, cr_c, cr_d}, wjets -> {1j1l*, 1l0b}; ztoll-> {ll, ll+c}; zplusc{"ll+c""}
 
 
-lepton_flavor="tau"
+lepton_flavor="mu"
 year="2017" # 2016APV; 2016; 2017; 2018
-nfiles="-1"
+nfiles="1"
 executor="futures"
-output_type="hist" # hist/array
-nsample="" # Importante: Dejar nsample="" si no se quiere un nsample especifico, en caso de querer uno especifico nsample="3"
+output_type="array" # hist/array
+nsample="1" # Importante: Dejar nsample="" si no se quiere un nsample especifico, en caso de querer uno especifico nsample="3"
 
-output_folder="/eos/user/j/jreyesve/WINDOWS/Desktop/2025/Septiembre/New_results/test_sebastian_v2/$processor/$year"   
+output_folder="/eos/user/j/jreyesve/WINDOWS/Desktop/2025/Noviembre/test/$processor/$year"   
 run_systematics="false" # Cambiar a "true" para activar sistemáticos a nivel de objeto (solo cuando sea necesario, ya que puede aumentar el tiempo de ejecución considerablemente)
 
 samples=(
     "TTToSemiLeptonic"
-    "TTTo2L2Nu"
-    "TTToHadronic"
-    "DYJetsToLL_nlo_M-10to50"
+    # "TTTo2L2Nu"
+    # "TTToHadronic"
+    # "DYJetsToLL_nlo_M-10to50"
     "DYJetsToLL_nlo_M-50"
-    # # #"SingleMuon"
+    "SingleMuon"
     # "MET"
     # # "Tau"
     # # "SingleElectron"
-    "ST_s-channel_4f_leptonDecays"
-    "ST_t-channel_antitop_5f_InclusiveDecays"
-    "ST_t-channel_top_5f_InclusiveDecays"
-    "ST_tW_antitop_5f_inclusiveDecays"
-    "ST_tW_top_5f_inclusiveDecays"
-    "WJetsToLNu_HT-70To100"
-    "WJetsToLNu_HT-100To200"
-    "WJetsToLNu_HT-200To400"
-    "WJetsToLNu_inclusive"
-    "WJetsToLNu_HT-400To600"
-    "WJetsToLNu_HT-600To800"
-    "WJetsToLNu_ext"
-    "WJetsToLNu_HT-800To1200"
-    "WJetsToLNu_HT-1200To2500"
-    "WJetsToLNu_HT-2500ToInf"
-    "WW"
-    "WZ"
-    "ZZ"
-    "QCD_HT50to100"
-    "QCD_HT100to200"
-    "QCD_HT200to300"
-    "QCD_HT300to500"
-    "QCD_HT500to700"
-    "QCD_HT700to1000"
-    "QCD_HT1000to1500"
-    "QCD_HT1500to2000"
-    "QCD_HT2000toInf"
-    "GluGluHToWWToLNuQQ" 
-    "VBFHToWWTo2L2Nu"
-    "VBFHToWWToLNuQQ"
+    # "ST_s-channel_4f_leptonDecays"
+    # "ST_t-channel_antitop_5f_InclusiveDecays"
+    # "ST_t-channel_top_5f_InclusiveDecays"
+    # "ST_tW_antitop_5f_inclusiveDecays"
+    # "ST_tW_top_5f_inclusiveDecays"
+    # "WJetsToLNu_HT-70To100"
+    # "WJetsToLNu_HT-100To200"
+    # "WJetsToLNu_HT-200To400"
+    # "WJetsToLNu_inclusive"
+    # "WJetsToLNu_HT-400To600"
+    # "WJetsToLNu_HT-600To800"
+    # "WJetsToLNu_ext"
+    # "WJetsToLNu_HT-800To1200"
+    # "WJetsToLNu_HT-1200To2500"
+    # "WJetsToLNu_HT-2500ToInf"
+    # "WW"
+    # "WZ"
+    # "ZZ"
+    # "QCD_HT50to100"
+    # "QCD_HT100to200"
+    # "QCD_HT200to300"
+    # "QCD_HT300to500"
+    # "QCD_HT500to700"
+    # "QCD_HT700to1000"
+    # "QCD_HT1000to1500"
+    # "QCD_HT1500to2000"
+    # "QCD_HT2000toInf"
+    # "GluGluHToWWToLNuQQ" 
+    # "VBFHToWWTo2L2Nu"
+    # "VBFHToWWToLNuQQ"
     # "SignalTau_300GeV" 
     # "SignalTau_400GeV"    
     # "SignalTau_600GeV"
@@ -138,7 +138,7 @@ build_filesets(args);
 
 
 
-if [ $processor == "ttbar" ] || [ $processor == "wjets" ] || [ $processor == "ztoll" ] || [ $processor == "qcd_abcd" ] || [ $processor == "wplusjets" ] || [ $processor == "qcd_hadronic" ]; then
+if [ $processor == "ttbar" ] || [ $processor == "wjets" ] || [ $processor == "ztoll" ] || [ $processor == "zplusc" ] || [ $processor == "qcd_abcd" ] || [ $processor == "wplusjets" ] || [ $processor == "qcd_hadronic" ]; then
     # Definir la ruta donde se creará mover_archivos.sh
     dir_to_create="wprime_plus_b/outs/$processor/$channel/$lepton_flavor/$year"
 

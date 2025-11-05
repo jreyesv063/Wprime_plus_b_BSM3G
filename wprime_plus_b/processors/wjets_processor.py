@@ -16,6 +16,8 @@ from wprime_plus_b.corrections.rochester import apply_rochester_corrections
 from wprime_plus_b.corrections.tau_energy import apply_tau_energy_scale_corrections
 from wprime_plus_b.corrections.pileup import add_pileup_weight
 from wprime_plus_b.corrections.l1prefiring import add_l1prefiring_weight
+from wprime_plus_b.corrections.psweights import add_particle_shower_weight
+from wprime_plus_b.corrections.pdfweights import add_pdf_weight
 from wprime_plus_b.corrections.pujetid import add_pujetid_weight
 from wprime_plus_b.corrections.btag import BTagCorrector
 from wprime_plus_b.corrections.muon import MuonCorrector
@@ -411,6 +413,7 @@ class WjetsProccessor(processor.ProcessorABC):
                 year=self.year,
                 full_run=False,
                 variation=self.syst,
+                dataset=dataset
             )
             # add b-tagging weights
             btag_corrector.add_btag_weights(flavor="bc")

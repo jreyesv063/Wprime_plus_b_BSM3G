@@ -80,15 +80,12 @@ def select_good_cjets(
     jet_id = jet_id_flags[year][jet_id_wp]
 
 
-    discriminator = "CvB_cut"
-    opposite_discriminator = "CvL_cut"
-
     # open and load ctagDeepFlavB working point
     with importlib.resources.open_text("wprime_plus_b.data", "ctagWPs.json") as file:
         ctagwps = json.load(file)
         ctag_threshold = (
-                        ctagwps["deepJet"][year][discriminator][ctag_working_point], 
-                        ctagwps["deepJet"][year][opposite_discriminator][ctag_working_point]
+                        ctagwps["deepJet"][year]["CvB_cut"][ctag_working_point], 
+                        ctagwps["deepJet"][year]["CvL_cut"][ctag_working_point]
                         )
 
 

@@ -1,3 +1,4 @@
+import re
 import json
 import copy
 import pickle
@@ -14,6 +15,8 @@ from wprime_plus_b.corrections.rochester import apply_rochester_corrections
 from wprime_plus_b.corrections.tau_energy import apply_tau_energy_scale_corrections
 from wprime_plus_b.corrections.pileup import add_pileup_weight
 from wprime_plus_b.corrections.l1prefiring import add_l1prefiring_weight
+from wprime_plus_b.corrections.psweights import add_particle_shower_weight
+from wprime_plus_b.corrections.pdfweights import add_pdf_weight
 from wprime_plus_b.corrections.pujetid import add_pujetid_weight
 from wprime_plus_b.corrections.btag import BTagCorrector
 from wprime_plus_b.corrections.muon import MuonCorrector
@@ -442,6 +445,23 @@ class TopTaggerProccessor(processor.ProcessorABC):
 
             # add l1prefiring weigths
             add_l1prefiring_weight(events, weights_container, self.year, self.syst)
+
+            # add ps weigths
+            add_particle_shower_weight(events, weights_container, self.year, self.syst)
+
+            # add pdf weigths
+            
+            # Limpiar sufijo _X si termina en número
+            # Eliminar _X al final si termina en número
+            # cleaned_dataset = re.sub(r'_\d+$', '', dataset)
+
+            # print("Original:", dataset)
+            # print("Limpio:", cleaned_dataset)
+
+            #if not any(dataset.startswith(prefix) for prefix in ["WW", "WZ", "ZZ"]):
+            add_pdf_weight(events, weights_container, self.year, variation=self.syst, dataset = dataset)
+
+
             # add pileup weigths
             add_pileup_weight(events, weights_container, self.year, self.syst)
 
@@ -470,11 +490,13 @@ class TopTaggerProccessor(processor.ProcessorABC):
                 year=self.year,
                 full_run=False,
                 variation=self.syst,
+                dataset = dataset
             )
 
             # add b-tagging weights
             btag_corrector.add_btag_weights(flavor="bc")
             btag_corrector.add_btag_weights(flavor="light")
+            #btag_corrector.print_efficiency_min_max_per_flavor()
 
             # electron corrector
             electron_corrector = ElectronCorrector(

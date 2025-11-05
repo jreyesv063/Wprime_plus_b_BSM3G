@@ -277,52 +277,51 @@ def add_met_trigger_corrections(
     year_mod: str = "",
     variation: str = "nominal",
 ) -> Tuple[ak.Array, ak.Array]:
-    
-    
-    # We have the tigger name restriction
+
+    # We have the trigger name restriction
     in_limit_met = met.mask[mask_trigger]
-    
     met_pt = ak.fill_none(in_limit_met.pt_recoil, 10.0)
 
-    
     # get met trigger correction
     cset = correctionlib.CorrectionSet.from_file(
         f"wprime_plus_b/data/met_trigger_{year + year_mod}_UL.json"
     )
-    
+
+    # Inicializamos los arrays por defecto como 1.0
+    nominal_sf = np.ones_like(met_pt)
+    up_sf = np.ones_like(met_pt)
+    down_sf = np.ones_like(met_pt)
 
     if dataset.startswith('WJetsToLNu'):
         weight_background = "UL-MET-Trigger-SF_WJ"
-        type_weight = "wj"
-    
-    
+
+        sf = cset[weight_background].evaluate(met_pt, "nominal")
+        nominal_sf = np.where(mask_trigger, sf, 1.0)
+
+        sf_up = cset[weight_background].evaluate(met_pt, "up")
+        sf_down = cset[weight_background].evaluate(met_pt, "down")
+        up_sf = np.where(mask_trigger, sf_up, 1.0)
+        down_sf = np.where(mask_trigger, sf_down, 1.0)
+
     elif dataset.startswith('TTTo'):
         weight_background = "UL-MET-Trigger-SF_TT"
-        type_weight = "tt"
- 
-    else:
-        return 
-    
 
+        sf = cset[weight_background].evaluate(met_pt, "nominal")
+        nominal_sf = np.where(mask_trigger, sf, 1.0)
 
-    sf = cset[weight_background].evaluate(met_pt, "nominal")
-    nominal_sf = np.where(mask_trigger, sf, 1.0)
-
-
-    # get 'up' and 'down' scale factors
-    sf_up = cset[weight_background].evaluate(met_pt, "up")
-    sf_down = cset[weight_background].evaluate(met_pt, "down")
-        
-    up_sf = np.where(mask_trigger, sf_up, 1.0)
-    down_sf = np.where(mask_trigger, sf_down, 1.0)
+        sf_up = cset[weight_background].evaluate(met_pt, "up")
+        sf_down = cset[weight_background].evaluate(met_pt, "down")
+        up_sf = np.where(mask_trigger, sf_up, 1.0)
+        down_sf = np.where(mask_trigger, sf_down, 1.0)
 
     # add scale factors to weights container
     weights.add(
-        name=f"met_trigger_{type_weight}",
+        name=f"met_trigger",
         weight=nominal_sf,
         weightUp=up_sf,
         weightDown=down_sf,
-    )    
+    )
+
                 
 
 def update_met_jet_veto(events: ak.Array, jets_veto) -> None:

@@ -17,6 +17,8 @@ from wprime_plus_b.corrections.rochester import apply_rochester_corrections
 from wprime_plus_b.corrections.tau_energy import apply_tau_energy_scale_corrections
 from wprime_plus_b.corrections.pileup import add_pileup_weight
 from wprime_plus_b.corrections.l1prefiring import add_l1prefiring_weight
+from wprime_plus_b.corrections.psweights import add_particle_shower_weight
+from wprime_plus_b.corrections.pdfweights import add_pdf_weight
 from wprime_plus_b.corrections.pujetid import add_pujetid_weight
 from wprime_plus_b.corrections.btag import BTagCorrector
 from wprime_plus_b.corrections.ctag import CTagCorrector
@@ -278,34 +280,6 @@ class ZplusCProcessor(processor.ProcessorABC):
 
         bjets = jets_veto[good_bjets]
 
-        # select good jets
-        good_jets_masks = select_good_jets(
-            jets=jets_veto,
-            year=self.year,
-            jet_pt_threshold=zplusc_jet_selection[self.channel][
-                self.lepton_flavor
-            ]["jet_pt_threshold"],
-            jet_eta_threshold =zplusc_jet_selection[self.channel][
-                self.lepton_flavor
-            ]["jet_eta_threshold"],
-            jet_id_wp=zplusc_jet_selection[self.channel][
-                self.lepton_flavor
-            ]["jet_id_wp"],
-            jet_pileup_id=zplusc_jet_selection[self.channel][
-                self.lepton_flavor
-            ]["jet_pileup_id"],
-            is_mc=self.is_mc,    
-        )
-        good_jets = (
-            good_jets_masks["nominal"]
-            & (delta_r_mask(jets_veto, electrons, threshold=cc))
-            & (delta_r_mask(jets_veto, muons, threshold=cc))
-            & (delta_r_mask(jets_veto, taus, threshold=cc))
-            & (delta_r_mask(jets_veto, bjets, threshold=cc))
-        )
-
-        jets = jets_veto[good_jets]
-
            
         # select good cjets
         good_cjets_masks = select_good_cjets(
@@ -334,10 +308,9 @@ class ZplusCProcessor(processor.ProcessorABC):
             & (delta_r_mask(jets_veto, electrons, threshold=cc))
             & (delta_r_mask(jets_veto, muons, threshold=cc))
             & (delta_r_mask(jets_veto, taus, threshold=cc))
-            & (delta_r_mask(jets_veto, bjets, threshold=cc))
-            & (delta_r_mask(jets_veto, jets, threshold=cc))            
+            & (delta_r_mask(jets_veto, bjets, threshold=cc))      
         )
-        cjets = events.Jet[good_cjets]
+        cjets = jets_veto[good_cjets]
         
            
         # ------------------------------------------------
@@ -400,6 +373,13 @@ class ZplusCProcessor(processor.ProcessorABC):
 
             # add l1prefiring weigths
             add_l1prefiring_weight(events, weights_container, self.year, self.syst)
+
+            # add ps weigths
+            add_particle_shower_weight(events, weights_container, self.year, self.syst)
+
+            # add pdf weigths
+            add_pdf_weight(events, weights_container, self.year, variation=self.syst)
+
             # add pileup weigths
             add_pileup_weight(events, weights_container, self.year, self.syst)
 
@@ -428,6 +408,7 @@ class ZplusCProcessor(processor.ProcessorABC):
                 year=self.year,
                 full_run=False,
                 variation=self.syst,
+                dataset=dataset
             )
             # add b-tagging weights
             btag_corrector.add_btag_weights(flavor="bc")

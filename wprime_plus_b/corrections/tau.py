@@ -100,12 +100,12 @@ class TauCorrector:
 
         """
         # tau pseudorapidity range: [0, 2.3)
-        tau_eta_mask = (self.taus_eta >= 0) & (self.taus_eta < 2.3)
+        tau_eta_mask = np.abs(self.taus_eta < 2.3) 
         # GenMatch = 0 "unmatched", 1 "electron";
         tau_genMatch_mask = (self.taus_genMatch == 1) | (self.taus_genMatch == 3)
         # Only taus passing the wp stablished
         tau_wp_mask = self.taus_wp_e > self.tau_vs_ele_wp
-        in_tau_mask = tau_genMatch_mask & tau_wp_mask  #  & tau_eta_mask
+        in_tau_mask = tau_genMatch_mask & tau_wp_mask  & tau_eta_mask
         # get 'in-limits' taus
         in_limit_taus = self.taus.mask[in_tau_mask]
         # get pt and eta
@@ -163,12 +163,12 @@ class TauCorrector:
 
         """
         # tau pseudorapidity range: [0, 2.3)
-        tau_eta_mask = (self.taus_eta >= 0) & (self.taus_eta < 2.3)
+        tau_eta_mask = np.abs(self.taus_eta < 2.3) 
         # GenMatch = 0 "unmatched", 2 "muon";
         tau_genMatch_mask = (self.taus_genMatch == 2) | (self.taus_genMatch == 4)
         # Only taus passing the wp stablished
         tau_wp_mask = self.taus_wp_mu > self.tau_vs_mu_wp
-        in_tau_mask = tau_genMatch_mask & tau_wp_mask  # & tau_eta_mask
+        in_tau_mask = tau_genMatch_mask & tau_wp_mask  & tau_eta_mask 
         # get 'in-limits' taus
         in_limit_taus = self.taus.mask[in_tau_mask]
         # get pt and etaF

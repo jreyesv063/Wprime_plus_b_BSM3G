@@ -19,7 +19,7 @@ class CTagEfficiencyProcessor(processor.ProcessorABC):
         tagger:
             tagger name {'deepJet', 'deepCSV'}
         wp:
-            worging point {'L', 'M', 'T'}
+            working point {'L', 'M', 'T'}
     """
 
     def __init__(self, year="2017", yearmod="", tagger="deepJet", wp="T",
@@ -28,35 +28,35 @@ class CTagEfficiencyProcessor(processor.ProcessorABC):
         self._year = year
         self._tagger = tagger
         self._wp = wp
-        self.discriminator = "CvL_cut"
         self._output_type = output_type
         self.run_systematics = run_systematics
-       
 
         # Load ctag working points
         with importlib.resources.path("wprime_plus_b.data", "ctagWPs.json") as path:
             with open(path, "r") as handle:
                 ctag_working_points = json.load(handle)
 
-        opposite_discriminator = "CvB_cut" if self.discriminator == "CvL_cut" else "CvL_cut"
-
         self._ctagwp = (
-            ctag_working_points[tagger][year][self.discriminator][self._wp],
-            ctag_working_points[tagger][year][opposite_discriminator][self._wp],
+            ctag_working_points[tagger][year]["CvL_cut"][self._wp],
+            ctag_working_points[tagger][year]["CvB_cut"][self._wp],
         )
-
 
         # Define hist output
         self.make_output = lambda: hist.Hist(
             hist.axis.StrCategory([], growth=True, name="dataset"),
             hist.axis.Variable([20, 30, 50, 70, 100, 140, 200, 300, 600, 1000],
-                               name="pt", overflow=True),
-            hist.axis.Regular(4, 0, 2.5, name="abseta", overflow=True),
-            hist.axis.IntCategory([0, 4, 5], name="flavor"),
-            hist.axis.Regular(2, 0, 2, name="passWP"),
+                               name="pt", 
+                               overflow=True),
+            hist.axis.Regular(4, 0, 2.5, 
+                              name="abseta", 
+                              overflow=True),
+            hist.axis.IntCategory([0, 4, 5],
+                                  name="flavor"),
+            hist.axis.StrCategory(["CvL", "CvB", "CvL_and_CvB"],
+                                  name="passWP"),
         )
 
-        # Precompute jet ID flags and PUID WPs (to avoid rebuilding every call)
+        # Precompute jet ID flags and PUID WPs
         self.jet_id_flags = {
             "2016APV": {"loose": 1, "tight": 3, "tightLepVeto": 6},
             "2016":    {"loose": 1, "tight": 3, "tightLepVeto": 6},
@@ -79,7 +79,7 @@ class CTagEfficiencyProcessor(processor.ProcessorABC):
         # Jet veto mask
         jet_veto_mask = jetvetomaps_mask(events_masked.Jet, self._year, "jetvetomap")
 
-        # Build full mask for jets in one step
+        # Build full mask for jets
         mask = (
             jet_veto_mask
             & (abs(events_masked.Jet.eta) < 2.5)
@@ -90,37 +90,67 @@ class CTagEfficiencyProcessor(processor.ProcessorABC):
 
         jets = events_masked.Jet[mask]
 
-        # Apply c-tagging cuts
-        passctag = (
-            (jets.btagDeepFlavCvL > self._ctagwp[0])
-            & (jets.btagDeepFlavCvB > self._ctagwp[1])
-        )
+        print(" ==============================================")
+        print(self._ctagwp[0], self._ctagwp[1])
+        print(" ==============================================")
+        # --- Apply c-tagging cuts ---
+        passCvL = jets.btagDeepFlavCvL > self._ctagwp[0]
+        passCvB = jets.btagDeepFlavCvB > self._ctagwp[1]
+        passBoth = passCvL & passCvB  # pasa ambos
 
         out = {}
+
+        # === HISTOGRAM OUTPUT ===
+
+        print(f"[{dataset}] Número de jets después del mask:", ak.num(jets))
+        print(f"[{dataset}] Jets que pasan CvL:", ak.sum(passCvL))
+        print(f"[{dataset}] Jets que pasan CvB:", ak.sum(passCvB))
+        print(f"[{dataset}] Jets que pasan ambos:", ak.sum(passBoth))
 
         if self._output_type == "hist":
             output = self.make_output()
             flat_jets = ak.flatten(jets)
-            flat_passctag = ak.flatten(passctag)
 
+            # Fill jets passing only CvL
             output.fill(
                 dataset=dataset,
-                pt=flat_jets.pt,
-                abseta=abs(flat_jets.eta),
-                flavor=flat_jets.hadronFlavour,
-                passWP=flat_passctag,
+                pt=flat_jets.pt[ak.flatten(passCvL)],
+                abseta=abs(flat_jets.eta[ak.flatten(passCvL)]),
+                flavor=flat_jets.hadronFlavour[ak.flatten(passCvL)],
+                passWP="CvL",
             )
+
+            # Fill jets passing only CvB
+            output.fill(
+                dataset=dataset,
+                pt=flat_jets.pt[ak.flatten(passCvB)],
+                abseta=abs(flat_jets.eta[ak.flatten(passCvB)]),
+                flavor=flat_jets.hadronFlavour[ak.flatten(passCvB)],
+                passWP="CvB",
+            )
+
+            # Fill jets passing both CvL and CvB
+            output.fill(
+                dataset=dataset,
+                pt=flat_jets.pt[ak.flatten(passBoth)],
+                abseta=abs(flat_jets.eta[ak.flatten(passBoth)]),
+                flavor=flat_jets.hadronFlavour[ak.flatten(passBoth)],
+                passWP="CvL_and_CvB",
+            )
+
             out["histograms"] = output
 
+        # === ARRAY OUTPUT ===
         elif self._output_type == "array":
             flat_jets = ak.flatten(jets)
-            flat_passctag = ak.flatten(passctag)
 
             features = {
                 "pt": flat_jets.pt,
                 "abseta": abs(flat_jets.eta),
                 "flavor": flat_jets.hadronFlavour,
-                "pass_wp": flat_passctag,
+                "passCvL": ak.flatten(passCvL),
+                "passCvB": ak.flatten(passCvB),
+                "passBoth": ak.flatten(passBoth),
             }
 
             output = {
@@ -130,8 +160,6 @@ class CTagEfficiencyProcessor(processor.ProcessorABC):
             out["arrays"] = output
 
         return {dataset: out}
-        
-
 
     def postprocess(self, accumulator):
         return accumulator

@@ -34,8 +34,8 @@ def mask_energy_corrections(tau):
         | (tau.decayMode == 10)  # 1 prong
         | (tau.decayMode == 11)  # 3 prongs  # 3 prongs
     )
-    tau_eta_mask = (tau.eta >= 0) & (tau.eta < 2.5)
-    tau_mask = tau_mask_gm & tau_mask_dm  # & tau_eta_mask
+    tau_eta_mask = np.abs(tau.eta < 2.5)
+    tau_mask = tau_mask_gm & tau_mask_dm  & tau_eta_mask
     return tau_mask
 
 

@@ -1,10 +1,12 @@
+import re
 import json
-import correctionlib
+import warnings
 import numpy as np
 import awkward as ak
-import importlib.resources
+import correctionlib
 from coffea import util
 from typing import Type
+import importlib.resources
 from coffea.analysis_tools import Weights
 from wprime_plus_b.corrections.utils import get_pog_json
 
@@ -46,6 +48,10 @@ class BTagCorrector:
             systematics are used instead of the 'up/down' ones,
             which are supposed to be correlated/decorrelated
             between the different data years
+
+        Names https://cms-analysis-corrections.docs.cern.ch/corrections_era/Run2-2017-UL-NanoAODv9/BTV/2025-08-19/#btaggingjsongz:
+            bc -> deepJet_comb: deepJet comb working point scale factors for UL 2017 b/c jets.
+            light -> deepJet_incl: deepJet incl working point scale factors for UL 2017 light jets.
     """
 
     def __init__(
@@ -58,6 +64,7 @@ class BTagCorrector:
         year: str = "2017",
         variation: str = "nominal",
         full_run: bool = False,
+        dataset: str = "",
     ) -> None:
         self._sf = sf_type
         self._year = year
@@ -67,12 +74,27 @@ class BTagCorrector:
         self._full_run = full_run
         self._variation = variation
 
+        # Remove trailing _X from dataset name
+        self.cleaned_dataset = re.sub(r'_\d+$', '', dataset)
+
+
         # load efficiency lookup table (only for deepJet)
         # efflookup(pt, |eta|, flavor)
         with importlib.resources.path(
             "wprime_plus_b.data", f"btag_eff_{self._tagger}_{self._wp}_{year}.coffea"
         ) as filename:
-            self._efflookup = util.load(str(filename))
+            eff_dict = util.load(str(filename))
+            if isinstance(eff_dict, dict):
+                self._efflookup = eff_dict[self.cleaned_dataset]
+            else:
+                warnings.warn(
+                    f"[WARNING] Dataset '{self.cleaned_dataset}' not found in efficiency dictionary. "
+                    "Using empty lookup or default behavior.",
+                    UserWarning,
+                )                
+            #else:
+            #    self._efflookup = eff_dict                
+            
         # load btagging working point (only for deepJet)
         # https://twiki.cern.ch/twiki/bin/viewauth/CMS/BtagRecommendation
         with importlib.resources.path("wprime_plus_b.data", "btagWPs.json") as path:
@@ -139,11 +161,27 @@ class BTagCorrector:
 
     def efficiency(self, flavor: str, fill_value=1) -> ak.Array:
         """compute the btagging efficiency for 'njets' jets"""
-        return self._efflookup(
-            self._jet_map[flavor].pt,
-            np.abs(self._jet_map[flavor].eta),
-            self._jet_map[flavor].hadronFlavour,
+        jets = self._jet_map[flavor]
+        hf = jets.hadronFlavour
+
+        # Map {0,4,5} -> {0,1,2} sin fallback
+        mapped_flavour = ak.where(hf == 0, 0,
+                        ak.where(hf == 4, 1,
+                        ak.where(hf == 5, 2, -1)))  # -1 indica valor inesperado
+        
+        eff = self._efflookup(
+            jets.pt,
+            np.abs(jets.eta),
+            mapped_flavour,
         )
+        
+        # Print min/max para debug
+        #eff_flat = ak.flatten(eff)
+        #print(f"Efficiency for flavor '{flavor}' | min: {np.min(eff_flat):.4f}, max: {np.max(eff_flat):.4f}")
+        
+        return eff
+
+
 
     def passbtag_mask(self, flavor, fill_value=True) -> ak.Array:
         """return the mask with jets that pass the b-tagging working point"""
@@ -219,3 +257,38 @@ class BTagCorrector:
         untagged_sf = ak.prod(((1 - sf * eff) / (1 - eff)).mask[~passbtag], axis=-1)
 
         return ak.fill_none(tagged_sf * untagged_sf, 1.0)
+
+
+    def print_efficiency_min_max_per_flavor(self):
+        """
+        Print the minimum and maximum b-tagging efficiencies 
+        separately for b-jets, c-jets, and light-jets using correct flavor mapping.
+        """
+        flavor_map = {
+            5: ("b-jets", self._bc_jets[self._bc_jets.hadronFlavour == 5]),
+            4: ("c-jets", self._bc_jets[self._bc_jets.hadronFlavour == 4]),
+            0: ("light-jets", self._light_jets),
+        }
+
+        print(f" ============================================ ")
+        print(f" BTagging Efficiency Summary: {self.cleaned_dataset}")
+
+        for hf, (tag, jets) in flavor_map.items():
+            if len(jets) == 0:
+                print(f"No jets of type {tag}")
+                continue
+
+            # Map {0,4,5} -> {0,1,2} usando ak.where
+            hf_array = jets.hadronFlavour
+            mapped_flavour = ak.where(hf_array == 0, 0,
+                            ak.where(hf_array == 4, 1,
+                            ak.where(hf_array == 5, 2, -1)))  # -1 = valor inesperado
+
+            eff = self._efflookup(jets.pt, np.abs(jets.eta), mapped_flavour)
+
+            eff_flat = ak.flatten(eff)
+            eff_min = np.min(eff_flat)
+            eff_max = np.max(eff_flat)
+
+            print(f"{tag}: minimum efficiency = {eff_min:.4f}, maximum efficiency = {eff_max:.4f}")
+

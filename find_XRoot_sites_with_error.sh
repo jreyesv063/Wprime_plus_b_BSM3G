@@ -72,6 +72,10 @@ declare -A host_to_site=(
     ["t3se01.psi.ch"]="T3_CH_PSI"
     ["grid143.kfki.hu"]="T2_HU_Budapest"
     ["cmseos.fnal.gov"]="T1_US_FNAL_Disk"
+    ["ccxrdcms.in2p3.fr"]="T1_FR_CCIN2P3_Disk"
+    ["cms-xrdr.sdfarm.kr"]="T3_KR_KISTI"
+    ["kodiak-se.baylor.edu"]="T3_US_Baylor"
+    ["gaexrdoor.ciemat.es"]="T2_ES_CIEMAT"
 )
 
 # Mapa de años con sus sitios válidos

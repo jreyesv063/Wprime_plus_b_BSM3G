@@ -76,7 +76,7 @@ def add_TopPtReweighting(
     # --- Apply only to ttbar ---
     if not dataset.startswith("TT"):
         ones = np.ones(len(events), dtype=float)
-        weights_container.add("TopPtWeight", 
+        weights_container.add("TopPtReweighting", 
                               weight=ones,
                               weightUp=ones,
                               weightDown=ones)

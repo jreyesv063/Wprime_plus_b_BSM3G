@@ -13,8 +13,6 @@ def select_good_jets(
     jet_id_wp: str = "tight_tightLepVeto",
     jet_pileup_id: str = "T",
     is_mc: bool = True,
-    is_there_leading_jet_threshold = True,
-    leading_jet_pt_threshold = 10000
 ) -> ak.highlevel.Array:
     """
     Selects and filters 'good' b-jets from a collection of jets based on specified criteria
@@ -108,7 +106,7 @@ def select_good_jets(
                     & (np.abs(shift.eta) < jet_eta_threshold)
                     & (shift.jetId == jet_id)
                     & (shift.puId == puid_wps[jet_pileup_id])
-                    #& (shift.btagDeepFlavB < btag_threshold)
+                    & (shift.btagDeepFlavB < btag_threshold)
                 )
 
                 # Máscara para jets de alto pT
@@ -116,37 +114,22 @@ def select_good_jets(
                     (shift.pt >= 50)
                     & (np.abs(shift.eta) < 2.4)
                     & (shift.jetId == jet_id)
-                    #& (shift.btagDeepFlavB < btag_threshold)
+                    & (shift.btagDeepFlavB < btag_threshold)
                 )
-
-                mask_tmp = ak.where(
-                    (shift.pt > jet_pt_threshold) & (shift.pt < 50),
-                    low_pt_jets_mask,
-                    high_pt_jets_mask,
-                )
-
-                if is_there_leading_jet_threshold:
-
-                    jets_selected = shift[mask_tmp]
-                    leading_jet = ak.firsts(jets_selected)
-
-                    good_leading_jet = (
-                        leading_jet.pt > leading_jet_pt_threshold
-                    )
-
-                    # expand mask to jet-level shape
-                    good_jets =  mask_tmp & ak.broadcast_arrays(mask_tmp, good_leading_jet)[1]
-                
-                else:
-                    good_jets = mask_tmp
 
                 # Guardar las máscaras en el diccionario
                 if variation == "nominal":
-
-                    good_jet_masks[variation] = good_jets
-
+                    good_jet_masks[variation] = ak.where(
+                        (shift.pt > jet_pt_threshold) & (shift.pt < 50),
+                        low_pt_jets_mask,
+                        high_pt_jets_mask,
+                    )
                 else:
-                    good_jet_masks[f"{shift_type}_{variation}"] =  good_jets
+                    good_jet_masks[f"{shift_type}_{variation}"] = ak.where(
+                        (shift.pt > jet_pt_threshold) & (shift.pt < 50),
+                        low_pt_jets_mask,
+                        high_pt_jets_mask,
+                    )
                 
     else:
         low_pt_jets_mask = (
@@ -155,38 +138,21 @@ def select_good_jets(
                 & (np.abs(jets.eta) < jet_eta_threshold)
                 & (jets.jetId == jet_id)
                 & (jets.puId == puid_wps[jet_pileup_id])
-                #& (jets.btagDeepFlavB < btag_threshold)
+                & (jets.btagDeepFlavB < btag_threshold)
             )
 
         high_pt_jets_mask = (
             (jets.pt >= 50)
             & (np.abs(jets.eta) < 2.4)
             & (jets.jetId == jet_id)
-            #& (jets.btagDeepFlavB < btag_threshold)
+            & (jets.btagDeepFlavB < btag_threshold)
         )
 
-
-
-        mask_tmp = ak.where(
+        good_jet_masks["nominal"] = ak.where(
             (jets.pt > jet_pt_threshold) & (jets.pt < 50),
             low_pt_jets_mask,
             high_pt_jets_mask,
         )
-
-        if is_there_leading_jet_threshold:
-            jets_selected = jets[mask_tmp]
-            leading_jet = ak.firsts(jets_selected)
-
-            good_leading_jet = (
-                leading_jet.pt > leading_jet_pt_threshold
-            )
-
-            good_jets =  mask_tmp & ak.broadcast_arrays(mask_tmp, good_leading_jet)[1]
-        
-        else:
-            good_jets = mask_tmp
-
-        good_jet_masks["nominal"] = good_jets
 
 
     return good_jet_masks 

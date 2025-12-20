@@ -13,13 +13,13 @@ echo "########################################"
 ##### Variables a modificar  ######
 ###################################
 # Indicar si se quiere crear el fileset o no: Importante ponerlo en true si se comentaron servidores.
-create_fileset=true #Si se quiere crear el fileset, si no se quiere crear, ponerlo a false
+create_fileset=false #Si se quiere crear el fileset, si no se quiere crear, ponerlo a false
 
 # Directorio del archivo bash
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
 # Configuración de opciones
-considerar_MET=false
+considerar_MET=true
 considerar_SingleMuon=false
 considerar_SingleElectron=false
 considerar_Tau=false
@@ -33,7 +33,7 @@ considerar_inclusive_dy_nlo=true
 considerar_tt=true
 considerar_st=true
 considerar_vv=true
-considerar_qcd=true
+considerar_qcd=false
 
 
 considerar_signal_tau=false
@@ -329,7 +329,7 @@ for archivo_faltante in "${archivos_faltantes[@]}"; do
         extra_arg="--nsample $nsample"
     fi
 
-    if [ "$processor" == "ttbar" ] || [ "$processor" == "wjets" ] || [ "$processor" == "ztoll" ] || [ "$processor" == "zplusc" ] || [ "$processor" == "qcd_abcd" ] || [ "$processor" == "wplusjets" ]  || [ "$processor" == "qcd_hadronic" ]; then
+    if [ "$processor" == "ttbar" ] || [ "$processor" == "wjets" ] || [ "$processor" == "ztoll" ] || [ "$processor" == "zplusc" ] || [ "$processor" == "qcd_abcd" ] || [ "$processor" == "wplusjets" ]  || [ "$processor" == "qcd_hadronic" ] || [ $processor == "qcd_hadronic_closure" ]; then
         comando="python3 submit_lxplus.py --processor $processor --channel $channel --lepton_flavor $lepton_flavor --sample $nombre_base --year $year --nfiles $nfiles --executor $executor --output_type $output_type $extra_arg --run_systematics $run_systematics --output_folder $output_folder"
 
     elif [ "$processor" == "top_tagger" ] || [ "$processor" == "signal" ] || [ $processor == "btag_eff" ] || [ $processor == "ctag_eff" ]; then

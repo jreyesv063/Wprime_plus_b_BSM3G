@@ -37,68 +37,68 @@ EOF
 cd "$SCRIPT_DIR"
 
 # Declarar variables
-processor="zplusc"     # top_tagger; signal; qcd_hadronic; wplusjets; ztoll:  wjets; btag_eff; ctag_eff; zplusc
-channel="ll+c"           # top_tagger -> {}; signal -> {}; qcd_hadronic -> {cr_b, cr_c, cr_d}; wplusjets -> {wjets, cr_b, cr_c, cr_d}, wjets -> {1j1l*, 1l0b}; ztoll-> {ll, ll+c}; zplusc{"ll+c""}
+processor="wplusjets"     # top_tagger; signal; qcd_hadronic; qcd_hadronic_closure, wplusjets; ztoll:  wjets; btag_eff; ctag_eff; zplusc
+channel="wjets"           # top_tagger -> {}; signal -> {}; qcd_hadronic -> {cr_b, cr_c, cr_d}; qcd_hadronic -> {signal_prime, cr_b, cr_c, cr_d}; wplusjets -> {wjets, cr_b, cr_c, cr_d}, wjets -> {1j1l*, 1l0b}; ztoll-> {ll, ll+c}; zplusc{"ll+c""}
 
 
-lepton_flavor="mu"
+lepton_flavor="tau"
 year="2017" # 2016APV; 2016; 2017; 2018
-nfiles="1"
+nfiles="-1"
 executor="futures"
 output_type="array" # hist/array
-nsample="1" # Importante: Dejar nsample="" si no se quiere un nsample especifico, en caso de querer uno especifico nsample="3"
+nsample="" # Importante: Dejar nsample="" si no se quiere un nsample especifico, en caso de querer uno especifico nsample="3"
 
-output_folder="/eos/user/j/jreyesve/WINDOWS/Desktop/2025/Noviembre/test/$processor/$year"   
-run_systematics="false" # Cambiar a "true" para activar sistemáticos a nivel de objeto (solo cuando sea necesario, ya que puede aumentar el tiempo de ejecución considerablemente)
+output_folder="$ANALYSIS_PATH/$processor/$channel/$year/"  
+run_systematics="true" # Cambiar a "true" para activar sistemáticos a nivel de objeto (solo cuando sea necesario, ya que puede aumentar el tiempo de ejecución considerablemente)
 
 samples=(
     "TTToSemiLeptonic"
-    # "TTTo2L2Nu"
-    # "TTToHadronic"
-    # "DYJetsToLL_nlo_M-10to50"
+    "TTTo2L2Nu"
+    "TTToHadronic"
+    "DYJetsToLL_nlo_M-10to50"
     "DYJetsToLL_nlo_M-50"
-    "SingleMuon"
-    # "MET"
-    # # "Tau"
-    # # "SingleElectron"
-    # "ST_s-channel_4f_leptonDecays"
-    # "ST_t-channel_antitop_5f_InclusiveDecays"
-    # "ST_t-channel_top_5f_InclusiveDecays"
-    # "ST_tW_antitop_5f_inclusiveDecays"
-    # "ST_tW_top_5f_inclusiveDecays"
-    # "WJetsToLNu_HT-70To100"
-    # "WJetsToLNu_HT-100To200"
-    # "WJetsToLNu_HT-200To400"
-    # "WJetsToLNu_inclusive"
-    # "WJetsToLNu_HT-400To600"
-    # "WJetsToLNu_HT-600To800"
-    # "WJetsToLNu_ext"
-    # "WJetsToLNu_HT-800To1200"
-    # "WJetsToLNu_HT-1200To2500"
-    # "WJetsToLNu_HT-2500ToInf"
-    # "WW"
-    # "WZ"
-    # "ZZ"
-    # "QCD_HT50to100"
-    # "QCD_HT100to200"
-    # "QCD_HT200to300"
-    # "QCD_HT300to500"
-    # "QCD_HT500to700"
-    # "QCD_HT700to1000"
-    # "QCD_HT1000to1500"
-    # "QCD_HT1500to2000"
-    # "QCD_HT2000toInf"
-    # "GluGluHToWWToLNuQQ" 
-    # "VBFHToWWTo2L2Nu"
-    # "VBFHToWWToLNuQQ"
-    # "SignalTau_300GeV" 
-    # "SignalTau_400GeV"    
-    # "SignalTau_600GeV"
-    # "SignalTau_750GeV"    
-    # "SignalTau_1000GeV"
-    # "SignalTau_1500GeV"
-    # "SignalTau_2000GeV"    
-    # "SignalTau_3000GeV"
+    # # # # # "SingleMuon"
+    "MET"
+    # # # # # # "Tau"
+    # # # # # # "SingleElectron"
+    "ST_s-channel_4f_leptonDecays"
+    "ST_t-channel_antitop_5f_InclusiveDecays"
+    "ST_t-channel_top_5f_InclusiveDecays"
+    "ST_tW_antitop_5f_inclusiveDecays"
+    "ST_tW_top_5f_inclusiveDecays"
+    "WJetsToLNu_HT-70To100"
+    "WJetsToLNu_HT-100To200"
+    "WJetsToLNu_HT-200To400"
+    "WJetsToLNu_inclusive"
+    "WJetsToLNu_HT-400To600"
+    "WJetsToLNu_HT-600To800"
+    "WJetsToLNu_ext"
+    "WJetsToLNu_HT-800To1200"
+    "WJetsToLNu_HT-1200To2500"
+    "WJetsToLNu_HT-2500ToInf"
+    "WW"
+    "WZ"
+    "ZZ"
+    "QCD_HT50to100"
+    "QCD_HT100to200"
+    "QCD_HT200to300"
+    "QCD_HT300to500"
+    "QCD_HT500to700"
+    "QCD_HT700to1000"
+    "QCD_HT1000to1500"
+    "QCD_HT1500to2000"
+    "QCD_HT2000toInf"
+    "GluGluHToWWToLNuQQ" 
+    "VBFHToWWTo2L2Nu"
+    "VBFHToWWToLNuQQ"
+    "SignalTau_300GeV" 
+    "SignalTau_400GeV"    
+    "SignalTau_600GeV"
+    "SignalTau_750GeV"    
+    "SignalTau_1000GeV"
+    "SignalTau_1500GeV"
+    "SignalTau_2000GeV"    
+    "SignalTau_3000GeV"
     # "DYJetsToLL_M-50_CH3"
     # "DYJetsToLL_M-10to50"
     # "DYJetsToLL_M-50_HT-70to100"
@@ -138,13 +138,13 @@ build_filesets(args);
 
 
 
-if [ $processor == "ttbar" ] || [ $processor == "wjets" ] || [ $processor == "ztoll" ] || [ $processor == "zplusc" ] || [ $processor == "qcd_abcd" ] || [ $processor == "wplusjets" ] || [ $processor == "qcd_hadronic" ]; then
+if [ $processor == "ttbar" ] || [ $processor == "wjets" ] || [ $processor == "ztoll" ] || [ $processor == "zplusc" ] || [ $processor == "qcd_abcd" ] || [ $processor == "wplusjets" ] || [ $processor == "qcd_hadronic" ] || [ $processor == "qcd_hadronic_closure" ]; then
     # Definir la ruta donde se creará mover_archivos.sh
     dir_to_create="wprime_plus_b/outs/$processor/$channel/$lepton_flavor/$year"
 
     for sample in "${samples[@]}"; do
       python3 submit_lxplus.py --processor "$processor" --channel "$channel" --lepton_flavor "$lepton_flavor" --sample "$sample" --year "$year" --nfiles "$nfiles" --executor "$executor" --output_type "$output_type" --nsample "$nsample" --run_systematics "$run_systematics"  --output_folder "$output_folder"
-      sleep 60 #  Wait for 60 seconds before sending the next sample  
+      #sleep 60 #  Wait for 60 seconds before sending the next sample  
     done
 
 elif [ $processor == "top_tagger" ] || [ $processor == "signal" ] || [ $processor == "btag_eff" ] || [ $processor == "ctag_eff" ]; then
@@ -155,7 +155,7 @@ elif [ $processor == "top_tagger" ] || [ $processor == "signal" ] || [ $processo
 
     for sample in "${samples[@]}"; do
       python3 submit_lxplus.py --processor "$processor" --lepton_flavor "$lepton_flavor" --sample "$sample" --year "$year" --nfiles "$nfiles" --executor "$executor" --output_type "$output_type" --nsample "$nsample" --run_systematics "$run_systematics"  --output_folder "$output_folder"
-      sleep 60 #  Wait for 60 seconds before sending the next sample
+      #sleep 60 #  Wait for 60 seconds before sending the next sample
     done
 fi
 

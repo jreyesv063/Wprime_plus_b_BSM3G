@@ -389,7 +389,7 @@ class ZToLLProcessor(processor.ProcessorABC):
             add_particle_shower_weight(events, weights_container, self.year, self.syst)
 
             # add pdf weigths
-            add_pdf_weight(events, weights_container, self.year, variation=self.syst)
+            add_pdf_weight(events, weights_container, self.year, variation=self.syst, dataset=dataset)
 
             # add pileup weigths
             add_pileup_weight(events, weights_container, self.year, self.syst)
@@ -504,7 +504,7 @@ class ZToLLProcessor(processor.ProcessorABC):
             # ISR correction
             # -------------------------
             ISR_weight(events=events, 
-                        jets=jets_veto, 
+                        jets=jets, 
                         dataset=dataset, 
                         weights=weights_container, 
                         year=self.year, 
@@ -804,7 +804,7 @@ class ZToLLProcessor(processor.ProcessorABC):
                                     muons = muons,
                                     taus = taus,
                                     bjets = bjets,
-                                    jets = jets_veto,
+                                    jets = jets,
                                     muons_mask = good_muons_masks, 
                                     taus_mask = good_taus_masks, 
                                     bjets_mask = good_bjets_masks, 
@@ -888,7 +888,7 @@ class ZToLLProcessor(processor.ProcessorABC):
                 if nevents_after != 0:
                     # Histograms
                     histograms_output_Z_analysis_syst(self, 
-                            bjets = bjets, jets = jets_veto, 
+                            bjets = bjets, jets = jets, 
                             electrons = electrons, muons = muons, taus = taus, 
                             met = events.MET, 
                             mask = region_mask, 
@@ -956,7 +956,7 @@ class ZToLLProcessor(processor.ProcessorABC):
             if nevents_after != 0:
                 # Histograms
                 histograms_output_Z_analysis_syst(self, 
-                        bjets = bjets, jets = jets_veto, 
+                        bjets = bjets, jets = jets, 
                         electrons = electrons, muons = muons, taus = taus, 
                         met = events.MET, 
                         mask = region_mask, 

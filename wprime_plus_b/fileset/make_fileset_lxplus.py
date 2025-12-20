@@ -93,13 +93,13 @@ SITES = {
         "T2_UK_London_IC",
         "T2_US_MIT",       
     #    "T2_US_Nebraska",
-    #    "T2_US_Purdue",
+        "T2_US_Purdue",
         "T2_US_Vanderbilt",
         # ---- T3 sites ----
     #    "T3_CH_PSI",
         "T3_FR_IPNL",
         "T3_IT_Trieste",
-        "T3_KR_KISTI",
+    #   "T3_KR_KISTI",
         #"T3_KR_UOS",
         #"T3_US_Baylor",
         "T3_US_FNALLPC",
@@ -109,8 +109,8 @@ SITES = {
         # ---- T1 sites ----
         "T1_DE_KIT_Disk",
         "T1_FR_CCIN2P3_Disk",
-        "T1_FR_CCIN2P3_Tape",
-        "T1_IT_CNAF_Disk",
+    #   "T1_FR_CCIN2P3_Tape", #hoy
+    #   "T1_IT_CNAF_Disk",
         "T1_RU_JINR_Disk",
         "T1_UK_RAL_Disk",
         "T1_US_FNAL_Disk",

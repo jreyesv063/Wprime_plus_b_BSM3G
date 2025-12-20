@@ -9,6 +9,7 @@ from coffea.analysis_tools import PackedSelection, Weights
 from wprime_plus_b.processors.utils import histograms
 
 # Corrections
+from wprime_plus_b.corrections.top_pt_reweighting import add_TopPtReweighting
 from wprime_plus_b.corrections.jec import apply_jet_corrections, apply_fatjet_corrections
 from wprime_plus_b.corrections.met import apply_met_phi_corrections, add_met_trigger_corrections, update_met_jet_veto, met_noMu_cal, met_recoil, met_noMu_minus, met_noMu_plus
 from wprime_plus_b.corrections.rochester import apply_rochester_corrections
@@ -460,10 +461,10 @@ class QCDProccessor(processor.ProcessorABC):
             add_particle_shower_weight(events, weights_container, self.year, self.syst)
 
             # add pdf weigths
-            #if not any(dataset.startswith(prefix) for prefix in ["WW", "WZ", "ZZ"]):
             add_pdf_weight(events, weights_container, self.year, variation=self.syst,dataset= dataset)
 
-
+            # add top pt reweighting
+            add_TopPtReweighting(events, weights_container, dataset, self.syst)
 
 
             # add pileup weigths
@@ -500,6 +501,7 @@ class QCDProccessor(processor.ProcessorABC):
             # add b-tagging weights
             btag_corrector.add_btag_weights(flavor="bc")
             btag_corrector.add_btag_weights(flavor="light")
+            #btag_corrector.print_efficiency_min_max_per_flavor()            
 
             # electron corrector
             electron_corrector = ElectronCorrector(

@@ -6,7 +6,7 @@ import awkward as ak
 import importlib.resources
 from coffea import processor
 from coffea.analysis_tools import PackedSelection, Weights
-
+from wprime_plus_b.processors.utils import histograms
 
 # Corrections
 from wprime_plus_b.corrections.top_pt_reweighting import add_TopPtReweighting
@@ -30,32 +30,31 @@ from wprime_plus_b.corrections.ISR import ISR_weight
 from wprime_plus_b.corrections.top_boost import add_top_boost_corrections
 
 # Selections: Config
-from wprime_plus_b.selections.signal.bjet_config import signal_bjet_selection
-from wprime_plus_b.selections.signal.cases_top_tagger_config import signal_cases_selection
-from wprime_plus_b.selections.signal.electron_config import signal_electron_selection
-from wprime_plus_b.selections.signal.fatjet_config import signal_fatjet_selection
-from wprime_plus_b.selections.signal.general_config import signal_cross_cleaning_selection, signal_trigger_selection
-from wprime_plus_b.selections.signal.jet_config import signal_jet_selection
-from wprime_plus_b.selections.signal.met_config import signal_met_selection
-from wprime_plus_b.selections.signal.muon_config import signal_muon_selection
-from wprime_plus_b.selections.signal.tau_config import signal_tau_selection
-from wprime_plus_b.selections.signal.wjet_config import signal_wjet_selection
-from wprime_plus_b.selections.signal.mt_config import signal_mt_selection 
+from wprime_plus_b.selections.qcd_hadronic_closure.bjet_config import qcd_hadronic_closure_bjet_selection
+from wprime_plus_b.selections.qcd_hadronic_closure.cases_top_tagger_config import qcd_hadronic_closure_cases_selection
+from wprime_plus_b.selections.qcd_hadronic_closure.electron_config import qcd_hadronic_closure_electron_selection
+from wprime_plus_b.selections.qcd_hadronic_closure.fatjet_config import qcd_hadronic_closure_fatjet_selection
+from wprime_plus_b.selections.qcd_hadronic_closure.general_config import qcd_hadronic_closure_cross_cleaning_selection , qcd_hadronic_closure_trigger_selection
+from wprime_plus_b.selections.qcd_hadronic_closure.jet_config import qcd_hadronic_closure_jet_selection
+from wprime_plus_b.selections.qcd_hadronic_closure.met_config import qcd_hadronic_closure_met_selection
+from wprime_plus_b.selections.qcd_hadronic_closure.muon_config import qcd_hadronic_closure_muon_selection
+from wprime_plus_b.selections.qcd_hadronic_closure.tau_config import qcd_hadronic_closure_tau_selection
+from wprime_plus_b.selections.qcd_hadronic_closure.wjet_config import qcd_hadronic_closure_wjet_selection
+
 
 # Selections: objects
-from wprime_plus_b.selections.signal.bjet_selection import select_good_bjets
-from wprime_plus_b.selections.signal.electron_selection import select_good_electrons
-from wprime_plus_b.selections.signal.fatjet_selection import select_good_fatjets
-from wprime_plus_b.selections.signal.jet_selection import select_good_jets
-from wprime_plus_b.selections.signal.muon_selection import select_good_muons
-from wprime_plus_b.selections.signal.tau_selection import select_good_taus
-from wprime_plus_b.selections.signal.wjet_selection import select_good_wjets
-from wprime_plus_b.selections.signal.mt_selection import select_good_mt
-from wprime_plus_b.selections.signal.delta_phi_jet_met_selection import select_good_delta_phi_jet_met
+from wprime_plus_b.selections.qcd_hadronic_closure.bjet_selection import select_good_bjets
+from wprime_plus_b.selections.qcd_hadronic_closure.electron_selection import select_good_electrons
+from wprime_plus_b.selections.qcd_hadronic_closure.fatjet_selection import select_good_fatjets
+from wprime_plus_b.selections.qcd_hadronic_closure.jet_selection import select_good_jets
+from wprime_plus_b.selections.qcd_hadronic_closure.muon_selection import select_good_muons
+from wprime_plus_b.selections.qcd_hadronic_closure.tau_selection import select_good_taus
+from wprime_plus_b.selections.qcd_hadronic_closure.wjet_selection import select_good_wjets
+from wprime_plus_b.selections.qcd_hadronic_closure.delta_phi_jet_met_selection import select_good_delta_phi_jet_met
+
 
 # Top tagger
 from wprime_plus_b.processors.utils.topXfinder import topXfinder
-
 
 # Systematics: Object - level
 from wprime_plus_b.systematics.syst_variations import systematic_variation_mask
@@ -65,7 +64,7 @@ from wprime_plus_b.systematics.utils import update_region_map, update_region_sel
 from wprime_plus_b.processors.utils.analysis_utils import delta_r_mask, normalize, trigger_match, top_tagger, output_metadata, histograms_output, histograms_output_syst
 
 
-class SignalProccessor(processor.ProcessorABC):
+class QCD_closure_Proccessor(processor.ProcessorABC):
     """
     Ttbar Analysis processor
 
@@ -93,11 +92,13 @@ class SignalProccessor(processor.ProcessorABC):
         run_systematics: str = "false",
         output_folder: str = ""
     ):
+
         self.run_systematics = (run_systematics.lower() == "true")
         self.year = year
         self.lepton_flavor = lepton_flavor
         self.syst = syst
         self.output_type = output_type
+        self.channel = channel
 
         # define region of the analysis
         self.region = f"{self.lepton_flavor}"
@@ -125,14 +126,13 @@ class SignalProccessor(processor.ProcessorABC):
         output["metadata"] = {}
         output["metadata"].update({"raw_initial_nevents": nevents})
 
-
+                       
         # -------------------------------------------------------------
         # object corrections
         # -------------------------------------------------------------
         # apply JEC/JER corrections to jets (in data, the corrections are already applied)
         if self.is_mc:
 
-            # Jet corrections
             if self.run_systematics and self.is_mc:
                 delta_list = {}
 
@@ -199,27 +199,28 @@ class SignalProccessor(processor.ProcessorABC):
         jets_veto = events.Jet[jet_veto_mask]
 
 
+            
         # -------------------------------------------------------------
         # object selection
         # -------------------------------------------------------------
 
         # Cross_cleaning:
-        cc = signal_cross_cleaning_selection[self.lepton_flavor]["DR"]
+        cc = qcd_hadronic_closure_cross_cleaning_selection[self.channel][self.lepton_flavor]["DR"]
 
 
         # select good electrons
         good_electrons = select_good_electrons(
             events=events,
-            electron_pt_threshold=signal_electron_selection[
+            electron_pt_threshold=qcd_hadronic_closure_electron_selection[self.channel][
                 self.lepton_flavor
             ]["electron_pt_threshold"],
-            electron_eta_threshold = signal_electron_selection[
+            electron_eta_threshold = qcd_hadronic_closure_electron_selection[self.channel][
                 self.lepton_flavor
             ]["electron_eta_threshold"],
-            electron_id_wp=signal_electron_selection[
+            electron_id_wp=qcd_hadronic_closure_electron_selection[self.channel][
                 self.lepton_flavor
             ]["electron_id_wp"],
-            electron_iso_wp=signal_electron_selection[
+            electron_iso_wp=qcd_hadronic_closure_electron_selection[self.channel][
                 self.lepton_flavor
             ]["electron_iso_wp"],
         )
@@ -228,16 +229,16 @@ class SignalProccessor(processor.ProcessorABC):
         # select good muons
         good_muons_masks = select_good_muons(
             events=events,
-            muon_pt_threshold=signal_muon_selection[
+            muon_pt_threshold=qcd_hadronic_closure_muon_selection[self.channel][
                 self.lepton_flavor
             ]["muon_pt_threshold"],
-            muon_eta_threshold = signal_muon_selection[
+            muon_eta_threshold = qcd_hadronic_closure_muon_selection[self.channel][
                 self.lepton_flavor
             ]["muon_eta_threshold"],
-            muon_id_wp= signal_muon_selection[
+            muon_id_wp= qcd_hadronic_closure_muon_selection[self.channel][
                 self.lepton_flavor
             ]["muon_id_wp"],
-            muon_iso_wp=signal_muon_selection[
+            muon_iso_wp=qcd_hadronic_closure_muon_selection[self.channel][
                 self.lepton_flavor
             ]["muon_iso_wp"],
         )
@@ -249,28 +250,32 @@ class SignalProccessor(processor.ProcessorABC):
         # select good taus
         good_taus_masks = select_good_taus(
             events=events,
-            tau_pt_threshold=signal_tau_selection[
+            tau_pt_threshold=qcd_hadronic_closure_tau_selection[self.channel][
                 self.lepton_flavor
             ]["tau_pt_threshold"],
-            tau_eta_threshold=signal_tau_selection[
+            tau_eta_threshold=qcd_hadronic_closure_tau_selection[self.channel][
                 self.lepton_flavor
             ]["tau_eta_threshold"],
-            tau_dz_threshold=signal_tau_selection[
+            tau_dz_threshold=qcd_hadronic_closure_tau_selection[self.channel][
                 self.lepton_flavor
             ]["tau_dz_threshold"],
-            tau_vs_jet=signal_tau_selection[
+            tau_vs_jet=qcd_hadronic_closure_tau_selection[self.channel][
                 self.lepton_flavor
             ]["tau_vs_jet"],
-            tau_vs_ele=signal_tau_selection[
+            tau_vs_ele=qcd_hadronic_closure_tau_selection[self.channel][
                 self.lepton_flavor
             ]["tau_vs_ele"],
-            tau_vs_mu=signal_tau_selection[
+            tau_vs_mu=qcd_hadronic_closure_tau_selection[self.channel][
                 self.lepton_flavor
             ]["tau_vs_mu"],
-            prong=signal_tau_selection[
+            prong=qcd_hadronic_closure_tau_selection[self.channel][
                 self.lepton_flavor
             ]["prongs"],
             is_mc=self.is_mc,
+            bcd_qcd_estimation = self.channel,
+            tau_vs_jet_fail=qcd_hadronic_closure_tau_selection[self.channel][
+                self.lepton_flavor
+            ]["tau_vs_fail"]
         )
         good_taus = (
             (good_taus_masks["nominal"])
@@ -283,19 +288,22 @@ class SignalProccessor(processor.ProcessorABC):
         good_bjets_masks = select_good_bjets(
             jets=jets_veto,
             year=self.year,
-            btag_working_point=signal_bjet_selection[
+            btag_working_point=qcd_hadronic_closure_bjet_selection[self.channel][
                 self.lepton_flavor
             ]["btag_working_point"],
-            jet_pt_threshold=signal_bjet_selection[
+            btag_working_fail_point=qcd_hadronic_closure_bjet_selection[self.channel][
+                self.lepton_flavor
+            ]["btag_working_point_fail"],            
+            jet_pt_threshold=qcd_hadronic_closure_bjet_selection[self.channel][
                 self.lepton_flavor
             ]["bjet_pt_threshold"],
-            jet_eta_threshold = signal_bjet_selection[
+            jet_eta_threshold = qcd_hadronic_closure_bjet_selection[self.channel][
                 self.lepton_flavor
             ]["bjet_eta_threshold"],
-            jet_id_wp=signal_bjet_selection[
+            jet_id_wp=qcd_hadronic_closure_bjet_selection[self.channel][
                 self.lepton_flavor
             ]["bjet_id_wp"],
-            jet_pileup_id=signal_bjet_selection[
+            jet_pileup_id=qcd_hadronic_closure_bjet_selection[self.channel][
                 self.lepton_flavor
             ]["bjet_pileup_id"],
             is_mc=self.is_mc,
@@ -312,19 +320,19 @@ class SignalProccessor(processor.ProcessorABC):
         good_jets_masks = select_good_jets(
             jets=jets_veto,
             year=self.year,
-            btag_working_point=signal_jet_selection[
+            btag_working_point=qcd_hadronic_closure_jet_selection[self.channel][
                 self.lepton_flavor
             ]["fail_btag_working_point"],
-            jet_pt_threshold=signal_jet_selection[
+            jet_pt_threshold=qcd_hadronic_closure_jet_selection[self.channel][
                 self.lepton_flavor
             ]["jet_pt_threshold"],
-            jet_eta_threshold = signal_jet_selection[
+            jet_eta_threshold = qcd_hadronic_closure_jet_selection[self.channel][
                 self.lepton_flavor
             ]["jet_eta_threshold"],
-            jet_id_wp=signal_jet_selection[
+            jet_id_wp=qcd_hadronic_closure_jet_selection[self.channel][
                 self.lepton_flavor
             ]["jet_id_wp"],
-            jet_pileup_id=signal_jet_selection[
+            jet_pileup_id=qcd_hadronic_closure_jet_selection[self.channel][
                 self.lepton_flavor
             ]["jet_pileup_id"],
             is_mc=self.is_mc,
@@ -343,16 +351,16 @@ class SignalProccessor(processor.ProcessorABC):
         good_fatjets_masks = select_good_fatjets(
             fatjets = events.FatJet,
             year = self.year,
-            fatjet_pt_threshold = signal_fatjet_selection[
+            fatjet_pt_threshold = qcd_hadronic_closure_fatjet_selection[self.channel][
                 self.lepton_flavor
             ]["fatjet_pt_threshold"],
-            fatjet_eta_threshold = signal_fatjet_selection[
+            fatjet_eta_threshold = qcd_hadronic_closure_fatjet_selection[self.channel][
                 self.lepton_flavor
             ]["fatjet_eta_threshold"],
-            TvsQCD = signal_fatjet_selection[
+            TvsQCD = qcd_hadronic_closure_fatjet_selection[self.channel][
                 self.lepton_flavor
             ]["TvsQCD"],
-            is_mc = self.is_mc,
+            is_mc=self.is_mc,
         )
         good_fatjets = (
             good_fatjets_masks["nominal"]
@@ -369,16 +377,16 @@ class SignalProccessor(processor.ProcessorABC):
         good_wjets_masks = select_good_wjets(
             wjets = events.FatJet,
             year = self.year,
-            w_pt_threshold = signal_wjet_selection[
+            w_pt_threshold = qcd_hadronic_closure_wjet_selection[self.channel][
                 self.lepton_flavor
             ]["wjet_pt_threshold"],
-            w_eta_threshold = signal_wjet_selection[
+            w_eta_threshold = qcd_hadronic_closure_wjet_selection[self.channel][
                 self.lepton_flavor
             ]["wjet_eta_threshold"],
-            WvsQCD = signal_wjet_selection[
+            WvsQCD = qcd_hadronic_closure_wjet_selection[self.channel][
                 self.lepton_flavor
             ]["WvsQCD"],
-            is_mc= self.is_mc,
+            is_mc=self.is_mc,
         )
         good_wjets = (
             good_wjets_masks["nominal"]
@@ -395,7 +403,6 @@ class SignalProccessor(processor.ProcessorABC):
         # ------------------------------------------------
         # trigger match: Only to Muons and Electrons
         # ------------------------------------------------
-        # get trigger mask
         with importlib.resources.path(
             "wprime_plus_b.data", "triggers.json"
         ) as path:
@@ -412,8 +419,8 @@ class SignalProccessor(processor.ProcessorABC):
                     
         if self.lepton_flavor != "tau":
             lepton_id_config = {
-                "ele": signal_electron_selection[self.lepton_flavor]["electron_id_wp"],
-                "mu": signal_muon_selection[self.lepton_flavor]["muon_id_wp"]
+                "ele": qcd_hadronic_closure_electron_selection[self.channel][self.lepton_flavor]["electron_id_wp"],
+                "mu": qcd_hadronic_closure_muon_selection[self.channel][self.lepton_flavor]["muon_id_wp"]
             } 
             trigger_paths = self._triggers[lepton_id_config[self.lepton_flavor]]
 
@@ -430,8 +437,12 @@ class SignalProccessor(processor.ProcessorABC):
                 trigger_match_mask = trigger_match_mask | trig_match
                     
         else:
-            # Tau or other lepton flavor
             trigger_paths = self._triggers
+
+            for tp in trigger_paths:
+                if tp in events.HLT.fields:
+                    trigger_mask = trigger_mask | events.HLT[tp]
+                    
             trigger_match_mask = np.ones(len(events), dtype="bool")
 
 
@@ -440,13 +451,12 @@ class SignalProccessor(processor.ProcessorABC):
         # -------------------------------------------------------------
         # set weights container
         weights_container = Weights(len(events), storeIndividual=True)
-
-
+        
         if self.is_mc:
             # add gen weigths
             genweight_values = lambda events: np.where(events.genWeight > 0, 1, -1)
             weights_container.add("genweight", genweight_values(events))
-            
+
             # add l1prefiring weigths
             add_l1prefiring_weight(events, weights_container, self.year, self.syst)
 
@@ -454,11 +464,11 @@ class SignalProccessor(processor.ProcessorABC):
             add_particle_shower_weight(events, weights_container, self.year, self.syst)
 
             # add pdf weigths
-            add_pdf_weight(events, weights_container, self.year, variation=self.syst, dataset = dataset)
-            
+            add_pdf_weight(events, weights_container, self.year, variation=self.syst,dataset= dataset)
+
             # add top pt reweighting
             add_TopPtReweighting(events, weights_container, dataset, self.syst)
-            
+
 
             # add pileup weigths
             add_pileup_weight(events, weights_container, self.year, self.syst)
@@ -470,32 +480,31 @@ class SignalProccessor(processor.ProcessorABC):
                 jets=jets_veto,
                 weights=weights_container,
                 year=self.year,
-                working_point=signal_bjet_selection[self.lepton_flavor][
+                working_point=qcd_hadronic_closure_bjet_selection[self.channel][self.lepton_flavor][
                     "bjet_pileup_id"
                 ],
                 variation=self.syst,
             )
-            
+
             # b-tagging corrector
             btag_corrector = BTagCorrector(
                 jets=bjets,
                 weights=weights_container,
                 sf_type="comb",
-                worging_point=signal_bjet_selection[self.lepton_flavor][
+                worging_point=qcd_hadronic_closure_bjet_selection[self.channel][self.lepton_flavor][
                     "btag_working_point"
                 ],
                 tagger="deepJet",
                 year=self.year,
                 full_run=False,
                 variation=self.syst,
-                dataset = dataset
+                dataset=dataset
             )
 
             # add b-tagging weights
             btag_corrector.add_btag_weights(flavor="bc")
             btag_corrector.add_btag_weights(flavor="light")
-            #btag_corrector.print_efficiency_min_max_per_flavor()
-
+            #btag_corrector.print_efficiency_min_max_per_flavor()            
 
             # electron corrector
             electron_corrector = ElectronCorrector(
@@ -506,7 +515,7 @@ class SignalProccessor(processor.ProcessorABC):
 
             # add electron ID weights
             electron_corrector.add_id_weight(
-                id_working_point=signal_electron_selection[
+                id_working_point=qcd_hadronic_closure_electron_selection[self.channel][
                     self.lepton_flavor
                 ]["electron_id_wp"]
             )
@@ -521,7 +530,7 @@ class SignalProccessor(processor.ProcessorABC):
             
             # muon corrector
             if (
-                signal_muon_selection[self.lepton_flavor]["muon_id_wp"]
+                qcd_hadronic_closure_muon_selection[self.channel][self.lepton_flavor]["muon_id_wp"]
                 == "highpt"
             ):
                 mu_corrector = MuonHighPtCorrector
@@ -532,10 +541,10 @@ class SignalProccessor(processor.ProcessorABC):
                 weights=weights_container,
                 year=self.year,
                 variation=self.syst,
-                id_wp=signal_muon_selection[self.lepton_flavor][
+                id_wp=qcd_hadronic_closure_muon_selection[self.channel][self.lepton_flavor][
                     "muon_id_wp"
                 ],
-                iso_wp=signal_muon_selection[self.lepton_flavor][
+                iso_wp=qcd_hadronic_closure_muon_selection[self.channel][self.lepton_flavor][
                     "muon_iso_wp"
                 ],
             )
@@ -559,13 +568,13 @@ class SignalProccessor(processor.ProcessorABC):
                 taus=taus,
                 weights=weights_container,
                 year=self.year,
-                tau_vs_jet=signal_tau_selection[self.lepton_flavor][
+                tau_vs_jet=qcd_hadronic_closure_tau_selection[self.channel][self.lepton_flavor][
                     "tau_vs_jet"
                 ],
-                tau_vs_ele=signal_tau_selection[self.lepton_flavor][
+                tau_vs_ele=qcd_hadronic_closure_tau_selection[self.channel][self.lepton_flavor][
                     "tau_vs_ele"
                 ],
-                tau_vs_mu=signal_tau_selection[self.lepton_flavor][
+                tau_vs_mu=qcd_hadronic_closure_tau_selection[self.channel][self.lepton_flavor][
                     "tau_vs_mu"
                 ],
                 variation=self.syst,
@@ -580,7 +589,7 @@ class SignalProccessor(processor.ProcessorABC):
                     weights = weights_container,
                     year=self.year,
                     year_mod="",
-                    working_point_fatjet = signal_fatjet_selection[self.lepton_flavor]["TvsQCD"],
+                    working_point_fatjet = qcd_hadronic_closure_fatjet_selection[self.channel][self.lepton_flavor]["TvsQCD"],
                     variation=self.syst
             )
 
@@ -589,7 +598,7 @@ class SignalProccessor(processor.ProcessorABC):
                     weights = weights_container,
                     year=self.year,
                     year_mod="",
-                    working_point_wjet = signal_wjet_selection[self.lepton_flavor]["WvsQCD"],
+                    working_point_wjet = qcd_hadronic_closure_wjet_selection[self.channel][self.lepton_flavor]["WvsQCD"],
                     variation=self.syst
             )
 
@@ -622,18 +631,17 @@ class SignalProccessor(processor.ProcessorABC):
                         dataset=dataset, 
                         weights=weights_container, 
                         year=self.year, 
-                        channel="", 
+                        channel=self.channel, 
                         variation=self.syst
-            )            
+            )   
 
             output["metadata"].update({"sumw_case_3": ak.sum(weights_container.weight())})
-            
+
         # -------------------------
         # p_T^{miss} variables
         # -------------------------
         update_met_jet_veto(events = events, jets_veto = jets_veto)  
         met_recoil(events = events, muons = muons, electrons = electrons, taus = taus)
-
 
 
         # -------------------------------------------------------------
@@ -669,32 +677,13 @@ class SignalProccessor(processor.ProcessorABC):
                 metfilters = metfilters & events.Flag[mf]
         self.selections.add("metfilters", metfilters)
 
-        # check that there be a minimum MET greater than the threshold
-
-        met_threshold =  signal_met_selection[self.lepton_flavor]["met_threshold"]
-        self.selections.add(f"met_{met_threshold}",  events.MET.pt > met_threshold)
-
+        # check that there be a minimum MET greater than 50 GeV
+        met_threshold =  qcd_hadronic_closure_met_selection[self.channel][self.lepton_flavor]["met_threshold"]
+        self.selections.add(f"met_{met_threshold}", events.MET.pt > met_threshold)
+     
         # select events with at least one good vertex
         self.selections.add("goodvertex", events.PV.npvsGood > 0)
 
-
-        # --------------------------
-        # mt cut
-        # -------------------------- 
-        mt_cut = signal_mt_selection[self.lepton_flavor]["mt_threshold"]
-        mt_invert = signal_mt_selection[self.lepton_flavor]["invert"]
-
-
-        mt_mask = select_good_mt(
-            met = events.MET,
-            lepton = taus,
-            mt_cut = mt_cut,
-            invert_mt_cut = mt_invert,
-        )
-
-        self.selections.add(f"mt_{mt_cut}_invert_{mt_invert}", mt_mask)
-
-        
         # select events with at least one matched trigger object
         if self.lepton_flavor != "tau":
             self.selections.add(
@@ -703,9 +692,7 @@ class SignalProccessor(processor.ProcessorABC):
         else:
             self.selections.add(
                 "trigger_match", trigger_match_mask 
-            )      
-
-
+            )                
         # add number of leptons and jets
         self.selections.add("one_electron", ak.num(electrons) == 1)
         self.selections.add("electron_veto", ak.num(electrons) == 0)
@@ -716,8 +703,10 @@ class SignalProccessor(processor.ProcessorABC):
         self.selections.add("one_tau", ak.num(taus) == 1)
         self.selections.add("tau_veto", ak.num(taus) == 0)
 
+
         self.selections.add("one_bjet", ak.num(bjets) == 1)
-        
+        self.selections.add("bjet_veto", ak.num(bjets) == 0)
+                
 
         if self.year == "2018":
             # hem-cleaning selection
@@ -784,27 +773,28 @@ class SignalProccessor(processor.ProcessorABC):
             
             self.selections.add("Stitching", np.ones(len(events), dtype="bool"))
 
-        # -------------------------------
-        # -------- Trigger: OR ----------
-        # -------------------------------
-        reference_trigger =  signal_trigger_selection[self.lepton_flavor]["trigger"]
+
+        # -------- Trigger: OR ----------#
+        reference_trigger =  qcd_hadronic_closure_trigger_selection[self.channel][self.lepton_flavor]["trigger"]
         if self.lepton_flavor == "mu":
-            mu_id = signal_muon_selection[self.lepton_flavor]["muon_id_wp"]
+            mu_id = qcd_hadronic_closure_muon__selection[self.channel][self.lepton_flavor]["muon_id_wp"]
             with importlib.resources.path(
                 "wprime_plus_b.data", "triggers.json"
             ) as path:
                 with open(path, "r") as handle:
                     ref_trigger = json.load(handle)[self.year][reference_trigger][mu_id]
+                    print(ref_trigger, type(ref_trigger))
 
         
         elif self.lepton_flavor ==  "ele":
-            ele_id = signal_electron_selection[self.lepton_flavor]["electron_id_wp"]
+            ele_id = qcd_hadronic_closure_electron_selection[self.channel][self.lepton_flavor]["electron_id_wp"]
             with importlib.resources.path(
                 "wprime_plus_b.data", "triggers.json"
             ) as path:
                 with open(path, "r") as handle:
                     ref_trigger = json.load(handle)[self.year][reference_trigger][ele_id]
-            
+                    print(ref_trigger, type(ref_trigger))               
+
 
         elif self.lepton_flavor ==  "tau":
             with importlib.resources.path(
@@ -812,32 +802,36 @@ class SignalProccessor(processor.ProcessorABC):
             ) as path:
                 with open(path, "r") as handle:
                     ref_trigger = json.load(handle)[self.year][reference_trigger]
-
+                    
 
         reference_triggers = [
             trigger for trigger in events.HLT.fields if any(trigger.startswith(r) for r in ref_trigger)
         ]
         
         mask_reference_trigger = np.zeros(len(events), dtype="bool")
-        
+
+
         for trigger_reference in reference_triggers:
             if trigger_reference in events.HLT.fields:
                 mask_reference_trigger = mask_reference_trigger | events.HLT[trigger_reference]
 
+
         if self.lepton_flavor == "tau":
-            add_met_trigger_corrections(mask_reference_trigger, dataset, events.MET, weights_container, self.year, "", self.syst)  
-
+            add_met_trigger_corrections(mask_reference_trigger, dataset, events.MET, weights_container, self.year, "", self.syst) 
+        
         output["metadata"].update({"Triggers": reference_triggers})
-
         self.selections.add(f"trigger_{reference_trigger}", mask_reference_trigger)
+
 
         print(f"Triggers: {reference_triggers}")
 
+        
         # --------------------------
-        # deltaphi_cut cut: 
-        # --------------------------      
-        delta_phi_cut = signal_met_selection[self.lepton_flavor]["delta_phi_jet_met"]
-        invert_delta_phi = signal_met_selection[self.lepton_flavor]["invert_delta_phi"]
+        # deltaphi_cut cut
+        # --------------------------  
+        delta_phi_cut = qcd_hadronic_closure_met_selection[self.channel][self.lepton_flavor]["delta_phi_jet_met"]
+        invert_delta_phi = qcd_hadronic_closure_met_selection[self.channel][self.lepton_flavor]["invert_delta_phi"]
+
 
         delta_phi_jet_met_mask = select_good_delta_phi_jet_met(met = events.MET, 
                                                                 jets = jets, 
@@ -847,47 +841,148 @@ class SignalProccessor(processor.ProcessorABC):
 
 
         self.selections.add(f"delta_phi_jet_met_{delta_phi_cut}_{invert_delta_phi}", delta_phi_jet_met_mask)
+
+
+        # --------------------------
+        # Fail tauvsJet wp
+        # --------------------------
+        with importlib.resources.open_text("wprime_plus_b.data", "tau_wps.json") as file:
+            taus_wps = json.load(file)
+
         
-        # -------------------------------------------
+        fail_tau_wp = qcd_hadronic_closure_tau_selection[self.channel][self.lepton_flavor]["tau_vs_fail"]
+
+        
+        # Pass Loose, fail Tight
+        fail_tau_wp_mask = (
+            (ak.firsts(taus).idDeepTau2017v2p1VSjet < taus_wps["DeepTau2017"]["deep_tau_jet"][fail_tau_wp])
+        )
+
+        
         # define selection regions for each channel
-        # -------------------------------------------
         region_selection = {
-            "tau": [
-                "goodvertex",
-                "lumi",
-                "Stitching",
-                f"trigger_{reference_trigger}",
-                "metfilters",
-                "electron_veto",
-                "muon_veto",
-                "one_tau",
-                "one_bjet",
-                f"delta_phi_jet_met_{delta_phi_cut}_{invert_delta_phi}",
-                f"met_{met_threshold}",
-            ],
-            "mu": [
-                "goodvertex",
-                "lumi",
-                "metfilters",
-                f"trigger_{reference_trigger}",
-                "trigger_match",
-                "HEMCleaning",
-                "electron_veto",
-                "tau_veto",
-                "one_muon",
-                f"met_{met_threshold}",
-            ],
+            "signal_prime":{
+                "tau": [
+                    "goodvertex",
+                    "lumi",
+                    "Stitching",
+                    f"trigger_{reference_trigger}",
+                    "metfilters",
+                    "electron_veto",
+                    "muon_veto",
+                    "one_tau",
+                    "one_bjet",
+                    f"delta_phi_jet_met_{delta_phi_cut}_{invert_delta_phi}",
+                    f"met_{met_threshold}",
+                ],
+                "mu": [
+                    "goodvertex",
+                    "lumi",
+                    "Stitching",
+                    f"trigger_{reference_trigger}",
+                    "metfilters",
+                    "electron_veto",
+                    "muon_veto",
+                    "one_tau",
+                    "one_bjet",
+                    f"delta_phi_jet_met_{delta_phi_cut}_{invert_delta_phi}",
+                    f"met_{met_threshold}",
+                ],                
+            },
+            "cr_b": {
+                "tau": [
+                        "goodvertex",
+                        "lumi",
+                        "Stitching",
+                        f"trigger_{reference_trigger}",
+                        "metfilters",
+                        "electron_veto",
+                        "muon_veto",
+                        f"one_tau",
+                        "one_bjet",
+                        f"delta_phi_jet_met_{delta_phi_cut}_{invert_delta_phi}",
+                        f"met_{met_threshold}",
+                    ],
+                    "mu": [
+                        "goodvertex",
+                        "lumi",
+                        "metfilters",
+                        f"trigger_{reference_trigger}",
+                        "trigger_match",
+                        "HEMCleaning",
+                        "electron_veto",
+                        "tau_veto",
+                        "one_muon",
+                        f"met_{met_threshold}",
+                    ],
+            }, 
+            "cr_c": {
+                "tau": [
+                        "goodvertex",
+                        "lumi",
+                        "Stitching",
+                        f"trigger_{reference_trigger}",
+                        "metfilters",
+                        "electron_veto",
+                        "muon_veto",
+                        f"one_tau",
+                        "one_bjet",
+                        f"delta_phi_jet_met_{delta_phi_cut}_{invert_delta_phi}",
+                        f"met_{met_threshold}",
+                    ],
+                    "mu": [
+                        "goodvertex",
+                        "lumi",
+                        "metfilters",
+                        f"trigger_{reference_trigger}",
+                        "trigger_match",
+                        "HEMCleaning",
+                        "electron_veto",
+                        "tau_veto",
+                        "one_muon",
+                        f"met_{met_threshold}",
+                    ],
+            }, 
+            "cr_d": {
+                "tau": [
+                        "goodvertex",
+                        "lumi",
+                        "Stitching",
+                        f"trigger_{reference_trigger}",
+                        "metfilters",
+                        "electron_veto",
+                        "muon_veto",
+                        f"one_tau",
+                        "one_bjet",
+                        f"delta_phi_jet_met_{delta_phi_cut}_{invert_delta_phi}",
+                        f"met_{met_threshold}",
+                    ],
+                    "mu": [
+                        "goodvertex",
+                        "lumi",
+                        "metfilters",
+                        f"trigger_{reference_trigger}",
+                        "trigger_match",
+                        "HEMCleaning",
+                        "electron_veto",
+                        "tau_veto",
+                        "one_muon",
+                        f"met_{met_threshold}",
+                    ],
+            }, 
         }
 
+
+              
         # --------------
         # save cutflow 
         # --------------
-        cut_names = region_selection[self.lepton_flavor]
+        cut_names = region_selection[self.channel][self.lepton_flavor]
         output["metadata"].update({"cutflow": {}})
         output["metadata"].update({"cutflow_raw": {}})
         output["metadata"]["cutflow"]["sumw"] = ak.sum(weights_container.weight())
         output["metadata"]["cutflow_raw"]["sumw"] = len(weights_container.weight())
-        selections = []        
+        selections = []
         for cut_name in cut_names:
             selections.append(cut_name)
             current_selection = self.selections.all(*selections)
@@ -897,7 +992,6 @@ class SignalProccessor(processor.ProcessorABC):
             output["metadata"]["cutflow_raw"][cut_name] = len(
                 weights_container.weight()[current_selection]
             )
-
 
         # ----------------------------
         # Save weights statistics
@@ -910,15 +1004,13 @@ class SignalProccessor(processor.ProcessorABC):
             output["metadata"]["weight_statistics"][weight] = statistics
 
 
-
         # -------------------------------------------------------------
         #  Post region selection
         # ------------------------------------------------------------
         # Helper function to apply masks and selections
         def apply_selection(objects, mask):
-            return {key: obj[mask] for key, obj in objects.items()}      
-
-
+            return {key: obj[mask] for key, obj in objects.items()}   
+    
 
       # -------------------------------------------------------------
         # -------------------------------------------------------------
@@ -928,8 +1020,22 @@ class SignalProccessor(processor.ProcessorABC):
         # If we are in MC and we want to run systematics variations
         if self.run_systematics and self.is_mc:
             # Taus, muons, bjets, light_jets, fatjets, wjets change due to object-corrections. Electrons don't have object-corrections.
+            # map_variation = {"variation": 
+            #                               { "up": {
+            #                                   objects_modified : {},
+            #                                    new_met_pt:  {},
+            #                                    new_phi_pt: {},
+            #                                    met_180: {}        # Mask with met cut
+            #                               }, 
+            #                                 "down": {
+            #                                        .  
+            #                                        .
+            #                                        .
+            #                               }
+            #                               }, 
+            #                  }
             map_variation = systematic_variation_mask(events = events,
-                                    lepton_flavor = self.lepton_flavor,                                                      
+                                    lepton_flavor = self.lepton_flavor,
                                     jets_veto = jets_veto,
                                     electrons = electrons,
                                     muons = muons,
@@ -960,28 +1066,25 @@ class SignalProccessor(processor.ProcessorABC):
 
 
             # Names of the regions to be selected depending on the object-variation
+            # Names of the regions to be selected depending on the object-variation
             region_selection_cases = update_region_map(
-                region_map = region_selection[self.lepton_flavor], 
+                region_map = region_selection[self.channel][self.lepton_flavor], 
                 map_variation = map_variation, 
                 met_threshold = met_threshold, 
                 mt_threshold = None, 
                 delta_phi = delta_phi_cut
             )
-                
-
-
             # Store new selections in the PackedSelection object: self.selections
             selections_variations = update_region_selection(
                 map_variation = map_variation, 
                 selections_nominal = self.selections
             )
 
-
             # -------------------------------------------------------------
             # Save region selections: Nominal + Up/Down object-correction variations
             # -------------------------------------------------------------
             region_selection_map = {}
-            self.selections.add("nominal",  self.selections.all(*region_selection[self.lepton_flavor]))
+            self.selections.add("nominal",  self.selections.all(*region_selection[self.channel][self.lepton_flavor]))
 
             # Save nominal selection before the top tagger: Without systematic variations
             region_selection_map["nominal"] = self.selections.all("nominal")
@@ -992,6 +1095,7 @@ class SignalProccessor(processor.ProcessorABC):
                 # Region_selection_map: Variation name as key and the selection mask as value
                 region_selection_map[variation] = sel_var.all(variation)
 
+
             # --------------
             # save cutflow 
             # --------------
@@ -1001,6 +1105,7 @@ class SignalProccessor(processor.ProcessorABC):
                 output["metadata"][f"cutflow_{case}"]["sumw"] = ak.sum(weights_container.weight())
                 selections_var = []
                 sel = self.selections if case == "nominal" else selections_variations[case]
+
                 for cut_name in cut_names:
                     selections_var.append(cut_name)
                     current_selection = sel.all(*selections_var)
@@ -1009,7 +1114,8 @@ class SignalProccessor(processor.ProcessorABC):
                     )
 
 
-           # -------------------------------------------------------------
+
+            # -------------------------------------------------------------
             for region_name, region_mask in region_selection_map.items():
 
                 # check that there are events left after selection
@@ -1038,7 +1144,8 @@ class SignalProccessor(processor.ProcessorABC):
                             f"weighted_final_nevents_{region_name}": ak.sum(weights_container.weight()[region_mask]),
                             f"raw_final_nevents_{region_name}": nevents_top_tagger,
                         })
-                
+
+
                 else:
 
                     # Create a dictionary of objects to simplify handling
@@ -1079,7 +1186,7 @@ class SignalProccessor(processor.ProcessorABC):
                     tops = ak.zeros_like(region_mask)
 
                     # Check if the top tagger cases are selected for the lepton flavor
-                    cases = [f"case_{i}" for i in range(1, 14) if signal_cases_selection[self.lepton_flavor].get(f"case_{i}", False)]
+                    cases = [f"case_{i}" for i in range(1, 14) if qcd_hadronic_closure_cases_selection[self.channel][self.lepton_flavor].get(f"case_{i}", False)]
                     
                     # Apply the region mask to the objects                        
                     selected_objects = apply_selection(objects, region_mask)
@@ -1093,12 +1200,15 @@ class SignalProccessor(processor.ProcessorABC):
 
                     mask_top = np.logical_not(mask_top_tmp)
 
-
+        
                     # Number of events after top tagger/efficiency
                     nevents_top_tagger = ak.sum(mask_top)
 
+                    #print(f"Number of events after top tagger in region {region_name}: {nevents_top_tagger}")
+
                     # Save metadata
                     if region_name == "nominal":
+
                         output["metadata"]["cutflow"]["failing_top_tagger"] = ak.sum(weights_container.weight()[region_mask][mask_top])
                         output["metadata"]["cutflow_raw"]["failing_top_tagger"] = len(weights_container.weight()[region_mask][mask_top])
                         output_metadata(output=output["metadata"], weights=weights_container.weight()[region_mask], masks=masks, mask_top=mask_top)
@@ -1118,6 +1228,8 @@ class SignalProccessor(processor.ProcessorABC):
                             f"raw_final_nevents_{region_name}": nevents_top_tagger,
                         })
 
+
+
                     if nevents_top_tagger > 0:
                         # Histograms
                         histograms_output_syst(self, 
@@ -1132,10 +1244,9 @@ class SignalProccessor(processor.ProcessorABC):
                                         syst_flag = region_name)
 
 
+
                         if self.output_type == "array":
                             # Create a dictionary to store the arrays
-                            #array_dict = {}
-
                             if region_name == "nominal":
                                 self.add_feature(
                                     f"weights", weights_container.weight()[region_mask][mask_top]
@@ -1155,6 +1266,7 @@ class SignalProccessor(processor.ProcessorABC):
                                     f"weights_{region_name}", weights_container.weight()[region_mask][mask_top]
                                 )
 
+
                             # select variables and put them in column accumulators
                             array_dict.update(
                                 {
@@ -1172,13 +1284,13 @@ class SignalProccessor(processor.ProcessorABC):
             self.selections.add(
                 self.region,
                 self.selections.all(
-                    *region_selection[self.lepton_flavor]
+                    *region_selection[self.channel][self.lepton_flavor]
                 ),
-            )
+            ) 
             region_selection = self.selections.all(self.region)
             # check that there are events left after selection
             nevents_after = ak.sum(region_selection)
-
+            
             region_mask = region_selection 
 
             if nevents_after == 0:
@@ -1187,7 +1299,7 @@ class SignalProccessor(processor.ProcessorABC):
                 output["metadata"]["cutflow_raw"]["failing_top_tagger"] = len(weights_container.weight()[region_mask])
 
 
-            else:
+            else:           
                 # Create a dictionary of objects to simplify handling
                 objects = {
                     "bjets": bjets,
@@ -1200,38 +1312,38 @@ class SignalProccessor(processor.ProcessorABC):
                     "met": events.MET,
                     "events": events
                 }
-                
-                tops = ak.zeros_like(region_mask)
 
-                # Top tagger cases
-                cases = [f"case_{i}" for i in range(1, 14) if signal_cases_selection[self.lepton_flavor].get(f"case_{i}", False)]
+                tops = ak.zeros_like(region_selection)
 
-                
-                selected_objects = apply_selection(objects, region_mask)
-            
+                cases = [f"case_{i}" for i in range(1, 14) if qcd_hadronic_closure_cases_selection[self.channel][self.lepton_flavor].get(f"case_{i}", False)]
+
+
+                # Apply region selection to objects
+                selected_objects = apply_selection(objects, region_selection)
 
                 topX = topXfinder(self.lepton_flavor, selected_objects["bjets"], selected_objects["jets"], selected_objects["fatjets"],
-                                selected_objects["wjets"], cc)
-
-
+                                    selected_objects["wjets"],  cc)
                 tops, mask_top_tmp, masks = top_tagger(topX, top_tagger_cases=cases)
 
                 mask_top = np.logical_not(mask_top_tmp)
 
+                output["metadata"]["cutflow"]["failing_top_tagger"] = ak.sum(weights_container.weight()[region_selection][mask_top])
+                output["metadata"]["cutflow_raw"]["failing_top_tagger"] = len(weights_container.weight()[region_selection][mask_top])    
+
 
                 # Number of events after top tagger/efficiency
                 nevents_top_tagger = ak.sum(mask_top)
-                output_metadata(output=output["metadata"], weights=weights_container.weight()[region_mask], masks=masks, mask_top=mask_top)
-                output["metadata"]["cutflow"]["failing_top_tagger"] = ak.sum(weights_container.weight()[region_mask][mask_top])
-                output["metadata"]["cutflow_raw"]["failing_top_tagger"] = len(weights_container.weight()[region_mask][mask_top])
 
+                output_metadata(output=output["metadata"], weights=weights_container.weight()[region_mask], masks=masks, mask_top=mask_top_tmp)
 
                 # save weighted events to metadata
-                output["metadata"].update({
-                    "weighted_final_nevents": ak.sum(weights_container.weight()[region_mask][mask_top]),
-                    "raw_final_nevents": nevents_top_tagger,
-                })
-                
+                output["metadata"].update(
+                    {
+                        "weighted_final_nevents": ak.sum(weights_container.weight()[region_mask][mask_top]),
+                        "raw_final_nevents": nevents_top_tagger,
+                    }
+                )
+            
                 if nevents_top_tagger > 0:
                     # Histograms
                     histograms_output_syst(self, 
@@ -1245,24 +1357,24 @@ class SignalProccessor(processor.ProcessorABC):
                                     events = selected_objects["events"],
                                     syst_flag = "nominal")
 
-
+ 
+                
                     if self.output_type == "array":
                         array_dict = {}
                         self.add_feature(
-                            "weights", weights_container.weight()[region_mask][mask_top]
+                            "weights", weights_container.weight()[region_selection][mask_top] 
                         )
-
                         if self.is_mc == True:
                             # Agregar variaciones de peso
                             for variation_case, weights_case in weights_container._modifiers.items():
                                 array_dict[f"{variation_case}"] = processor.column_accumulator(
-                                    weights_case[region_mask][mask_top]
+                                    weights_case[region_selection][mask_top]
                                 )
-                        # Guardar pesos individuales filtrados por region_mask
+                        # Guardar pesos individuales filtrados por region_selection
                         for weight in weights_container.weightStatistics:
-                            filtered_weight = weights_container.partial_weight(include=[weight])[region_mask][mask_top]
+                            filtered_weight = weights_container.partial_weight(include=[weight])[region_selection][mask_top]
                             self.add_feature(weight, filtered_weight)
-    
+                                                    
 
                         # select variables and put them in column accumulators
                         array_dict.update(
@@ -1274,12 +1386,12 @@ class SignalProccessor(processor.ProcessorABC):
                             }
                         )
 
-
         # define output dictionary accumulator
         if self.output_type == "array":
-            output["arrays"] = array_dict
+             output["arrays"] = array_dict
 
         return {dataset: output}
+
 
     def postprocess(self, accumulator):
         return accumulator

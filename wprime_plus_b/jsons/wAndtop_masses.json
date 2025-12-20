@@ -9,7 +9,7 @@
     "boosted": {
         "top_sigma" : 37.14,
         "top_low_mass" : 100.0,
-        "top_up_mass": 300.00,
+        "top_up_mass": 300.0,
         "w_sigma" : 0.00,
         "w_low_mass": 0.00,
         "w_up_mass": 0.00,
@@ -18,8 +18,8 @@
 
     "Partially_boosted": {
         "top_sigma" : 37.14,
-        "top_low_mass" : 100.00,
-        "top_up_mass": 300.00,
+        "top_low_mass" :  100.0,
+        "top_up_mass": 300.0,
         "w_sigma" : 20.09,
         "w_low_mass": 40.00,
         "w_up_mass": 200.00,

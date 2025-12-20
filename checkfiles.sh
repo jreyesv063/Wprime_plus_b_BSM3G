@@ -269,7 +269,7 @@ singularity shell -B /afs -B /eos -B /cvmfs \
 
 if [ "$create_fileset" = "true" ]; then
     echo "Running make_fileset_lxplus.py..."
-    python make_fileset_lxplus.py
+    python make_fileset_lxplus.py --year "$year"
 else
     echo "make_fileset_lxplus.py is disabled"
 fi

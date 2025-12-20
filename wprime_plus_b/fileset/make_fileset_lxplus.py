@@ -1,5 +1,6 @@
 import os
 import json
+import argparse
 from coffea.dataset_tools.dataset_query import DataDiscoveryCLI
 
 
@@ -138,16 +139,35 @@ SITES = {
 }
 
 
+def parse_args():
+    parser = argparse.ArgumentParser(
+        description="Generate coffea datasets per year"
+    )
+    parser.add_argument(
+        "--year",
+        choices=ERAS.keys(),
+        help="Process only a specific year (e.g. 2016APV, 2016, 2017, 2018)"
+    )
+    return parser.parse_args()
+
 
 def main():
+    args = parse_args()
+
     with open("das_datasets.json", "r") as f:
         datasets = json.load(f)
-        print(datasets)
-    for year in ERAS.keys():
-        # create a dataset_definition dict for each year
+
+    years_to_run = [args.year] if args.year else ERAS.keys()
+
+    for year in years_to_run:
         yreco = f"{year}_UL"
-        if not datasets[yreco]:
+
+        if yreco not in datasets or not datasets[yreco]:
+            print(f"[SKIP] No datasets for {yreco}")
             continue
+
+        print(f"[INFO] Processing {yreco}")
+
         dataset_definition = {}
         for dataset_key, dataset in datasets[yreco].items():
             if isinstance(dataset, list):
@@ -161,30 +181,28 @@ def main():
                     "short_name": dataset_key,
                     "metadata": {"isMC": False},
                 }
-        # the dataset definition is passed to a DataDiscoveryCLI
+
         ddc = DataDiscoveryCLI()
-        # set the allow sites to look for replicas
         ddc.do_allowlist_sites(SITES[year])
-        # query rucio and get replicas
         ddc.load_dataset_definition(
             dataset_definition,
             query_results_strategy="all",
             replicas_strategy="round-robin",
         )
         ddc.do_save(f"dataset_discovery_{yreco}.json")
-        
-        # load and reformat generated fileset
+
         with open(f"dataset_discovery_{yreco}.json", "r") as f:
             dataset_discovery = json.load(f)
+
         new_dataset = {key: [] for key in datasets[yreco]}
         for dataset in dataset_discovery:
             root_files = list(dataset_discovery[dataset]["files"].keys())
             dataset_key = dataset_discovery[dataset]["metadata"]["short_name"]
-            if dataset_key.startswith("Single") or dataset_key.startswith("MET") or dataset_key.startswith("Tau"):
+            if dataset_key.startswith(("Single", "MET", "Tau")):
                 new_dataset[dataset_key.split("_")[0]] += root_files
             else:
                 new_dataset[dataset_key] = root_files
-        # save new fileset and drop 'dataset_discovery' fileset
+
         os.remove(f"dataset_discovery_{yreco}.json")
         with open(f"fileset_{yreco}_NANO_lxplus.json", "w") as json_file:
             json.dump(new_dataset, json_file, indent=4, sort_keys=True)

@@ -66,16 +66,13 @@ class CTagCorrector:
         self._discriminator = "CvB_cut"
         self._opposite_discriminator = "CvL_cut"
         
-        with importlib.resources.path(
-            "wprime_plus_b.data", f"ctag_eff_{self._tagger}_{self._wp}_{year}.coffea"
-        ) as filename:
+        with open(f"wprime_plus_b/corrections/efficiency_maps_ctag/ctag_eff_{self._tagger}_{self._wp}_{year}.coffea") as filename:
             self._efflookup = util.load(str(filename))
         
         # load ctagging working point (only for deepJet)
         # https://btv-wiki.docs.cern.ch/ScaleFactors/UL2017/
-        with importlib.resources.path("wprime_plus_b.data", "ctagWPs.json") as path:
-            with open(path, "r") as handle:
-                ctag_working_points = json.load(handle)
+        with open("wprime_plus_b/json_files/ctagWPs.json", "r") as f:
+            ctag_working_points = json.load(f)
         
         # define correction set
         self._cset = correctionlib.CorrectionSet.from_file(
@@ -83,8 +80,8 @@ class CTagCorrector:
         )
                 
         self._ctagwp = (
-        ctag_working_points[tagger][year][self._discriminator][working_point],
-        ctag_working_points[tagger][year][self._opposite_discriminator][working_point]
+            ctag_working_points[tagger][year][self._discriminator][working_point],
+            ctag_working_points[tagger][year][self._opposite_discriminator][working_point]
         ) 
         
   

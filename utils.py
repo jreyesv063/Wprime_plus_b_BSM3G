@@ -17,7 +17,14 @@ def build_output_directories(args: dict) -> str:
     processor_config_name = "_".join(
         [i for i in [args["processor"], args["channel"], args["lepton_flavor"]] if i]
     )
-    processor_config = load_processor_config(config_name=processor_config_name)
+    #processor_config = load_processor_config(config_name=processor_config_name)
+
+    processor_config = load_processor_config(
+        processor = args["processor"],
+        channel = args["channel"],
+        lepton_flavor = args["lepton_flavor"]
+    )
+
     # get processor output path
     processor_output_path = paths.processor_path(
         processor_name=processor_config.name,

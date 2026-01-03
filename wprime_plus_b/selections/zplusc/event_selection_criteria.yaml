@@ -1,0 +1,147 @@
+electron:
+  ele:
+    pt: 10.0
+    eta: 2.4
+    id: "wp80iso"
+    iso: "Tight"
+
+  mu:
+    pt: 30.0
+    eta: 2.4
+    id: "wp80iso"
+    iso: "Tight"
+
+  tau:
+    pt: 10.0
+    eta: 2.4
+    id: "wp80iso"
+    iso: "Tight"    
+
+muon:
+  ele:
+    pt: 10.0
+    eta: 2.4
+    id: "Tight"
+    iso: "Tight"
+
+  mu:
+    pt: 30.0
+    eta: 2.4
+    id: "Tight"
+    iso: "Tight"
+
+  tau:
+    pt: 15.0
+    eta: 2.4
+    id: "Tight"
+    iso: "Tight"
+  
+tau:
+  ele:
+    pt: 20.0
+    eta: 2.3
+    dz: 0.2
+    fake_VSe: "Tight"
+    fake_VSmu: "Tight"
+    fake_VSjet_pass: "Tight"
+    fake_VSjet_fail: ""
+    prongs: 13
+
+  mu:
+    pt: 20.0
+    eta: 2.3
+    dz: 0.2
+    fake_VSe: "Tight"
+    fake_VSmu: "Tight"
+    fake_VSjet_pass: "Tight"
+    fake_VSjet_fail: ""
+    prongs: 13
+
+  tau:
+    pt: 20.0
+    eta: 2.3
+    dz: 0.2
+    fake_VSe: "Tight"
+    fake_VSmu: "Tight"
+    fake_VSjet_pass: "Tight"
+    fake_VSjet_fail: ""
+    prongs: 13        
+
+Z_boson:
+  ele:
+    charge: "OS"
+    m_Z_min: 71.0
+    m_Z_max: 111.0
+
+  mu:
+    charge: "OS"
+    m_Z_min: 71.0
+    m_Z_max: 111.0
+
+  tau:
+    charge: "OS"
+    m_Z_min: 71.0
+    m_Z_max: 111.0        
+
+
+bjet:
+  ele:
+    pt: 20.0
+    eta: 2.4
+    btag_wp_pass: "Tight"
+    jet_id: "TightLepVeto"
+    pileup_id: "Tight"
+
+  mu:
+    pt: 20.0
+    eta: 2.4
+    btag_wp_pass: "Tight"
+    jet_id: "TightLepVeto"
+    pileup_id: "Tight"
+
+  tau: 
+    pt: 20.0
+    eta: 2.4
+    btag_wp_pass: "Tight"
+    jet_id: "TightLepVeto"
+    pileup_id: "Tight"
+  
+cjet:
+  ele:
+    pt: 30.0
+    eta: 2.4
+    ctag_wp_pass: "Tight"
+    jet_id: "TightLepVeto"
+    pileup_id: "Tight"
+
+  mu:
+    pt: 30.0
+    eta: 2.4
+    ctag_wp_pass: "Tight"
+    jet_id: "TightLepVeto"
+    pileup_id: "Tight"
+
+  tau:
+    pt: 30.0
+    eta: 2.4
+    ctag_wp_pass: "Tight"
+    jet_id: "TightLepVeto"
+    pileup_id: "Tight"    
+
+cross_cleaning:
+  ele: 0.4
+  mu: 0.4
+  tau: 0.4
+
+trigger:
+  ele:
+    general: "ele"
+    efficiency: ""
+
+  mu:
+    general: "mu"
+    efficiency: ""
+
+  tau:
+    general: "tau"
+    efficiency: ""

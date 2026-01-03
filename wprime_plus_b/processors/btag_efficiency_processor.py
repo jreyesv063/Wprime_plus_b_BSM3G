@@ -22,7 +22,7 @@ class BTagEfficiencyProcessor(processor.ProcessorABC):
         wp:
             worging point {'L', 'M', 'T'}
     """
-    def __init__(self, year="2017", yearmod="", tagger="deepJet", wp="T", output_type="hist", run_systematics = False, output_folder = ""):
+    def __init__(self, year="2017", yearmod="", tagger="deepJet", wp="T", output_type="hist", run_systematics = False, qcd_data_driven=False, output_folder = ""):
         self._year = year 
         self._tagger = tagger
         self._wp = wp

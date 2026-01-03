@@ -5,4 +5,5 @@ error                 = DIRECTORY/logs/JOBPATH/JOBNAME.$(ClusterId).$(ProcId).er
 log                   = DIRECTORY/logs/JOBPATH/JOBNAME.$(ClusterId).$(ProcId).log
 +JobFlavour           = "workday"
 +SingularityImage     = "/cvmfs/unpacked.cern.ch/registry.hub.docker.com/coffeateam/coffea-dask:latest-py3.9"
+request_memory        = 8192MB
 queue 1

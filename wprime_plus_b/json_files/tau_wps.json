@@ -1,0 +1,76 @@
+{
+    "_comment": {
+        "2016APV": "https://cms-xpog.docs.cern.ch/autoDoc/NanoAODv9/2016ULpreVFP/doc_SingleMuon_Run2016F-HIPM_UL2016_MiniAODv2_NanoAODv9-v2.html#Tau",
+        "2016": "https://cms-xpog.docs.cern.ch/autoDoc/NanoAODv9/2016ULpostVFP/doc_SingleMuon_Run2016H-UL2016_MiniAODv2_NanoAODv9-v1.html",
+        "2017": "https://cms-xpog.docs.cern.ch/autoDoc/NanoAODv9/2017UL/doc_SingleMuon_Run2017F-UL2017_MiniAODv2_NanoAODv9-v1.html",
+        "2018": "https://cms-xpog.docs.cern.ch/autoDoc/NanoAODv9/2018UL/doc_SingleMuon_Run2018D-UL2018_MiniAODv2_NanoAODv9-v1.html"
+    },
+    "DeepTau2017": {
+        "deep_tau_jet": {
+            "VVVLoose": 1,
+            "VVLoose": 2,
+            "VLoose": 4,
+            "Loose": 8,
+            "Medium": 16,
+            "Tight": 32,
+            "VTight": 64,
+            "VVTight": 128
+        },
+
+        "deep_tau_electron": {
+            "VVVLoose": 1,
+            "VVLoose": 2,
+            "VLoose": 4,
+            "Loose": 8,
+            "Medium": 16,
+            "Tight": 32,
+            "VTight": 64,
+            "VVTight": 128
+        },    
+
+        "deep_tau_muon": {
+            "VLoose": 1,
+            "Loose": 2,
+            "Medium": 4,
+            "Tight": 8
+        }
+    },
+    "DeepTau2018": {
+       "deep_tau_jet": {
+            "VVVLoose": 1,
+            "VVLoose": 2,
+            "VLoose": 3,
+            "Loose": 4,
+            "Medium": 5,
+            "Tight": 6,
+            "VTight": 7,
+            "VVTight": 8
+        },
+
+        "deep_tau_electron": {
+            "VVVLoose": 1,
+            "VVLoose": 2,
+            "VLoose": 3,
+            "Loose": 4,
+            "Medium": 5,
+            "Tight": 6,
+            "VTight": 7,
+            "VVTight": 8
+        },    
+
+        "deep_tau_muon": {
+            "VLoose": 1,
+            "Loose": 2,
+            "Medium": 3,
+            "Tight": 4       
+        }
+    },
+    "genPartFlav": {
+        "prompt_electron": 1, 
+        "prompt_muon": 2, 
+        "tau_e_decay": 3, 
+        "tau_mu_decay": 4, 
+        "hadronic_tau_decay": 5, 
+        "unknown": 0       
+    }
+}

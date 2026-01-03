@@ -2,131 +2,40 @@ import json
 import sys
 import time
 import dask
+import yaml
 import pickle
 import argparse
 import datetime
 import numpy as np
+from pathlib import Path
 import wprime_plus_b.utils
 import importlib.resources
-from pathlib import Path
 from coffea import processor
 from utils import get_filesets
 from dask.distributed import Client
+from wprime_plus_b.utils import paths
 from humanfriendly import format_timespan
 from distributed.diagnostics.plugin import UploadDirectory
-from wprime_plus_b.utils import paths
-from wprime_plus_b.processors.top_tagger_processor import TopTaggerProccessor
+
+# Processors
+from wprime_plus_b.processors.ztoll_processor import ZToLLProcessor
 from wprime_plus_b.processors.wjets_processor import WjetsProccessor
 from wprime_plus_b.processors.signal_processor import SignalProccessor
-from wprime_plus_b.processors.wplusjets_processor import WplusJetsProcessor
-from wprime_plus_b.processors.qcd_processor import QCDProccessor
-from wprime_plus_b.processors.qcd_closure_processor import QCD_closure_Proccessor
-from wprime_plus_b.processors.ztoll_processor import ZToLLProcessor
 from wprime_plus_b.processors.zplusc_processor import ZplusCProcessor
+from wprime_plus_b.processors.wplusjets_processor import WplusJetsProcessor
+from wprime_plus_b.processors.top_tagger_processor import TopTaggerProccessor
+from wprime_plus_b.processors.qcd_closure_processor import QCD_closure_Proccessor
 from wprime_plus_b.processors.btag_efficiency_processor import BTagEfficiencyProcessor
 from wprime_plus_b.processors.ctag_efficiency_processor import CTagEfficiencyProcessor
 
-# Top tagger configs
-from wprime_plus_b.selections.top_tagger.bjet_config import top_tagger_bjet_selection
-from wprime_plus_b.selections.top_tagger.cases_top_tagger_config import top_tagger_cases_selection, top_tagger_mW_mTop_Njets_selection
-from wprime_plus_b.selections.top_tagger.electron_config import top_tagger_electron_selection
-from wprime_plus_b.selections.top_tagger.fatjet_config import top_tagger_fatjet_selection
-from wprime_plus_b.selections.top_tagger.general_config import top_tagger_cross_cleaning_selection, top_tagger_trigger_selection
-from wprime_plus_b.selections.top_tagger.jet_config import top_tagger_jet_selection
-from wprime_plus_b.selections.top_tagger.met_config import top_tagger_met_selection
-from wprime_plus_b.selections.top_tagger.muon_config import top_tagger_muon_selection
-from wprime_plus_b.selections.top_tagger.tau_config import top_tagger_tau_selection
-from wprime_plus_b.selections.top_tagger.wjet_config import top_tagger_wjet_selection
-
-
-# Signal configs
-from wprime_plus_b.selections.signal.bjet_config import signal_bjet_selection
-from wprime_plus_b.selections.signal.cases_top_tagger_config import signal_cases_selection
-from wprime_plus_b.selections.signal.electron_config import signal_electron_selection
-from wprime_plus_b.selections.signal.fatjet_config import signal_fatjet_selection
-from wprime_plus_b.selections.signal.general_config import signal_cross_cleaning_selection, signal_trigger_selection
-from wprime_plus_b.selections.signal.jet_config import signal_jet_selection
-from wprime_plus_b.selections.signal.met_config import signal_met_selection
-from wprime_plus_b.selections.signal.muon_config import signal_muon_selection
-from wprime_plus_b.selections.signal.tau_config import signal_tau_selection
-from wprime_plus_b.selections.signal.wjet_config import signal_wjet_selection
-
-# QCD configs (hadronic channel)
-from wprime_plus_b.selections.qcd_hadronic.bjet_config import qcd_hadronic_bjet_selection
-from wprime_plus_b.selections.qcd_hadronic.cases_top_tagger_config import qcd_hadronic_cases_selection
-from wprime_plus_b.selections.qcd_hadronic.electron_config import qcd_hadronic_electron_selection
-from wprime_plus_b.selections.qcd_hadronic.fatjet_config import qcd_hadronic_fatjet_selection
-from wprime_plus_b.selections.qcd_hadronic.general_config import qcd_hadronic_cross_cleaning_selection, qcd_hadronic_trigger_selection
-from wprime_plus_b.selections.qcd_hadronic.jet_config import qcd_hadronic_jet_selection
-from wprime_plus_b.selections.qcd_hadronic.met_config import qcd_hadronic_met_selection
-from wprime_plus_b.selections.qcd_hadronic.muon_config import qcd_hadronic_muon_selection
-from wprime_plus_b.selections.qcd_hadronic.tau_config import qcd_hadronic_tau_selection
-from wprime_plus_b.selections.qcd_hadronic.wjet_config import qcd_hadronic_wjet_selection
-
-
-# QCD configs (hadronic channel_Closure)
-from wprime_plus_b.selections.qcd_hadronic_closure.bjet_config import qcd_hadronic_closure_bjet_selection
-from wprime_plus_b.selections.qcd_hadronic_closure.cases_top_tagger_config import qcd_hadronic_closure_cases_selection
-from wprime_plus_b.selections.qcd_hadronic_closure.electron_config import qcd_hadronic_closure_electron_selection
-from wprime_plus_b.selections.qcd_hadronic_closure.fatjet_config import qcd_hadronic_closure_fatjet_selection
-from wprime_plus_b.selections.qcd_hadronic_closure.general_config import qcd_hadronic_closure_cross_cleaning_selection, qcd_hadronic_closure_trigger_selection
-from wprime_plus_b.selections.qcd_hadronic_closure.jet_config import qcd_hadronic_closure_jet_selection
-from wprime_plus_b.selections.qcd_hadronic_closure.met_config import qcd_hadronic_closure_met_selection
-from wprime_plus_b.selections.qcd_hadronic_closure.muon_config import qcd_hadronic_closure_muon_selection
-from wprime_plus_b.selections.qcd_hadronic_closure.tau_config import qcd_hadronic_closure_tau_selection
-from wprime_plus_b.selections.qcd_hadronic_closure.wjet_config import qcd_hadronic_closure_wjet_selection
-
-# WJets configs
-from wprime_plus_b.selections.wjets.bjet_config import wjet_bjet_selection
-from wprime_plus_b.selections.wjets.electron_config import wjet_electron_selection
-from wprime_plus_b.selections.wjets.general_config import wjet_cross_cleaning_selection, wjet_trigger_selection
-from wprime_plus_b.selections.wjets.jet_config import wjet_jet_selection
-from wprime_plus_b.selections.wjets.leading_jet_config import wjet_leading_jet_selection
-from wprime_plus_b.selections.wjets.met_config import wjet_met_selection
-from wprime_plus_b.selections.wjets.muon_config import wjet_muon_selection
-from wprime_plus_b.selections.wjets.tau_config import wjet_tau_selection
-
-# WplusJets configs
-from wprime_plus_b.selections.wplusjets.bjet_config import wjets_bjet_selection
-from wprime_plus_b.selections.wplusjets.cases_top_tagger_config import wjets_cases_selection
-from wprime_plus_b.selections.wplusjets.electron_config import wjets_electron_selection
-from wprime_plus_b.selections.wplusjets.fatjet_config import wjets_fatjet_selection
-from wprime_plus_b.selections.wplusjets.general_config import wjets_cross_cleaning_selection, wjets_trigger_selection
-from wprime_plus_b.selections.wplusjets.jet_config import wjets_jet_selection
-from wprime_plus_b.selections.wplusjets.met_config import wjets_met_selection
-from wprime_plus_b.selections.wplusjets.muon_config import wjets_muon_selection
-from wprime_plus_b.selections.wplusjets.tau_config import wjets_tau_selection
-from wprime_plus_b.selections.wplusjets.wjet_config import wjets_wjet_selection
-from wprime_plus_b.selections.wplusjets.mt_config import wjets_mt_selection 
-
-# Ztoll configs
-from wprime_plus_b.selections.ztoll.bjet_config import ztoll_bjet_selection
-from wprime_plus_b.selections.ztoll.electron_config import ztoll_electron_selection
-from wprime_plus_b.selections.ztoll.general_config import ztoll_cross_cleaning_selection, ztoll_trigger_selection
-from wprime_plus_b.selections.ztoll.jet_config import ztoll_jet_selection
-from wprime_plus_b.selections.ztoll.leading_jet_config import ztoll_leading_jet_selection
-from wprime_plus_b.selections.ztoll.met_config import ztoll_met_selection
-from wprime_plus_b.selections.ztoll.muon_config import ztoll_muon_selection
-from wprime_plus_b.selections.ztoll.tau_config import ztoll_tau_selection
-from wprime_plus_b.selections.ztoll.Z_config import ztoll_charges_selection, ztoll_mrec_ll_selection
-
-
-
-# Zplusc configs
-from wprime_plus_b.selections.zplusc.bjet_config import zplusc_bjet_selection
-from wprime_plus_b.selections.zplusc.electron_config import zplusc_electron_selection
-from wprime_plus_b.selections.zplusc.general_config import zplusc_cross_cleaning_selection, zplusc_trigger_selection
-from wprime_plus_b.selections.zplusc.jet_config import zplusc_jet_selection
-from wprime_plus_b.selections.zplusc.met_config import zplusc_met_selection
-from wprime_plus_b.selections.zplusc.muon_config import zplusc_muon_selection
-from wprime_plus_b.selections.zplusc.tau_config import zplusc_tau_selection
-from wprime_plus_b.selections.zplusc.Z_config import zplusc_charges_selection, zplusc_mrec_ll_selection
 
 
 def main(args):
 
     args = vars(args)
-    # define processors and executors
+    # ==================================================
+    #        Define processors and executors
+    # ==================================================
     processors = {
         "ztoll": ZToLLProcessor,
         "zplusc": ZplusCProcessor,
@@ -135,17 +44,18 @@ def main(args):
         "top_tagger": TopTaggerProccessor,
         "signal": SignalProccessor,
         "wjets": WjetsProccessor,
-        "qcd_hadronic": QCDProccessor,
         "qcd_hadronic_closure": QCD_closure_Proccessor,
         "wplusjets": WplusJetsProcessor,
     }
     processor_args = [
         "year",
+        "processor",
         "channel",
         "lepton_flavor",
         "output_type",
         "syst",
         "run_systematics",
+        "qcd_data_driven",
         "output_folder"
     ]
     processor_kwargs = {k: args[k] for k in processor_args if args[k]}
@@ -173,8 +83,9 @@ def main(args):
         except OSError:
             print("Failed to upload the directory")
         
-
-    # ---- Load filesets ----
+    # ======================================================
+    #           Load filesets 
+    # ======================================================
     print(">>> Llamando get_filesets")
     # get .json filesets for sample
     filesets = get_filesets(
@@ -240,13 +151,10 @@ def main(args):
         metadata.update({"fileset": fileset[sample]})
         if "metadata" in out[sample]:
             output_metadata = out[sample]["metadata"]
-            # save number of raw initial events
-            metadata.update({"raw_initial_nevents": float(output_metadata["raw_initial_nevents"])})
-            # save number of weighted initial events
-            metadata.update({"sumw": float(output_metadata["sumw"])})
+
             # save top_tagger metadata
-            if args["processor"] in ["top_tagger", "signal", "qcd_hadronic", "qcd_hadronic_closure", "wplusjets"]:
-                # Define las claves comunes y los sufijos correspondientes
+            if args["processor"] in ["top_tagger", "signal", "qcd_hadronic_closure", "wplusjets"]:
+                # Define the common keys and corresponding suffixes
                 all_keys = [
                     "one_jet_unresolve", "two_jets_unresolve", "two_jets_partially_resolve", 
                     "three_jets_partially_resolve", "three_jets_resolve", "four_jets_resolve", 
@@ -286,418 +194,164 @@ def main(args):
                     "top_tagger_raw": top_tagger_raw_entries,
                     "top_tagger_nevents": top_tagger_entries
                 })            
-                        
+
             # save metadata
-            if args["processor"] in ["ztoll", "zplusc", "top_tagger", "signal", "wjets", "qcd_hadronic", "qcd_hadronic_closure", "wplusjets"]:
+            if args["processor"] in ["ztoll", "zplusc", "top_tagger", "signal", "wjets", "qcd_hadronic_closure", "wplusjets"]:
+
+                # Step 1: create `main` with baseline info
+                metadata.update({
+                    "main": {
+                        "nominal": {k: str(v) for k, v in output_metadata.get("cutflow", {}).items()},
+                        "raw":     {k: str(v) for k, v in output_metadata.get("cutflow_raw", {}).items()},
+                        "raw_initial_nevents": float(output_metadata["raw_initial_nevents"]),
+                        "raw_final_nevents": float(output_metadata.get("raw_final_nevents", 0.)),
+                        "sumw": float(output_metadata["sumw"]),
+                        "weighted_final_nevents": float(output_metadata.get("weighted_final_nevents", 0.)),
+                        "weight_statistics": {k: str(v) for k, v in output_metadata.get("weight_statistics", {}).items()},
+                    }
+                })
+
+                # Step 2: add extra fields only for non-data samples
+                if args["sample"] not in ["MET", "SingleMuon", "SingleElectron", "Tau"]:
+                    metadata["main"].update({
+                        "sumw_no_object_weights": float(output_metadata["sumw_no_object_weights"]),
+                        "sumw_POG": float(output_metadata["sumw_POG"]),
+                        "sumw_POG_plus_no_trigger": float(output_metadata["sumw_POG_plus_no_trigger"]),
+                    })
+
+
+            # ============================================================
+            #         Save event selection criteria
+            # ============================================================
+            # Load event selection criteria
+            with open(f"wprime_plus_b/selections/{args['processor']}/event_selection_criteria.yaml") as f:
+                criteria = yaml.safe_load(f)
+
+            # ------------------------------------------------------------
+            #          Save top tagger selectios on metadata
+            # ------------------------------------------------------------
+            if args["processor"] in ["top_tagger", "signal", "wplusjets", "qcd_hadronic_closure", "ztoll", "zplusc"]:  
              
-                # save raw and weighted number of events after selection
-                if "raw_final_nevents" in output_metadata:
-                    metadata.update(
-                        {"raw_final_nevents": float(output_metadata["raw_final_nevents"])}
-                    )
-                    metadata.update(
-                        {"weighted_final_nevents": float(output_metadata["weighted_final_nevents"])}
-                    )
+                selections = {
+                    "electron_selection":  criteria["electron"][args["lepton_flavor"]],
+                    "muon_selection": criteria["muon"][args["lepton_flavor"]],
+                    "tau_selection": criteria["tau"][args["lepton_flavor"]],
+                    "bjet_selection": criteria["bjet"][args["lepton_flavor"]],
+                    "cross_cleaning_selection": criteria["cross_cleaning"][args["lepton_flavor"]],
+                    "trigger_selection": criteria["trigger"][args["lepton_flavor"]],
+                }
+
+                if args["processor"] not in ["ztoll", "zplusc"]:
+                    selections["jet_selection"] = criteria["jet"][args["lepton_flavor"]]                    
+                    selections["fatjet_selection"] = criteria["fatjet"][args["lepton_flavor"]]
+                    selections["wjet_selection"] = criteria["wjet"][args["lepton_flavor"]]
+                    selections["top_tagger_cases"] = criteria["top_tagger"][args["lepton_flavor"]]
+                    selections["met_selection"] =  criteria["met"][args["lepton_flavor"]]
+
+                metadata.update({"selections": selections})
+
+                # Remove duplicates while preserving the original order
+                triggers = list(dict.fromkeys(output_metadata["Triggers"]))
+
+
+                # Update the metadata dictionary with the cleaned triggers list as a string
+                metadata.update({"Triggers": str(triggers)})
+
+
+                if "Triggers_eff" in output_metadata:
+                    triggers_eff = list(dict.fromkeys(output_metadata["Triggers_eff"]))
+                    metadata.update({"Triggers_eff": str(triggers_eff)})
                 else:
-                    metadata.update(
-                        {"raw_final_nevents": 0.}
-                    )
-                    metadata.update(
-                        {"weighted_final_nevents": 0.}
-                    )
-                # save cutflow to metadata
-                for cut_selection, nevents in output_metadata["cutflow"].items():
-                    output_metadata["cutflow"][cut_selection] = str(nevents)
-                metadata.update({"cutflow": output_metadata["cutflow"]})
-
-                for weight, statistics in output_metadata["weight_statistics"].items():
-                    output_metadata["weight_statistics"][weight] = str(statistics)
-                metadata.update(
-                    {"weight_statistics": output_metadata["weight_statistics"]}
-                )
-            
-            # save top tagger selectios to metadata
-            if args["processor"] in ["top_tagger"]:  
-             
-                selections = {
-                    "electron_selection": top_tagger_electron_selection[
-                        args["lepton_flavor"]
-                        ],
-                    "muon_selection": top_tagger_muon_selection[
-                        args["lepton_flavor"]
-                        ],
-                    "tau_selection": top_tagger_tau_selection[
-                        args["lepton_flavor"]
-                        ],
-                    "bjet_selection": top_tagger_bjet_selection[
-                        args["lepton_flavor"]
-                        ],
-                    "jet_selection": top_tagger_jet_selection[
-                        args["lepton_flavor"]
-                        ],
-                    "fatjet_selection": top_tagger_fatjet_selection[
-                        args["lepton_flavor"]
-                        ],
-                    "wjet_selection": top_tagger_wjet_selection[
-                        args["lepton_flavor"]
-                        ],
-                    "cross_cleaning_selection": top_tagger_cross_cleaning_selection[
-                        args["lepton_flavor"]
-                        ],
-                    "Mass window for TOPs and Ws in NJets scenarios": top_tagger_mW_mTop_Njets_selection[
-                        args["lepton_flavor"]
-                        ],
-                    "trigger_selection": top_tagger_trigger_selection[
-                        args["lepton_flavor"]
-                        ],
-                    "met_selection": top_tagger_met_selection[
-                        args["lepton_flavor"]
-                        ],
-                    "trigger_selection": top_tagger_trigger_selection[
-                        args["lepton_flavor"]
-                        ],
-                    "top_tagger_cases": top_tagger_cases_selection[
-                        args["lepton_flavor"]
-                        ],
-                }
-                metadata.update({"selections": selections})
-
-            # save top tagger selectios to signal
-            elif args["processor"] in ["signal"]:  
-             
-                selections = {
-                    "electron_selection": signal_electron_selection[
-                        args["lepton_flavor"]
-                        ],
-                    "muon_selection": signal_muon_selection[
-                        args["lepton_flavor"]
-                        ],
-                    "tau_selection": signal_tau_selection[
-                        args["lepton_flavor"]
-                        ],
-                    "bjet_selection": signal_bjet_selection[
-                        args["lepton_flavor"]
-                        ],
-                    "jet_selection": signal_jet_selection[
-                        args["lepton_flavor"]
-                        ],
-                    "fatjet_selection": signal_fatjet_selection[
-                        args["lepton_flavor"]
-                        ],
-                    "wjet_selection": signal_wjet_selection[
-                        args["lepton_flavor"]
-                        ],
-                    "cross_cleaning_selection": signal_cross_cleaning_selection[
-                        args["lepton_flavor"]
-                        ],
-                    "trigger_selection": signal_trigger_selection[
-                        args["lepton_flavor"]
-                        ],
-                    "met_selection": signal_met_selection[
-                        args["lepton_flavor"]
-                        ],
-                    "trigger_selection": signal_trigger_selection[
-                        args["lepton_flavor"]
-                        ],
-                    "top_tagger_cases": signal_cases_selection[
-                        args["lepton_flavor"]
-                        ],
-                }
-                metadata.update({"selections": selections})
-
-            # save top tagger selectios in qcd CR (hadronic channel)
-            elif args["processor"] in ["qcd_hadronic"]:  
-                selections = {
-                    "electron_selection": qcd_hadronic_electron_selection[args["channel"]][
-                        args["lepton_flavor"]
-                        ],
-                    "muon_selection": qcd_hadronic_muon_selection[args["channel"]][
-                        args["lepton_flavor"]
-                        ],
-                    "tau_selection": qcd_hadronic_tau_selection[args["channel"]][
-                        args["lepton_flavor"]
-                        ],
-                    "bjet_selection": qcd_hadronic_bjet_selection[args["channel"]][
-                        args["lepton_flavor"]
-                        ],
-                    "jet_selection": qcd_hadronic_jet_selection[args["channel"]][
-                        args["lepton_flavor"]
-                        ],
-                    "fatjet_selection": qcd_hadronic_fatjet_selection[args["channel"]][
-                        args["lepton_flavor"]
-                        ],
-                    "wjet_selection": qcd_hadronic_wjet_selection[args["channel"]][
-                        args["lepton_flavor"]
-                        ],
-                    "cross_cleaning_selection": qcd_hadronic_cross_cleaning_selection[args["channel"]][
-                        args["lepton_flavor"]
-                        ],
-                    "trigger_selection": qcd_hadronic_trigger_selection[args["channel"]][
-                        args["lepton_flavor"]
-                        ],
-                    "met_selection": qcd_hadronic_met_selection[args["channel"]][
-                        args["lepton_flavor"]
-                        ],
-                    "trigger_selection": qcd_hadronic_trigger_selection[args["channel"]][
-                        args["lepton_flavor"]
-                        ],
-                    "top_tagger_cases": qcd_hadronic_cases_selection[args["channel"]][
-                        args["lepton_flavor"]
-                        ],
-                }
-                metadata.update({"selections": selections})
-
-            # save top tagger selectios in qcd CR (hadronic channel)
-            elif args["processor"] in ["qcd_hadronic_closure"]:  
-                selections = {
-                    "electron_selection": qcd_hadronic_closure_electron_selection[args["channel"]][
-                        args["lepton_flavor"]
-                        ],
-                    "muon_selection": qcd_hadronic_closure_muon_selection[args["channel"]][
-                        args["lepton_flavor"]
-                        ],
-                    "tau_selection": qcd_hadronic_closure_tau_selection[args["channel"]][
-                        args["lepton_flavor"]
-                        ],
-                    "bjet_selection": qcd_hadronic_closure_bjet_selection[args["channel"]][
-                        args["lepton_flavor"]
-                        ],
-                    "jet_selection": qcd_hadronic_closure_jet_selection[args["channel"]][
-                        args["lepton_flavor"]
-                        ],
-                    "fatjet_selection": qcd_hadronic_closure_fatjet_selection[args["channel"]][
-                        args["lepton_flavor"]
-                        ],
-                    "wjet_selection": qcd_hadronic_closure_wjet_selection[args["channel"]][
-                        args["lepton_flavor"]
-                        ],
-                    "cross_cleaning_selection": qcd_hadronic_closure_cross_cleaning_selection[args["channel"]][
-                        args["lepton_flavor"]
-                        ],
-                    "trigger_selection": qcd_hadronic_closure_trigger_selection[args["channel"]][
-                        args["lepton_flavor"]
-                        ],
-                    "met_selection": qcd_hadronic_closure_met_selection[args["channel"]][
-                        args["lepton_flavor"]
-                        ],
-                    "trigger_selection": qcd_hadronic_closure_trigger_selection[args["channel"]][
-                        args["lepton_flavor"]
-                        ],
-                    "top_tagger_cases": qcd_hadronic_closure_cases_selection[args["channel"]][
-                        args["lepton_flavor"]
-                        ],
-                }
-                metadata.update({"selections": selections})
-
-            # save wplusjets selectios to metadata
-            elif args["processor"] in ["wplusjets"]:
-                selections = {
-                    "electron_selection": wjets_electron_selection[args["channel"]][
-                        args["lepton_flavor"]
-                    ],
-                    "muon_selection": wjets_muon_selection[args["channel"]][
-                        args["lepton_flavor"]
-                    ],
-                    "tau_selection": wjets_tau_selection[args["channel"]][
-                        args["lepton_flavor"]
-                    ],
-                    "bjet_selection": wjets_bjet_selection[args["channel"]][
-                        args["lepton_flavor"]
-                    ],
-                    "jet_selection": wjets_jet_selection[args["channel"]][
-                        args["lepton_flavor"]
-                    ],
-                    "fatjet_selection": wjets_fatjet_selection[args["channel"]][
-                        args["lepton_flavor"]
-                    ],
-                    "wjet_selection": wjets_wjet_selection[args["channel"]][
-                        args["lepton_flavor"]
-                    ],
-                    "cross_cleaning_selection": wjets_cross_cleaning_selection[args["channel"]][
-                        args["lepton_flavor"]
-                    ],
-                    "trigger_selection": wjets_trigger_selection[args["channel"]][
-                        args["lepton_flavor"]
-                    ],
-                    "met_selection": wjets_met_selection[args["channel"]][
-                        args["lepton_flavor"]
-                    ],
-                    "mt_selection": wjets_mt_selection[args["channel"]][
-                        args["lepton_flavor"]
-                    ],
-                    "trigger_selection": wjets_trigger_selection[args["channel"]][
-                        args["lepton_flavor"]
-                    ],
-                    "top_tagger_cases": wjets_cases_selection[args["channel"]][
-                        args["lepton_flavor"]
-                    ],
-                }
-                metadata.update({"selections": selections})
-            # save wjets selectios to metadata
-            elif args["processor"] in ["wjets"]:  
-             
-                selections = {
-                    "electron_selection": wjet_electron_selection[args["channel"]][
-                        args["lepton_flavor"]
-                    ],
-                    "muon_selection": wjet_muon_selection[args["channel"]][
-                        args["lepton_flavor"]
-                    ],
-                    "tau_selection": wjet_tau_selection[args["channel"]][
-                        args["lepton_flavor"]
-                    ],
-                    "jet_selection": wjet_jet_selection[args["channel"]][
-                        args["lepton_flavor"]
-                    ],
-                    "leading_jet_selection": wjet_leading_jet_selection[args["channel"]][
-                        args["lepton_flavor"]
-                    ],
-                    "bjet_selection": wjet_bjet_selection[args["channel"]][
-                        args["lepton_flavor"]
-                    ],
-                    "met_selection": wjet_met_selection[args["channel"]][
-                        args["lepton_flavor"]
-                    ],
-                    "cross_cleaning_selection": wjet_cross_cleaning_selection[args["channel"]][
-                        args["lepton_flavor"]
-                    ],
-                    "trigger_selection":wjet_trigger_selection[args["channel"]][
-                        args["lepton_flavor"]
-                    ],
-                }
-                metadata.update({"selections": selections})
-
-            # save ztoll selectios to metadata
-            elif args["processor"] in ["ztoll"]:  
-            
-                selections = {
-                    "electron_selection": ztoll_electron_selection[args["channel"]][
-                        args["lepton_flavor"]
-                    ],
-                    "muon_selection": ztoll_muon_selection[args["channel"]][
-                        args["lepton_flavor"]
-                    ],
-                    "tau_selection": ztoll_tau_selection[args["channel"]][
-                        args["lepton_flavor"]
-                    ],
-                    "met_selection": ztoll_met_selection[args["channel"]][
-                        args["lepton_flavor"]
-                    ],
-                    "Charge_dilepton": ztoll_charges_selection[args["channel"]][
-                        args["lepton_flavor"]
-                    ],
-                    "Dilepton_mass_rec": ztoll_mrec_ll_selection[args["channel"]][
-                        args["lepton_flavor"]
-                    ],
-                }
-                        
-                metadata.update({"selections": selections})
-
-            # save zplusc selectios to metadata
-            elif args["processor"] in ["zplusc"]:  
-            
-                selections = {
-                    "electron_selection": zplusc_electron_selection[args["channel"]][
-                        args["lepton_flavor"]
-                    ],
-                    "muon_selection": zplusc_muon_selection[args["channel"]][
-                        args["lepton_flavor"]
-                    ],
-                    "tau_selection": zplusc_tau_selection[args["channel"]][
-                        args["lepton_flavor"]
-                    ],
-                    "met_selection": zplusc_met_selection[args["channel"]][
-                        args["lepton_flavor"]
-                    ],
-                    "Charge_dilepton": zplusc_charges_selection[args["channel"]][
-                        args["lepton_flavor"]
-                    ],
-                    "Dilepton_mass_rec": zplusc_mrec_ll_selection[args["channel"]][
-                        args["lepton_flavor"]
-                    ],
-                }
-                        
-                metadata.update({"selections": selections})
-
-        if args["processor"] in ["top_tagger", "signal", "wjets", "qcd_hadronic", "qcd_hadronic_closure", "ztoll", "zplusc", "wplusjets"]:
-
-            # Remove duplicates while preserving the original order
-            triggers = list(dict.fromkeys(output_metadata["Triggers"]))
+                    metadata.update({"Triggers_eff": "Not activated"})
 
 
-            # Update the metadata dictionary with the cleaned triggers list as a string
-            metadata.update({"Triggers": str(triggers)})
+                if args["run_systematics"] == "true" and args["sample"] not in ["MET", "SingleMuon", "SingleElectron", "Tau"]:
+
+                    syst_var_object = [
+                        "muon_Rochester_up", "muon_Rochester_down",
+                        "tau_TES_up", "tau_TES_down",
+                        "jet_JES_up", "jet_JES_up",
+                        "jet_JER_up", "jet_JER_up",
+                        "fatjet_JES_up", "fatjet_JES_up",
+                        "fatjet_JER_up", "fatjet_JER_up",     
+                    ]
+
+                    has_fatjets = output_metadata.get("Are there Fatjets?", False)
+                    # Si no hay fatjets, eliminar sistemáticas relacionadas con fatjets
+                    if not has_fatjets:
+                        syst_var_object = [s for s in syst_var_object if "fatjet" not in s.lower()]
+
+                    cutflow_syst = {}
+
+                    for syst in syst_var_object:
+                        cutflow_syst[syst] = {
+                            "nominal":{k: str(v) for k, v in output_metadata.get(f"cutflow_({syst})", {}).items()}, 
+                            "raw":{k: str(v) for k, v in output_metadata.get(f"cutflow_({syst})_raw", {}).items()}, 
+                        }
+                        metadata["main"]["systematic_variations"] = cutflow_syst
+                    
+
+                if args["qcd_data_driven"] == "true":
+
+                    cutflow_BCD = {}
+                    values_BCD = {}
+                    cr_data_driven = ["cr_b", "cr_c", "cr_d"]
+
+                    for cr in ["cr_b", "cr_c", "cr_d"]:
+                        # Save cutflow
+                        cutflow_BCD[cr] = {
+                            "nominal": {k: str(v) for k, v in output_metadata.get(f"cutflow_{cr}", {}).items()}, 
+                            "raw": {k: str(v) for k, v in output_metadata.get(f"cutflow_{cr}_raw", {}).items()}
+                        }
+                        # Save number of events
+                        values_BCD[cr] = {
+                            "raw_initial_nevents": float(output_metadata["raw_initial_nevents"]),
+                            "raw_final_nevents": float(output_metadata.get(f"raw_final_nevents_{cr}", 0.)),
+                            "sumw": float(output_metadata[f"sumw_{cr}"]),
+                            "weighted_final_nevents": float(output_metadata.get(f"weighted_final_nevents_{cr}", 0.)),
+                        }
+
+                    metadata["BCD"] = {
+                        "cutflow": cutflow_BCD,
+                        "values":  values_BCD,
+                    }
 
 
-            if "Triggers_eff" in output_metadata:
-                triggers_eff = list(dict.fromkeys(output_metadata["Triggers_eff"]))
-                metadata.update({"Triggers_eff": str(triggers_eff)})
-            else:
-                metadata.update({"Triggers_eff": "Not activated"})
+                    selections_BCD = {
+                        "QCD_data_driven (CR B)":  criteria["data_driven_qcd_estimation"]["cr_b"][args["lepton_flavor"]],
+                        "QCD_data_driven (CR C)":  criteria["data_driven_qcd_estimation"]["cr_c"][args["lepton_flavor"]],
+                        "QCD_data_driven (CR D)":  criteria["data_driven_qcd_estimation"]["cr_d"][args["lepton_flavor"]]
+                    }
+                    metadata.update({"selections_BCD": selections_BCD})
 
+                
+                    if args["run_systematics"] == "true" and args["sample"] not in ["MET", "SingleMuon", "SingleElectron", "Tau"]:
 
+                        syst_var_object = [
+                            "muon_Rochester_up", "muon_Rochester_down",
+                            "tau_TES_up", "tau_TES_down",
+                            "jet_JES_up", "jet_JES_up",
+                            "jet_JER_up", "jet_JER_up",
+                            "fatjet_JES_up", "fatjet_JES_up",
+                            "fatjet_JER_up", "fatjet_JER_up",     
+                        ]
 
-        if args["run_systematics"] == "true" and args["sample"] not in ["MET", "SingleMuon", "SingleElectron", "Tau"]:
-            
+                        has_fatjets = output_metadata.get("Are there Fatjets?", False)
+                        # Si no hay fatjets, eliminar sistemáticas relacionadas con fatjets
+                        if not has_fatjets:
+                            syst_var_object = [s for s in syst_var_object if "fatjet" not in s.lower()]
 
-            # Systematic variations object-corrections:
-            syst_var_object = ["ROCHESTER_up", "ROCHESTER_down", 
-                               "TES_up", "TES_down", 
-                               "jet_JES_up", "jet_JES_down", 
-                               "jet_JER_up", "jet_JER_down", 
-                               "fatjet_JES_up", "fatjet_JES_down", 
-                               "fatjet_JER_up", "fatjet_JER_down", 
-                               "met_UNCLUSTERED_up", "met_UNCLUSTERED_down"
-                               ]
+                        cutflow_syst_cr = {}
 
+                        for cr in ["cr_b", "cr_c", "cr_d"]:
+                            cutflow_syst_cr[cr] = {}
+                            for syst in syst_var_object:
+                                cutflow_syst_cr[cr][syst] = {
+                                    "nominal":{k: str(v) for k, v in output_metadata.get(f"cutflow_{cr}_({syst})", {}).items()}, 
+                                    "raw":{k: str(v) for k, v in output_metadata.get(f"cutflow_{cr}_({syst})_raw", {}).items()}, 
+                                }
+                            metadata["BCD"][f"systematic_variations_{cr}"] =  cutflow_syst_cr                                  
 
-            # Si el processor es 'wjets', eliminar sistemáticas relacionadas con fatjets
-            if args["processor"] == "wjets":
-                syst_var_object = [s for s in syst_var_object if "fatjet" not in s.lower()]
-            else:
-                has_fatjets = output_metadata.get("Are there Fatjets?", False)
-                # Si no hay fatjets, eliminar sistemáticas relacionadas con fatjets
-                if not has_fatjets:
-                    syst_var_object = [s for s in syst_var_object if "fatjet" not in s.lower()]
-
-
-            if args["processor"] in ["top_tagger", "wplusjets", "qcd_hadronic", "qcd_hadronic_closure", "signal", "wjets", "ztoll", "zplusc"]:
-                # Save cutflow for each systematic variation
-                for syst in syst_var_object:
-                    for cut_selection, nevents in output_metadata[f"cutflow_{syst}"].items():
-                        output_metadata[f"cutflow_{syst}"][cut_selection] = str(nevents)
-                    metadata.update({f"cutflow_{syst}": output_metadata[f"cutflow_{syst}"]})
-
-                    # Save number of events per region
-                    metadata.update(
-                        {f"raw_final_nevents_{syst}": float(output_metadata[f"raw_final_nevents_{syst}"])}
-                    )
-                    metadata.update(
-                        {f"weighted_final_nevents_{syst}": float(output_metadata[f"weighted_final_nevents_{syst}"])}
-                    )
-
-        if args["processor"] in ["top_tagger", "ztoll", "zplusc", "qcd_hadronic", "qcd_hadronic_closure", "wplusjets", "signal", "wjets"]:
-            for cut_selection, nevents in output_metadata["cutflow_raw"].items():
-                output_metadata["cutflow_raw"][cut_selection] = str(nevents)
-            metadata.update({"cutflow_raw": output_metadata["cutflow_raw"]})
-
-
-
-        if args["processor"] in ["ztoll"] and args["sample"] not in ["MET", "SingleMuon", "SingleElectron", "Tau"]:
-            metadata.update(
-                        {f"sumw_no_ISR": float(output_metadata[f"sumw_no_ISR"])}
-                    )
-
-        if args["processor"] in ["top_tagger", "ztoll", "zplusc", "qcd_hadronic", "qcd_hadronic_closure", "wplusjets", "signal", "wjets"]  and args["sample"] not in ["MET", "SingleMuon", "SingleElectron", "Tau"]:
-            metadata.update(
-                        {f"sumw_case_1": float(output_metadata[f"sumw_case_1"])}
-                    )
-            metadata.update(
-                        {f"sumw_case_2": float(output_metadata[f"sumw_case_2"])}
-                    )                    
-            metadata.update(
-                        {f"sumw_case_3": float(output_metadata[f"sumw_case_3"])}
-                    )                    
 
         # save args to metadata
         args_dict = args.copy()
@@ -719,7 +373,7 @@ if __name__ == "__main__":
         dest="processor",
         type=str,
         default="",
-        help="processor to be used {ttbar, ztoll, zplusc, qcd, trigger_eff, btag_eff, ctag_eff, signal, wjets, qcd_abcd, qcd_hadronic} (default ttbar)",
+        help="processor to be used {ttbar, ztoll, zplusc, qcd, trigger_eff, btag_eff, ctag_eff, signal, wjets, qcd_abcd} (default ttbar)",
     )
     parser.add_argument(
         "--channel",
@@ -826,6 +480,14 @@ if __name__ == "__main__":
         default="false",
         help="Run systematics (true/false)",
      )
+
+    parser.add_argument(
+        "--qcd_data_driven",
+        dest="qcd_data_driven",
+        type=str,
+        default="false",
+        help="Run systematics (true/false)",
+     )     
 
     parser.add_argument(
         "--output_folder",

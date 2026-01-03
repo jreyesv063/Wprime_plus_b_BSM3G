@@ -3,8 +3,6 @@ import awkward as ak
 import json
 from coffea.nanoevents import NanoEventsFactory, NanoAODSchema
 from wprime_plus_b.processors.utils.analysis_utils import chi2_test, delta_r_mask, pdg_masses, tagger_constants
-from wprime_plus_b.selections.top_tagger.cases_top_tagger_config import top_tagger_mW_mTop_Njets_selection
-
 
 # --------------------------
 # Top tagger

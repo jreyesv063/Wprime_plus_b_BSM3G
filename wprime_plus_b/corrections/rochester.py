@@ -9,7 +9,7 @@ def apply_rochester_corrections(
     events: ak.Array, is_mc: bool, year: str = "2017", variation: bool = False):
     # https://twiki.cern.ch/twiki/bin/viewauth/CMS/RochcorMuon
     rochester_data = txt_converters.convert_rochester_file(
-        f"wprime_plus_b/data/RoccoR{year}UL.txt", loaduncs=True
+        f"wprime_plus_b/corrections/Rochester/RoccoR{year}UL.txt", loaduncs=True
     )
 
     warnings.filterwarnings("ignore", message="overflow encountered in power")

@@ -23,7 +23,7 @@ class CTagEfficiencyProcessor(processor.ProcessorABC):
     """
 
     def __init__(self, year="2017", yearmod="", tagger="deepJet", wp="T",
-                 output_type="hist", run_systematics=False, output_folder="",
+                 output_type="hist", run_systematics=False, qcd_data_driven=False, output_folder="",
                  debug=False):
         self._year = year
         self._tagger = tagger

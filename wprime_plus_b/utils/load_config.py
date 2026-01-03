@@ -1,27 +1,27 @@
 import yaml
 import importlib.util
 from pathlib import Path
-from wprime_plus_b.utils.configs.dataset import DatasetConfig
 
+def load_processor_config(processor: str, channel: str, lepton_flavor: str):
 
-def load_processor_config(config_name: str):
-    path = f"wprime_plus_b.configs.processor.{config_name}"
-    loader = importlib.util.find_spec(path)
+    class ProcessorConfig:
+        def __init__(self, name, channel, lepton_flavor):
+            self.name = name
+            self.channel = channel
+            self.lepton_flavor = lepton_flavor
 
-    if loader is None:
-        raise Exception(
-            f"No config file found for the selected processor '{config_name}'"
-        )
-    config_module = importlib.import_module(path)
-    # this requires that the variables in the config file follow this naming pattern
-
-    config = getattr(
-        config_module, "processor_config"
-    )  # the module has a variable which is a object with name
-    return config
-
+    return ProcessorConfig(
+        name=processor,
+        channel=channel,
+        lepton_flavor=lepton_flavor,
+    )
 
 def load_dataset_config(config_name: str, object_syst: str):
+
+    class DatasetConfig:
+        def __init__(self, name, nsplit):
+            self.name = name
+            self.nsplit = nsplit
 
     object_systematic_variation = (object_syst.lower() == "true")
     configs_file= "datasets_configs_systematics.yaml" if object_systematic_variation else "datasets_configs.yaml"

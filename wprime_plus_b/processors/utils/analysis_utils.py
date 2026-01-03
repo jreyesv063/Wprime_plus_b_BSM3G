@@ -10,6 +10,8 @@ from datetime import datetime
 from typing import List, Union
 from coffea.nanoevents.methods import candidate, vector
 
+from concurrent.futures import ThreadPoolExecutor, as_completed
+
 
 def normalize(var: ak.Array, cut: ak.Array = None) -> ak.Array:
     """
@@ -318,6 +320,247 @@ def trigger_match(leptons: ak.Array, trigobjs: ak.Array, trigger_path: str):
     return trig_matched_locs
 
 
+def apply_selection(objects, mask):
+    """
+    Apply an event-level boolean mask to all objects in a dictionary.
+
+    Parameters
+    ----------
+    objects : dict
+        Dictionary containing awkward arrays of physics objects
+        (e.g. jets, bjets, electrons, muons, MET, etc.).
+    mask : awkward.Array (bool)
+        Boolean mask at event level selecting the events of interest.
+
+    Returns
+    -------
+    dict
+        New dictionary where each object has been filtered
+        according to the provided event mask.
+    """
+    return {key: obj[mask] for key, obj in objects.items()}
+
+
+def top_tagger(topX, top_tagger_cases=None):
+
+    """
+    Apply top-tagging scenarios to the given topX object and combine the
+    selected scenarios into a single top candidate collection and mask.
+
+    Parameters
+    ----------
+    topX : object
+        Object containing all top-tagging scenario methods (Scenario_*).
+    top_tagger_cases : iterable of str or None, optional
+        List of scenario names (e.g. "case_1", "case_5", ...) to be applied.
+        If None, all available scenarios are used.
+
+    Returns
+    -------
+    selected_tops : awkward.Array
+        Combined top candidates after applying the selected scenarios
+        and the final top mask.
+    mask_top : awkward.Array (bool)
+        Boolean mask indicating events passing at least one selected
+        top-tagging scenario.
+    masks : dict
+        Dictionary mapping each scenario name to its individual event mask.
+    """
+
+    escenarios = {
+        "case_1": topX.Scenario_1jet_unresolve,
+        "case_2": topX.Scenario_2jets_unresolve,
+        "case_3": topX.Scenario_2jets_partiallyresolve,
+        "case_4": topX.Scenario_3jets_partiallyresolve,
+        "case_5": topX.Scenario_3jets_resolve,
+        "case_6": topX.Scenario_4jets_resolve,
+        "case_7": topX.Scenario_Njets_resolve,
+        "case_8": topX.Scenario_Nbjets_resolve,
+        "case_9": topX.Scenario_1jet_unresolve_general,
+        "case_10": topX.Scenario_2jets_unresolve_general,
+        "case_11": topX.Scenario_2jets_partiallyresolve_general,
+        "case_12": topX.Scenario_3jets_partiallyresolve_general,
+        "case_13": topX.Scenario_3jets_resolve_general,
+    }
+
+    if top_tagger_cases is None:
+        top_tagger_cases = list(escenarios.keys())
+
+    tops = {}
+    masks = {}
+
+    # ---- paralelización por case ----
+    def run_case(key, func):
+        t, m = func()
+        # materializar a bool/np si es flat para evitar overhead
+        if isinstance(m, ak.Array):
+            m = ak.values_astype(m, bool)
+        return key, t, m
+
+    with ThreadPoolExecutor(max_workers=os.cpu_count()) as ex:
+        futures = [
+            ex.submit(run_case, key, escenarios[key])
+            for key in top_tagger_cases if key in escenarios
+        ]
+
+        for fut in as_completed(futures):
+            key, t, m = fut.result()
+            tops[key] = t
+            masks[key] = m
+
+    # combinar masks (OR)
+    mask_top = combine_top_masks_cases(*masks.values())
+
+    # combinar tops
+    combined_tops = combine_top_mass_cases(*tops.values())
+
+    # filtrar tops que pasan
+    selected_tops = combined_tops.mask[mask_top]
+
+    return selected_tops, mask_top, masks
+
+"""
+def top_tagger(topX, top_tagger_cases=None):
+
+    # Define all available top-tagging scenarios and map them to the corresponding methods in the topX object
+    escenarios = {
+        "case_1": topX.Scenario_1jet_unresolve,
+        "case_2": topX.Scenario_2jets_unresolve,
+        "case_3": topX.Scenario_2jets_partiallyresolve,
+        "case_4": topX.Scenario_3jets_partiallyresolve,
+        "case_5": topX.Scenario_3jets_resolve,
+        "case_6": topX.Scenario_4jets_resolve,
+        "case_7": topX.Scenario_Njets_resolve,
+        "case_8": topX.Scenario_Nbjets_resolve,
+        "case_9": topX.Scenario_1jet_unresolve_general,
+        "case_10": topX.Scenario_2jets_unresolve_general,
+        "case_11": topX.Scenario_2jets_partiallyresolve_general,
+        "case_12": topX.Scenario_3jets_partiallyresolve_general,
+        "case_13": topX.Scenario_3jets_resolve_general,
+    }
+
+    # If no specific cases are provided, use all available scenarios
+    if top_tagger_cases is None:
+        top_tagger_cases = escenarios.keys()
+
+    # Containers for per-scenario top candidates and event masks
+    tops = {}
+    masks = {}
+
+    # Loop over all scenarios and apply only the selected ones
+    for key, scenario_func in escenarios.items():
+        if key in top_tagger_cases:
+            # Each scenario returns:
+            # - top_result: reconstructed top candidates
+            # - mask_result: boolean event-level mask
+            top_result, mask_result = scenario_func()
+            tops[key] = top_result
+            masks[key] = mask_result
+
+    # Combine event masks from the selected scenarios into a single mask
+    # (typically a logical OR over scenarios)
+    mask_top = combine_top_masks_cases(
+        *[masks[key] for key in top_tagger_cases if key in masks]
+    )
+
+    # Combine top candidates from the selected scenarios
+    combined_tops = combine_top_mass_cases(
+        *[tops[key] for key in top_tagger_cases if key in tops]
+    )
+
+    # Select only the top candidates corresponding to events
+    # passing the combined top mask
+    selected_tops = combined_tops.mask[mask_top]
+
+    return selected_tops, mask_top, masks
+"""
+
+def njets_no_used_top_tagger(
+    jets, njets,
+    bjets, nbjets,
+    fatjets, nfatjets,
+    wjets, nwjets,
+    mask,
+    prev_counts=None  # Optional: if not provided, counters are initialized
+):
+    """
+    Accumulative version of the jet counting logic after top-tagger selection.
+
+    This function computes the number of objects (jets, b-jets, fatjets, W-jets)
+    that are *not* used by the top-tagger, updating the counts cumulatively
+    across different top-tagger cases.
+
+    If `prev_counts` is provided, the new counts are accumulated on top of the
+    previous values. Otherwise, all counters are initialized to zero.
+
+    Parameters
+    ----------
+    jets, bjets, fatjets, wjets : awkward.Array
+        Collections of reconstructed objects after event selection.
+
+    njets, nbjets, nfatjets, nwjets : int
+        Number of objects removed (used) by the current top-tagger scenario.
+
+    mask : awkward.Array (bool)
+        Event-level mask indicating which events belong to the current
+        top-tagger scenario.
+
+    prev_counts : dict, optional
+        Dictionary containing previously accumulated counters:
+        - "njets_no_top"
+        - "nbjets_no_top"
+        - "nfatjets_no_top"
+        - "nwjets_no_top"
+
+        If None, all counters are initialized to zero.
+
+    Returns
+    -------
+    dict
+        Updated dictionary with accumulated counts of objects not used
+        by the top-tagger.
+    """
+    # Initialize counters if this is the first top-tagger scenario
+    if prev_counts is None:
+        zeros = ak.zeros_like(mask, dtype=int)
+        prev_counts = {
+            "njets_no_top": zeros,
+            "nbjets_no_top": zeros,
+            "nfatjets_no_top": zeros,
+            "nwjets_no_top": zeros,
+        }
+
+    def safe_update(collection, prev, n_removed):
+        """
+        Safely update object counts for a given collection.
+
+        The update is applied only for events:
+        - Passing the current scenario mask
+        - Having at least one object in the collection
+
+        The new count is:
+            (number of objects in the collection)
+            + (previous accumulated value)
+            - (number of objects used by the top-tagger)
+        """
+        has_objects = ak.num(collection) > 0
+        do_update = mask & has_objects
+
+        return ak.where(
+            do_update,
+            ak.num(collection) + prev - n_removed,  # Accumulate counts
+            prev  # Keep previous value if update is not applied
+        )
+
+    # Update and return all object counters
+    return {
+        "njets_no_top": safe_update(jets, prev_counts["njets_no_top"], njets),
+        "nbjets_no_top": safe_update(bjets, prev_counts["nbjets_no_top"], nbjets),
+        "nfatjets_no_top": safe_update(fatjets, prev_counts["nfatjets_no_top"], nfatjets),
+        "nwjets_no_top": safe_update(wjets, prev_counts["nwjets_no_top"], nwjets),
+    }
+
+
 def Z_Vector(muons: ak.Array):
 
     # num_mask = (ak.num(muons) == 2)
@@ -339,7 +582,7 @@ def Boost_ISR_weights(met: ak.Array, Z: ak.Array):
 
 def pdg_masses():
     
-    with open("wprime_plus_b/jsons/wAndtop_masses.json", "r") as f:
+    with open("wprime_plus_b/json_files/wAndtop_masses.json", "r") as f:
         pdg = json.load(f)
                     
     top_mass_pdg = pdg['pdg']['top_mass']           
@@ -350,7 +593,7 @@ def pdg_masses():
 
 def tagger_constants(case: str = "hadronic"):
     # W, top and chi2
-    with open("wprime_plus_b/jsons/wAndtop_masses.json", "r") as f:
+    with open("wprime_plus_b/json_files/wAndtop_masses.json", "r") as f:
         masses = json.load(f)
 
 
@@ -406,94 +649,6 @@ def chi2_test(topJet, wJet, top_sigma, w_sigma, top_mass_pdg,  w_mass_pdg):
     
 
     return chi2
-
-def top_tagger(topX, top_tagger_cases=None):
-    # Definir todos los escenarios posibles
-    escenarios = {
-        "case_1": topX.Scenario_1jet_unresolve,
-        "case_2": topX.Scenario_2jets_unresolve,
-        "case_3": topX.Scenario_2jets_partiallyresolve,
-        "case_4": topX.Scenario_3jets_partiallyresolve,
-        "case_5": topX.Scenario_3jets_resolve,
-        "case_6": topX.Scenario_4jets_resolve,
-        "case_7": topX.Scenario_Njets_resolve,
-        "case_8": topX.Scenario_Nbjets_resolve,
-        "case_9": topX.Scenario_1jet_unresolve_general,
-        "case_10": topX.Scenario_2jets_unresolve_general,
-        "case_11": topX.Scenario_2jets_partiallyresolve_general,
-        "case_12": topX.Scenario_3jets_partiallyresolve_general,
-        "case_13": topX.Scenario_3jets_resolve_general,
-    }
-    
-    # Si no se proporcionan casos_a_incluir, se incluyen todos los escenarios
-    if top_tagger_cases is None:
-        top_tagger_cases = escenarios.keys()
-    
-    # Aplicar solo los escenarios especificados en casos_a_incluir y recolectar resultados
-    tops = {}
-    masks = {}
-    for key, scenario_func in escenarios.items():
-        if key in top_tagger_cases:
-            top_result, mask_result = scenario_func()
-            tops[key] = top_result
-            masks[key] = mask_result
-    
-    # Combinar máscaras solo de los escenarios incluidos
-    mask_top = combine_top_masks_cases(*[masks[key] for key in top_tagger_cases if key in masks])
-    
-    # Combinar tops solo de los escenarios incluidos
-    combined_tops = combine_top_mass_cases(*[tops[key] for key in top_tagger_cases if key in tops])
-    
-    # Seleccionar tops según la máscara combinada
-    selected_tops = combined_tops.mask[mask_top]
-    
-
-    return selected_tops, mask_top, masks
-
-
-def njets_no_used_top_tagger(
-    jets, njets,
-    bjets, nbjets,
-    fatjets, nfatjets,
-    wjets, nwjets,
-    mask,
-    prev_counts=None  # Opcional: si no se pasa, se inicializa
-):
-    """
-    Versión acumulativa que:
-    - Inicializa prev_counts si no se proporciona.
-    - Devuelve un diccionario con los conteos actualizados.
-    
-    Args:
-        prev_counts: Diccionario con campos:
-            - njets_no_top, nbjets_no_top, nfatjets_no_top, nwjets_no_top
-            Si es None, se inicializan a cero.
-    """
-    # Inicializar prev_counts si no existe
-    if prev_counts is None:
-        zeros = ak.zeros_like(mask, dtype=int)
-        prev_counts = {
-            "njets_no_top": zeros,
-            "nbjets_no_top": zeros,
-            "nfatjets_no_top": zeros,
-            "nwjets_no_top": zeros,
-        }
-    
-    def safe_update(collection, prev, n_removed):
-        has_objects = ak.num(collection) > 0
-        do_update = mask & has_objects
-        return ak.where(
-            do_update,
-            ak.num(collection) + prev - n_removed,  # Acumula
-            prev  # Mantiene el valor previo si no se cumple mask
-        )
-    
-    return {
-        "njets_no_top": safe_update(jets, prev_counts["njets_no_top"], njets),
-        "nbjets_no_top": safe_update(bjets, prev_counts["nbjets_no_top"], nbjets),
-        "nfatjets_no_top": safe_update(fatjets, prev_counts["nfatjets_no_top"], nfatjets),
-        "nwjets_no_top": safe_update(wjets, prev_counts["nwjets_no_top"], nwjets),
-    }
 
 
 def output_metadata(output, weights=None, masks=None, mask_top=None):
@@ -1093,3 +1248,25 @@ def efficiency_studies_numerator(trigger_option: str, region_name: str, year: st
 
     
     return mask_numerator, nevents_numerator
+
+
+def fill_cutflow(metadata, cut_name, table_name, weights):
+    """
+    Fill weighted and unweighted cutflow entries for a given selection step.
+
+    Parameters
+    ----------
+    metadata : dict
+        Output metadata dictionary containing the cutflow information.
+        It must have the keys "cutflow" and "cutflow_raw".
+    cut_name : str
+        Name of the cut or selection step to be filled.
+    weights : ak.Array
+        Array of event weights after applying the corresponding selection.
+    """
+
+    # Store the weighted number of events passing the cut
+    metadata[f"{table_name}"][cut_name] = ak.sum(weights)
+
+    # Store the raw (unweighted) number of events passing the cut
+    metadata[f"{table_name}_raw"][cut_name] = len(weights)

@@ -54,9 +54,9 @@ def add_pdf_weight(
     if any(cleaned_dataset.startswith(ds) for ds in skip_datasets):
         n_events = len(events.MET)
         w_central = np.ones_like(events.MET.pt)
-        weights_container.add("PDF", weight=w_central, weightUp=w_central, weightDown=w_central)
-        weights_container.add("Alpha(PDF)", weight=w_central, weightUp=w_central, weightDown=w_central)
-        weights_container.add("PDFandAlpha", weight=w_central, weightUp=w_central, weightDown=w_central)
+        weights_container.add("pdf_lha", weight=w_central, weightUp=w_central, weightDown=w_central)
+        weights_container.add("pdf_alphas", weight=w_central, weightUp=w_central, weightDown=w_central)
+        weights_container.add("pdf_lha_alphas", weight=w_central, weightUp=w_central, weightDown=w_central)
         return
 
     # Otherwise, perform PDF/αs calculations
@@ -75,7 +75,7 @@ def add_pdf_weight(
         w_down_pdf = w_central - delta_pdf
 
         weights_container.add(
-            "PDF",
+            "pdf_lha",
             weight=w_central,
             weightUp=w_up_pdf,
             weightDown=w_down_pdf,
@@ -89,7 +89,7 @@ def add_pdf_weight(
         w_down_alpha = w_central - delta_alpha
 
         weights_container.add(
-            "Alpha(PDF)",
+            "pdf_alphas",
             weight=w_central,
             weightUp=w_up_alpha,
             weightDown=w_down_alpha,
@@ -101,7 +101,7 @@ def add_pdf_weight(
         w_down_total = w_central - delta_total
 
         weights_container.add(
-            "PDFandAlpha",
+            "pdf_lha_alphas",
             weight=w_central,
             weightUp=w_up_total,
             weightDown=w_down_total,
@@ -119,7 +119,7 @@ def add_pdf_weight(
         w_down_pdf = w_central - delta_pdf
 
         weights_container.add(
-            "PDF",
+            "pdf_lha",
             weight=w_central,
             weightUp=w_up_pdf,
             weightDown=w_down_pdf,
@@ -128,7 +128,7 @@ def add_pdf_weight(
         # αs missing → fill with 1
         w_alpha = ak.ones_like(delta_pdf)
         weights_container.add(
-            "Alpha(PDF)",
+            "pdf_alphas",
             weight=w_alpha,
             weightUp=w_alpha,
             weightDown=w_alpha,
@@ -136,7 +136,7 @@ def add_pdf_weight(
 
         # PDF + alpha = PDF only
         weights_container.add(
-            "PDFandAlpha",
+            "pdf_lha_alphas",
             weight=w_central,
             weightUp=w_up_pdf,
             weightDown=w_down_pdf,

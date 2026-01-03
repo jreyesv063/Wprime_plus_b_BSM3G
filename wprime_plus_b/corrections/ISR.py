@@ -28,11 +28,11 @@ def ISR_weight(
             or dataset.startswith("DYJetsToLL_M-50")
             or dataset.startswith("DYJetsToLL_M-10to50")            
         ):
-            json_correction = f"wprime_plus_b/data/ISR_Zmumu_weight_MLM_{year}.json"
+            json_correction = f"wprime_plus_b/corrections/ISR/ISR_Zmumu_weight_MLM_{year}.json"
             ISR_type = "MLM"
 
         elif dataset.startswith("DYJetsToLL_nlo"):
-            json_correction = f"wprime_plus_b/data/ISR_Zmumu_weight_FxFx_{year}.json"
+            json_correction = f"wprime_plus_b/corrections/ISR/ISR_Zmumu_weight_FxFx_{year}.json"
             ISR_type = "FxFx"            
 
         else:

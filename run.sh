@@ -51,16 +51,9 @@ cd "$SCRIPT_DIR"
 # =========================
 
 # Define processor and channel
-processor="wplusjets"     # Options: top_tagger; signal; qcd_hadronic; qcd_hadronic_closure; wplusjets; ztoll; wjets; btag_eff; ctag_eff; zplusc
-channel="wjets"           # Channel depends on processor:
-                          # top_tagger -> {}
-                          # signal -> {}
-                          # qcd_hadronic -> {cr_b, cr_c, cr_d}
-                          # qcd_hadronic_closure -> {signal_prime, cr_b, cr_c, cr_d}
-                          # wplusjets -> {wjets, cr_b, cr_c, cr_d}
+processor="wplusjets"     # Options: top_tagger; signal; qcd_hadronic_closure; wplusjets; ztoll; wjets; btag_eff; ctag_eff; zplusc
+#channel="wjets"           # Channel depends on processor:
                           # wjets -> {1j1l*, 1l0b}
-                          # ztoll -> {ll}
-                          # zplusc -> {ll+c}
 
 # Lepton flavor
 lepton_flavor="tau"
@@ -78,17 +71,23 @@ executor="futures"
 output_type="array"          # hist / array
 
 # Sample index (leave empty to run all samples)
-nsample="1"                  # IMPORTANT: Leave nsample="" unless a specific sample index is needed (e.g. nsample="3")
+nsample="3"                  # IMPORTANT: Leave nsample="" unless a specific sample index is needed (e.g. nsample="3")
 
 # Output directory
-output_folder="$ANALYSIS_PATH/$processor/$channel/$year/"
+output_folder="$ANALYSIS_PATH/$processor/$year/"
 
 # Enable object-level systematics (can significantly increase runtime)
 run_systematics="true"       # Set to "true" only when needed
 
+# Enable QCD estimation using the ABCD (data-driven) method
+qcd_data_driven="false"
+
 # Control whether new filesets should be created
-create_new_filesets="true"  # Set to "true" to regenerate filesets
+create_new_filesets="false"  # Set to "true" to regenerate filesets
                              # (use only if servers were modified in make_fileset_lxplus.py)
+
+# Variable to control whether or not data samples are processed in the signal region
+unblinded="false"
 
 # =========================
 # Sample list
@@ -96,52 +95,52 @@ create_new_filesets="true"  # Set to "true" to regenerate filesets
 
 samples=(
     "TTToSemiLeptonic"
-    "TTTo2L2Nu"
-    "TTToHadronic"
+    # "TTTo2L2Nu"
+    # "TTToHadronic"
     # "DYJetsToLL_nlo_M-10to50"
-    # "DYJetsToLL_nlo_M-50"
-    # "SingleMuon"
+    #"DYJetsToLL_nlo_M-50"
+    #"SingleMuon"
     "MET"
-    # "Tau"
-    # "SingleElectron"
-    "ST_s-channel_4f_leptonDecays"
-    "ST_t-channel_antitop_5f_InclusiveDecays"
-    "ST_t-channel_top_5f_InclusiveDecays"
-    "ST_tW_antitop_5f_inclusiveDecays"
-    "ST_tW_top_5f_inclusiveDecays"
-    "WJetsToLNu_HT-70To100"
-    "WJetsToLNu_HT-100To200"
-    "WJetsToLNu_HT-200To400"
-    "WJetsToLNu_inclusive"
-    "WJetsToLNu_HT-400To600"
-    "WJetsToLNu_HT-600To800"
-    "WJetsToLNu_ext"
-    "WJetsToLNu_HT-800To1200"
-    "WJetsToLNu_HT-1200To2500"
-    "WJetsToLNu_HT-2500ToInf"
-    "WW"
-    "WZ"
-    "ZZ"
-    "QCD_HT50to100"
-    "QCD_HT100to200"
-    "QCD_HT200to300"
-    "QCD_HT300to500"
-    "QCD_HT500to700"
-    "QCD_HT700to1000"
-    "QCD_HT1000to1500"
-    "QCD_HT1500to2000"
-    "QCD_HT2000toInf"
-    "GluGluHToWWToLNuQQ"
-    "VBFHToWWTo2L2Nu"
-    "VBFHToWWToLNuQQ"
-    "SignalTau_300GeV"
-    "SignalTau_400GeV"
-    "SignalTau_600GeV"
-    "SignalTau_750GeV"
-    "SignalTau_1000GeV"
-    "SignalTau_1500GeV"
-    "SignalTau_2000GeV"
-    "SignalTau_3000GeV"
+    # # "Tau"
+    # # "SingleElectron"
+    # "ST_s-channel_4f_leptonDecays"
+    # "ST_t-channel_antitop_5f_InclusiveDecays"
+    # "ST_t-channel_top_5f_InclusiveDecays"
+    # "ST_tW_antitop_5f_inclusiveDecays"
+    # "ST_tW_top_5f_inclusiveDecays"
+    # "WJetsToLNu_HT-70To100"
+    # "WJetsToLNu_HT-100To200"
+    # "WJetsToLNu_HT-200To400"
+    # "WJetsToLNu_inclusive"
+    # "WJetsToLNu_HT-400To600"
+    # "WJetsToLNu_HT-600To800"
+    # "WJetsToLNu_ext"
+    # "WJetsToLNu_HT-800To1200"
+    # "WJetsToLNu_HT-1200To2500"
+    # "WJetsToLNu_HT-2500ToInf"
+    # "WW"
+    # "WZ"
+    # "ZZ"
+    # "QCD_HT50to100"
+    # "QCD_HT100to200"
+    # "QCD_HT200to300"
+    # "QCD_HT300to500"
+    # "QCD_HT500to700"
+    # "QCD_HT700to1000"
+    # "QCD_HT1000to1500"
+    # "QCD_HT1500to2000"
+    # "QCD_HT2000toInf"
+    # "GluGluHToWWToLNuQQ"
+    # "VBFHToWWTo2L2Nu"
+    # "VBFHToWWToLNuQQ"
+    # "SignalTau_300GeV"
+    # "SignalTau_400GeV"
+    # "SignalTau_600GeV"
+    # "SignalTau_750GeV"
+    # "SignalTau_1000GeV"
+    # "SignalTau_1500GeV"
+    # "SignalTau_2000GeV"
+    # "SignalTau_3000GeV"
 )
 
 # =========================
@@ -175,14 +174,7 @@ fi
 # Job submission
 # =========================
 
-if [ "$processor" == "ttbar" ] || \
-   [ "$processor" == "wjets" ] || \
-   [ "$processor" == "ztoll" ] || \
-   [ "$processor" == "zplusc" ] || \
-   [ "$processor" == "qcd_abcd" ] || \
-   [ "$processor" == "wplusjets" ] || \
-   [ "$processor" == "qcd_hadronic" ] || \
-   [ "$processor" == "qcd_hadronic_closure" ]; then
+if [ "$processor" == "wjets" ]; then
 
     # Output directory for this processor/channel/lepton/year
     dir_to_create="wprime_plus_b/outs/$processor/$channel/$lepton_flavor/$year"
@@ -199,12 +191,17 @@ if [ "$processor" == "ttbar" ] || \
             --output_type "$output_type" \
             --nsample "$nsample" \
             --run_systematics "$run_systematics" \
+            --qcd_data_driven "$qcd_data_driven" \
             --output_folder "$output_folder"
         sleep 60  # Wait 60 seconds before submitting the next sample (optional)
     done
 
 elif [ "$processor" == "top_tagger" ] || \
+     [ "$processor" == "wplusjets" ] || \
      [ "$processor" == "signal" ] || \
+     [ "$processor" == "qcd_hadronic_closure" ] || \
+     [ "$processor" == "ztoll" ] || \
+     [ "$processor" == "zplusc" ] || \
      [ "$processor" == "btag_eff" ] || \
      [ "$processor" == "ctag_eff" ]; then
 
@@ -222,6 +219,7 @@ elif [ "$processor" == "top_tagger" ] || \
             --output_type "$output_type" \
             --nsample "$nsample" \
             --run_systematics "$run_systematics" \
+            --qcd_data_driven "$qcd_data_driven" \
             --output_folder "$output_folder"
         sleep 60  # Wait 60 seconds before submitting the next sample (optional)
     done

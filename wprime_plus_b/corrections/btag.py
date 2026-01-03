@@ -24,7 +24,7 @@ class BTagCorrector:
             The 'comb' SFs contain corrections derived in QCD and ttbar-enriched regions.
             Hence, 'comb' SFs can be used everywhere, except for ttbar-dileptonic enriched analysis regions.
             For the ttbar-dileptonic regionsthe 'mujets' SFs should be used.
-        worging_point:
+        working_point:
             worging point {'L', 'M', 'T'}
         tagger:
             tagger {'deepJet', 'deepCSV'}
@@ -59,7 +59,7 @@ class BTagCorrector:
         jets: ak.Array,
         weights: Type[Weights],
         sf_type: str = "comb",
-        worging_point: str = "M",
+        working_point: str = "M",
         tagger: str = "deepJet",
         year: str = "2017",
         variation: str = "nominal",
@@ -69,7 +69,7 @@ class BTagCorrector:
         self._sf = sf_type
         self._year = year
         self._tagger = tagger
-        self._wp = worging_point
+        self._wp = working_point
         self._weights = weights
         self._full_run = full_run
         self._variation = variation
@@ -77,11 +77,12 @@ class BTagCorrector:
         # Remove trailing _X from dataset name
         self.cleaned_dataset = re.sub(r'_\d+$', '', dataset)
 
-
-        # load efficiency lookup table (only for deepJet)
-        # efflookup(pt, |eta|, flavor)
+        # =========================================================
+        #     Load efficiency lookup table (only for deepJet)
+        #             efflookup(pt, |eta|, flavor)
+        # =========================================================
         with importlib.resources.path(
-            "wprime_plus_b.data", f"btag_eff_{self._tagger}_{self._wp}_{year}.coffea"
+            "wprime_plus_b.corrections.efficiency_maps_btag", f"btag_eff_{self._tagger}_{self._wp}_{year}.coffea"
         ) as filename:
             eff_dict = util.load(str(filename))
             if isinstance(eff_dict, dict):
@@ -91,16 +92,14 @@ class BTagCorrector:
                     f"[WARNING] Dataset '{self.cleaned_dataset}' not found in efficiency dictionary. "
                     "Using empty lookup or default behavior.",
                     UserWarning,
-                )                
-            #else:
-            #    self._efflookup = eff_dict                
-            
+                )  
+
         # load btagging working point (only for deepJet)
         # https://twiki.cern.ch/twiki/bin/viewauth/CMS/BtagRecommendation
-        with importlib.resources.path("wprime_plus_b.data", "btagWPs.json") as path:
-            with open(path, "r") as handle:
-                btag_working_points = json.load(handle)
-        self._btagwp = btag_working_points[tagger][year][worging_point]
+        with open("wprime_plus_b/json_files/btagWPs.json", "r") as f:
+            btag_working_points = json.load(f)
+            
+        self._btagwp = btag_working_points[tagger][year][working_point]
 
         # define correction set
         self._cset = correctionlib.CorrectionSet.from_file(
@@ -134,30 +133,24 @@ class BTagCorrector:
         # nominal weights
         jets_weight = self.get_btag_weight(eff, jets_sf, passbtag)
 
-        if self._variation == "nominal":
-            # systematics
-            syst_up = "up_correlated" if self._full_run else "up"
-            syst_down = "down_correlated" if self._full_run else "down"
+        # systematics
+        syst_up = "up_correlated" if self._full_run else "up"
+        syst_down = "down_correlated" if self._full_run else "down"
 
-            # up and down scale factors
-            jets_sf_up = self.get_scale_factors(flavor=flavor, syst=syst_up)
-            jets_sf_down = self.get_scale_factors(flavor=flavor, syst=syst_down)
+        # up and down scale factors
+        jets_sf_up = self.get_scale_factors(flavor=flavor, syst=syst_up)
+        jets_sf_down = self.get_scale_factors(flavor=flavor, syst=syst_down)
 
-            jets_weight_up = self.get_btag_weight(eff, jets_sf_up, passbtag)
-            jets_weight_down = self.get_btag_weight(eff, jets_sf_down, passbtag)
+        jets_weight_up = self.get_btag_weight(eff, jets_sf_up, passbtag)
+        jets_weight_down = self.get_btag_weight(eff, jets_sf_down, passbtag)
 
-            # add weights to Weights container
-            self._weights.add(
-                name=f"{flavor}_jets_{self._wp}",
-                weight=jets_weight,
-                weightUp=jets_weight_up,
-                weightDown=jets_weight_down,
-            )
-        else:
-            self._weights.add(
-                name=f"{flavor}_jets_{self._wp}",
-                weight=jets_weight,
-            )
+        # add weights to Weights container
+        self._weights.add(
+            name=f"{flavor}_jets",
+            weight=jets_weight,
+            weightUp=jets_weight_up,
+            weightDown=jets_weight_down,
+        )
 
     def efficiency(self, flavor: str, fill_value=1) -> ak.Array:
         """compute the btagging efficiency for 'njets' jets"""
@@ -226,7 +219,7 @@ class BTagCorrector:
 
         sf = self._cset[cset_keys[flavor]].evaluate(
             syst,
-            self._wp,
+            self._wp[0],
             np.array(jets_hadron_flavour),
             np.array(jets_eta),
             np.array(jets_pt),

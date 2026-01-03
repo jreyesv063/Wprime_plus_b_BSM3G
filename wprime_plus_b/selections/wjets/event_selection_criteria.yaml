@@ -1,0 +1,141 @@
+electron:
+  ele:
+    pt: 10.0
+    eta: 2.4
+    id: "wp80iso"
+    iso: "Tight"
+
+  mu:
+    pt: 30.0
+    eta: 2.4
+    id: "wp80iso"
+    iso: "Tight"
+
+  tau:
+    pt: 10.0
+    eta: 2.4
+    id: "wp80iso"
+    iso: "Tight"    
+
+muon:
+  ele:
+    pt: 15.0
+    eta: 2.4
+    id: "Tight"
+    iso: "Tight"
+
+  mu:
+    pt: 30.0
+    eta: 2.4
+    id: "Tight"
+    iso: "Tight"
+
+  tau:
+    pt: 15.0
+    eta: 2.4
+    id: "Tight"
+    iso: "Tight"
+  
+tau:
+  ele:
+    pt: 20.0
+    eta: 2.3
+    dz: 0.2
+    fake_VSe: "Tight"
+    fake_VSmu: "Tight"
+    fake_VSjet_pass: "Tight"
+    prongs: 13
+
+  mu:
+    pt: 20.0
+    eta: 2.3
+    dz: 0.2
+    fake_VSe: "Tight"
+    fake_VSmu: "Tight"
+    fake_VSjet_pass: "Tight"
+    prongs: 13
+
+  tau:
+    pt: 20.0
+    eta: 2.3
+    dz: 0.2
+    fake_VSe: "Tight"
+    fake_VSmu: "Tight"
+    fake_VSjet_pass: "Tight"
+    prongs: 13        
+
+met:
+  ele:
+    met_min: 50.0
+    
+  mu:
+    met_min: 50.0
+    
+  tau:
+    met_min: 50.0
+
+    
+bjet:
+  ele:
+    pt: 20.0
+    eta: 2.4
+    btag_wp_pass: "Tight"
+    jet_id: "TightLepVeto"
+    pileup_id: "Tight"
+
+  mu:
+    pt: 20.0
+    eta: 2.4
+    btag_wp_pass: "Tight"
+    jet_id: "TightLepVeto"
+    pileup_id: "Tight"
+
+  tau: 
+    pt: 20.0
+    eta: 2.4
+    btag_wp_pass: "Tight"
+    jet_id: "TightLepVeto"
+    pileup_id: "Tight"
+  
+
+jet_raw:
+  ele:
+    pt: 20.0
+    eta: 2.4
+    jet_id: "TightLepVeto"
+    pileup_id: "Tight"
+    leading_jet_pt: 100.0
+
+  mu:
+    pt: 20.0
+    eta: 5.0
+    jet_id: "TightLepVeto"
+    pileup_id: "Tight"
+    leading_jet_pt: 100.0    
+
+  tau:
+    pt: 20.0
+    eta: 2.4
+    btag_wp_fail: "Loose"
+    jet_id: "TightLepVeto"
+    pileup_id: "Tight"    
+    leading_jet_pt: 100.0            
+
+ 
+cross_cleaning:
+  ele: 0.4
+  mu: 0.4
+  tau: 0.4
+
+trigger:
+  ele:
+    general: "ele"
+    efficiency: ""
+
+  mu:
+    general: "mu"
+    efficiency: "tau"
+
+  tau:
+    general: "tau"
+    efficiency: ""

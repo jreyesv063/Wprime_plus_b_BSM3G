@@ -144,34 +144,29 @@ class ElectronCorrector:
             in_electron_mask,
             self.n,
         )
-        if self.variation == "nominal":
-            # get 'up' and 'down' scale factors
-            up_sf = unflat_sf(
-                self.cset["UL-Electron-ID-SF"].evaluate(
-                    year, "sfup", id_working_point, electron_eta, electron_pt
-                ),
-                in_electron_mask,
-                self.n,
-            )
-            down_sf = unflat_sf(
-                self.cset["UL-Electron-ID-SF"].evaluate(
-                    year, "sfdown", id_working_point, electron_eta, electron_pt
-                ),
-                in_electron_mask,
-                self.n,
-            )
-            # add scale factors to weights container
-            self.weights.add(
-                name=f"electron_id",
-                weight=nominal_sf,
-                weightUp=up_sf,
-                weightDown=down_sf,
-            )
-        else:
-            self.weights.add(
-                name=f"electron_id",
-                weight=nominal_sf,
-            )
+        # get 'up' and 'down' scale factors
+        up_sf = unflat_sf(
+            self.cset["UL-Electron-ID-SF"].evaluate(
+                year, "sfup", id_working_point, electron_eta, electron_pt
+            ),
+            in_electron_mask,
+            self.n,
+        )
+        down_sf = unflat_sf(
+            self.cset["UL-Electron-ID-SF"].evaluate(
+                year, "sfdown", id_working_point, electron_eta, electron_pt
+            ),
+            in_electron_mask,
+            self.n,
+        )
+        # add scale factors to weights container
+        self.weights.add(
+            name=f"CMS_eff_e_id_13TeV",
+            weight=nominal_sf,
+            weightUp=up_sf,
+            weightDown=down_sf,
+        )
+       
 
     def add_reco_weight(self, Reco_sf: str) -> None:
         """add electron reconstruction scale factors to weights container"""
@@ -201,31 +196,26 @@ class ElectronCorrector:
             in_electron_mask,
             self.n,
         )
-        if self.variation == "nominal":
-            # get 'up' and 'down' scale factors
-            up_sf = unflat_sf(
-                self.cset["UL-Electron-ID-SF"].evaluate(
-                    year, "sfup", f"Reco{Reco_sf}20", electron_eta, electron_pt
-                ),
-                in_electron_mask,
-                self.n,
-            )
-            down_sf = unflat_sf(
-                self.cset["UL-Electron-ID-SF"].evaluate(
-                    year, "sfdown", f"Reco{Reco_sf}20", electron_eta, electron_pt
-                ),
-                in_electron_mask,
-                self.n,
-            )
-            # add scale factors to weights container
-            self.weights.add(
-                name=f"electron_reco_{Reco_sf}",
-                weight=nominal_sf,
-                weightUp=up_sf,
-                weightDown=down_sf,
-            )
-        else:
-            self.weights.add(
-                name=f"electron_reco",
-                weight=nominal_sf,
-            )
+        # get 'up' and 'down' scale factors
+        up_sf = unflat_sf(
+            self.cset["UL-Electron-ID-SF"].evaluate(
+                year, "sfup", f"Reco{Reco_sf}20", electron_eta, electron_pt
+            ),
+            in_electron_mask,
+            self.n,
+        )
+        down_sf = unflat_sf(
+            self.cset["UL-Electron-ID-SF"].evaluate(
+                year, "sfdown", f"Reco{Reco_sf}20", electron_eta, electron_pt
+            ),
+            in_electron_mask,
+            self.n,
+        )
+        # add scale factors to weights container
+        self.weights.add(
+            name=f"CMS_eff_e_reco_{Reco_sf}20_13TeV",
+            weight=nominal_sf,
+            weightUp=up_sf,
+            weightDown=down_sf,
+        )
+      

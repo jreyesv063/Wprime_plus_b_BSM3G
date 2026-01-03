@@ -45,19 +45,14 @@ def add_pileup_weight(
 
     # get nominal scale factors
     nominal_sf = cset[year_to_corr[year]].evaluate(ak.to_numpy(nti), "nominal")
-    if variation == "nominal":
-        # get up and down variations
-        up_sf = cset[year_to_corr[year]].evaluate(ak.to_numpy(nti), "up")
-        down_sf = cset[year_to_corr[year]].evaluate(ak.to_numpy(nti), "down")
-        # add pileup scale factors to weights container
-        weights_container.add(
-            name="pileup",
-            weight=nominal_sf,
-            weightUp=up_sf,
-            weightDown=down_sf,
-        )
-    else:
-        weights_container.add(
-            name="pileup",
-            weight=nominal_sf,
-        )
+    # get up and down variations
+    up_sf = cset[year_to_corr[year]].evaluate(ak.to_numpy(nti), "up")
+    down_sf = cset[year_to_corr[year]].evaluate(ak.to_numpy(nti), "down")
+    # add pileup scale factors to weights container
+    weights_container.add(
+        name="CMS_pileup",
+        weight=nominal_sf,
+        weightUp=up_sf,
+        weightDown=down_sf,
+    )
+   

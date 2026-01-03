@@ -31,7 +31,6 @@ def add_QCD_vs_Top_weight(
     fatjets: ak.Array,
     weights: Type[Weights],
     year: str = "2017",
-    year_mod: str = "",
     working_point_fatjet: str = "Tight",
     variation: str = "nominal",
 ):
@@ -45,10 +44,10 @@ def add_QCD_vs_Top_weight(
     
     
     # Wps top tagger
-    with open("wprime_plus_b/jsons/topWps.json", "r") as f: 
+    with open("wprime_plus_b/json_files/topWps.json", "r") as f: 
         Wps = json.load(f)
         
-    pNet_id = Wps[year + year_mod]["TvsQCD"][working_point_fatjet]  
+    pNet_id = Wps[year]["TvsQCD"][working_point_fatjet]  
     
     
     # flat fatjets array since correction function works only on flat arrays
@@ -86,7 +85,7 @@ def add_QCD_vs_Top_weight(
     
     # define correction set
     cset = correctionlib.CorrectionSet.from_file(
-        get_pog_json("pujetid", year + year_mod)
+        get_pog_json("pujetid", year)
     )
     
     # get nominal scale factors
@@ -98,29 +97,24 @@ def add_QCD_vs_Top_weight(
         n,
     )
     
-    if variation == "nominal":
-        # get 'up' and 'down' variations
-        up_sf = unflat_sf(
-            cset["ParticleNet_Top_Nominal"].evaluate(fatjets_eta, fatjets_pt, "up", working_point),
-            in_fatjet_mask,
-            n,
-        )
-        down_sf = unflat_sf(
-            cset["ParticleNet_Top_Nominal"].evaluate(fatjets_eta, fatjets_pt, "down", working_point),
-            in_fatjet_mask,
-            n,
-        )
-        # add nominal, up and down scale factors to weights container
-        weights.add(
-            name="QCD_vs_Top",
-            weight=nominal_sf,
-            weightUp=up_sf,
-            weightDown=down_sf,
-        )
-    else:
-        # add nominal scale factors to weights container
-        weights.add(name="QCD_vs_Top", weight=nominal_sf)    
-    
+    # get 'up' and 'down' variations
+    up_sf = unflat_sf(
+        cset["ParticleNet_Top_Nominal"].evaluate(fatjets_eta, fatjets_pt, "up", working_point),
+        in_fatjet_mask,
+        n,
+    )
+    down_sf = unflat_sf(
+        cset["ParticleNet_Top_Nominal"].evaluate(fatjets_eta, fatjets_pt, "down", working_point),
+        in_fatjet_mask,
+        n,
+    )
+    # add nominal, up and down scale factors to weights container
+    weights.add(
+        name="CMS_eff_j_ParticleNet_Top_Nominal",
+        weight=nominal_sf,
+        weightUp=up_sf,
+        weightDown=down_sf,
+    )
 
     
 # ParticleNet_W_Nominal
@@ -128,7 +122,6 @@ def add_QCD_vs_W_weight(
     wjets: ak.Array,
     weights: Type[Weights],
     year: str = "2017",
-    year_mod: str = "",
     working_point_wjet: str = "Tight",
     variation: str = "nominal",
 ):
@@ -142,10 +135,10 @@ def add_QCD_vs_W_weight(
     
     
     # Wps top tagger
-    with open("wprime_plus_b/jsons/topWps.json", "r") as f: 
+    with open("wprime_plus_b/json_files/topWps.json", "r") as f: 
         Wps = json.load(f)
         
-    pNet_id = Wps[year + year_mod]["WvsQCD"][working_point_wjet]  
+    pNet_id = Wps[year]["WvsQCD"][working_point_wjet]  
     
     
     # flat fatjets array since correction function works only on flat arrays
@@ -182,7 +175,7 @@ def add_QCD_vs_W_weight(
     
     # define correction set
     cset = correctionlib.CorrectionSet.from_file(
-        get_pog_json("pujetid", year + year_mod)
+        get_pog_json("pujetid", year)
     )
     
     # get nominal scale factors
@@ -193,27 +186,23 @@ def add_QCD_vs_W_weight(
         in_wjet_mask,
         n,
     )
-    
-    if variation == "nominal":
-        # get 'up' and 'down' variations
-        up_sf = unflat_sf(
-            cset["ParticleNet_W_Nominal"].evaluate(wjets_eta, wjets_pt, "up", working_point),
-            in_wjet_mask,
-            n,
-        )
-        down_sf = unflat_sf(
-            cset["ParticleNet_W_Nominal"].evaluate(wjets_eta, wjets_pt, "down", working_point),
-            in_wjet_mask,
-            n,
-        )
-        # add nominal, up and down scale factors to weights container
-        weights.add(
-            name="QCD_vs_W",
-            weight=nominal_sf,
-            weightUp=up_sf,
-            weightDown=down_sf,
-        )
-    else:
-        # add nominal scale factors to weights container
-        weights.add(name="QCD_vs_W", weight=nominal_sf)    
-    
+
+    # get 'up' and 'down' variations
+    up_sf = unflat_sf(
+        cset["ParticleNet_W_Nominal"].evaluate(wjets_eta, wjets_pt, "up", working_point),
+        in_wjet_mask,
+        n,
+    )
+    down_sf = unflat_sf(
+        cset["ParticleNet_W_Nominal"].evaluate(wjets_eta, wjets_pt, "down", working_point),
+        in_wjet_mask,
+        n,
+    )
+    # add nominal, up and down scale factors to weights container
+    weights.add(
+        name="CMS_eff_j_ParticleNet_W_Nominal",
+        weight=nominal_sf,
+        weightUp=up_sf,
+        weightDown=down_sf,
+    )
+

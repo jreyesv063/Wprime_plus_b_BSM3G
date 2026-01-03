@@ -17,24 +17,24 @@ from wprime_plus_b.corrections.utils import pog_years, get_pog_json
 def get_id_wps(muons):
     return {
         # cutbased ID working points
-        "loose": muons.looseId,
-        "medium": muons.mediumId,
-        "tight": muons.tightId,
+        "Loose": muons.looseId,
+        "Medium": muons.mediumId,
+        "Tight": muons.tightId,
     }
 
 def get_iso_wps(muons):
     return {
-        "loose": (
+        "Loose": (
             muons.pfRelIso04_all < 0.25
             if hasattr(muons, "pfRelIso04_all")
             else muons.pfRelIso03_all < 0.25
         ),
-        "medium": (
+        "Medium": (
             muons.pfRelIso04_all < 0.20
             if hasattr(muons, "pfRelIso04_all")
             else muons.pfRelIso03_all < 0.20
         ),
-        "tight": (
+        "Tight": (
             muons.pfRelIso04_all < 0.15
             if hasattr(muons, "pfRelIso04_all")
             else muons.pfRelIso03_all < 0.15
@@ -68,8 +68,8 @@ class MuonCorrector:
         weights: Type[Weights],
         year: str = "2017",
         variation: str = "nominal",
-        id_wp: str = "tight",
-        iso_wp: str = "tight",
+        id_wp: str = "Tight",
+        iso_wp: str = "Tight",
     ) -> None:
         self.muons = muons
         self.variation = variation
@@ -121,35 +121,30 @@ class MuonCorrector:
             in_muon_mask,
             self.n,
         )
-        if self.variation == "nominal":
-            # get 'up' and 'down' scale factors
-            up_sf = unflat_sf(
-                self.cset[reco_corrections[self.year]].evaluate(
-                    muon_eta, muon_pt, "systup"
-                ),
-                in_muon_mask,
-                self.n,
-            )
-            down_sf = unflat_sf(
-                self.cset[reco_corrections[self.year]].evaluate(
-                    muon_eta, muon_pt, "systdown"
-                ),
-                in_muon_mask,
-                self.n,
-            )
-            # add scale factors to weights container
-            self.weights.add(
-                name=f"muon_reco",
-                weight=nominal_sf,
-                weightUp=up_sf,
-                weightDown=down_sf,
-            )
-        else:
-            self.weights.add(
-                name=f"muon_reco",
-                weight=nominal_sf,
-            )
+        # get 'up' and 'down' scale factors
+        up_sf = unflat_sf(
+            self.cset[reco_corrections[self.year]].evaluate(
+                muon_eta, muon_pt, "systup"
+            ),
+            in_muon_mask,
+            self.n,
+        )
+        down_sf = unflat_sf(
+            self.cset[reco_corrections[self.year]].evaluate(
+                muon_eta, muon_pt, "systdown"
+            ),
+            in_muon_mask,
+            self.n,
+        )
+        # add scale factors to weights container
+        self.weights.add(
+            name=f"CMS_eff_m_reco_syst",
+            weight=nominal_sf,
+            weightUp=up_sf,
+            weightDown=down_sf,
+        )
             
+
     def add_id_weight(self):
         """
         add muon ID scale factors to weights container
@@ -168,24 +163,24 @@ class MuonCorrector:
         # 'id' scale factors names
         id_corrections = {
             "2016APV": {
-                "loose": "NUM_LooseID_DEN_TrackerMuons",
-                "medium": "NUM_MediumID_DEN_TrackerMuons",
-                "tight": "NUM_TightID_DEN_TrackerMuons",
+                "Loose": "NUM_LooseID_DEN_TrackerMuons",
+                "Medium": "NUM_MediumID_DEN_TrackerMuons",
+                "Tight": "NUM_TightID_DEN_TrackerMuons",
             },
             "2016": {
-                "loose": "NUM_LooseID_DEN_TrackerMuons",
-                "medium": "NUM_MediumID_DEN_TrackerMuons",
-                "tight": "NUM_TightID_DEN_TrackerMuons",
+                "Loose": "NUM_LooseID_DEN_TrackerMuons",
+                "Medium": "NUM_MediumID_DEN_TrackerMuons",
+                "Tight": "NUM_TightID_DEN_TrackerMuons",
             },
             "2017": {
-                "loose": "NUM_LooseID_DEN_TrackerMuons",
-                "medium": "NUM_MediumID_DEN_TrackerMuons",
-                "tight": "NUM_TightID_DEN_TrackerMuons",
+                "Loose": "NUM_LooseID_DEN_TrackerMuons",
+                "Medium": "NUM_MediumID_DEN_TrackerMuons",
+                "Tight": "NUM_TightID_DEN_TrackerMuons",
             },
             "2018": {
-                "loose": "NUM_LooseID_DEN_TrackerMuons",
-                "medium": "NUM_MediumID_DEN_TrackerMuons",
-                "tight": "NUM_TightID_DEN_TrackerMuons",
+                "Loose": "NUM_LooseID_DEN_TrackerMuons",
+                "Medium": "NUM_MediumID_DEN_TrackerMuons",
+                "Tight": "NUM_TightID_DEN_TrackerMuons",
             },
         }
 
@@ -197,34 +192,29 @@ class MuonCorrector:
             in_muon_mask,
             self.n,
         )
-        if self.variation == "nominal":
-            # get 'up' and 'down' scale factors
-            up_sf = unflat_sf(
-                self.cset[
-                    id_corrections[self.year][self.id_wp]
-                ].evaluate(muon_eta, muon_pt, "systup"),
-                in_muon_mask,
-                self.n,
-            )
-            down_sf = unflat_sf(
-                self.cset[
-                    id_corrections[self.year][self.id_wp]
-                ].evaluate(muon_eta, muon_pt, "systdown"),
-                in_muon_mask,
-                self.n,
-            )
-            # add scale factors to weights container
-            self.weights.add(
-                name=f"muon_id",
-                weight=nominal_sf,
-                weightUp=up_sf,
-                weightDown=down_sf,
-            )
-        else:
-            self.weights.add(
-                name=f"muon_id",
-                weight=nominal_sf,
-            )
+        # get 'up' and 'down' scale factors
+        up_sf = unflat_sf(
+            self.cset[
+                id_corrections[self.year][self.id_wp]
+            ].evaluate(muon_eta, muon_pt, "systup"),
+            in_muon_mask,
+            self.n,
+        )
+        down_sf = unflat_sf(
+            self.cset[
+                id_corrections[self.year][self.id_wp]
+            ].evaluate(muon_eta, muon_pt, "systdown"),
+            in_muon_mask,
+            self.n,
+        )
+        # add scale factors to weights container
+        self.weights.add(
+            name=f"CMS_eff_m_id_syst",
+            weight=nominal_sf,
+            weightUp=up_sf,
+            weightDown=down_sf,
+        )
+
 
     def add_iso_weight(self):
         """
@@ -243,79 +233,45 @@ class MuonCorrector:
         muon_eta = np.abs(ak.fill_none(in_muons.eta, 0.0))
 
         iso_corrections = {
-            "2016APV": {
-                "loose": {
-                    "loose": "NUM_LooseRelIso_DEN_LooseID",
-                    "medium": None,
-                    "tight": None,
+            "Run_2": {
+                "Loose": {
+                    "Loose": "NUM_LooseRelIso_DEN_LooseID",
+                    "Medium": None,
+                    "Tight": None,
                 },
-                "medium": {
-                    "loose": "NUM_LooseRelIso_DEN_MediumID",
-                    "medium": None,
-                    "tight": "NUM_TightRelIso_DEN_MediumID",
+                "Medium": {
+                    "Loose": "NUM_LooseRelIso_DEN_MediumID",
+                    "Medium": None,
+                    "Tight": "NUM_TightRelIso_DEN_MediumID",
                 },
-                "tight": {
-                    "loose": "NUM_LooseRelIso_DEN_TightIDandIPCut",
-                    "medium": None,
-                    "tight": "NUM_TightRelIso_DEN_TightIDandIPCut",
-                },
-            },
-            "2016": {
-                "loose": {
-                    "loose": "NUM_LooseRelIso_DEN_LooseID",
-                    "medium": None,
-                    "tight": None,
-                },
-                "medium": {
-                    "loose": "NUM_LooseRelIso_DEN_MediumID",
-                    "medium": None,
-                    "tight": "NUM_TightRelIso_DEN_MediumID",
-                },
-                "tight": {
-                    "loose": "NUM_LooseRelIso_DEN_TightIDandIPCut",
-                    "medium": None,
-                    "tight": "NUM_TightRelIso_DEN_TightIDandIPCut",
+                "Tight": {
+                    "Loose": "NUM_LooseRelIso_DEN_TightIDandIPCut",
+                    "Medium": None,
+                    "Tight": "NUM_TightRelIso_DEN_TightIDandIPCut",
                 },
             },
-            "2017": {
-                "loose": {
-                    "loose": "NUM_LooseRelIso_DEN_LooseID",
-                    "medium": None,
-                    "tight": None,
+            "Run_3": {
+                "Loose": {
+                    "Loose": "NUM_LoosePFIso_DEN_LooseID",
+                    "Medium": "NUM_LoosePFIso_DEN_MediumID",
+                    "Tight": "NUM_LoosePFIso_DEN_TightID",
                 },
-                "medium": {
-                    "loose": "NUM_LooseRelIso_DEN_MediumID",
-                    "medium": None,
-                    "tight": "NUM_TightRelIso_DEN_MediumID",
+                "Medium": {
+                    "Loose": None,
+                    "Medium": None,
+                    "Tight": None,
                 },
-                "tight": {
-                    "loose": "NUM_LooseRelIso_DEN_TightIDandIPCut",
-                    "medium": None,
-                    "tight": "NUM_TightRelIso_DEN_TightIDandIPCut",
+                "Tight": {
+                    "Loose": None,
+                    "Medium": "NUM_TightPFIso_DEN_MediumID",
+                    "Tight": "NUM_TightPFIso_DEN_TightID",
                 },
-            },
-            "2018": {
-                "loose": {
-                    "loose": "NUM_LooseRelIso_DEN_LooseID",
-                    "medium": None,
-                    "tight": None,
-                },
-                "medium": {
-                    "loose": "NUM_LooseRelIso_DEN_MediumID",
-                    "medium": None,
-                    "tight": "NUM_TightRelIso_DEN_MediumID",
-                },
-                "tight": {
-                    "loose": "NUM_LooseRelIso_DEN_TightIDandIPCut",
-                    "medium": None,
-                    "tight": "NUM_TightRelIso_DEN_TightIDandIPCut",
-                },
-            },
+            }
         }
 
-        correction_name = iso_corrections[self.year][self.id_wp][
-            self.iso_wp
-        ]
+        run_case = "Run_2" if self.year in ["2016APV", "2016", "2017", "2018"] else "Run_3"
+
+        correction_name = iso_corrections[run_case][self.id_wp][self.iso_wp]
         assert correction_name, "No Iso SF's available"
 
         # get nominal scale factors
@@ -324,34 +280,29 @@ class MuonCorrector:
             in_muon_mask,
             self.n,
         )
-        if self.variation == "nominal":
-            # get 'up' and 'down' scale factors
-            up_sf = unflat_sf(
-                self.cset[correction_name].evaluate(
-                    muon_eta, muon_pt, "systup"
-                ),
-                in_muon_mask,
-                self.n,
-            )
-            down_sf = unflat_sf(
-                self.cset[correction_name].evaluate(
-                    muon_eta, muon_pt, "systdown"
-                ),
-                in_muon_mask,
-                self.n,
-            )
-            # add scale factors to weights container
-            self.weights.add(
-                name=f"muon_iso",
-                weight=nominal_sf,
-                weightUp=up_sf,
-                weightDown=down_sf,
-            )
-        else:
-            self.weights.add(
-                name=f"muon_iso",
-                weight=nominal_sf,
-            )
+        # get 'up' and 'down' scale factors
+        up_sf = unflat_sf(
+            self.cset[correction_name].evaluate(
+                muon_eta, muon_pt, "systup"
+            ),
+            in_muon_mask,
+            self.n,
+        )
+        down_sf = unflat_sf(
+            self.cset[correction_name].evaluate(
+                muon_eta, muon_pt, "systdown"
+            ),
+            in_muon_mask,
+            self.n,
+        )
+        # add scale factors to weights container
+        self.weights.add(
+            name=f"CMS_eff_m_iso_syst",
+            weight=nominal_sf,
+            weightUp=up_sf,
+            weightDown=down_sf,
+        )
+        
 
     def add_triggeriso_weight(self, trigger_mask, trigger_match_mask) -> None:
         """
@@ -363,7 +314,7 @@ class MuonCorrector:
             mask array of DeltaR matched trigger objects
         """
         assert (
-            self.id_wp == "tight" and self.iso_wp == "tight"
+            self.id_wp == "Tight" and self.iso_wp == "Tight"
         ), "there's only available muon trigger SF for 'tight' ID and Iso"
         
         # get 'in-limits' muons
@@ -401,36 +352,31 @@ class MuonCorrector:
             in_muon_mask,
             self.n,
         )
-        if self.variation == "nominal":
-            # get 'up' and 'down' scale factors
-            up_sf = self.cset[sfs_keys[self.year]].evaluate(
-                muon_eta, muon_pt, "systup"
-            )
-            up_sf = unflat_sf(
-                up_sf,
-                in_muon_mask,
-                self.n,
-            )
-            down_sf = self.cset[sfs_keys[self.year]].evaluate(
-                muon_eta, muon_pt, "systdown"
-            )
-            down_sf = unflat_sf(
-                down_sf,
-                in_muon_mask,
-                self.n,
-            )
-            # add scale factors to weights container
-            self.weights.add(
-                name=f"muon_triggeriso",
-                weight=nominal_sf,
-                weightUp=up_sf,
-                weightDown=down_sf,
-            )
-        else:
-            self.weights.add(
-                name=f"muon_triggeriso",
-                weight=nominal_sf,
-            )
+        # get 'up' and 'down' scale factors
+        up_sf = self.cset[sfs_keys[self.year]].evaluate(
+            muon_eta, muon_pt, "systup"
+        )
+        up_sf = unflat_sf(
+            up_sf,
+            in_muon_mask,
+            self.n,
+        )
+        down_sf = self.cset[sfs_keys[self.year]].evaluate(
+            muon_eta, muon_pt, "systdown"
+        )
+        down_sf = unflat_sf(
+            down_sf,
+            in_muon_mask,
+            self.n,
+        )
+        # add scale factors to weights container
+        self.weights.add(
+            name=f"muon_triggeriso",
+            weight=nominal_sf,
+            weightUp=up_sf,
+            weightDown=down_sf,
+        )
+     
 
     def add_dimuon_trigger_weight(self) -> None:        
         """

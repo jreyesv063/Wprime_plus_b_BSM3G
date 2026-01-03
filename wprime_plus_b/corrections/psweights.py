@@ -22,7 +22,7 @@ def add_particle_shower_weight(
     """
     # add ps weights ISR
     weights_container.add(
-        "psweight_ISR",
+        "ps_isr",
         weight=np.ones(len(events)),
         weightUp=events.PSWeight[:,0],
         weightDown=events.PSWeight[:,2],
@@ -30,7 +30,7 @@ def add_particle_shower_weight(
 
     # add ps weights FSR
     weights_container.add(
-        "psweight_FSR",
+        "ps_fsr",
         weight=np.ones(len(events)),
         weightUp=events.PSWeight[:,1],
         weightDown=events.PSWeight[:,3],

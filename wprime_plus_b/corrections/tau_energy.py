@@ -44,6 +44,11 @@ def apply_tau_energy_scale_corrections(
     year: str = "2017",
     variation: bool = False,
 ):
+
+    # Algoritm used
+    tau_id_version = "DeepTau2017" if year in ["2016APV", "2016", "2017", "2018"] else "DeepTau2018"
+    tau_id_algorithm = f"{tau_id_version}v2p1" if year in ["2016APV", "2016", "2017", "2018"] else f"{tau_id_version}v2p5"
+
     # define tau pt_raw field
     events["Tau", "pt_raw"] = events.Tau.pt
 
@@ -56,7 +61,7 @@ def apply_tau_energy_scale_corrections(
     # Fill None values and get scale factors
     pt, eta, dm, genmatch = (ak.fill_none(taus_filter[field], 0) for field in ["pt", "eta", "decayMode", "genPartFlav"])
     cset = correctionlib.CorrectionSet.from_file(get_pog_json(json_name="tau", year=year))
-    sf = {var: cset["tau_energy_scale"].evaluate(pt, eta, dm, genmatch, "DeepTau2017v2p1", var) for var in ["nom", "up", "down"]}
+    sf = {var: cset["tau_energy_scale"].evaluate(pt, eta, dm, genmatch, tau_id_algorithm, var) for var in ["nom", "up", "down"]}
 
 
     # Compute new pt and mass values

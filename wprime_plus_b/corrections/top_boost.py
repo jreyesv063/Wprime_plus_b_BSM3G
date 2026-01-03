@@ -33,7 +33,7 @@ def add_top_boost_corrections(
         raise ValueError(f"Lepton flavor no reconocido: {lepton_flavor}")        
 
     cset = correctionlib.CorrectionSet.from_file(
-        f"wprime_plus_b/data/top_boost_{lepton_flavor}_{year}.json"
+        f"wprime_plus_b/corrections/top_boost/top_boost_{lepton_flavor}_{year}.json"
     )
 
     lepton_map = {"ele": electrons, "mu": muons, "tau": taus}

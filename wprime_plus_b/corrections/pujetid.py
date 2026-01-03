@@ -11,7 +11,7 @@ def add_pujetid_weight(
     jets: ak.Array,
     weights: Type[Weights],
     year: str = "2017",
-    working_point: str = "T",
+    working_point: str = "Tight",
     variation: str = "nominal",
 ):
     """
@@ -32,9 +32,9 @@ def add_pujetid_weight(
             variations to weights container. else, add only 'nominal' weights.
     """
     puid_wps = {
-        "L": 4,
-        "M": 6,
-        "T": 7,
+        "Loose": 4,
+        "Medium": 6,
+        "Tight": 7,
     }
     # flat jets array since correction function works only on flat arrays
     j, n = ak.flatten(jets), ak.num(jets)
@@ -59,29 +59,25 @@ def add_pujetid_weight(
     # If jet in 'in-limits' jets, then take the computed SF, otherwise assign 1
     # Unflatten to original shape
     nominal_sf = unflat_sf(
-        cset["PUJetID_eff"].evaluate(jets_eta, jets_pt, "nom", working_point),
+        cset["PUJetID_eff"].evaluate(jets_eta, jets_pt, "nom", working_point[0]),
         in_jet_mask,
         n,
     )
-    if variation == "nominal":
-        # get 'up' and 'down' variations
-        up_sf = unflat_sf(
-            cset["PUJetID_eff"].evaluate(jets_eta, jets_pt, "up", working_point),
-            in_jet_mask,
-            n,
-        )
-        down_sf = unflat_sf(
-            cset["PUJetID_eff"].evaluate(jets_eta, jets_pt, "down", working_point),
-            in_jet_mask,
-            n,
-        )
-        # add nominal, up and down scale factors to weights container
-        weights.add(
-            name=f"pujetid_{working_point}",
-            weight=nominal_sf,
-            weightUp=up_sf,
-            weightDown=down_sf,
-        )
-    else:
-        # add nominal scale factors to weights container
-        weights.add(name=f"pujetid_{working_point}", weight=nominal_sf)
+    # get 'up' and 'down' variations
+    up_sf = unflat_sf(
+        cset["PUJetID_eff"].evaluate(jets_eta, jets_pt, "up", working_point[0]),
+        in_jet_mask,
+        n,
+    )
+    down_sf = unflat_sf(
+        cset["PUJetID_eff"].evaluate(jets_eta, jets_pt, "down", working_point[0]),
+        in_jet_mask,
+        n,
+    )
+    # add nominal, up and down scale factors to weights container
+    weights.add(
+        name=f"CMS_pileup",
+        weight=nominal_sf,
+        weightUp=up_sf,
+        weightDown=down_sf,
+    )

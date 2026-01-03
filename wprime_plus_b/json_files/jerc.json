@@ -1,0 +1,38 @@
+{
+  "_comment": {
+    "description": "Jet energy correction algorithms per data-taking era",
+    "note": "Each era lists the sequential JEC levels applied",
+    "reference_1": "https://cms-jerc.web.cern.ch/JEC/#factorized-approach",
+    "reference_2": "https://twiki.cern.ch/twiki/bin/view/CMS/JetMET#Quick_links_to_current_recommend",
+    "types": {
+        "L1": "remove the energy coming from pile-up events. Run 3 uses PUPPI jets, so it is not needed these corrections",
+        "L2": "Calibrates jet response vs. η so jets have uniform response across the detector",
+        "L2L3": "Residual corrections applied only to real data to fix small data/MC differences"
+    }
+  },
+  "algorithm": {
+    "mc": {
+        "2016APV":  ["L1FastJet", "L2Relative", "L3Absolute"],
+        "2016": ["L1FastJet", "L2Relative", "L3Absolute"],
+        "2017":        ["L1FastJet", "L2Relative", "L3Absolute"],
+        "2018":        ["L1FastJet", "L2Relative", "L3Absolute"],
+        "2022_pre":   ["L2Relative", "L3Absolute"],
+        "2022_post":  ["L2Relative", "L3Absolute"],
+        "2023_pre": ["L2Relative", "L3Absolute"],
+        "2023_post":["L2Relative", "L3Absolute"],
+        "2024":["L2Relative", "L3Absolute"]
+    },
+
+    "data": {
+        "2016APV":  ["L1FastJet", "L2Relative", "L3Absolute", "L2L3Residual"],
+        "2016": ["L1FastJet", "L2Relative", "L3Absolute", "L2L3Residual"],
+        "2017":        ["L1FastJet", "L2Relative", "L3Absolute", "L2L3Residual"],
+        "2018":        ["L1FastJet", "L2Relative", "L3Absolute", "L2L3Residual"],
+        "2022_pre":   ["L2Relative", "L3Absolute", "L2L3Residual"],
+        "2022_post":  ["L2Relative", "L3Absolute", "L2L3Residual"],
+        "2023_pre": ["L2Relative", "L3Absolute", "L2L3Residual"],
+        "2023_post":["L2Relative", "L3Absolute", "L2L3Residual"],
+        "2024":["L2Relative", "L3Absolute", "L2L3Residual"]        
+    }
+    }
+}

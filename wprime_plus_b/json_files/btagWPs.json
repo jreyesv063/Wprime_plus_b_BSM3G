@@ -1,0 +1,60 @@
+{
+    "_comment": {
+        "2016APV": "https://btv-wiki.docs.cern.ch/ScaleFactors/Run2UL2016preVFP/#ak4-b-tagging",
+        "2016": "https://btv-wiki.docs.cern.ch/ScaleFactors/Run2UL2016postVFP/#general-remarks",
+        "2017": "https://btv-wiki.docs.cern.ch/ScaleFactors/Run2UL2017/",
+        "2018": "https://btv-wiki.docs.cern.ch/ScaleFactors/Run2UL2018/",
+        "2022_pre": "https://btv-wiki.docs.cern.ch/ScaleFactors/Run3Summer22/",
+        "2022_post": "https://btv-wiki.docs.cern.ch/ScaleFactors/Run3Summer22EE/",
+        "2023_pre": "https://btv-wiki.docs.cern.ch/ScaleFactors/Run3Summer23/",
+        "2023_post": "https://btv-wiki.docs.cern.ch/ScaleFactors/Run3Summer23BPix/",
+        "2024": "https://btv-wiki.docs.cern.ch/ScaleFactors/Run3Summer24/#ak4-b-tagging"
+    },
+    "deepJet": {
+        "2016APV": {
+            "Loose": 0.0508,
+            "Medium": 0.2598,
+            "Tight": 0.6502
+        },
+        "2016": {
+            "Loose": 0.048,
+            "Medium": 0.2489,
+            "Tight": 0.6377
+        },
+        "2017": {
+            "Loose": 0.0532,
+            "Medium": 0.304,
+            "Tight": 0.7476
+        },
+        "2018": {
+            "Loose": 0.049,
+            "Medium": 0.2783,
+            "Tight": 0.71
+        },
+        "2022_pre": {
+            "Loose": 0.0583,
+            "Medium": 0.3086,
+            "Tight": 0.7183
+        },
+        "2022_post": {
+            "Loose": 0.0614,
+            "Medium": 0.3196,
+            "Tight": 0.73
+        },
+        "2023_pre": {
+            "Loose": 0.0479,
+            "Medium": 0.2431,
+            "Tight": 0.6553
+        },
+        "2023_post": {
+            "Loose": 0.048,
+            "Medium": 0.2435,
+            "Tight": 0.6563
+        },
+        "2024": {
+            "Loose": 10.0,
+            "Medium": 10.0,
+            "Tight": 10.0            
+        }
+    }
+}

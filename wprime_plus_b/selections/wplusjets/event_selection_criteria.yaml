@@ -1,0 +1,293 @@
+electron:
+  ele:
+    pt: 10.0
+    eta: 2.4
+    id: "wp80iso"
+    iso: "Tight"
+
+  mu:
+    pt: 10.0
+    eta: 2.4
+    id: "wp80iso"
+    iso: "Tight"
+
+  tau:
+    pt: 10.0
+    eta: 2.4
+    id: "wp80iso"
+    iso: "Tight"    
+
+muon:
+  ele:
+    pt: 15.0
+    eta: 2.1
+    id: "Tight"
+    iso: "Tight"
+
+  mu:
+    pt: 15.0
+    eta: 2.1
+    id: "Tight"
+    iso: "Tight"
+
+  tau:
+    pt: 15.0
+    eta: 2.1
+    id: "Tight"
+    iso: "Tight"
+  
+tau:
+  ele:
+    pt: 20.0
+    eta: 2.3
+    dz: 0.2
+    fake_VSe: "Tight"
+    fake_VSmu: "Tight"
+    fake_VSjet_pass: "Tight"
+    fake_VSjet_fail: ""
+    prongs: 13
+
+  mu:
+    pt: 20.0
+    eta: 2.3
+    dz: 0.2
+    fake_VSe: "Tight"
+    fake_VSmu: "Tight"
+    fake_VSjet_pass: "Tight"
+    fake_VSjet_fail: ""
+    prongs: 13
+
+  tau:
+    pt: 20.0
+    eta: 2.3
+    dz: 0.2
+    fake_VSe: "Tight"
+    fake_VSmu: "Tight"
+    fake_VSjet_pass: "Tight"
+    fake_VSjet_fail: ""
+    prongs: 13        
+
+met:
+  ele:
+    met_min: 180.0
+    delta_phi_jets_met: 0.7
+    invert_delta_phi: False
+
+  mu:
+    met_min: 180.0
+    delta_phi_jets_met: 0.7
+    invert_delta_phi: False
+
+  tau:
+    met_min: 180.0
+    delta_phi_jets_met: 0.7
+    invert_delta_phi: False      
+
+bjet:
+  ele:
+    pt: 20.0
+    eta: 2.4
+    btag_wp_pass: "Tight"
+    jet_id: "TightLepVeto"
+    pileup_id: "Tight"
+
+  mu:
+    pt: 20.0
+    eta: 2.4
+    btag_wp_pass: "Tight"
+    jet_id: "TightLepVeto"
+    pileup_id: "Tight"
+
+  tau: 
+    pt: 20.0
+    eta: 2.4
+    btag_wp_pass: "Tight"
+    jet_id: "TightLepVeto"
+    pileup_id: "Tight"
+  
+
+jet:
+  ele:
+    pt: 20.0
+    eta: 2.4
+    btag_wp_fail: "Loose"
+    jet_id: "TightLepVeto"
+    pileup_id: "Tight"
+
+  mu:
+    pt: 20.0
+    eta: 2.4
+    btag_wp_fail: "Loose"
+    jet_id: "TightLepVeto"
+    pileup_id: "Tight"
+
+  tau:
+    pt: 20.0
+    eta: 2.4
+    btag_wp_fail: "Loose"
+    jet_id: "TightLepVeto"
+    pileup_id: "Tight"            
+
+  
+fatjet:
+  ele:
+    pt: 300.0
+    eta: 2.4
+    particleNet_Top_Nominal: "Tight"
+
+  mu:
+    pt: 300.0
+    eta: 2.4
+    particleNet_Top_Nominal: "Tight"
+
+  tau:
+    pt: 300.0
+    eta: 2.4
+    particleNet_Top_Nominal: "Tight"        
+
+wjet:
+  ele:
+    pt: 200.0
+    eta: 2.4
+    particleNet_W_Nominal: "Tight"
+
+  mu:
+    pt: 200.0
+    eta: 2.4
+    particleNet_W_Nominal: "Tight"
+
+  tau:
+    pt: 200.0
+    eta: 2.4
+    particleNet_W_Nominal: "Tight"         
+
+cross_cleaning:
+  ele: 0.4
+  mu: 0.4
+  tau: 0.4
+
+trigger:
+  ele:
+    general: "ele"
+    efficiency: ""
+
+  mu:
+    general: "mu"
+    efficiency: ""
+
+  tau:
+    general: "tau"
+    efficiency: ""
+
+
+top_tagger:
+  ele:
+    cases:
+      case_1: True    
+      case_2: True
+      case_3: True
+      case_4: True
+      case_5: True
+      case_6: True
+      case_7: True
+      case_8: True
+      case_9: True
+      case_10: True
+      case_11: True
+      case_12: True
+      case_13: True
+    
+    invert_top_tagger: True
+
+    nworkers: 8
+    
+  mu:
+    cases:
+      case_1: True    
+      case_2: True
+      case_3: True
+      case_4: True
+      case_5: True
+      case_6: True
+      case_7: True
+      case_8: True
+      case_9: True
+      case_10: True
+      case_11: True
+      case_12: True
+      case_13: True    
+
+    invert_top_tagger: True
+
+    nworkers: 8
+
+  tau:
+    cases:
+      case_1: True    
+      case_2: True
+      case_3: True
+      case_4: True
+      case_5: True
+      case_6: True
+      case_7: True
+      case_8: True
+      case_9: True
+      case_10: True
+      case_11: True
+      case_12: True
+      case_13: True  
+
+    invert_top_tagger: True 
+
+    nworkers: 8
+
+
+data_driven_qcd_estimation:
+  cr_b:
+    ele:
+      invert_delta_phi: True
+      fake_VSjet_pass: "Tight"
+      fake_VSjet_fail: ""
+
+    mu:
+      invert_delta_phi: True
+      fake_VSjet_pass: "Tight"
+      fake_VSjet_fail: ""
+
+    tau:
+      invert_delta_phi: True
+      fake_VSjet_pass: "Tight"
+      fake_VSjet_fail: ""
+
+  cr_c:
+    ele:
+      invert_delta_phi: False
+      fake_VSjet_pass: "Loose"
+      fake_VSjet_fail: "Tight"
+    
+    mu:
+      invert_delta_phi: False
+      fake_VSjet_pass: "Loose"
+      fake_VSjet_fail: "Tight"
+
+    tau:
+      invert_delta_phi: False
+      fake_VSjet_pass: "Loose"
+      fake_VSjet_fail: "Tight"
+
+
+  cr_d: 
+    ele:
+      invert_delta_phi: True
+      fake_VSjet_pass: "Loose"    
+      fake_VSjet_fail: "Tight"    
+
+    mu:
+      invert_delta_phi: True
+      fake_VSjet_pass: "Loose"    
+      fake_VSjet_fail: "Tight"    
+    
+    tau:
+      invert_delta_phi: True
+      fake_VSjet_pass: "Loose"    
+      fake_VSjet_fail: "Tight"        

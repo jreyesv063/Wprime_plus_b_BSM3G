@@ -267,32 +267,50 @@ def update_met(events: ak.Array, lepton: str = "Muon") -> None:
     events["MET", "phi"] = met_phi
 
 
-
 def add_met_trigger_corrections(
     mask_trigger,
     dataset,
     met: ak.Array,
     weights: Type[Weights],
     year: str,
-    year_mod: str = "",
     variation: str = "nominal",
 ) -> Tuple[ak.Array, ak.Array]:
+    """
+    Apply MET trigger scale factor corrections and store them in a Weights container.
 
-    # We have the trigger name restriction
+    The MET trigger scale factors are evaluated as a function of recoil-corrected
+    MET and applied only to events passing the trigger mask. Events outside the
+    trigger region receive a unit weight.
+    """
+
+    # ------------------------------------------------------------------
+    # Select events within the trigger acceptance and extract MET
+    # ------------------------------------------------------------------
+    # Apply trigger mask to MET collection
     in_limit_met = met.mask[mask_trigger]
+
+    # Use recoil-corrected MET; fill missing values with a safe default
     met_pt = ak.fill_none(in_limit_met.pt_recoil, 10.0)
 
-    # get met trigger correction
+    # ------------------------------------------------------------------
+    # Load MET trigger scale factors from correctionlib
+    # ------------------------------------------------------------------
     cset = correctionlib.CorrectionSet.from_file(
-        f"wprime_plus_b/data/met_trigger_{year + year_mod}_UL.json"
+        f"wprime_plus_b/corrections/met_trigger/met_trigger_{year}_UL.json"
     )
 
-    # Inicializamos los arrays por defecto como 1.0
+    # ------------------------------------------------------------------
+    # Initialize scale factor arrays with unity (no correction by default)
+    # ------------------------------------------------------------------
     nominal_sf = np.ones_like(met_pt)
     up_sf = np.ones_like(met_pt)
     down_sf = np.ones_like(met_pt)
 
-    if dataset.startswith('WJetsToLNu'):
+    # ------------------------------------------------------------------
+    # Apply dataset-dependent MET trigger scale factors
+    # ------------------------------------------------------------------
+    if dataset.startswith("WJetsToLNu"):
+        # MET trigger SFs for W+jets background
         weight_background = "UL-MET-Trigger-SF_WJ"
 
         sf = cset[weight_background].evaluate(met_pt, "nominal")
@@ -303,7 +321,8 @@ def add_met_trigger_corrections(
         up_sf = np.where(mask_trigger, sf_up, 1.0)
         down_sf = np.where(mask_trigger, sf_down, 1.0)
 
-    elif dataset.startswith('TTTo'):
+    elif dataset.startswith("TTTo"):
+        # MET trigger SFs for tt̄ background
         weight_background = "UL-MET-Trigger-SF_TT"
 
         sf = cset[weight_background].evaluate(met_pt, "nominal")
@@ -314,9 +333,11 @@ def add_met_trigger_corrections(
         up_sf = np.where(mask_trigger, sf_up, 1.0)
         down_sf = np.where(mask_trigger, sf_down, 1.0)
 
-    # add scale factors to weights container
+    # ------------------------------------------------------------------
+    # Store MET trigger scale factors in the weights container
+    # ------------------------------------------------------------------
     weights.add(
-        name=f"met_trigger",
+        name="CMS_eff_MET_trigger",
         weight=nominal_sf,
         weightUp=up_sf,
         weightDown=down_sf,
@@ -372,105 +393,50 @@ def update_met_jet_veto(events: ak.Array, jets_veto) -> None:
     events["MET", "phi"] = new_met_phi
 
 
-def met_noMu_cal(events: ak.Array, muons) -> None:
 
-    # MET
+def met_recoil(events: ak.Array, muons) -> None:
+    """
+    Recompute MET recoil using selected muons only.
+
+    The recoil-corrected MET is obtained by propagating the transverse
+    momentum of reconstructed muons to the original MET vector.
+    The updated MET components are stored as new fields ``pt_recoil``
+    and ``phi_recoil`` in the ``events.MET`` collection.
+
+
+    """
+
+    # Original MET components
     met_pt = events.MET.pt
     met_phi = events.MET.phi
 
-    # Muon
+    # Muon transverse momentum components
     muons_pt = muons.pt
     muons_phi = muons.phi
 
-    
-    # propagate changes to MET (x, y) 
-    met_px = met_pt * np.cos(met_phi) -  ak.sum(muons_pt*np.cos(muons_phi) , axis =-1)
-    met_py = met_pt * np.sin(met_phi) - ak.sum(muons_pt*np.sin(muons_phi) , axis =-1)   
+    # ------------------------------------------------------------------
+    # Propagate muon momenta to MET in Cartesian (x, y) components
+    # ------------------------------------------------------------------
+    recoil_px = (
+        met_pt * np.cos(met_phi)
+        + ak.sum(muons_pt * np.cos(muons_phi), axis=-1)
+    )
 
-    # propagate changes to MET (pT, phi) components
-    new_met_pt = np.sqrt((met_px ** 2.0 + met_py ** 2.0))
-    new_met_phi = np.arctan2(met_py, met_px)
-    
-    # update MET fields
-    events["MET", "pt_nomu"] = new_met_pt
-    events["MET", "phi_nomu"] = new_met_phi
+    recoil_py = (
+        met_pt * np.sin(met_phi)
+        + ak.sum(muons_pt * np.sin(muons_phi), axis=-1)
+    )
 
-
-# New functions: MET definitions
-def met_noMu_minus(events: ak.Array, muons) -> None:
-
-    # MET
-    met_pt = events.MET.pt
-    met_phi = events.MET.phi
-
-    # Muon
-    muons_pt = muons.pt
-    muons_phi = muons.phi
-
-    
-    # propagate changes to MET (x, y) 
-    met_px = met_pt * np.cos(met_phi) -  ak.sum(muons_pt*np.cos(muons_phi) , axis =-1)
-    met_py = met_pt * np.sin(met_phi) - ak.sum(muons_pt*np.sin(muons_phi) , axis =-1)   
-
-    # propagate changes to MET (pT, phi) components
-    new_met_pt = np.sqrt((met_px ** 2.0 + met_py ** 2.0))
-    new_met_phi = np.arctan2(met_py, met_px)
-    
-    # update MET fields
-    events["MET", "pt_nomu_minus"] = new_met_pt
-    events["MET", "phi_nomu_minus"] = new_met_phi
-
-def met_noMu_plus(events: ak.Array, muons) -> None:
-
-    # MET
-    met_pt = events.MET.pt
-    met_phi = events.MET.phi
-
-    # Muon
-    muons_pt = muons.pt
-    muons_phi = muons.phi
-
-    
-    # propagate changes to MET (x, y) 
-    met_px = met_pt * np.cos(met_phi) + ak.sum(muons_pt*np.cos(muons_phi) , axis =-1)
-    met_py = met_pt * np.sin(met_phi) + ak.sum(muons_pt*np.sin(muons_phi) , axis =-1)   
-
-    # propagate changes to MET (pT, phi) components
-    new_met_pt = np.sqrt((met_px ** 2.0 + met_py ** 2.0))
-    new_met_phi = np.arctan2(met_py, met_px)
-    
-    # update MET fields
-    events["MET", "pt_nomu_plus"] = new_met_pt
-    events["MET", "phi_nomu_plus"] = new_met_phi
-
-
-
-def met_recoil(events: ak.Array, muons, electrons, taus) -> None:
-
-    # MET
-    met_pt = events.MET.pt
-    met_phi = events.MET.phi
-
-    # Muons
-    muons_pt = muons.pt
-    muons_phi = muons.phi
-
-    # Electrons
-    electrons_pt = electrons.pt
-    electrons_phi = electrons.phi
-
-    # Taus
-    taus_pt = taus.pt
-    taus_phi = taus.phi
-    
-    # propagate changes to MET (x, y) 
-    recoil_px = met_pt * np.cos(met_phi) + (ak.sum(muons_pt*np.cos(muons_phi) , axis =-1)) 
-    recoil_py = met_pt * np.sin(met_phi) + (ak.sum(muons_pt*np.sin(muons_phi) , axis =-1)) 
-
-    # propagate changes to MET (pT, phi) components
-    recoil_pt = np.sqrt((recoil_px ** 2.0 + recoil_py ** 2.0))
+    # ------------------------------------------------------------------
+    # Convert recoil-corrected MET back to (pT, phi)
+    # ------------------------------------------------------------------
+    recoil_pt = np.sqrt(recoil_px**2 + recoil_py**2)
     recoil_phi = np.arctan2(recoil_py, recoil_px)
-    
-    # update MET fields
+
+    # ------------------------------------------------------------------
+    # Store recoil-corrected MET in the events record
+    # ------------------------------------------------------------------
     events["MET", "pt_recoil"] = recoil_pt
     events["MET", "phi_recoil"] = recoil_phi
+
+

@@ -760,6 +760,8 @@ class QCD_closure_Proccessor(processor.ProcessorABC):
             })
 
             nevents_top_tagger = nevents_after
+            mask_top = region_selection_mask
+            
 
         else:            
             # =============================================================

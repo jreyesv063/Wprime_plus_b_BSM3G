@@ -239,7 +239,7 @@ top_tagger:
 
     invert_top_tagger: True 
 
-    nworkers: 8
+    nworkers: 16
 
 
 data_driven_qcd_estimation:

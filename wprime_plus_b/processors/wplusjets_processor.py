@@ -759,7 +759,8 @@ class WplusJetsProcessor(processor.ProcessorABC):
             })
 
             nevents_top_tagger = nevents_after
-
+            mask_top = ak.Array([])
+            
         else:            
             # =============================================================
             #                   Top tagger mask

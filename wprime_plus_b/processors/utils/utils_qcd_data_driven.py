@@ -340,6 +340,9 @@ class QCD_data_driven:
                     f"raw_final_nevents_{cr}": nevents_after,
                 })
 
+                nevents_top_tagger = nevents_after
+                mask_top = ak.Array([])
+                
             else:
                 # =============================================================
                 #                   Top tagger mask

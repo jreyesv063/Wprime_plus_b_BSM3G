@@ -329,6 +329,7 @@ def main(args):
 
                         syst_var_object = [
                             "muon_Rochester_up", "muon_Rochester_down",
+                            "met_UNCLUSTERED_up", "met_UNCLUSTERED_down",
                             "tau_TES_up", "tau_TES_down",
                             "jet_JES_up", "jet_JES_up",
                             "jet_JER_up", "jet_JER_up",
@@ -350,7 +351,8 @@ def main(args):
                                     "nominal":{k: str(v) for k, v in output_metadata.get(f"cutflow_{cr}_({syst})", {}).items()}, 
                                     "raw":{k: str(v) for k, v in output_metadata.get(f"cutflow_{cr}_({syst})_raw", {}).items()}, 
                                 }
-                            metadata["BCD"][f"systematic_variations_{cr}"] =  cutflow_syst_cr                                  
+                        
+                        metadata["BCD"][f"systematic_variations"] =  cutflow_syst_cr                                  
 
 
         # save args to metadata

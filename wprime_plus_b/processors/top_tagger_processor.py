@@ -757,6 +757,10 @@ class TopTaggerProccessor(processor.ProcessorABC):
             if trigger_eff == "tau":
                 fill_cutflow(metadata = output["metadata"], cut_name = f"numerator_{trigger_eff}_trigger", table_name = "cutflow", weights = weights)                    
 
+            nevents_top_tagger = nevents_after
+            mask_top = ak.Array([])
+            
+
         else:            
             # =============================================================
             #                   Top tagger mask
@@ -838,29 +842,6 @@ class TopTaggerProccessor(processor.ProcessorABC):
             if nevents_top_tagger > 0:
                 syst_var.get_syst_variation_event_level(name = "main", region_mask = region_selection_mask, mask = mask_top, self_main = self)
 
-
-        """
-        if nevents_top_tagger > 0:
-            # =============================================================
-            #                   Filling the histograms
-            # =============================================================
-            histograms_output_syst(self, 
-                            njets_no_top = njets_no_top,
-                            bjets = selected_objects["bjets"], 
-                            jets = selected_objects["jets"],
-                            fatjets = selected_objects["fatjets"], 
-                            wjets = selected_objects["wjets"],
-                            electrons = selected_objects["electrons"], 
-                            muons = selected_objects["muons"],
-                            taus = selected_objects["taus"], 
-                            met = selected_objects["met"],
-                            tops = tops , 
-                            mask = mask_top, 
-                            lepton_flavor = self.lepton_flavor, 
-                            is_mc = self.is_mc, 
-                            events = selected_objects["events"],
-                            syst_flag = "nominal")
-        """
 
         # define output dictionary accumulator
         if self.output_type == "array":

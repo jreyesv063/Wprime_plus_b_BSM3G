@@ -73,6 +73,7 @@ class Systematic_variation:
         # Lista corregida de systematics up/down
         syst_var_object = [
             "muon_Rochester_up", "muon_Rochester_down",
+            "met_UNCLUSTERED_up", "met_UNCLUSTERED_down",
             "tau_TES_up", "tau_TES_down",
             "jet_JES_up", "jet_JES_down",
             "jet_JER_up", "jet_JER_down",
@@ -203,7 +204,6 @@ class Systematic_variation:
 
 
     def get_syst_variation_event_level(self, name, region_mask, mask, self_main):
-        print(f"syst_utils: {name}, {len(mask)}, {len(region_mask)}; {len(self.weights_container.weight())}")
         for variation_case, weights_case in self.weights_container._modifiers.items():
             self_main.add_feature(
                 f"{variation_case}_{name}", weights_case[region_mask][mask]

@@ -760,6 +760,8 @@ class SignalProccessor(processor.ProcessorABC):
             })
 
             nevents_top_tagger = nevents_after
+            mask_top = ak.Array([])
+            
 
         else:            
             # =============================================================
@@ -853,30 +855,6 @@ class SignalProccessor(processor.ProcessorABC):
             QCD_ABCD.get_region_selection_BCD(run_systematics = self.run_systematics, is_mc= self.is_mc)
 
              
-
-        """
-        if nevents_top_tagger > 0:
-            # =============================================================
-            #                   Filling the histograms
-            # =============================================================
-            histograms_output_syst(self, 
-                            njets_no_top = njets_no_top,
-                            bjets = selected_objects["bjets"], 
-                            jets = selected_objects["jets"],
-                            fatjets = selected_objects["fatjets"], 
-                            wjets = selected_objects["wjets"],
-                            electrons = selected_objects["electrons"], 
-                            muons = selected_objects["muons"],
-                            taus = selected_objects["taus"], 
-                            met = selected_objects["met"],
-                            tops = tops , 
-                            mask = mask_top, 
-                            lepton_flavor = self.lepton_flavor, 
-                            is_mc = self.is_mc, 
-                            events = selected_objects["events"],
-                            syst_flag = "nominal")
-
-        """
 
         # define output dictionary accumulator
         if self.output_type == "array":

@@ -1,0 +1,79 @@
+{
+    "2016APV": {
+        "_comment": "https://cms-service-dqmdc.web.cern.ch/CAF/certification/Collisions16/13TeV/Era/Prompt/",
+        "eras": [
+          { "era": "B", "run_min": 272007, "run_max": 275376 },
+          { "era": "C", "run_min": 275656, "run_max": 276283 },
+          { "era": "D", "run_min": 276315, "run_max": 276811 },
+          { "era": "E", "run_min": 276831, "run_max": 277420 },
+          { "era": "F", "run_min": 277772, "run_max": 278808 }
+    ]
+    },
+    "2016": {
+        "_comment": "https://cms-service-dqmdc.web.cern.ch/CAF/certification/Collisions16/13TeV/Era/Prompt/",
+        "eras": [
+          { "era": "F", "run_min": 277772, "run_max": 278808 },
+          { "era": "G", "run_min": 278820, "run_max": 280385 },
+          { "era": "H", "run_min": 280919, "run_max": 284044 }
+        ]
+    },
+    "2017": {
+        "_comment": "https://cms-service-dqmdc.web.cern.ch/CAF/certification/Collisions17/13TeV/Era/Prompt/",
+        "eras": [
+          { "era": "B", "run_min": 297020, "run_max": 299329 },
+          { "era": "C", "run_min": 299337, "run_max": 302029 },
+          { "era": "D", "run_min": 302030, "run_max": 303434 },
+          { "era": "E", "run_min": 303435, "run_max": 304826 },
+          { "era": "F", "run_min": 304911, "run_max": 306462 }
+        ]
+    },
+    "2018": {
+        "_comment": "https://cms-service-dqmdc.web.cern.ch/CAF/certification/Collisions18/13TeV/Era/Prompt/",
+        "eras": [
+          { "era": "A", "run_min": 315252, "run_max": 316995 },
+          { "era": "B", "run_min": 316998, "run_max": 319312 },
+          { "era": "C", "run_min": 319313, "run_max": 320393 },
+          { "era": "D", "run_min": 320394, "run_max": 325273 }
+        ]
+    },
+    "2022_pre": {
+        "_comment": "https://cms-service-dqmdc.web.cern.ch/CAF/certification/Collisions22/PromptReco/",
+        "eras": [
+          { "era": "C", "run_min": 355862, "run_max": 357482 },
+          { "era": "D", "run_min": 357538, "run_max": 357900 }
+        ]
+    },
+    "2022_post": {
+        "_comment": "https://cms-service-dqmdc.web.cern.ch/CAF/certification/Collisions22/PromptReco/",
+        "eras": [
+          { "era": "E", "run_min": 359022, "run_max": 360331 },
+          { "era": "F", "run_min": 360390, "run_max": 362167 },
+          { "era": "G", "run_min": 362433, "run_max": 362760 }
+        ]
+    },
+    "2023_pre": {
+        "_comment": "https://cms-service-dqmdc.web.cern.ch/CAF/certification/Collisions23/",
+        "eras": [
+          { "era": "C", "run_min": 366403, "run_max": 367079 }
+        ]
+    },
+
+    "2023_post": {
+        "_comment": "https://cms-service-dqmdc.web.cern.ch/CAF/certification/Collisions23/",
+        "eras": [
+          { "era": "D", "run_min": 369803, "run_max": 370790 }
+        ]
+    },
+    "2024": {
+        "_comment": "https://cms-service-dqmdc.web.cern.ch/CAF/certification/Collisions24/",
+        "eras": [
+          { "era": "C", "run_min": 379416, "run_max": 380236 },
+          { "era": "D", "run_min": 380306, "run_max": 380947 },
+          { "era": "E", "run_min": 380963, "run_max": 381544 },
+          { "era": "F", "run_min": 382229, "run_max": 383779 },
+          { "era": "G", "run_min": 383811, "run_max": 385801 },
+          { "era": "H", "run_min": 385836, "run_max": 386319 },
+          { "era": "I", "run_min": 386478, "run_max": 386951 }
+        ]
+    }
+}

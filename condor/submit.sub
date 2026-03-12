@@ -4,6 +4,6 @@ output                = DIRECTORY/logs/JOBPATH/JOBNAME.$(ClusterId).$(ProcId).ou
 error                 = DIRECTORY/logs/JOBPATH/JOBNAME.$(ClusterId).$(ProcId).err
 log                   = DIRECTORY/logs/JOBPATH/JOBNAME.$(ClusterId).$(ProcId).log
 +JobFlavour           = "workday"
-+SingularityImage     = "/cvmfs/unpacked.cern.ch/registry.hub.docker.com/coffeateam/coffea-dask:latest-py3.9"
++SingularityImage     = "/cvmfs/unpacked.cern.ch/registry.hub.docker.com/coffeateam/coffea-base-almalinux9:0.7.30-py3.10"
 request_memory = 8000MB
 queue 1

@@ -14,6 +14,13 @@ voms-proxy-info -all -file "$X509_USER_PROXY" || echo "❌ voms-proxy-info -all 
 echo ">>> Changing to directory: MAINDIRECTORY"
 cd MAINDIRECTORY || { echo "❌ Failed to cd into MAINDIRECTORY"; exit 1; }
 
+
+echo ">>> Python version:"
+python --version
+
+echo ">>> Coffea version:"
+python -c "import coffea; print(coffea.__version__)"
+
 echo ">>> Running command:"
 echo "COMMAND"
 COMMAND || { echo "❌ Command failed"; exit 2; }

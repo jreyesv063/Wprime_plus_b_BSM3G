@@ -2,147 +2,112 @@ import json
 import numpy as np
 import awkward as ak
 import importlib.resources
-from wprime_plus_b.processors.utils.analysis_utils import trigger_match
 
 
 def get_trigger_mask(
     events: ak.Array,
     lepton_flavor: str,
     year: str,
-    reference_trigger: str,
-    muon_id: str = None,
-    electron_id: str = None,
+    trigger_case: str,
+    Or_HLT: bool
 ):
-    """
-    Build a boolean mask for events that pass the reference trigger(s).
-
-    If multiple triggers share the same root name (e.g., due to different versions),
-    the function performs a logical OR across all of them. An event passes the mask
-    if it passes **any** of the selected triggers.
-
-    Parameters
-    ----------
-    events : ak.Array
-        NanoEvents array containing HLT information (events.HLT).
-    lepton_flavor : str
-        One of {"mu", "ele", "tau"}.
-    year : str
-        Data-taking year, e.g., "2017", "2018".
-    reference_trigger : str
-        Reference trigger name in the JSON configuration.
-    muon_id : str, optional
-        Working point of muon ID (used if lepton_flavor == "mu").
-    electron_id : str, optional
-        Working point of electron ID (used if lepton_flavor == "ele").
-
-    Returns
-    -------
-    mask_reference_trigger : ak.Array
-        Boolean array per event: True if event passes any of the reference triggers.
-    reference_triggers : list
-        List of trigger names used to build the mask.
-    """
-    # Load triggers from JSON
-    with open("wprime_plus_b/json_files/triggers.json", "r") as f:
-        triggers_json = json.load(f) 
-
-    # Determine reference triggers
-    if lepton_flavor == "mu":
-        if muon_id is None:
-            raise ValueError("muon_id must be provided for muon triggers")
-        reference_triggers = triggers_json[year][reference_trigger][muon_id]
-
-    elif lepton_flavor == "ele":
-        if electron_id is None:
-            raise ValueError("electron_id must be provided for electron triggers")
-        reference_triggers = triggers_json[year][reference_trigger][electron_id]
-
-    elif lepton_flavor == "tau":
-        ref_trigger_list = triggers_json[year][reference_trigger]
-        # Only include triggers present in events
-        reference_triggers = [
-            trig for trig in events.HLT.fields if any(trig.startswith(r) for r in ref_trigger_list)
-        ]
-    else:
+  
+    if lepton_flavor not in ["mu", "ele", "tau", "ditau", "muon_highPt"]:
         raise ValueError(f"Unknown lepton flavor '{lepton_flavor}'")
 
-    # Combine masks for all reference triggers using awkward's broadcasting
-    masks = [events.HLT[trig] for trig in reference_triggers if trig in events.HLT.fields]
-    if masks:
-        mask_reference_trigger = ak.any(ak.Array(masks), axis=0)
+
+    # Load triggers from JSON
+    with open("wprime_plus_b/json_files/triggers.json", "r") as f:
+        trigger_name = json.load(f)["HLT_names"][year][trigger_case] 
+        
+    if Or_HLT:
+        all_triggers = [
+            trig for trig in events.HLT.fields if any(trig.startswith(r) for r in trigger_name)
+        ]
     else:
-        # If no matching triggers, return all False
-        mask_reference_trigger = ak.zeros(len(events), dtype=bool)
+        all_triggers = trigger_name
 
-    return mask_reference_trigger, reference_triggers
+    # Combine masks for all reference triggers 
+    masks = [events.HLT[trig] for trig in all_triggers if trig in events.HLT.fields]        
+        
+    trigger_mask = ak.any(ak.Array(masks), axis=0)
 
 
+    return all_triggers, trigger_mask
 
+    
 
 def get_trigger_match_mask(
-    events: ak.Array,
-    leptons: dict,
+    objects: dict,
+    year: str,    
     lepton_flavor: str,
-    year: str,
-    electron_id_wp: str,
-    muon_id_wp: str,
-) -> tuple[np.ndarray, np.ndarray]:
+    trigger_names: list 
+):
+
     """
-    Build a trigger mask and DeltaR-matched trigger object mask for events.
+    TrigObj is a collection of trigger objects (electrons, muons, taus, jets, MET, etc.) that passed some HLT filter in the event. It is used to:
+    - trigger matching
+    - efficiency studies
+    - path validation
 
-    For electrons and muons, the function selects events passing the reference triggers
-    and ensures at least one lepton matches a trigger object (TrigObj) using `trigger_match`.
-    For taus, all events are considered to pass the trigger match.
+    ** TrigObj_id: See triggers.json
+    ** Kinematics variables: used for matching with offline objects:
+        - pt
+        - eta
+        - phi
+    ** Each bit indicates that the object passed a specific HLT filter.
 
-    Parameters
-    ----------
-    events : ak.Array
-        NanoEvents array containing HLT information (events.HLT) and trigger objects (events.TrigObj).
-    leptons : dict
-        Dictionary with lepton collections, e.g., {"ele": electrons, "mu": muons}.
-    lepton_flavor : str
-        Lepton flavor to process ("ele", "mu", or "tau").
-    year : str
-        Data-taking year, e.g., "2017", "2018".
-    electron_id_wp : str
-        Electron ID working point used for trigger selection.
-    muon_id_wp : str
-        Muon ID working point used for trigger selection.
+    filterBits = 34 = 32 + 2 -> bits 1 and 5 are actived.
 
-    Returns
-    -------
-    trigger_mask : np.ndarray
-        Boolean array per event. True if the event passes any reference trigger.
-    trigger_match_mask : np.ndarray
-        Boolean array per event. True if the event has at least one lepton matched to a trigger object.
+    Ref: https://twiki.cern.ch/twiki/bin/viewauth/CMS/EgammaNanoAOD#Trigger_bits_how_to
+     
+     np.unique(ak.flatten(events.TrigObj.id))
+    
     """
-    nevents = len(events)
+    run = "run2" if year in ["2016APV", "2016", "2017", "2018"] else "run3"
+    base_name = list({name.split("_")[0] for name in trigger_names})
 
-    if lepton_flavor == "tau":
-        # For taus, assume all events pass
-        return np.ones(nevents, dtype=bool), np.ones(nevents, dtype=bool)
+    events = objects["events"]
+    
+    lepton_map = {
+        "mu": objects["muons"],
+        "ele": objects["electrons"],
+        "tau": objects["taus"],
+    }
+    
+    leptons = lepton_map[lepton_flavor]
+    
+    # Load triggers from JSON
+    with open("wprime_plus_b/json_files/triggers.json", "r") as f:
+        trigger_match_fields = json.load(f)[f"trigger_match_{run}"]
+    
+    
+    # ====================================================
+    #  Mask
+    # ====================================================
+    trigger_match_mask = np.zeros(len(events), dtype=bool)
+    
+    for name in base_name:
+        if name not in trigger_match_fields:
+            return ~trigger_match_mask
 
-    # Load trigger paths from JSON
-    with importlib.resources.path("wprime_plus_b.data", "triggers.json") as path:
-        with open(path, "r") as handle:
-            triggers = json.load(handle)[year][lepton_flavor]
 
-    id_wp = electron_id_wp if lepton_flavor == "ele" else muon_id_wp
-    trigger_paths = triggers[id_wp]
+        cfg = trigger_match_fields[name]
+        trigobjs = events.TrigObj
 
-    # Initialize masks
-    trigger_mask = np.zeros(nevents, dtype=bool)
-    trigger_match_mask = np.zeros(nevents, dtype=bool)
+        trigobj_mask = (
+            (abs(trigobjs.id) == cfg["id"])
+            & (trigobjs.pt >= cfg["pt"])
+            & ((trigobjs.filterBits & cfg["filterBits"]) > 0)
+        )
 
-    # Loop once over all trigger paths
-    for tp in trigger_paths:
-        if tp in events.HLT.fields:
-            trigger_mask |= events.HLT[tp]
-            trig_match_mask = trigger_match(
-                leptons=leptons[lepton_flavor],
-                trigobjs=events.TrigObj,
-                trigger_path=tp
-            )
-            trigger_match_mask |= trig_match_mask
+        selected_trigobjs = trigobjs[trigobj_mask]
 
-    return trigger_mask, trigger_match_mask
+        # --- ΔR matching ---
+        delta_r = leptons.metric_table(selected_trigobjs)
+        matched_per_lepton = ak.any(delta_r < cfg["delta_r"], axis=2)
+        matched = ak.any(matched_per_lepton, axis=1)
+        
+        trigger_match_mask = trigger_match_mask | matched
+
+    return trigger_match_mask

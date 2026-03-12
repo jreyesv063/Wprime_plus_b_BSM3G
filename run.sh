@@ -51,9 +51,7 @@ cd "$SCRIPT_DIR"
 # =========================
 
 # Define processor and channel
-processor="wplusjets"     # Options: top_tagger; signal; qcd_hadronic_closure; wplusjets; ztoll; wjets; btag_eff; ctag_eff; zplusc
-#channel="wjets"           # Channel depends on processor:
-                          # wjets -> {1j1l*, 1l0b}
+processor="qcd_hadronic_closure"     # Options: top_tagger; signal; qcd_hadronic_closure; wplusjets; wjets; ztoll; zplusc  # ; btag_eff; ctag_eff; 
 
 # Lepton flavor
 lepton_flavor="tau"
@@ -71,20 +69,24 @@ executor="futures"
 output_type="array"          # hist / array
 
 # Sample index (leave empty to run all samples)
-nsample="3"                  # IMPORTANT: Leave nsample="" unless a specific sample index is needed (e.g. nsample="3")
+nsample="1"                  # IMPORTANT: Leave nsample="" unless a specific sample index is needed (e.g. nsample="3")
 
 # Output directory
-output_folder="$ANALYSIS_PATH/$processor/$year/"
+output_folder="/eos/user/j/jreyesve/WINDOWS/Desktop/2026/Marzo_new/test/$processor/$year"  
+
 
 # Enable object-level systematics (can significantly increase runtime)
 run_systematics="true"       # Set to "true" only when needed
 
-# Enable QCD estimation using the ABCD (data-driven) method
-qcd_data_driven="false"
 
 # Control whether new filesets should be created
 create_new_filesets="false"  # Set to "true" to regenerate filesets
                              # (use only if servers were modified in make_fileset_lxplus.py)
+
+
+# Enable QCD estimation using the ABCD (data-driven) method
+qcd_data_driven="true"
+
 
 # Variable to control whether or not data samples are processed in the signal region
 unblinded="false"
@@ -98,11 +100,11 @@ samples=(
     # "TTTo2L2Nu"
     # "TTToHadronic"
     # "DYJetsToLL_nlo_M-10to50"
-    #"DYJetsToLL_nlo_M-50"
-    #"SingleMuon"
+    # "DYJetsToLL_nlo_M-50"
+    # # # # # #"SingleMuon"
     "MET"
-    # # "Tau"
-    # # "SingleElectron"
+    # # # # # # "Tau"
+    # # # # # # "SingleElectron"
     # "ST_s-channel_4f_leptonDecays"
     # "ST_t-channel_antitop_5f_InclusiveDecays"
     # "ST_t-channel_top_5f_InclusiveDecays"
@@ -121,6 +123,9 @@ samples=(
     # "WW"
     # "WZ"
     # "ZZ"
+    # "GluGluHToWWToLNuQQ"
+    # "VBFHToWWTo2L2Nu"
+    # "VBFHToWWToLNuQQ"    
     # "QCD_HT50to100"
     # "QCD_HT100to200"
     # "QCD_HT200to300"
@@ -130,17 +135,14 @@ samples=(
     # "QCD_HT1000to1500"
     # "QCD_HT1500to2000"
     # "QCD_HT2000toInf"
-    # "GluGluHToWWToLNuQQ"
-    # "VBFHToWWTo2L2Nu"
-    # "VBFHToWWToLNuQQ"
-    # "SignalTau_300GeV"
+    # #"SignalTau_300GeV"
     # "SignalTau_400GeV"
     # "SignalTau_600GeV"
     # "SignalTau_750GeV"
     # "SignalTau_1000GeV"
     # "SignalTau_1500GeV"
     # "SignalTau_2000GeV"
-    # "SignalTau_3000GeV"
+    #"SignalTau_3000GeV"
 )
 
 # =========================
@@ -174,7 +176,7 @@ fi
 # Job submission
 # =========================
 
-if [ "$processor" == "wjets" ]; then
+if [ "$processor" == "test" ]; then
 
     # Output directory for this processor/channel/lepton/year
     dir_to_create="wprime_plus_b/outs/$processor/$channel/$lepton_flavor/$year"
@@ -200,6 +202,7 @@ elif [ "$processor" == "top_tagger" ] || \
      [ "$processor" == "wplusjets" ] || \
      [ "$processor" == "signal" ] || \
      [ "$processor" == "qcd_hadronic_closure" ] || \
+     [ "$processor" == "wjets" ] || \
      [ "$processor" == "ztoll" ] || \
      [ "$processor" == "zplusc" ] || \
      [ "$processor" == "btag_eff" ] || \
@@ -220,6 +223,7 @@ elif [ "$processor" == "top_tagger" ] || \
             --nsample "$nsample" \
             --run_systematics "$run_systematics" \
             --qcd_data_driven "$qcd_data_driven" \
+            --unblinded "$unblinded" \
             --output_folder "$output_folder"
         sleep 60  # Wait 60 seconds before submitting the next sample (optional)
     done

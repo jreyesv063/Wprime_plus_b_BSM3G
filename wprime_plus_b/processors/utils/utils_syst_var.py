@@ -1,218 +1,374 @@
+import re
 import numpy as np
 import awkward as ak
-from typing import Dict, Any
-from concurrent.futures import ThreadPoolExecutor
-
+from copy import copy
 from coffea.analysis_tools import PackedSelection, Weights
+
+
+# =======================================
+#  Plots
+# =======================================
+from wprime_plus_b.processors.utils.histograms import Histograms
+
+# Utils
+from wprime_plus_b.processors.utils.analysis_utils import check_object_cut_dependency, cross_cleaning, fill_cutflow, map_object_level_var
+
+# Top tagger
 from wprime_plus_b.processors.utils.utils_topXfinder import get_topXfinder_masks
-from wprime_plus_b.systematics.syst_variations import SystematicVariation_objects
-from wprime_plus_b.processors.utils.analysis_utils import fill_cutflow
 
 
-# Histograms
-from wprime_plus_b.processors.utils.histogram_utils import histograms_output_array
-
-
-
-def run_top_tagger_task(task):
-    """Wrapper del top-tagger para correr en threads (sin pickle)"""
-    return get_topXfinder_masks(**task)
-
-
-class Systematic_variation:
-
-    def __init__(self,
-        lepton_flavor: str = "tau",
-        cut_names: list = None,
-        criteria: dict = None,
-        selections: PackedSelection = None,
-        weights_container: Weights = None,
-        metadata: Dict[str, Any] = None,
-        objects: dict = None,
-        object_variations: dict = None,
-        delta_list: list = None,
-        processor: str = "signal"
+class Systematics:
+    def __init__(
+        self,
+        cc,
+        cr,
+        year,
+        weights,
+        objects,
+        criteria,
+        metadata,
+        cut_names,
+        processor,
+        histograms,
+        selections,
+        table_name,
+        variations,
+        lepton_flavor    
     ):
-        self.lepton_flavor = lepton_flavor
-        self.metadata = metadata
-        self.objects = objects
-        self.delta_list = delta_list
-        self.cut_names = cut_names
-        self.weights_container = weights_container
-        self.selections = selections
-        self.criteria = criteria
-        self.object_variations = object_variations
-        self.processor = processor
 
-        self.variations_map = {
-            "jet_JES":    ("jets", "bjets"),
-            "jet_JER":    ("jets", "bjets"),
-            "fatjet_JES": ("fatjets", "wjets"),
-            "fatjet_JER": ("fatjets", "wjets"),
+        """
+        Important: the MET has mapped all systematic variations made.
+        """
+        self.cr = cr
+        self.cc = cc
+        self.year = year
+        self.objects = objects
+        self.weights = weights
+        self.criteria = criteria        
+        self.metadata = metadata  
+        self.cut_names = cut_names
+        self.processor = processor
+        self.histograms = histograms
+        self.selections = selections
+        self.table_name = table_name
+        self.variations = variations
+        self.lepton_flavor = lepton_flavor
+
+        if self.cr is not None:
+            self.invert_delta_phi = self.criteria["data_driven_qcd_estimation"][self.cr][self.lepton_flavor]["invert_delta_phi"]
+        
+        else:
+            self.invert_delta_phi = self.criteria["met"][self.lepton_flavor]["invert_delta_phi"]
+        
+        cr_map = {
+            "wplusjets": "wj",
+            "top_tagger": "tt",
+            "signal": "signal",
+            "qcd_hadronic_closure": "closure",
+            "test": "test"
         }
 
-    def syst_variation_mask(self, self_main,  table_name: str = "cutflow", nworkers: int = 4, name: str = ""):
+        self.OBJ_MAP = {
+            "jet": "Jet",
+            "bjet": "Jet",
+            "cjet": "Jet",
+            "lightjet": "Jet",
+            "topjet": "FatJet",
+            "wjet": "FatJet",
+            "electron": "Electron",
+            "tau": "Tau",
+            "muon": "Muon"
+        }
 
-        # Obtener masks de object-level systematics (igual que ya funciona)
-        syst_var = SystematicVariation_objects(
-            lepton_flavor = self.lepton_flavor,
-            object_collections = self.objects,
-            object_masks = self.object_variations,
-            delta_r_threshold = self.criteria["cross_cleaning"][self.lepton_flavor],
-            region_selection = self.cut_names,
-            delta_list_met = self.delta_list,
-            criteria = self.criteria,
-            selections = self.selections,
-        )
+        self.cr_def = cr_map[self.processor]
+        
 
-        objects_syst_var, region_selection_syst_var = syst_var.get_systematics_variation_mask()
+    def systematic_variation_map(self, obj_type, obj_name, cutflow, var):
+        """
+        obj_type: lepton, AK4, AK8, met
+        obj_name: tau, muon, electron, lightjet_JES/JER, bjet_JES/JER, jet_JES/JER, topjet_JES/JER, wjet_JES/JER, met
+        cutflow: list of cuts to process
+        var: systematic variation direction, e.g., "up"
+        """
 
-        # Guardar si hay fatjets
-        self.metadata["Are there Fatjets?"] = ak.sum(ak.num(self.objects["events"].FatJet)) > 0
+        
+        # Useful for identifying cuts involving the top tagger
+        cutflow_tmp = []
+        cut_tmp = None
 
-        # Lista corregida de systematics up/down
-        syst_var_object = [
-            "muon_Rochester_up", "muon_Rochester_down",
-            "met_UNCLUSTERED_up", "met_UNCLUSTERED_down",
-            "tau_TES_up", "tau_TES_down",
-            "jet_JES_up", "jet_JES_down",
-            "jet_JER_up", "jet_JER_down",
-            "fatjet_JES_up", "fatjet_JES_down",
-            "fatjet_JER_up", "fatjet_JER_down",
-        ]
+        corr_type = None
 
-        # Si no hay fatjets, quitar esas variaciones
-        if not self.metadata["Are there Fatjets?"]:
-            syst_var_object = [s for s in syst_var_object if "fatjet" not in s.lower()]
-
-        # Preparar tasks del top-tagger
-        top_tasks = []
-        top_variations = []
-        top_region_masks = []
-
-        # Loop secuencial para construir region masks y llenar cutflow base por variation
-        for variation, cuts in region_selection_syst_var.items():
-
-            # 1) Inicializar cutflow para esa variation
-            self.metadata[f"{table_name}_({variation})"] = {}
-            self.metadata[f"{table_name}_({variation})_raw"] = {}
-
-            # 2) Llenar cutflow parcial (nominal + raw lo maneja la función)
-            fill_cutflow(
-                metadata=self.metadata,
-                cut_name="sumw",
-                table_name=f"{table_name}_({variation})",
-                weights=self.weights_container.weight()
-            )
-
-            selections_tmp = []
-            mask_tmp = None
-
-            if self.processor in ["wplusjets", "signal", "qcd_hadronic_closure"]:
-                final_cut_str = f"fail_top_tagger_({variation})"
-            elif self.processor == "top_tagger":
-                final_cut_str = f"pass_top_tagger_({variation})"
+        for cut in cutflow:
+            match = re.search(r"_([A-Za-z0-9]+)\)$", cut)
+            if match:
+                corr_type = match.group(1)
+                obj_name = obj_name.split("_")[0]
+            
+            if "top_tagger" in cut:
+                cut_tmp = cut
+                break
+            if match:
+                cutflow_tmp.append(f"{cut}")
             else:
-                raise ValueError(
-                    f"Processor '{self.processor}' is not supported when building the final top-tagger cut. "
-                    f"Expected: 'wplusjets', 'signal', 'qcd_hadronic_closure', or 'top_tagger'."
-                )
+                cutflow_tmp.append(cut)
+            
 
-            for cut_name_tmp in cuts:
-                selections_tmp.append(cut_name_tmp)
-                mask_tmp = self.selections.all(*selections_tmp)
-                fill_cutflow(
-                    metadata=self.metadata,
-                    cut_name=cut_name_tmp,
-                    table_name=f"{table_name}_({variation})",
-                    weights=self.weights_container.weight()[mask_tmp]
-                )
 
-            if mask_tmp is None:
-                mask_tmp = ak.zeros_like(self.weights_container.weight(), dtype=bool)
+        if corr_type is None:
+            # No systematic variation in this cutflow
+            return
 
-            # Si no hay eventos, registrar fail y seguir (como antes)
-            if ak.sum(mask_tmp) == 0:
+        # ==================================================
+        # Creating the new selection criteria
+        # ==================================================
+        syst_var_masks = {}
 
-                fill_cutflow(
-                    metadata=self.metadata,
-                    cut_name=final_cut_str,
-                    table_name=f"{table_name}_({variation})",
-                    weights=[]
-                )
-                continue
+        # dad
+        suffix = f"_({obj_type}_{corr_type})" if self.cr is None else f"_{self.cr}_({obj_type}_{corr_type})"        
+        
+        if obj_name != "met" and corr_type is not None:
+            varied_collection = getattr(
+                self.objects["events"],
+                self.OBJ_MAP[obj_name]
+            )[self.variations[obj_name][corr_type][var]]
 
-            # Copiar objetos y aplicar variaciones si corresponde
-            objects_copy = {**self.objects}
+            objects_tmp = {
+                **self.objects,
+                f"{obj_name}s": varied_collection,
+            }
 
-            if any(variation.startswith(p) for p in ["jet", "fatjet"]):
-                syst_var_name = variation.rsplit("_", 1)[0]
-                if syst_var_name in self.variations_map:
-                    direction = variation.rsplit("_", 1)[-1]
-                    obj1, obj2 = self.variations_map[syst_var_name]
-                    objects_copy[obj1] = objects_syst_var[syst_var_name][direction][f"new_{obj1}"]
-                    objects_copy[obj2] = objects_syst_var[syst_var_name][direction][f"new_{obj2}"]
+            objects = cross_cleaning(objects_tmp, self.cc)
 
-            # Empaquetar task para threads
-            top_tasks.append({
-                "lepton_flavor": self.lepton_flavor,
-                "region_mask": mask_tmp,
-                "objects": objects_copy,
-                "top_tagger_cases": self.criteria["top_tagger"][self.lepton_flavor]["cases"],
-                "cross_cleaning": self.criteria["cross_cleaning"][self.lepton_flavor],
-                "invert_topXfinder": self.criteria["top_tagger"][self.lepton_flavor]["invert_top_tagger"]
+            syst_var_masks.update({
+                f"{obj_name}_veto{suffix}": (ak.num(objects[f"{obj_name}s"]) == 0),
+                f"one_{obj_name}{suffix}": (ak.num(objects[f"{obj_name}s"]) == 1),
+                f"two_{obj_name}s{suffix}": (ak.num(objects[f"{obj_name}s"]) == 2),
+                f"at_least_one_{obj_name}{suffix}": (ak.num(objects[f"{obj_name}s"]) >= 1),
+                f"at_least_two_{obj_name}s{suffix}": (ak.num(objects[f"{obj_name}s"]) >= 2),
             })
 
-            top_variations.append(variation)
-            top_region_masks.append(mask_tmp)
-
-        # ============================================================
-        #      Ejecutar TOP-TAGGER EN PARALELO (THREADS)
-        # ============================================================
-
-        if top_tasks:
-            with ThreadPoolExecutor(max_workers=nworkers) as executor:
-                top_results = list(executor.map(run_top_tagger_task, top_tasks))
-
-            # Llenar cutflow final del top-tagger para cada variation (secuencial)
-            for variation, top_result, region_mask in zip(top_variations, top_results, top_region_masks):
-                mask_top_tmp, masks_tmp, njets_no_top_tmp, tops_tmp, selected_objects_tmp = top_result
-
-                weights_var = self.weights_container.weight()[region_mask]
-                final_weights = weights_var[mask_top_tmp]
-
-                # 3) Guardar resultado en cutflow de esa variation
-                fill_cutflow(
-                    metadata=self.metadata,
-                    cut_name=final_cut_str,
-                    table_name=f"{table_name}_({variation})",
-                    weights=final_weights,
-                )
-
-                histograms_output_array(
-                    self_main = self_main,          
-                    lepton_flavor =  self.lepton_flavor, 
-                    njets_no_top = njets_no_top_tmp,     
-                    tops = tops_tmp,                     
-                    objects = selected_objects_tmp,      
-                    mask = mask_top_tmp,                 
-                    name = name,                         
-                    syst_name = variation                
-                )
-
-        # ============================================================
+        # Add met if there is a cut that starts with “met”
+        if any(cut.startswith("met") for cut in cutflow):
+            syst_var_masks[f"met_({obj_type}_{corr_type})"] = self.variations['met'][obj_type][corr_type][var]            
 
 
-    def get_syst_variation_event_level(self, name, region_mask, mask, self_main):
-        for variation_case, weights_case in self.weights_container._modifiers.items():
-            self_main.add_feature(
-                f"{variation_case}_{name}", weights_case[region_mask][mask]
-            )
-
-        for weight in self.weights_container.weightStatistics:
-            filtered_weight = self.weights_container.partial_weight(include=[weight])[region_mask][mask]
-            self_main.add_feature(weight, filtered_weight)
+        # Add met if there is a cut that starts with "delta_phi"
+        if any(cut.startswith("delta_phi_jet_met") for cut in cutflow):
+            if self.invert_delta_phi:
+                # CR B and CR D
+                syst_var_masks[f"delta_phi_jet_met{suffix}"] = ~self.variations['delta_phi_jet_met'][obj_type][corr_type][var]
+            else:
+                syst_var_masks[f"delta_phi_jet_met{suffix}"] = self.variations['delta_phi_jet_met'][obj_type][corr_type][var]
 
 
-    def get_syst_variation_mask(self, self_main, table_name: str = "cutflow", nworkers: int = 4, name: str = ""):
-        self.syst_variation_mask(self_main = self_main, table_name = table_name, nworkers = nworkers, name = name)
+        # =======================================================
+        # Save the masks to be used
+        # =======================================================
+        selections_syst_var = PackedSelection(dtype='uint64')   
+        for cut in cutflow:
+            if cut in self.selections.names:
+                selections_syst_var.add(cut, self.selections.all(cut))
+            elif "top_tagger" in cut:
+                # Remember that if events change, the top tagger must be reevaluated.
+                continue
+            else:
+                selections_syst_var.add(f"{cut}", syst_var_masks[cut])
+
+
+        # ---------------------------
+        # Evaluate top tagger
+        # ---------------------------  
+        if cut_tmp is not None:
+            region_mask_tmp = selections_syst_var.all(*cutflow_tmp)
+    
+            case_id = self.objects["events"].top_tagger_case_id
+            mask_unresolved = (case_id == 1) | (case_id == 2) | (case_id == 9) | (case_id == 10)  
+            mask_partially_resolved = (case_id == 3) | (case_id == 4) | (case_id == 11) | (case_id == 12)
+            mask_resolved = (case_id == 5) | (case_id == 6) | (case_id == 7) | (case_id == 8) | (case_id == 13)
+
+            objects = dict(self.objects)
+            if obj_type in ["lepton", "met"]:
+                # Top tagger events evaluated before (nominal case) 
+                top_tagger_nom = (case_id >= 0)
+            
+            elif obj_type == "AK4":
+                # Masks per case group
+                top_tagger_nom = mask_resolved
+
+                jets = self.objects["events"].Jet
+                objects["bjets"] = jets[self.variations["bjet"][corr_type][var]]
+                objects["lightjets"] = jets[self.variations["lightjet"][corr_type][var]]
+                           
+            elif obj_type == "AK8":
+                top_tagger_nom = mask_unresolved
+
+                fatjets = self.objects["events"].FatJet
+
+                objects["topjets"] = fatjets[self.variations["topjet"][corr_type][var]]
+                objects["wjets"] = fatjets[self.variations["wjet"][corr_type][var]]                
+                
+            else:
+                raise ValueError(f"Unknown obj_type: {obj_type}")
+    
+            objects = cross_cleaning(objects, self.cc)
+            region_mask_tmp = region_mask_tmp & ~top_tagger_nom        
+
+    
+            objects_top = get_topXfinder_masks(
+                objects=objects,
+                region_mask=region_mask_tmp,
+                lepton_flavor=self.lepton_flavor,
+                cross_cleaning=self.criteria["cross_cleaning"][self.lepton_flavor],
+                top_tagger_cases=self.criteria["top_tagger"][self.lepton_flavor]["cases"],
+                nworkers=self.criteria["top_tagger"][self.lepton_flavor]["nworkers"]
+            )    
+
+            # Restoring events
+            top_mask = (objects_top["events"].top_tagger_case_id > 0) | top_tagger_nom
+            top_mask_tmp = top_mask if "pass" in cut_tmp else ~top_mask
+            selections_syst_var.add(cut_tmp, top_mask_tmp)
+
+        
+        # =======================================================
+        #  Create cutflow table
+        # =======================================================
+        syst_name = f"{obj_type}_{corr_type}"
+        fill_cutflow(cutflow, selections_syst_var, f"{self.table_name}_({map_object_level_var(syst_name)}_{var})", self.metadata, self.weights.weight())
+        
+        map_object_level_var
+
+        # =============================================================
+        #             Histograms
+        # =============================================================
+        hist = Histograms(self.lepton_flavor, self.processor, objects, self.weights.weight(), selections_syst_var, cutflow, is_syst_var =True)
+        
+        syst_direction = var.capitalize()
+        self.histograms.update({
+            f"{map_object_level_var(syst_name)}_{self.cr_def}_{self.lepton_flavor}_{self.year}{syst_direction}": 
+            {
+                "hist": hist.fill_histograms(),
+                "count": 1,
+                "sumw_all_weights": np.sum(self.weights.weight())
+            }
+        })        
+
+
+
+        
+    def prepare_cutflows_object_level(self):
+        # metfilters is not affected by systematic variations.
+        EXCLUDED_CUTS = {"metfilters"}
+        
+        objects_map = {
+            # Leptons
+            "electron": ("lepton", "SS"),
+            "muon": ("lepton", "Rochester"),
+            "tau": ("lepton", "TES"),
+            # Met
+            "met": ("met", "Uncluster"),
+            # AK4 Jets
+            "bjet": ("AK4", ["JES", "JER"]),
+            #"cjet": ("AK4", ["JES", "JER"]),
+            "lightjet": ("AK4", ["JES", "JER"]),
+            # AK8 Jets
+            "topjet": ("AK8", ["JES", "JER"]),
+            "wjet": ("AK8", ["JES", "JER"]),
+        }
+
+        cut_map = {}
+
+        for obj, (typ, systs) in objects_map.items():
+            # obj: electron, muon, met, bjet, cjet, lightjet, top_jet, w_jet
+            # typ: lepton, met, AK4, AK8
+            # syst: SS, Rochester, TES, Uncluster, JES, JER       
+
+            # Check availability of systematic variations for this object type using the MET recalculation
+            tmp = self.variations.get('met', {}).get(typ)
+
+            if not tmp:
+                continue
+
+            # Discarding objects without systematic variations
+            if not isinstance(systs, list):
+                systs = [systs]
+
+            valid_systs = [s for s in systs if s in tmp]
+            if not valid_systs:
+                continue            
+            
+
+
+            if not isinstance(systs, list):
+                # Convert to list, only affects electron, muon, tau, met
+                systs = [systs]
+
+            for syst in systs:
+                new_cuts = []
+                for cut in self.cut_names:
+                    if cut in EXCLUDED_CUTS:
+                        new_cuts.append(cut)
+                    elif check_object_cut_dependency(obj, cut):
+                        # See analysis_utils.py
+                        new_cuts.append(f"{cut}_({typ}_{syst})")
+                    else:
+                        new_cuts.append(cut)
+                
+                if typ not in cut_map:
+                    cut_map[typ] = {}
+                    
+                key_name = f"{obj}_{syst}" if len(systs) > 1 else obj
+                cut_map[typ][key_name] = new_cuts  
+
+        
+        return cut_map
+        
+    def object_level(self):
+
+        # ===========================================
+        #  Cutflow for each object-level variation
+        # ===========================================
+        cutflow_maps = self.prepare_cutflows_object_level()
+        
+        for obj_type, obj_dict in cutflow_maps.items():
+            for obj_name, cuts in obj_dict.items():
+                self.systematic_variation_map(obj_type, obj_name, cuts, "up")
+                self.systematic_variation_map(obj_type, obj_name, cuts, "down")
+  
+        return cutflow_maps        
+
+    
+    def event_level(self):
+        for variation in self.weights.variations:
+            fill_cutflow(self.cut_names, self.selections, f"cutflow_({variation})", self.metadata, self.weights.weight(variation))
+
+            # =============================================================
+            #             Histograms
+            # =============================================================
+            hist = Histograms(self.lepton_flavor, self.processor, self.objects, self.weights.weight(variation), self.selections, self.cut_names, is_syst_var =True)
+
+            match = re.search(r'(\d{4})(Up|Down)$', variation)
+
+            if match:
+                year = match.group(1)  # "2017"
+                direction = match.group(2)  # "Up" o "Down"
+                
+                # Crear el nombre base sin el año+dirección
+                base_name = re.sub(rf'{year}{direction}$', '', variation)
+                
+                # Construir el nombre corregido
+                corrected_name = f"{base_name}{self.cr_def}_{self.lepton_flavor}_{year}{direction}"
+
+            else:
+                corrected_name = variation
+                
+            self.histograms.update({
+                corrected_name: {
+                    "hist": hist.fill_histograms(),
+                    "count": 1,
+                    "sumw_all_weights": np.sum(self.weights.weight(variation))
+                }
+            })
+
+
+
+      

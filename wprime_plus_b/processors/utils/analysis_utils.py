@@ -1,4 +1,5 @@
 import os
+import re
 import json
 import numpy as np
 import pandas as pd
@@ -12,168 +13,6 @@ from coffea.nanoevents.methods import candidate, vector
 
 from concurrent.futures import ThreadPoolExecutor, as_completed
 
-
-def normalize(var: ak.Array, cut: ak.Array = None) -> ak.Array:
-    """
-    normalize arrays after a cut or selection
-
-    params:
-    -------
-    var:
-        variable array
-    cut:
-        mask array to filter variable array
-    """
-    if var.ndim == 2:
-        var = ak.firsts(var)
-    if cut is None:
-        ar = ak.to_numpy(ak.fill_none(var, np.nan))
-        return ar
-    else:
-        ar = ak.to_numpy(ak.fill_none(var[cut], np.nan))
-        return ar
-
-
-def pad_val(
-    arr: ak.Array,
-    value: float,
-    target: int = None,
-    axis: int = 0,
-    to_numpy: bool = False,
-    clip: bool = True,
-) -> Union[ak.Array, np.ndarray]:
-    """
-    pads awkward array up to ``target`` index along axis ``axis`` with value ``value``,
-    optionally converts to numpy array
-    """
-    if target:
-        ret = ak.fill_none(
-            ak.pad_none(arr, target, axis=axis, clip=clip), value, axis=None
-        )
-    else:
-        ret = ak.fill_none(arr, value, axis=None)
-    return ret.to_numpy() if to_numpy else ret
-
-
-def build_p4(cand: ak.Array) -> ak.Array:
-    """
-    builds a 4-vector
-
-    params:
-    -------
-    cand:
-        candidate array
-    """
-    return ak.zip(
-        {
-            "pt": cand.pt,
-            "eta": cand.eta,
-            "phi": cand.phi,
-            "mass": cand.mass,
-            "charge": cand.charge,
-        },
-        with_name="PtEtaPhiMCandidate",
-        behavior=candidate.behavior,
-    )
-
-
-def save_dfs_parquet(fname: str, dfs_dict: dict) -> None:
-    """
-    save dataframes as parquet files
-    """
-    table = pa.Table.from_pandas(dfs_dict)
-    if len(table) != 0:  # skip dataframes with empty entries
-        pq.write_table(table, fname + ".parquet")
-
-
-def ak_to_pandas(output_collection: dict) -> pd.DataFrame:
-    """
-    cast awkward array into a pandas dataframe
-    """
-    output = pd.DataFrame()
-    for field in ak.fields(output_collection):
-        output[field] = ak.to_numpy(output_collection[field])
-    return output
-
-
-def save_output(
-    events: ak.Array,
-    dataset: str,
-    output: pd.DataFrame,
-    year: str,
-    channel: str,
-    output_location: str,
-    dir_name: str,
-) -> None:
-    """
-    creates output folders and save dfs to parquet files
-    """
-    with open("wprime_plus_b/data/simplified_samples.json", "r") as f:
-        simplified_samples = json.load(f)
-    sample = simplified_samples[year][dataset]
-    partition_key = events.behavior["__events_factory__"]._partition_key.replace(
-        "/", "_"
-    )
-    date = datetime.today().strftime("%Y-%m-%d")
-
-    # creating directories for each channel and sample
-    if not os.path.exists(
-        output_location + date + "/" + dir_name + "/" + year + "/" + channel
-    ):
-        os.makedirs(
-            output_location + date + "/" + dir_name + "/" + year + "/" + channel
-        )
-    if not os.path.exists(
-        output_location
-        + date
-        + "/"
-        + dir_name
-        + "/"
-        + year
-        + "/"
-        + channel
-        + "/"
-        + sample
-    ):
-        os.makedirs(
-            output_location
-            + date
-            + "/"
-            + dir_name
-            + "/"
-            + year
-            + "/"
-            + channel
-            + "/"
-            + sample
-        )
-    fname = (
-        output_location
-        + date
-        + "/"
-        + dir_name
-        + "/"
-        + year
-        + "/"
-        + channel
-        + "/"
-        + sample
-        + "/"
-        + partition_key
-    )
-    save_dfs_parquet(fname, output)
-
-
-def prod_unflatten(array: ak.Array, n: ak.Array):
-    """
-    Unflattens an array and takes the product through the axis 1
-
-    Parameters:
-    -----------
-        array: array to unflat
-        n: array with the number of objects per event. Used to perform the unflatten operation
-    """
-    return ak.prod(ak.unflatten(array, n), axis=1)
 
 
 def delta_r_mask(first: ak.Array, second: ak.Array, threshold: float) -> ak.Array:
@@ -197,129 +36,91 @@ def delta_r_mask(first: ak.Array, second: ak.Array, threshold: float) -> ak.Arra
     mval = first.metric_table(second)
     return ak.all(mval > threshold, axis=-1)
 
-def delta_r(first: ak.Array, second: ak.Array, threshold: float):
-    """
-    Calculates the delta R between two arrays of objects and returns a mask
-    indicating which objects pass a given threshold.
-
-    Parameters:
-    -----------
-    first: ak.Array
-        First array of objects
-    second: ak.Array
-        Second array of objects
-    threshold: float
-        Threshold value for delta R
-
-    Returns:
-    --------
-    delta_R_mask: ak.Array
-        Boolean array indicating which objects pass the threshold
-    """
-    # Extract eta and phi values from the first array
-    eta_1 = first.eta
-    phi_1 = first.phi
-    
-    # Extract eta and phi values from the second array
-    eta_2 = second.eta
-    phi_2 = second.phi
-    
-    # Calculate the difference in eta and phi
-    delta_eta = eta_2 - eta_1
-    delta_phi = phi_2 - phi_1
-    
-    # Calculate the delta R
-    delta_R = np.sqrt(delta_eta**2 + delta_phi**2)
-    
-    # Create a mask indicating which objects pass the threshold
-    delta_R_mask = (delta_R > threshold)
-    
-    return delta_R_mask
 
 
-def trigger_match(leptons: ak.Array, trigobjs: ak.Array, trigger_path: str):
+def cross_cleaning(objects, cc):
     """
-    Returns DeltaR matched trigger objects 
-    
-    leptons:
-        electrons or muons arrays
-    trigobjs:
-        trigger objects array
-    trigger_path:
-        trigger to match {IsoMu27, Ele35_WPTight_Gsf, Mu50, Mu100}
-        
-    https://twiki.cern.ch/twiki/bin/viewauth/CMS/EgammaNanoAOD#Trigger_bits_how_to
+    Perform cross-cleaning between reconstructed physics objects based on
+    their angular separation (ΔR).
+
+    The cleaning strategy follows these principles:
+      - Leptons have priority over jets and fatjets.
+      - Small-radius jets (AK4) have priority over fatjets (AK8). They are acleaned against leptons.
+      - Fatjets are cleaned against leptons and small jets, but not among themselves.
+      - topjets and wjets are not cross-cleaned with each other, as they belong to different and mutually exclusive reconstruction cases (top tagger).
+
+    * Object priority (highest → lowest):
+                leptons → small-radius jets (AK4) → fatjets (AK8)      
     """
-    match_configs = {
-        "IsoMu24": {
-            "pt": trigobjs.pt > 22,
-            "filterbit": (trigobjs.filterBits & 8) > 0,
-            "id": abs(trigobjs.id) == 13
-        },
-        "IsoMu27": {
-            "pt": trigobjs.pt > 25,
-            "filterbit": (trigobjs.filterBits & 8) > 0,
-            "id": abs(trigobjs.id) == 13
-        },
-        "Mu50": {
-            "pt": trigobjs.pt > 45,
-            "filterbit": (trigobjs.filterBits & 1024) > 0,
-            "id": abs(trigobjs.id) == 13
-        },
-        "OldMu100": {
-            "pt": trigobjs.pt > 95,
-            "filterbit": (trigobjs.filterBits & 2048) > 0,
-            "id": abs(trigobjs.id) == 13
-        },
-        # same as OldMu100?
-        # https://github.com/cms-sw/cmssw/blob/CMSSW_10_6_X/PhysicsTools/NanoAOD/python/triggerObjects_cff.py#L79
-        "TkMu100": {
-            "pt": trigobjs.pt > 95,
-            "filterbit": (trigobjs.filterBits & 2048) > 0,
-            "id": abs(trigobjs.id) == 13
-        },
-        "Ele35_WPTight_Gsf": {
-            "pt": trigobjs.pt > 33,
-            "filterbit": (trigobjs.filterBits & 2) > 0,
-            "id": abs(trigobjs.id) == 11
-        },
-        "Ele32_WPTight_Gsf": {
-            "pt": trigobjs.pt > 30,
-            "filterbit": (trigobjs.filterBits & 2) > 0,
-            "id": abs(trigobjs.id) == 11
-        },
-        "Ele27_WPTight_Gsf": {
-            "pt": trigobjs.pt > 25,
-            "filterbit": (trigobjs.filterBits & 2) > 0,
-            "id": abs(trigobjs.id) == 11
-        },
-        "Photon175": {
-            "pt": trigobjs.pt > 25,
-            "filterbit": (trigobjs.filterBits & 8192) > 0,
-            "id": abs(trigobjs.id) == 11
-        },
-        "Photon200": {
-            "pt": trigobjs.pt > 25,
-            "filterbit": (trigobjs.filterBits & 8192) > 0,
-            "id": abs(trigobjs.id) == 11
-        },
-        "IsoTkMu24": {
-            "pt": trigobjs.pt > 22,
-            "filterbit": (trigobjs.filterBits & 8) > 0,
-            "id": abs(trigobjs.id) == 13
-        },
+
+    # Objects that should not be cross-cleaned
+    skip_keys = ["met", "events", "pdf_nominal", "pdf_ratio"]
+
+    # If flavored jets exist, do not clean the inclusive jet collection, since jets already contain bjets, cjets, and lightjets
+    if any(k in objects for k in ("bjets", "cjets", "lightjets")):
+        skip_keys.append("jets")
+
+    #  # Objects participating in cross-cleaning
+    clean_objects = {
+        k: v for k, v in objects.items() if k not in skip_keys
     }
-    pass_pt = match_configs[trigger_path]["pt"]
-    pass_id = match_configs[trigger_path]["id"]
-    pass_filterbit = match_configs[trigger_path]["filterbit"]
-    trigger_cands = trigobjs[pass_pt & pass_id & pass_filterbit]
-    delta_r = leptons.metric_table(trigger_cands)
-    pass_delta_r = delta_r < 0.1
-    n_of_trigger_matches = ak.sum(pass_delta_r, axis=2)
-    trig_matched_locs = n_of_trigger_matches >= 1
-    return trig_matched_locs
 
+    cleaned_objects = {}
+    leptons = {"electrons", "muons", "taus"}
+    small_jets = {"jets", "bjets", "lightjets"}   # AK4 jets
+    fatjets = {"topjets", "wjets"}                # AK8 jets
 
+    for name_i, obj_i in clean_objects.items():
+
+        # Use a larger ΔR for fatjets
+        cc_i = 2 * cc if name_i in fatjets else cc 
+        
+        mask = ak.ones_like(obj_i.pt, dtype=bool)
+        
+        for name_j, obj_j in clean_objects.items():
+            if name_i == name_j:
+                # Do not clean an object collection against itself
+                continue
+
+            # ─────────────────────────────────────────────
+            # Leptons:
+            #   - Clean against other leptons
+            #   - Do NOT clean against jets or fatjets
+            if name_i in leptons:
+                if name_j in fatjets or name_j in small_jets:
+                    continue
+                    
+            # ─────────────────────────────────────────────
+            # Small-radius jets (AK4):
+            #   - Clean against leptons and other small jets
+            #   - Do NOT clean against fatjets (AK8)
+            if name_i in small_jets:
+                if name_j in fatjets:
+                    continue
+                elif name_j in small_jets:
+                    continue
+        
+            # ─────────────────────────────────────────────
+            # Fatjets (AK8):
+            #   - Clean against leptons and small jets
+            #   - Do NOT clean among themselves (no topjets ↔ wjets)
+            if name_i in fatjets:
+                if name_j in fatjets:
+                    continue
+
+            # Apply ΔR-based cleaning
+            mask = mask & delta_r_mask(obj_i, obj_j, threshold=cc_i)
+    
+            cleaned_objects[name_i] = obj_i[mask]
+
+    # Add back objects that were excluded from cleaning
+    for key in skip_keys:
+        if key in objects:
+            cleaned_objects[key] = objects[key]
+
+    return cleaned_objects
+    
+    
 def apply_selection(objects, mask):
     """
     Apply an event-level boolean mask to all objects in a dictionary.
@@ -339,247 +140,144 @@ def apply_selection(objects, mask):
         according to the provided event mask.
     """
     return {key: obj[mask] for key, obj in objects.items()}
+    
 
-
-def top_tagger(topX, top_tagger_cases=None):
-
+    
+def get_mask_until_object(selections, cuts, obj_name, include_cut=True, only_cut = False):
     """
-    Apply top-tagging scenarios to the given topX object and combine the
-    selected scenarios into a single top candidate collection and mask.
-
     Parameters
     ----------
-    topX : object
-        Object containing all top-tagging scenario methods (Scenario_*).
-    top_tagger_cases : iterable of str or None, optional
-        List of scenario names (e.g. "case_1", "case_5", ...) to be applied.
-        If None, all available scenarios are used.
+    selections : PackedSelection (or equivalent wrapper)
+        Object containing all individual cut masks.
+
+    cuts : list[str]
+        Ordered list of cut names defining the region cutflow.
+
+    obj_name : str
+        Physics object name (e.g. 'tau', 'muon', 'electron').
 
     Returns
     -------
-    selected_tops : awkward.Array
-        Combined top candidates after applying the selected scenarios
-        and the final top mask.
-    mask_top : awkward.Array (bool)
-        Boolean mask indicating events passing at least one selected
-        top-tagging scenario.
-    masks : dict
-        Dictionary mapping each scenario name to its individual event mask.
+    awkward.Array
+        Cumulative mask up to the matched cut.
+        If no match is found, returns a False mask
+        with the correct event size.
     """
 
-    escenarios = {
-        "case_1": topX.Scenario_1jet_unresolve,
-        "case_2": topX.Scenario_2jets_unresolve,
-        "case_3": topX.Scenario_2jets_partiallyresolve,
-        "case_4": topX.Scenario_3jets_partiallyresolve,
-        "case_5": topX.Scenario_3jets_resolve,
-        "case_6": topX.Scenario_4jets_resolve,
-        "case_7": topX.Scenario_Njets_resolve,
-        "case_8": topX.Scenario_Nbjets_resolve,
-        "case_9": topX.Scenario_1jet_unresolve_general,
-        "case_10": topX.Scenario_2jets_unresolve_general,
-        "case_11": topX.Scenario_2jets_partiallyresolve_general,
-        "case_12": topX.Scenario_3jets_partiallyresolve_general,
-        "case_13": topX.Scenario_3jets_resolve_general,
-    }
+    # Build a simple plural form automatically
+    plural = obj_name + "s"
 
-    if top_tagger_cases is None:
-        top_tagger_cases = list(escenarios.keys())
+    # Define internally all patterns that should trigger
+    # object-dependent corrections
+    patterns = [
+        f"one_{obj_name}",
+        f"two_{plural}",
+        f"at_least_one_{obj_name}",
+        f"at_least_two_{plural}",
+        f"{obj_name}_veto",
+    ]
 
-    tops = {}
-    masks = {}
+    # Loop over the cutflow in order (respect analysis logic)
+    for i, cut in enumerate(cuts):
 
-    # ---- paralelización por case ----
-    def run_case(key, func):
-        t, m = func()
-        # materializar a bool/np si es flat para evitar overhead
-        if isinstance(m, ak.Array):
-            m = ak.values_astype(m, bool)
-        return key, t, m
+        # Check if the current cut matches any of the object patterns
+        for pattern in patterns:
+            if re.fullmatch(pattern, cut):
+                
+                # returns the complete mask of the cut.
+                if only_cut:
+                    return selections.all(cut)
+                
 
-    with ThreadPoolExecutor(max_workers=os.cpu_count()) as ex:
-        futures = [
-            ex.submit(run_case, key, escenarios[key])
-            for key in top_tagger_cases if key in escenarios
-        ]
+                # Return the matched cut name and the cumulative mask
+                # including all cuts up to this point
+                idx = i + 1 if include_cut else i
+                
+                return selections.all(*cuts[:idx])
 
-        for fut in as_completed(futures):
-            key, t, m = fut.result()
-            tops[key] = t
-            masks[key] = m
 
-    # combinar masks (OR)
-    mask_top = combine_top_masks_cases(*masks.values())
+    if obj_name == "top_tagger":
+        for i, cut in enumerate(cuts):
+            if "top_tagger" in cut:
 
-    # combinar tops
-    combined_tops = combine_top_mass_cases(*tops.values())
+                
+                # returns the complete mask of the cut.
+                if only_cut:
+                    return selections.all(cut)
 
-    # filtrar tops que pasan
-    selected_tops = combined_tops.mask[mask_top]
+                # Return the matched cut name and the cumulative mask
+                # including all cuts up to this point
+                idx = i + 1 if include_cut else i
+                
+                return selections.all(*cuts[:idx])
 
-    return selected_tops, mask_top, masks
+    
+    if obj_name == "trigger":
+        for i, cut in enumerate(cuts):
+            if cut ==  "trigger":
 
-"""
-def top_tagger(topX, top_tagger_cases=None):
+                # returns the complete mask of the cut.
+                if only_cut:
+                    return selections.all(cut)
 
-    # Define all available top-tagging scenarios and map them to the corresponding methods in the topX object
-    escenarios = {
-        "case_1": topX.Scenario_1jet_unresolve,
-        "case_2": topX.Scenario_2jets_unresolve,
-        "case_3": topX.Scenario_2jets_partiallyresolve,
-        "case_4": topX.Scenario_3jets_partiallyresolve,
-        "case_5": topX.Scenario_3jets_resolve,
-        "case_6": topX.Scenario_4jets_resolve,
-        "case_7": topX.Scenario_Njets_resolve,
-        "case_8": topX.Scenario_Nbjets_resolve,
-        "case_9": topX.Scenario_1jet_unresolve_general,
-        "case_10": topX.Scenario_2jets_unresolve_general,
-        "case_11": topX.Scenario_2jets_partiallyresolve_general,
-        "case_12": topX.Scenario_3jets_partiallyresolve_general,
-        "case_13": topX.Scenario_3jets_resolve_general,
-    }
+                # Return the matched cut name and the cumulative mask
+                # including all cuts up to this point
+                idx = i + 1 if include_cut else i
+                return selections.all(*cuts[:idx])
+         
+    return np.zeros_like(selections.all(cuts[0]), dtype=bool)
 
-    # If no specific cases are provided, use all available scenarios
-    if top_tagger_cases is None:
-        top_tagger_cases = escenarios.keys()
 
-    # Containers for per-scenario top candidates and event masks
-    tops = {}
-    masks = {}
+# ===================================================
+#  Metadata
+# ===================================================
 
-    # Loop over all scenarios and apply only the selected ones
-    for key, scenario_func in escenarios.items():
-        if key in top_tagger_cases:
-            # Each scenario returns:
-            # - top_result: reconstructed top candidates
-            # - mask_result: boolean event-level mask
-            top_result, mask_result = scenario_func()
-            tops[key] = top_result
-            masks[key] = mask_result
+def fill_cutflow(cut_names, selections, table_name, metadata, weights):
+        
+    # Weighted events
+    metadata.update({table_name: {}})
+    # Raw events
+    metadata.update({f"{table_name}_raw": {}})
+    
 
-    # Combine event masks from the selected scenarios into a single mask
-    # (typically a logical OR over scenarios)
-    mask_top = combine_top_masks_cases(
-        *[masks[key] for key in top_tagger_cases if key in masks]
-    )
+    # ==========================
+    #   Initial values
+    # ==========================
+    metadata[table_name]["sumw"] = ak.sum(weights)
+    metadata[f"{table_name}_raw"]["sumw"] = len(weights)
+    
+    
+    cuts_applied = [] 
+    for cut_name in cut_names:
+        cuts_applied.append(cut_name)
+        current_selection = selections.all(*cuts_applied)
+        metadata[table_name][cut_name] = ak.sum(weights[current_selection])
+        metadata[f"{table_name}_raw"][cut_name] = len(weights[current_selection])
+        
+    #metadata.update({"sumw": ak.sum(weights)})
 
-    # Combine top candidates from the selected scenarios
-    combined_tops = combine_top_mass_cases(
-        *[tops[key] for key in top_tagger_cases if key in tops]
-    )
 
-    # Select only the top candidates corresponding to events
-    # passing the combined top mask
-    selected_tops = combined_tops.mask[mask_top]
-
-    return selected_tops, mask_top, masks
-"""
-
-def njets_no_used_top_tagger(
-    jets, njets,
-    bjets, nbjets,
-    fatjets, nfatjets,
-    wjets, nwjets,
-    mask,
-    prev_counts=None  # Optional: if not provided, counters are initialized
-):
+# ===================================================
+#  Parallelization
+# ===================================================
+def parallel_processing(key, func):
     """
-    Accumulative version of the jet counting logic after top-tagger selection.
-
-    This function computes the number of objects (jets, b-jets, fatjets, W-jets)
-    that are *not* used by the top-tagger, updating the counts cumulatively
-    across different top-tagger cases.
-
-    If `prev_counts` is provided, the new counts are accumulated on top of the
-    previous values. Otherwise, all counters are initialized to zero.
-
-    Parameters
-    ----------
-    jets, bjets, fatjets, wjets : awkward.Array
-        Collections of reconstructed objects after event selection.
-
-    njets, nbjets, nfatjets, nwjets : int
-        Number of objects removed (used) by the current top-tagger scenario.
-
-    mask : awkward.Array (bool)
-        Event-level mask indicating which events belong to the current
-        top-tagger scenario.
-
-    prev_counts : dict, optional
-        Dictionary containing previously accumulated counters:
-        - "njets_no_top"
-        - "nbjets_no_top"
-        - "nfatjets_no_top"
-        - "nwjets_no_top"
-
-        If None, all counters are initialized to zero.
+    Executes a function (top tagger scenario) using a key (case).
 
     Returns
     -------
-    dict
-        Updated dictionary with accumulated counts of objects not used
-        by the top-tagger.
-    """
-    # Initialize counters if this is the first top-tagger scenario
-    if prev_counts is None:
-        zeros = ak.zeros_like(mask, dtype=int)
-        prev_counts = {
-            "njets_no_top": zeros,
-            "nbjets_no_top": zeros,
-            "nfatjets_no_top": zeros,
-            "nwjets_no_top": zeros,
-        }
+    tuple
+        (key, tops_array, mask_array)
+    """    
+    # Execute the scenario: returns tops found and a boolean mask
+    t, m = func()    
 
-    def safe_update(collection, prev, n_removed):
-        """
-        Safely update object counts for a given collection.
+    return key, t, m
+    
 
-        The update is applied only for events:
-        - Passing the current scenario mask
-        - Having at least one object in the collection
-
-        The new count is:
-            (number of objects in the collection)
-            + (previous accumulated value)
-            - (number of objects used by the top-tagger)
-        """
-        has_objects = ak.num(collection) > 0
-        do_update = mask & has_objects
-
-        return ak.where(
-            do_update,
-            ak.num(collection) + prev - n_removed,  # Accumulate counts
-            prev  # Keep previous value if update is not applied
-        )
-
-    # Update and return all object counters
-    return {
-        "njets_no_top": safe_update(jets, prev_counts["njets_no_top"], njets),
-        "nbjets_no_top": safe_update(bjets, prev_counts["nbjets_no_top"], nbjets),
-        "nfatjets_no_top": safe_update(fatjets, prev_counts["nfatjets_no_top"], nfatjets),
-        "nwjets_no_top": safe_update(wjets, prev_counts["nwjets_no_top"], nwjets),
-    }
-
-
-def Z_Vector(muons: ak.Array):
-
-    # num_mask = (ak.num(muons) == 2)
-    # muons = muons.mask[num_mask]
-
-    leadings_muons =  ak.pad_none(muons, 2)[:, 0]
-    subleading_muons =  ak.pad_none(muons, 2)[:, 1]
-
-    return leadings_muons + subleading_muons
-
-
-def Boost_ISR_weights(met: ak.Array, Z: ak.Array):
-    # source: https://repositorio.uniandes.edu.co/entities/publication/cf6ed855-8ec3-4097-8f0c-9eae967271e8
-    # See page 99, eq 7.6
-    r_t = -(met.pt*np.cos(Z.phi - met.phi) + Z.pt) 
-
-    return r_t
-
-
+# =====================================================
+#      Top tagger
+# ======================================================
 def pdg_masses():
     
     with open("wprime_plus_b/json_files/wAndtop_masses.json", "r") as f:
@@ -611,34 +309,6 @@ def tagger_constants(case: str = "hadronic"):
     return top_sigma, top_low_mass, top_up_mass, w_sigma, w_low_mass, w_up_mass, chi2
 
 
-def combine_top_mass_cases(*arrays):
-    
-    if not arrays:
-        raise ValueError("At least one array must be provided")
-    
-    # Verificar que todos los arrays tengan la misma longitud
-    array_lengths = [len(array) for array in arrays]
-    if len(set(array_lengths)) != 1:
-        raise ValueError("All arrays must have the same length")
-    
-    # Sumar elemento por elemento
-    combined_tops = ak.Array([sum(elements) for elements in zip(*arrays)])
-    
-    return combined_tops
-
-
-def combine_top_masks_cases(*masks):
-    if not masks:
-        raise ValueError("At least one mask must be provided")
-    
-    #masks = [np.asarray(mask, dtype=bool) for mask in masks]
-    
-    combined_mask = masks[0]
-    for mask in masks[1:]:
-        combined_mask = np.logical_or(combined_mask, mask)
-    
-    return combined_mask
-
 def chi2_test(topJet, wJet, top_sigma, w_sigma, top_mass_pdg,  w_mass_pdg):
         
     t = (topJet.mass - top_mass_pdg) / top_sigma
@@ -650,623 +320,44 @@ def chi2_test(topJet, wJet, top_sigma, w_sigma, top_mass_pdg,  w_mass_pdg):
 
     return chi2
 
+# =================================================
+#  Systematic variations
+# =================================================
+# Function that decides whether a cut applies to the object
+def check_object_cut_dependency(obj, cut):
+    # Direct match with the object
+    if obj in cut:
+        return True
+    
+    # Changes in leptons affect met and delta_phi_jet_met
+    if obj in {"electron", "muon", "tau"} and cut in {"met", "delta_phi_jet_met"}:
+        return True
 
-def output_metadata(output, weights=None, masks=None, mask_top=None):
-    keys = [
-        "one_jet_unresolve",                    # Case 1
-        "two_jets_unresolve",                   # Case 2
-        "two_jets_partially_resolve",           # Case 3
-        "three_jets_partially_resolve",         # Case 4
-        "three_jets_resolve",                   # Case 5
-        "four_jets_resolve",                    # Case 6
-        "N_jets_resolve",                       # Case 7
-        "N_bjets_resolve",                      # Case 8
-        "one_jet_unresolve_gen",                # Case 9
-        "two_jets_unresolve_gen",               # Case 10
-        "two_jets_partially_resolve_gen",       # Case 11
-        "three_jets_partially_resolve_gen",     # Case 12
-        "three_jets_resolve_gen"                # Case 13
-    ]
+    # Changes in AK4/AK8 Jets affect met and delta_phi_jet_met, also the top_tagger
+    if obj in {"bjet", "cjet", "lightjet", "topjet", "wjet"}:
+        if cut in {"met", "delta_phi_jet_met"}:
+            return True
+        if "top_tagger" in cut:
+            return True
 
-    if masks is None:
-        output.update({"Total_triggered_nevents":  0.0})
-        output.update({"Total_triggered_raw": 0.0})
-        output.update({"Total_raw": 0.0})
-        output.update({"Total_nevents": 0.0})
+    # Met applies only to met and delta_phi_jet_met
+    if obj == "met" and cut in {"met", "delta_phi_jet_met"}:
+        return True
 
-        for key in keys:
-            output.update({f"{key}_triggered_nevents": 0.0})
-            output.update({f"{key}_triggered_raw": 0.0})
-            output.update({f"{key}_raw": 0.0})
-            output.update({f"{key}_nevents": 0.0})
+    return False
+    
 
-    else:
+def map_object_level_var(case: str = "AK4_JES"):
 
-
-        output.update({"Total_triggered_nevents":  ak.sum(weights[mask_top])})
-        output.update({"Total_triggered_raw": ak.sum(mask_top)})
-        output.update({"Total_raw": ak.sum(mask_top)})
-        output.update({"Total_nevents": ak.sum(weights[mask_top])})
-
-        for key in keys:
-            case_key = f"case_{keys.index(key) + 1}"
-            if case_key in masks:
-                case_mask = masks[case_key]
-
-                output.update({f"{key}_triggered_nevents": ak.sum(weights[case_mask])})
-                output.update({f"{key}_nevents": ak.sum(weights[case_mask])})
-                output.update({f"{key}_triggered_raw": ak.sum(case_mask)})
-                output.update({f"{key}_raw": ak.sum(case_mask)})
-
-def histograms_output(
-    self,
-    bjets, jets, 
-    electrons, muons, taus, 
-    met, 
-    tops,
-    mask, 
-    lepton_flavor, 
-    is_mc,
-    events
-):
-    # Select region objects
-    region_bjets = bjets[mask]
-    region_jets = jets[mask]
-    region_electrons = electrons[mask]
-    region_muons = muons[mask]
-    region_taus = taus[mask]
-    region_met = met[mask]
-    region_tops = tops[mask]
-
-    # Define region leptons
-    lepton_region_map = {
-        "ele": region_electrons,
-        "mu": region_muons,
-        "tau": region_taus
+    map_names = {
+        "AK4_JES": "CMS_scale_j",
+        "AK4_JER": "CMS_res_j",
+        "AK8_JES": "CMS_scale_fj",
+        "AK8_JER": "CMS_res_fj",
+        "lepton_Rochester": "CMS_scale_m",
+        "lepton_TES": "CMS_scale_t",
+        "lepton_SS": "CMS_scale_e_13TeV",
+        "met_Uncluster": "CMS_scale_met_unclustered_energy",
     }
-    region_leptons = lepton_region_map[lepton_flavor]
 
-    # Leading bjets
-    leading_bjets = ak.firsts(region_bjets)
-    # Lepton-bjet deltaR and invariant mass
-    lepton_bjet_dr = leading_bjets.delta_r(region_leptons)
-    lepton_bjet_mass = (region_leptons + leading_bjets).mass
-    # Lepton-MET transverse mass and deltaPhi
-    lepton_met_mass = np.sqrt(
-        2.0
-        * region_leptons.pt
-        * region_met.pt
-        * (
-            ak.ones_like(region_met.pt)
-            - np.cos(region_leptons.delta_phi(region_met))
-        )
-    )
-    lepton_met_delta_phi = np.abs(region_leptons.delta_phi(region_met))
-    # Lepton-bJet-MET total transverse mass
-    lepton_met_bjet_mass = np.sqrt(
-        (region_leptons.pt + leading_bjets.pt + region_met.pt) ** 2
-        - (region_leptons + leading_bjets + region_met).pt ** 2
-    )
-
-
-    # HT and  ST variables
-    jet_pt_addition = ak.sum(region_jets.pt, axis=1)
-    bjet_pt_addition = ak.sum(region_bjets.pt, axis=1)
-    tau_pt_addition = ak.sum(region_taus.pt, axis=1)
-    lepton_pt_addition = ak.sum(region_leptons.pt, axis = 1)  # Depending of the channel, we will have muons, taus, or electrons.
-    muon_pt_addition = ak.sum(region_muons.pt, axis=1)
-    electron_pt_addition = ak.sum(region_electrons.pt, axis=1)
-
-    region_HT = jet_pt_addition + bjet_pt_addition 
-    region_ST = lepton_pt_addition+ region_HT
-    region_ST_met = lepton_pt_addition + region_HT + region_met.pt
-    region_ST_full = region_ST + muon_pt_addition + electron_pt_addition + tau_pt_addition 
-
-
-    region_delta_phi_met_jet = region_jets.delta_phi(region_met)
-    region_delta_phi_met_lepton = region_leptons.delta_phi(region_met)
-    
-    # Add features to the object (assumed to have a method `add_feature`)
-    self.add_feature("lepton_pt", region_leptons.pt)
-    self.add_feature("lepton_eta", region_leptons.eta)
-    self.add_feature("lepton_phi", region_leptons.phi)
-
-    if is_mc:
-        # genPartFlav is only defined in MC samples
-        self.add_feature("genPartFlav", region_taus.genPartFlav)
-    self.add_feature("decayMode", region_taus.decayMode)
-    self.add_feature("isolation_electrons", region_taus.idDeepTau2017v2p1VSe)
-    self.add_feature("isolation_jets", region_taus.idDeepTau2017v2p1VSjet)
-    self.add_feature("isolation_muons", region_taus.idDeepTau2017v2p1VSmu)
-
-    self.add_feature("bjet_pt", region_bjets.pt)
-    self.add_feature("bjet_eta", region_bjets.eta)
-    self.add_feature("bjet_phi", region_bjets.phi)
-
-    self.add_feature("jet_pt", region_jets.pt)
-    self.add_feature("jet_eta", region_jets.eta)
-    self.add_feature("jet_phi", region_jets.phi)
-    
-    
-    self.add_feature("met", region_met.pt)
-    self.add_feature("met_raw", region_met.pt_raw)
-    self.add_feature("met_phi", region_met.phi)
-
-    # Recoil
-    self.add_feature("recoil_pt", region_met.pt_recoil)
-    self.add_feature("recoil_phi", region_met.phi_recoil)
-
-
-    # New met variables
-    self.add_feature("pt_nomu_minus",  region_met.pt_nomu_minus)
-    self.add_feature("phi_nomu_minus",  region_met.phi_nomu_minus)
-    self.add_feature("pt_nomu_plus",  region_met.pt_nomu_plus)
-    self.add_feature("phi_nomu_plus",  region_met.phi_nomu_plus)
-
-    
-    self.add_feature("lepton_bjet_dr", lepton_bjet_dr)
-    self.add_feature("lepton_bjet_mass", lepton_bjet_mass)
-    
-    self.add_feature("lepton_met_mass", lepton_met_mass)
-    self.add_feature("lepton_met_delta_phi", lepton_met_delta_phi)
-    self.add_feature("lepton_met_bjet_mass", lepton_met_bjet_mass)
-
-
-    self.add_feature("njets_full", ak.num(region_jets) + ak.num(region_bjets))
-    self.add_feature("njets", ak.num(region_jets))
-    self.add_feature("nbjets", ak.num(region_bjets))
-    self.add_feature("npvs", events.PV.npvsGood[mask])
-    self.add_feature("nmuons", ak.num(region_muons))
-    self.add_feature("nelectrons", ak.num(region_electrons))
-    self.add_feature("ntaus", ak.num(region_taus))
-
-    self.add_feature("HT", region_HT)    
-    self.add_feature("ST", region_ST)  
-    self.add_feature("ST_met", region_ST_met)  
-    self.add_feature("ST_full", region_ST_full)
-
-    
-    self.add_feature("top_mrec", region_tops)
-
-    # QCD rejection
-    self.add_feature("delta_phi_met_jet", region_delta_phi_met_jet)
-    self.add_feature("delta_phi_met_lepton", region_delta_phi_met_lepton)
-
-
-
-def histograms_output_syst(
-    self,
-    njets_no_top,
-    bjets, jets, 
-    fatjets, wjets,
-    electrons, muons, taus, 
-    met, 
-    tops,
-    mask, 
-    lepton_flavor, 
-    is_mc,
-    events,
-    syst_flag
-):
-
-    suffix = "" if syst_flag == "nominal" else f"_{syst_flag}"
-
-    # Select region objects
-    region_bjets = bjets[mask]
-    region_jets = jets[mask]
-    region_fatjets = fatjets[mask]
-    region_wjets = wjets[mask]       
-    region_electrons = electrons[mask]
-    region_muons = muons[mask]
-    region_taus = taus[mask]
-    region_met = met[mask]
-    region_tops = tops[mask]
-
-
-    # Define region leptons
-    lepton_region_map = {
-        "ele": region_electrons,
-        "mu": region_muons,
-        "tau": region_taus
-    }
-    region_leptons = lepton_region_map[lepton_flavor]
-
-
-    # Lepton-MET transverse mass and deltaPhi
-    lepton_met_mass = np.sqrt(
-        2.0
-        * region_leptons.pt
-        * region_met.pt
-        * (
-            ak.ones_like(region_met.pt)
-            - np.cos(region_leptons.delta_phi(region_met))
-        )
-    )
-
-    # Delta-phi
-    delta_phi_lepton_met = region_leptons.delta_phi(region_met)
-
-    # HT and  ST variables
-    jet_pt_addition = ak.sum(region_jets.pt, axis=1)
-    bjet_pt_addition = ak.sum(region_bjets.pt, axis=1)
-    fatjet_pt_addition = ak.sum(region_fatjets.pt, axis=1)
-    wjet_pt_addition = ak.sum(region_wjets.pt, axis=1)    
-    tau_pt_addition = ak.sum(region_taus.pt, axis=1)
-    lepton_pt_addition = ak.sum(region_leptons.pt, axis = 1)  # Depending of the channel, we will have muons, taus, or electrons.
-    muon_pt_addition = ak.sum(region_muons.pt, axis=1)
-    electron_pt_addition = ak.sum(region_electrons.pt, axis=1)
-    
-
-    region_HT = jet_pt_addition + bjet_pt_addition + fatjet_pt_addition + wjet_pt_addition
-    region_ST = region_HT + lepton_pt_addition
-    region_ST_met = region_ST + region_met.pt 
-    region_ST_full = region_ST_met + muon_pt_addition + electron_pt_addition
-
-   
-    if syst_flag == "nominal":
-
-        if njets_no_top is not None:
-            region_counts = {
-                key: array[mask]
-                for key, array in njets_no_top.items()
-            }
-            self.add_feature(f"njets_no_top_tagger", region_counts["njets_no_top"]+ region_counts["nbjets_no_top"] + region_counts["nfatjets_no_top"] + region_counts["nwjets_no_top"])
-
-
-        self.add_feature(f"lepton_pt", region_leptons.pt)
-        self.add_feature(f"lepton_eta", region_leptons.eta)
-        self.add_feature(f"lepton_phi", region_leptons.phi)
-
-        # Bjets
-        self.add_feature(f"bjet_pt", ak.firsts(region_bjets).pt)
-        self.add_feature(f"bjet_eta",  ak.firsts(region_bjets).eta)
-        self.add_feature(f"bjet_phi",  ak.firsts(region_bjets).phi)
-
-        # Light jets
-        self.add_feature(f"jet_pt",  ak.firsts(region_jets).pt)
-        self.add_feature(f"jet_eta",  ak.firsts(region_jets).eta)
-        self.add_feature(f"jet_phi",  ak.firsts(region_jets).phi)
-        
-        # MET
-        self.add_feature(f"met", region_met.pt)
-        self.add_feature(f"met_phi", region_met.phi)
-
-        # Recoil
-        self.add_feature(f"recoil_pt", region_met.pt_recoil)
-        self.add_feature(f"recoil_phi", region_met.phi_recoil)
-
-        # Transverse mass and delta_phi: lepton; met.   
-        self.add_feature(f"lepton_met_mass", lepton_met_mass)
-        self.add_feature(f"lepton_met_phi", delta_phi_lepton_met)
-
-        # Number of objects
-        #self.add_feature(f"njets_old", ak.num(region_jets) + ak.num(region_bjets))
-        self.add_feature(f"njets_full", ak.num(region_jets) + ak.num(region_bjets) +  ak.num(region_fatjets) + ak.num(region_wjets))
-        self.add_feature(f"njets", ak.num(region_jets))
-        self.add_feature(f"nfatjets", ak.num(region_fatjets))   
-        self.add_feature(f"nwjets", ak.num(region_wjets))                
-        self.add_feature(f"nbjets", ak.num(region_bjets))
-        self.add_feature(f"npvs", events.PV.npvsGood[mask])
-        self.add_feature(f"nmuons", ak.num(region_muons))
-        self.add_feature(f"nelectrons", ak.num(region_electrons))
-        self.add_feature(f"ntaus", ak.num(region_taus))
-
-        # Scalar sum of transverse momenta
-        self.add_feature(f"ST", region_ST)  
-        self.add_feature(f"ST_met", region_ST_met)          
-        self.add_feature(f"ST_full", region_ST_full)
-
-        # Top reconstructed mass
-        self.add_feature(f"top_mrec", region_tops)
-
-    else:
-        self.add_feature(f"lepton_met_mass{suffix}", lepton_met_mass)
-
-
-
-def histograms_output_syst_eff_wj(
-    self,
-    bjets, jets, 
-    electrons, muons, taus, 
-    met, 
-    mask, 
-    lepton_flavor, 
-    is_mc,
-    events,
-    syst_flag
-):
-
-    suffix = "" if syst_flag == "nominal" else f"_{syst_flag}"
-
-    # Select region objects
-    region_bjets = bjets[mask]
-    region_jets = jets[mask]  
-    region_electrons = electrons[mask]
-    region_muons = muons[mask]
-    region_taus = taus[mask]
-    region_met = met[mask]
-
-
-    # Define region leptons
-    lepton_region_map = {
-        "ele": region_electrons,
-        "mu": region_muons,
-        "tau": region_taus
-    }
-    region_leptons = lepton_region_map[lepton_flavor]
-
-
-    # Lepton-MET transverse mass and deltaPhi
-    lepton_met_mass = np.sqrt(
-        2.0
-        * region_leptons.pt
-        * region_met.pt
-        * (
-            ak.ones_like(region_met.pt)
-            - np.cos(region_leptons.delta_phi(region_met))
-        )
-    )
-
-
-    # HT and  ST variables
-    jet_pt_addition = ak.sum(region_jets.pt, axis=1)
-    bjet_pt_addition = ak.sum(region_bjets.pt, axis=1)
-    tau_pt_addition = ak.sum(region_taus.pt, axis=1)
-    lepton_pt_addition = ak.sum(region_leptons.pt, axis = 1)  # Depending of the channel, we will have muons, taus, or electrons.
-    muon_pt_addition = ak.sum(region_muons.pt, axis=1)
-    electron_pt_addition = ak.sum(region_electrons.pt, axis=1)
-    
-   
-    if syst_flag == "nominal":
-
-        self.add_feature(f"lepton_pt", region_leptons.pt)
-        self.add_feature(f"lepton_eta", region_leptons.eta)
-        self.add_feature(f"lepton_phi", region_leptons.phi)
-       
-        # MET
-        self.add_feature(f"met", region_met.pt)
-        self.add_feature(f"met_phi", region_met.phi)
-
-        # Recoil
-        self.add_feature(f"recoil_pt", region_met.pt_recoil)
-        self.add_feature(f"recoil_phi", region_met.phi_recoil)
-
-        # Transverse mass: lepton; met.   
-        self.add_feature(f"lepton_met_mass", lepton_met_mass)
-
-        # Number of objects
-        self.add_feature(f"njets", ak.num(region_jets))
-        self.add_feature(f"nbjets", ak.num(region_bjets))
-        self.add_feature(f"npvs", events.PV.npvsGood[mask])
-        self.add_feature(f"nmuons", ak.num(region_muons))
-        self.add_feature(f"nelectrons", ak.num(region_electrons))
-        self.add_feature(f"ntaus", ak.num(region_taus))
-
-    else:
-        self.add_feature(f"lepton_met_mass{suffix}", lepton_met_mass)        
-        self.add_feature(f"recoil_pt{suffix}", lepton_met_mass)          
-
-
-def histograms_output_Z_analysis_syst(
-    self,
-    bjets, jets, 
-    electrons, muons, taus, 
-    met, 
-    mask, 
-    lepton_flavor,
-    channel, 
-    is_mc,
-    events,
-    syst_flag
-):
-
-    suffix = "" if syst_flag == "nominal" else f"_{syst_flag}"
-
-    # Select region objects
-    region_bjets = bjets[mask]
-    region_jets = jets[mask]
-    region_electrons = electrons[mask]
-    region_muons = muons[mask]
-    region_taus = taus[mask]
-    region_met = met[mask]
-    region_events = events[mask]
-
-
-    # Define region leptons
-    lepton_region_map = {
-        "ele": region_electrons,
-        "mu": region_muons,
-        "tau": region_taus
-    }
-    region_leptons = lepton_region_map[lepton_flavor]
-
-    region_leading_lepton = ak.pad_none(region_leptons, 2)[:, 0]
-    region_subleading_lepton = ak.pad_none(region_leptons, 2)[:, 1]
-
-    # leading bjets
-    leading_bjets = ak.firsts(region_bjets)    
-    leading_jets = ak.firsts(region_jets)
-
-
-    if syst_flag == "nominal":
-
-        self.add_feature(f"mll", (region_leading_lepton + region_subleading_lepton).mass)
-
-        self.add_feature(f"ptll", (region_leading_lepton + region_subleading_lepton).pt)
-        self.add_feature(f"ptl1", region_leading_lepton.pt)
-        self.add_feature(f"ptl2", region_subleading_lepton.pt)
-
-
-        
-
-        self.add_feature(f"njets", ak.num(region_jets))
-
-        self.add_feature(f"met", region_met.pt)
-        self.add_feature(f"met_raw", region_met.pt_no_recal)
-
-
-         
-        self.add_feature(f"HT", ak.sum(region_jets.pt, axis=1))
-        
-        if hasattr(events, "GenPart"):
-            general_mask = (
-                (np.abs(region_events.GenPart.pdgId) == 23) 
-                & (region_events.GenPart.status == 62)
-            )
-
-            Z_bosons_gen = ak.firsts(region_events.GenPart[general_mask])
-            self.add_feature(f"Z_gen_pt", Z_bosons_gen.pt)
-
-        else:
-            Z_rec = region_leading_lepton + region_subleading_lepton
-            self.add_feature(f"Z_gen_pt", Z_rec.pt)
-
-    else:
-        self.add_feature(f"mll{suffix}", (region_leading_lepton + region_subleading_lepton).mass)
-
-
-
-def histograms_output_Zplusc_analysis_syst(
-    self,
-    bjets, cjets, jets, 
-    electrons, muons, taus, 
-    met, 
-    mask, 
-    lepton_flavor,
-    channel, 
-    is_mc,
-    events,
-    syst_flag
-):
-
-    suffix = "" if syst_flag == "nominal" else f"_{syst_flag}"
-
-    # Select region objects
-    region_bjets = bjets[mask]
-    region_cjets = cjets[mask]
-    region_jets = jets[mask]
-    region_electrons = electrons[mask]
-    region_muons = muons[mask]
-    region_taus = taus[mask]
-    region_met = met[mask]
-    region_events = events[mask]
-
-
-    # Define region leptons
-    lepton_region_map = {
-        "ele": region_electrons,
-        "mu": region_muons,
-        "tau": region_taus
-    }
-    region_leptons = lepton_region_map[lepton_flavor]
-
-    region_leading_lepton = ak.pad_none(region_leptons, 2)[:, 0]
-    region_subleading_lepton = ak.pad_none(region_leptons, 2)[:, 1]
-
-    # leading bjets
-    leading_bjets = ak.firsts(region_bjets)    
-    leading_cjets = ak.firsts(region_cjets)
-    leading_jets = ak.firsts(region_jets)
-
-
-    if syst_flag == "nominal":
-
-        self.add_feature(f"mll", (region_leading_lepton + region_subleading_lepton).mass)
-
-        self.add_feature(f"ptll", (region_leading_lepton + region_subleading_lepton).pt)
-        self.add_feature(f"ptl1", region_leading_lepton.pt)
-        self.add_feature(f"ptl2", region_subleading_lepton.pt)
-
-
-        
-
-        self.add_feature(f"njets", ak.num(region_jets))
-
-        self.add_feature(f"met", region_met.pt)
-        self.add_feature(f"met_raw", region_met.pt_no_recal)
-
-
-        self.add_feature(f"cjet_pt", region_cjets.pt)
-        self.add_feature(f"cjet_eta", region_cjets.eta)
-        self.add_feature(f"cjet_phi", region_cjets.phi)
-
-
-    else:
-        self.add_feature(f"mll{suffix}", (region_leading_lepton + region_subleading_lepton).mass)
-
-
-
-def efficiency_studies_numerator(trigger_option: str, region_name: str, year: str, events, region_selection_mask, mask_denominator, output_metadata, weights_container):
-    """
-    Calculate trigger efficiency mask for studies.
-    
-    Args:
-        trigger_name: Name of the trigger to study
-        region_mask: Region selection mask
-        year: Data year (e.g., '2016', '2017')
-        events: Event data array
-        mask_top: Additional mask to apply (e.g., top quark selection)
-        
-    Returns:
-        Boolean mask of events passing the trigger requirements
-    """
-
-    try:
-        with importlib.resources.path("wprime_plus_b.data", "triggers.json") as path:
-            with open(path, "r") as handle:
-                trigger_name = json.load(handle)[year][trigger_option]
-    except (FileNotFoundError, KeyError) as e:
-        raise ValueError(f"Error loading trigger information: {str(e)}")
-
-
-    eff_triggers = [
-        trigger for trigger in events.HLT.fields 
-        if any(trigger.startswith(r) for r in trigger_name)
-    ]
-
-    output_metadata.update({"Triggers_eff": eff_triggers})
-
-    mask_eff_trigger = ak.Array([False] * len(events))
-
-    for trigger in eff_triggers:
-        if trigger in events.HLT.fields:
-            mask_eff_trigger = mask_eff_trigger | events.HLT[trigger]
-
-
-    mask_numerator = mask_eff_trigger[region_selection_mask] & mask_denominator
-    nevents_numerator = ak.sum(mask_numerator)
-
-    # Apply the region selection to the trigger mask
-    if region_name == "nominal":
-        output_metadata[f"cutflow"][f"numerator_{trigger_option}_trigger"] = ak.sum(weights_container.weight()[region_selection_mask][mask_numerator])
-
-
-    
-    else:
-        output_metadata[f"cutflow_{region_name}"][f"numerator_{trigger_option}_trigger"] = ak.sum(weights_container.weight()[region_selection_mask][mask_numerator])
-
-
-    
-    return mask_numerator, nevents_numerator
-
-
-def fill_cutflow(metadata, cut_name, table_name, weights):
-    """
-    Fill weighted and unweighted cutflow entries for a given selection step.
-
-    Parameters
-    ----------
-    metadata : dict
-        Output metadata dictionary containing the cutflow information.
-        It must have the keys "cutflow" and "cutflow_raw".
-    cut_name : str
-        Name of the cut or selection step to be filled.
-    weights : ak.Array
-        Array of event weights after applying the corresponding selection.
-    """
-
-    # Store the weighted number of events passing the cut
-    metadata[f"{table_name}"][cut_name] = ak.sum(weights)
-
-    # Store the raw (unweighted) number of events passing the cut
-    metadata[f"{table_name}_raw"][cut_name] = len(weights)
+    return map_names[case]

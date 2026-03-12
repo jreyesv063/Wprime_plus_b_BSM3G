@@ -1,0 +1,162 @@
+{
+    "jet_veto_maps":{
+        "_comment": "regions with an excess of jets (hot zones) and lack of jets (cold zones)",
+        "2016APV": "Summer19UL16_V1",
+        "2016": "Summer19UL16_V1",
+        "2017": "Summer19UL17_V1",
+        "2018": "Summer19UL18_V1",
+        "2022_pre": "Summer22_23Sep2023_RunCD_V1",
+        "2022_post": "Summer22EE_23Sep2023_RunEFG_V1",
+        "2023_pre": "Summer23Prompt23_RunC_V1",
+        "2023_post": "Summer23BPixPrompt23_RunD_V1",
+        "2024": "Summer24Prompt24_RunBCDEFGHI_V1"
+    },
+    "CMS_eff_j_PUJetID": {
+        "2016APV": "PUJetID_eff",
+        "2016": "PUJetID_eff",
+        "2017": "PUJetID_eff",
+        "2018": "PUJetID_eff",
+        "2022_pre": {
+            "AK4": {
+                "Tight": "AK4PUPPI_Tight",
+                "TightLeptonVeto": "AK4PUPPI_TightLeptonVeto"
+            },
+            "AK8": {
+                "Tight": "AK8PUPPI_Tight",
+                "TightLeptonVeto": "AK8PUPPI_TightLeptonVeto"                
+            }
+        },  
+        "2022_post": {
+            "AK4": {
+                "Tight": "AK4PUPPI_Tight",
+                "TightLeptonVeto": "AK4PUPPI_TightLeptonVeto"
+            },
+            "AK8": {
+                "Tight": "AK8PUPPI_Tight",
+                "TightLeptonVeto": "AK8PUPPI_TightLeptonVeto"                
+            }
+        },   
+        "2023_pre": {
+            "AK4": {
+                "Tight": "AK4PUPPI_Tight",
+                "TightLeptonVeto": "AK4PUPPI_TightLeptonVeto"
+            },
+            "AK8": {
+                "Tight": "AK8PUPPI_Tight",
+                "TightLeptonVeto": "AK8PUPPI_TightLeptonVeto"                
+            }
+        },    
+        "2023_post": {
+            "AK4": {
+                "Tight": "AK4PUPPI_Tight",
+                "TightLeptonVeto": "AK4PUPPI_TightLeptonVeto"
+            },
+            "AK8": {
+                "Tight": "AK8PUPPI_Tight",
+                "TightLeptonVeto": "AK8PUPPI_TightLeptonVeto"                
+            }
+        },    
+        "2024": {
+            "AK4": {
+                "Tight": "AK4PUPPI_Tight",
+                "TightLeptonVeto": "AK4PUPPI_TightLeptonVeto"
+            },
+            "AK8": {
+                "Tight": "AK8PUPPI_Tight",
+                "TightLeptonVeto": "AK8PUPPI_TightLeptonVeto"                
+            }
+        }                           
+    },
+    "CMS_eff_j_ParticleNet_Top_Nominal": {
+        "2016APV": "ParticleNet_Top_Nominal",
+        "2016": "ParticleNet_Top_Nominal",
+        "2017": "ParticleNet_Top_Nominal",
+        "2018": "ParticleNet_Top_Nominal",
+        "2022_pre": "...",
+        "2022_post": "...",
+        "2023_pre": "...",
+        "2023_post": "...",
+        "2024": "..."           
+    },
+    "CMS_eff_j_ParticleNet_W_Nominal": {
+        "2016APV": "ParticleNet_W_Nominal",
+        "2016": "ParticleNet_W_Nominal",
+        "2017": "ParticleNet_W_Nominal",
+        "2018": "ParticleNet_W_Nominal",   
+        "2022_pre": "...",
+        "2022_post": "...",
+        "2023_pre": "...",
+        "2023_post": "...",
+        "2024": "..."                     
+    },
+    "met_xyCorrections": {
+        "2016APV": {
+            "Data": {
+                "pt": "pt_metphicorr_pfmet_data",
+                "phi": "phi_metphicorr_pfmet_data",
+                "run_min": 0,
+                "run_max": 278771
+            },
+            "MC": {
+                "pt": "pt_metphicorr_pfmet_mc",
+                "phi": "phi_metphicorr_pfmet_mc"
+            }
+        },
+        "2016": {
+            "Data": {
+                "pt": "pt_metphicorr_pfmet_data",
+                "phi": "phi_metphicorr_pfmet_data",
+                "run_min": 0,
+                "run_max": 284045
+            },
+            "MC": {
+                "pt": "pt_metphicorr_pfmet_mc",
+                "phi": "phi_metphicorr_pfmet_mc"
+            }
+        },
+        "2017": {
+            "Data": {
+                "pt": "pt_metphicorr_pfmet_data",
+                "phi": "phi_metphicorr_pfmet_data",
+                "run_min": 0,
+                "run_max": 306463
+            },
+            "MC": {
+                "pt": "pt_metphicorr_pfmet_mc",
+                "phi": "phi_metphicorr_pfmet_mc"
+            }
+        },
+        "2018": {
+            "Data": {
+                "pt": "pt_metphicorr_pfmet_data",
+                "phi": "phi_metphicorr_pfmet_data",
+                "run_min": 0,
+                "run_max": 325274
+            },
+            "MC": {
+                "pt": "pt_metphicorr_pfmet_mc",
+                "phi": "phi_metphicorr_pfmet_mc"
+            }
+        },
+        "2022_pre": {
+            "pt": "met_xy_corrections",
+            "phi": "..."            
+        },
+        "2022_post": {
+            "pt": "met_xy_corrections",
+            "phi": "..."            
+        },
+        "2023_pre": {
+            "pt": "met_xy_corrections",
+            "phi": "..."            
+        },
+        "2023_post": {
+            "pt": "met_xy_corrections",
+            "phi": "..."            
+        },
+        "2024": {
+            "pt": "...",
+            "phi": "..."
+        }                              
+    }
+}

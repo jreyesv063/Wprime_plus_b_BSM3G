@@ -1,223 +1,206 @@
-import re
-import copy
-import json
 import yaml
-import pickle
-import numpy as np
 import awkward as ak
-import importlib.resources
 from coffea import processor
 from coffea.analysis_tools import PackedSelection, Weights
 
-# Corrections
+# =======================================
+# Corrections: object - level
+# =======================================
+from wprime_plus_b.corrections.jec import apply_jet_corrections
+from wprime_plus_b.corrections.rochester import apply_rochester_corrections
+from wprime_plus_b.corrections.tau_energy import apply_tau_energy_scale_corrections
+from wprime_plus_b.corrections.met import apply_met_unclustered, apply_met_phi_corrections
+
+# =======================================
+# Corrections: event-level
+# =======================================
 from wprime_plus_b.corrections.pileup import add_pileup_weight
 from wprime_plus_b.corrections.pdfweights import add_pdf_weight
 from wprime_plus_b.corrections.pujetid import add_pujetid_weight
 from wprime_plus_b.corrections.genweight import add_genweight_weight
 from wprime_plus_b.corrections.l1prefiring import add_l1prefiring_weight
 from wprime_plus_b.corrections.psweights import add_particle_shower_weight
-from wprime_plus_b.corrections.rochester import apply_rochester_corrections
 from wprime_plus_b.corrections.top_pt_reweighting import add_TopPtReweighting
-from wprime_plus_b.corrections.tau_energy import apply_tau_energy_scale_corrections
-from wprime_plus_b.corrections.jec import apply_jet_corrections, apply_fatjet_corrections
-from wprime_plus_b.corrections.met import apply_met_phi_corrections, add_met_trigger_corrections, update_met_jet_veto, met_recoil
 
 
-
-from wprime_plus_b.corrections.ISR import ISR_weight
 from wprime_plus_b.corrections.tau import TauCorrector
 from wprime_plus_b.corrections.btag import BTagCorrector
 from wprime_plus_b.corrections.muon import MuonCorrector
 from wprime_plus_b.corrections.electron import ElectronCorrector
-from wprime_plus_b.corrections.muon_highpt import MuonHighPtCorrector
-from wprime_plus_b.corrections.top_boost import add_top_boost_corrections
-from wprime_plus_b.corrections.wjets_topjets import add_QCD_vs_W_weight, add_QCD_vs_Top_weight
 
-from wprime_plus_b.corrections.jetvetomaps import jetvetomaps_mask
-
-# General cuts
-from wprime_plus_b.general_selections.HEM import get_HEM_cleaning
-from wprime_plus_b.general_selections.lumi_mask import get_lumi_mask
-from wprime_plus_b.general_selections.Stitching import get_stitching_mask
-from wprime_plus_b.general_selections.met_filters import get_met_filters_mask
-from wprime_plus_b.general_selections.good_vertex import get_good_vertex_mask
-from wprime_plus_b.general_selections.triggers import get_trigger_mask, get_trigger_match_mask
-
-
+# =======================================
 # Selections: objects
+# =======================================
 from wprime_plus_b.object_identification.Z_selection import select_good_Z
-from wprime_plus_b.object_identification.tau_selection import select_good_taus
+from wprime_plus_b.object_identification.met_selection import select_good_met
 from wprime_plus_b.object_identification.jet_selection import select_good_jets
+from wprime_plus_b.object_identification.tau_selection import select_good_taus
 from wprime_plus_b.object_identification.muon_selection import select_good_muons
 from wprime_plus_b.object_identification.bjet_selection import select_good_bjets
 from wprime_plus_b.object_identification.electron_selection import select_good_electrons
 
 
-# Top tagger
-from wprime_plus_b.processors.utils.utils_topXfinder import get_topXfinder_masks
+# =======================================
+# General cuts
+# =======================================
+from wprime_plus_b.general_selections.HEM import get_HEM_cleaning
+from wprime_plus_b.general_selections.lumi_mask import get_lumi_mask
+from wprime_plus_b.general_selections.Stitching import get_stitching_mask
+from wprime_plus_b.general_selections.jetvetomaps import jetvetomaps_mask
+from wprime_plus_b.general_selections.met_filters import get_met_filters_mask
+from wprime_plus_b.general_selections.good_vertex import get_good_vertex_mask
+from wprime_plus_b.general_selections.triggers import get_trigger_mask, get_trigger_match_mask
 
-# Systematics: Object - level
-from wprime_plus_b.systematics.syst_variations import SystematicVariation_objects
 
 
+# =======================================
+# Systematic variations
+# =======================================
+from wprime_plus_b.processors.utils.utils_syst_var import Systematics
+
+
+# =======================================
+# Data driven
+# =======================================
+from wprime_plus_b.processors.utils.utils_qcd_data_driven import QCD_data_driven
+
+# =======================================
+#  Plots
+# =======================================
+from wprime_plus_b.processors.utils.histograms import Histograms
+from wprime_plus_b.processors.utils.histogram_2D import ISR_boost_plot
+
+# =======================================
 # Utils
-from wprime_plus_b.processors.utils.analysis_utils import delta_r_mask, normalize, output_metadata, histograms_output_syst, fill_cutflow
+# =======================================
+from wprime_plus_b.processors.utils.analysis_utils import cross_cleaning, fill_cutflow, delta_r_mask, get_mask_until_object 
+
 
 
 class ZToLLProcessor(processor.ProcessorABC):
-    """
-    Ttbar Analysis processor
-
-    Parameters:
-    -----------
-    channel:
-        region channel {'2b1l', '1b1e1mu', '1b1l'}
-    lepton_flavor:
-        lepton flavor {'ele', 'mu'}
-    year:
-        year of the dataset {"2017"}
-    syst:
-        systematics to apply {"nominal", "jes", "jer", "met", "tau", "rochester", "full"}
-    output_type:
-        output object type {'hist', 'array'}
-    """
-
     def __init__(
         self,
         processor: str = "top_tagger",
         channel: str = "2b1l",
-        lepton_flavor: str = "ele",
+        lepton_flavor: str = "tau",
         year: str = "2017",
         syst: str = "nominal",
-        output_type: str = "hist",
+        output_type: str = "array",
         run_systematics: str = "false",
-        qcd_data_driven: str = "false",        
-        output_folder: str = ""
+        qcd_data_driven: str = "false",
+        output_folder: str = "",
+        unblinded: str = "false"        
     ):
-        self.run_systematics = run_systematics 
+
         self.year = year
         self.lepton_flavor = lepton_flavor
-        self.syst = syst
+        self.syst = (run_systematics == "true")
         self.output_type = output_type
+        self.processor = processor        
 
         # define dictionary to store analysis variables
         self.features = {}
         # initialize dictionary of arrays
-        self.array_dict = {}
+        self.array_dict = {}        
+
+        if unblinded == "true":
+            self.unblinded = True 
+        else:
+            self.unblinded = False
+
 
         # Load event selection criteria
-        with open(f"wprime_plus_b/selections/{processor}/event_selection_criteria.yaml") as f:
+        with open(f"wprime_plus_b/selection_criteria/{self.processor}/event_selection_criteria.yaml") as f:
             self.criteria = yaml.safe_load(f)
-
 
 
     def add_feature(self, name: str, var: ak.Array) -> None:
         """add a variable array to the out dictionary"""
-        self.features = {**self.features, name: var}
+        self.features = {**self.features, name: var}        
 
     def process(self, events):
-
+        # Save the event index as events.event_index
+        events["event_index"] = ak.local_index(events, axis=0)
         # get dataset name
         dataset = events.metadata["dataset"]
         # get number of events before selection
         nevents = len(events)
         # check if sample is MC
         self.is_mc = hasattr(events, "genWeight")
-        # create copy of array dictionary
-        array_dict = copy.deepcopy(self.array_dict)
+
         # dictionary to store output data and metadata
         output = {}
         output["metadata"] = {}
+        output["hist"] = {}
+       
         output["metadata"].update({"raw_initial_nevents": nevents})
 
-  
         # -------------------------------------------------------------
-        #     Object corrections
+        #       Object corrections: 
+        #   - JES & JER affect JETs, FatJets, and MET
+        #   - Rochester affects Muons and MET.
+        #   - TES affects Taus and MET.
+        #   - MET_XY affects MET
+        #   - MET Unclustered
         # -------------------------------------------------------------
-        # apply JEC/JER corrections to jets (in data, the corrections are already applied)
-        if self.is_mc:
+        
+        # AK4 jets (events.Jet) and MET type-I
+        apply_jet_corrections(
+            events=events,
+            year=self.year,
+            syst_var=self.syst,
+            jet_case="AK4"      # events.JET
+        )
+        
 
-            if self.run_systematics and self.is_mc:
-                delta_list = {}
+        # Muons (events.Muon) Rochester corrections
+        apply_rochester_corrections(
+            events=events, 
+            year=self.year,
+            syst_var=self.syst
+        )  
+        
 
-                # JER; JES and MET unclestered
-                delta_list = apply_jet_corrections(events, self.year, self.run_systematics)
+        # TES (events.Tau) Tau Energy Correction
+        apply_tau_energy_scale_corrections(
+            events=events, 
+            year=self.year, 
+            syst_var=self.syst
+        )                
 
-                # JER and JES for FatJets.
-                if ak.any(ak.num(events.FatJet) > 0):
-                    delta_list.update(apply_fatjet_corrections(events, self.year, self.run_systematics))
-
-                # Tau energy scale corrections
-                delta_list.update(apply_tau_energy_scale_corrections(events, self.year, self.run_systematics))
-
-                # Rochester corrections
-                delta_list.update(apply_rochester_corrections(events, self.is_mc, self.year, self.run_systematics))
-
-                    
-            else:
-                # Jet, JER and MET unclestered corrections
-                apply_jet_corrections(events, self.year, variation=self.run_systematics)
-
-
-                # JET and JER for FatJets
-                if ak.any(ak.num(events.FatJet) > 0):
-                    # fatjets
-                    apply_fatjet_corrections(events, self.year, variation=self.run_systematics)
-
-
-                # Tau energy scale corrections
-                apply_tau_energy_scale_corrections(
-                    events=events, 
-                    year=self.year, 
-                    variation=self.run_systematics 
-                )         
-
-                # Rochester corrections
-                apply_rochester_corrections(
-                    events=events, 
-                    is_mc=self.is_mc, 
-                    year=self.year,
-                    variation=self.run_systematics
-                )
-
-        else:    
-            # Apply rochester for data
-            apply_rochester_corrections(
-                events=events, 
-                is_mc=self.is_mc, 
-                year=self.year,
-                variation=self.syst
-            )
-
-
-        # apply MET phi modulation corrections
+        # met_xy corrections (events.MET)
         apply_met_phi_corrections(
             events=events,
-            is_mc=self.is_mc,
             year=self.year,
-        )
+            syst_var=self.syst
+        ) 
 
-        # -------------------------------------------------------------
-        # Veto Jets
-        # -------------------------------------------------------------
-        jet_veto_mask = jetvetomaps_mask(events.Jet, self.year, "jetvetomap")
-        jets_veto = events.Jet[jet_veto_mask]
-                
+        # MET unclustered (events.MET) -> Systematic variations
+        apply_met_unclustered(
+            events=events,
+            syst_var=self.syst
+        )
+        
         # ===============================================================
         #            Object identification
-        # ==============================================================
+        # ===============================================================
+
         # Cross cleaning
         cc = self.criteria["cross_cleaning"][self.lepton_flavor]
 
-        # Select good electrons
-        good_electrons = select_good_electrons(
+
+         # Select good electrons
+        good_electrons_masks = select_good_electrons(
             events=events,
             electron_pt_threshold= self.criteria["electron"][self.lepton_flavor]["pt"],
             electron_eta_threshold = self.criteria["electron"][self.lepton_flavor]["eta"],
             electron_id_wp= self.criteria["electron"][self.lepton_flavor]["id"],
             electron_iso_wp=self.criteria["electron"][self.lepton_flavor]["iso"],
+            syst_var=self.syst
         )
+        good_electrons = good_electrons_masks["nominal"]
         electrons = events.Electron[good_electrons]
+
 
 
         # select good muons
@@ -227,13 +210,12 @@ class ZToLLProcessor(processor.ProcessorABC):
             muon_eta_threshold = self.criteria["muon"][self.lepton_flavor]["eta"],
             muon_id_wp = self.criteria["muon"][self.lepton_flavor]["id"],
             muon_iso_wp = self.criteria["muon"][self.lepton_flavor]["iso"],
+            syst_var=self.syst
         )
-        good_muons = (good_muons_masks["nominal"]) & (
-            delta_r_mask(events.Muon, electrons, threshold=cc)
-        )
+        good_muons = (good_muons_masks["nominal"])
         muons = events.Muon[good_muons]
-        
 
+        
         # select good taus
         good_taus_masks = select_good_taus(
             events=events,
@@ -244,64 +226,47 @@ class ZToLLProcessor(processor.ProcessorABC):
             tau_vs_ele =self.criteria["tau"][self.lepton_flavor]["fake_VSe"],
             tau_vs_mu = self.criteria["tau"][self.lepton_flavor]["fake_VSmu"],
             prong = self.criteria["tau"][self.lepton_flavor]["prongs"] ,
-            is_mc=self.is_mc,
+            syst_var=self.syst
         )
-        good_taus = (
-            (good_taus_masks["nominal"])
-            & (delta_r_mask(events.Tau, electrons, threshold=cc))
-            & (delta_r_mask(events.Tau, muons, threshold=cc))
-        )
-        taus = events.Tau[good_taus]
+        good_taus = good_taus_masks["nominal"] 
+        taus = events.Tau[good_taus]        
 
 
         # select good bjets
         good_bjets_masks = select_good_bjets(
             events=events,
-            jets=jets_veto ,
             year=self.year,
             btag_working_point_pass = self.criteria["bjet"][self.lepton_flavor]["btag_wp_pass"],
-            jet_pt_threshold = self.criteria["bjet"][self.lepton_flavor]["pt"],
-            jet_eta_threshold = self.criteria["bjet"][self.lepton_flavor]["eta"],
-            jet_id_wp = self.criteria["bjet"][self.lepton_flavor]["jet_id"],
-            jet_pileup_id = self.criteria["bjet"][self.lepton_flavor]["pileup_id"],
-            is_mc=self.is_mc,
+            bjet_pt_threshold = self.criteria["bjet"][self.lepton_flavor]["pt"],
+            bjet_eta_threshold = self.criteria["bjet"][self.lepton_flavor]["eta"],
+            bjet_id_wp = self.criteria["bjet"][self.lepton_flavor]["jet_id"],
+            bjet_pileup_id = self.criteria["bjet"][self.lepton_flavor]["pileup_id"],
+            syst_var=self.syst
         )
-        good_bjets = (
-            good_bjets_masks["nominal"]
-            & (delta_r_mask(jets_veto, electrons, threshold=cc))
-            & (delta_r_mask(jets_veto, muons, threshold=cc))
-            & (delta_r_mask(jets_veto, taus, threshold=cc))
-        )
-        bjets = jets_veto[good_bjets]
+        good_bjets = good_bjets_masks["nominal"] 
+        bjets = events.Jet[good_bjets]
         
-      
-        good_Z_mask = select_good_Z(
-                electrons,
-                muons,
-                taus,
-                self.lepton_flavor,
-                cross_cleaning = cc,
-                year=self.year,
-                charge_selection = self.criteria['Z_boson'][self.lepton_flavor]['charge'],
-                Z_mass_min = self.criteria['Z_boson'][self.lepton_flavor]['m_Z_min'],
-                Z_mass_max = self.criteria['Z_boson'][self.lepton_flavor]['m_Z_max']
+
+        # Jets candidates
+        good_jets_masks = select_good_jets(
+            events=events,
+            year=self.year,
+            jet_pt_threshold = self.criteria["jet"][self.lepton_flavor]["pt"],
+            jet_eta_threshold = self.criteria["jet"][self.lepton_flavor]["eta"],
+            jet_id_wp = self.criteria["jet"][self.lepton_flavor]["jet_id"],
+            jet_pileup_id = self.criteria["jet"][self.lepton_flavor]["pileup_id"],
+            syst_var=self.syst
         )
+        good_jets = good_jets_masks["nominal"]
+        jets = events.Jet[good_jets]
+        
 
-        # --------------------------------
-        # Missing transverse momentum (MET)
-        # --------------------------------
-        # Update MET by applying jet veto corrections
-        update_met_jet_veto(events = events, jets_veto = jets_veto)  
-        # Compute recoil-corrected MET using reconstructed leptons
-        met_recoil(events = events, muons = muons)
-
-
-        # ========================================================
-        # Dictionary of physics objects (collections)
-        # ========================================================
-        objects = {
+        # -----------------------------------------------------
+        # Create a dictionary of objects to simplify handling
+        # -----------------------------------------------------
+        objects_tmp = {
             "bjets": bjets,
-            "jets_veto": jets_veto,            
+            "jets": jets,
             "electrons": electrons,
             "muons": muons,
             "taus": taus,
@@ -309,159 +274,77 @@ class ZToLLProcessor(processor.ProcessorABC):
             "events": events
         }
 
-        objects_variations = {
-            "bjets": good_bjets_masks,
-            "electrons": None,
-            "muons": good_muons_masks,
-            "taus": good_taus_masks,
-        }
+        # ----------------
+        # cross cleaning
+        # ----------------
+        objects = cross_cleaning(objects_tmp, cc)
+
+
+        # Z boson
+        Z_masks, objects = select_good_Z(
+            objects=objects,
+            lepton_flav=self.lepton_flavor,
+            mass_min=self.criteria["Z"][self.lepton_flavor]["m_Z_min"],
+            mass_max=self.criteria["Z"][self.lepton_flavor]["m_Z_max"],
+            charge_selection=self.criteria["Z"][self.lepton_flavor]["charge"],
+            cross_cleaning=cc,
+            syst_var=self.syst
+        )
+
+        if self.syst and self.is_mc:
+            objects_variations = {
+                "bjet": good_bjets_masks,
+                "jet": good_jets_masks,
+                "electron": good_electrons_masks,
+                "muon": good_muons_masks,
+                "tau": good_taus_masks,
+                "Z_boson": Z_masks
+            }
 
         # ==============================================================
         #           Event-level weights
         # ==============================================================
         # set weights container
         weights_container = Weights(len(events), storeIndividual=True)
-        
+
         if self.is_mc:
             # add gen weigths
             add_genweight_weight(events, weights_container)
 
             # add l1prefiring weigths
-            add_l1prefiring_weight(events, weights_container, self.year, self.syst)
+            add_l1prefiring_weight(events, weights_container, self.year)
 
             # add ps weigths
-            add_particle_shower_weight(events, weights_container, self.year, self.syst)
+            add_particle_shower_weight(events, weights_container, self.year)
 
-            # add pdf weigths
-            add_pdf_weight(events, weights_container, self.year, variation=self.syst, dataset = dataset)
+            # add pdf weigths: Remover output de pdf
+            delta_pdf, pdf_weight_nominal = add_pdf_weight(events, weights_container, output, self.year)            
 
             # add top pt reweighting
-            add_TopPtReweighting(events, weights_container, dataset, self.syst)
-
+            add_TopPtReweighting(events, weights_container, dataset)     
 
             # add pileup weigths
-            add_pileup_weight(events, weights_container, self.year, self.syst)
-
-            output["metadata"].update({"sumw_no_object_weights": ak.sum(weights_container.weight())})
-
-            # add pujetid weigths
-            add_pujetid_weight(
-                jets=jets_veto,
-                weights=weights_container,
-                year=self.year,
-                working_point = self.criteria["jet"][self.lepton_flavor]["pileup_id"],
-                variation=self.syst,
-            )
-            
-            # b-tagging corrector
-            btag_corrector = BTagCorrector(
-                jets=objects["bjets"],
-                weights=weights_container,
-                sf_type="comb",
-                working_point = self.criteria["bjet"][self.lepton_flavor]["btag_wp_pass"],
-                tagger="deepJet",
-                year=self.year,
-                full_run=False,
-                variation=self.syst,
-                dataset = dataset
-            )
-
-            # add b-tagging weights
-            btag_corrector.add_btag_weights(flavor="bc")
-            btag_corrector.add_btag_weights(flavor="light")
-            #btag_corrector.print_efficiency_min_max_per_flavor()
-
-            # electron corrector
-            electron_corrector = ElectronCorrector(
-                electrons=objects["electrons"],
-                weights=weights_container,
-                year=self.year,
-            )
-
-            # add electron ID weights
-            electron_corrector.add_id_weight(
-                id_working_point = self.criteria["electron"][self.lepton_flavor]["id"]
-            )
-
-            # add electron reco weights
-            electron_corrector.add_reco_weight("Above")
-            electron_corrector.add_reco_weight("Below")
-
-            # add trigger weights
-            if self.lepton_flavor == "ele":
-                pass
-            
-            # muon corrector
-            if (
-                self.criteria["muon"][self.lepton_flavor]["id"] == "highpt"
-            ):
-                mu_corrector = MuonHighPtCorrector
-            else:
-                mu_corrector = MuonCorrector
-
-                
-            muon_corrector = mu_corrector(
-                muons=objects["muons"],
-                weights=weights_container,
-                year=self.year,
-                variation=self.syst,
-                id_wp = self.criteria["muon"][self.lepton_flavor]["id"],
-                iso_wp = self.criteria["muon"][self.lepton_flavor]["iso"],
-            )
-
-            # add muon RECO weights
-            muon_corrector.add_reco_weight()
-            # add muon ID weights
-            muon_corrector.add_id_weight()
-            # add muon iso weights
-            muon_corrector.add_iso_weight()
+            add_pileup_weight(events, weights_container, self.year)
 
             
-            # add tau weights
-            tau_corrector = TauCorrector(
-                taus=objects["taus"],
-                weights=weights_container,
-                year=self.year,
-                tau_vs_jet = self.criteria["tau"][self.lepton_flavor]["fake_VSjet_pass"],
-                tau_vs_ele = self.criteria["tau"][self.lepton_flavor]["fake_VSe"],
-                tau_vs_mu = self.criteria["tau"][self.lepton_flavor]["fake_VSmu"],
-                variation=self.syst,
-            )
-            tau_corrector.add_id_weight_DeepTau2017v2p1VSe()
-            tau_corrector.add_id_weight_DeepTau2017v2p1VSmu()
-            tau_corrector.add_id_weight_DeepTau2017v2p1VSjet()
 
-            output["metadata"].update({"sumw_POG": ak.sum(weights_container.weight())})
-            
-            # -------------------------
-            # ISR correction
-            # -------------------------
-            """
-            ISR_weight(events=events, 
-                        jets=objects["jets"], 
-                        dataset=dataset, 
-                        weights=weights_container, 
-                        year=self.year, 
-                        channel="", 
-                        variation=self.syst
-            )
-            """
+        else:
+            delta_pdf = pdf_weight_nominal = ak.ones_like(events.MET.pt)
 
-            output["metadata"].update({"sumw_POG_plus_no_trigger": ak.sum(weights_container.weight())})
-
+        objects["pdf_nominal"] = objects_tmp["pdf_nominal"] = pdf_weight_nominal
+        objects["pdf_ratio"] = objects_tmp["pdf_ratio"] = delta_pdf/pdf_weight_nominal
 
         # =============================================================================
         #                    Event selection
-        # =============================================================================
+        # =============================================================================    
         # make a PackedSelection object to store selection masks
-        self.selections = PackedSelection(dtype='uint64')
-
+        self.selections = PackedSelection(dtype='uint64')        
 
         # -------------------------
         #  Luminosity
         # -------------------------
         # add luminosity calibration mask (only to data)
-        lumi_mask = get_lumi_mask(events = events , year = self.year, is_mc = self.is_mc)
+        lumi_mask = get_lumi_mask(events = events , year = self.year)
         self.selections.add("lumi", lumi_mask)
 
         # --------------------------
@@ -477,81 +360,48 @@ class ZToLLProcessor(processor.ProcessorABC):
         good_vertex_mask = get_good_vertex_mask(events = events)
         self.selections.add("goodvertex", good_vertex_mask)
 
+        # ---------------------------
+        # Jet veto
+        # ---------------------------
+        jet_veto_mask = jetvetomaps_mask(events, self.year)
+        self.selections.add("veto_map", jet_veto_mask)
+
         # -------------------------------
         #        Trigger: OR 
         # -------------------------------
-        trigger_option =  self.criteria["trigger"][self.lepton_flavor]["general"]
-
-        trigger_mask, trigger_names = get_trigger_mask(events=events,
-                                                        lepton_flavor = self.lepton_flavor,
-                                                        year = self.year,
-                                                        reference_trigger = trigger_option,
-                                                        muon_id = self.criteria["muon"][self.lepton_flavor]["id"],
-                                                        electron_id = self.criteria["electron"][self.lepton_flavor]["id"]
-                                                       )
+        trigger_names, trigger_mask = get_trigger_mask(
+            events=events,
+            lepton_flavor = self.lepton_flavor,
+            year = self.year,
+            trigger_case = self.criteria["trigger"][self.lepton_flavor]["main"],
+            Or_HLT = self.criteria["trigger"][self.lepton_flavor]["OR_trigger"]
+        )
 
         output["metadata"].update({"Triggers": trigger_names})
-        self.selections.add(f"trigger", trigger_mask)
+        self.selections.add("trigger", trigger_mask)
 
-        if self.lepton_flavor == "tau" and self.is_mc:
-            # add met trigger weights: PFMETNoMu120 trigger
-            add_met_trigger_corrections(
-                trigger_mask, 
-                dataset, 
-                events.MET,
-                weights_container, 
-                self.year, 
-                self.syst
-            ) 
+
 
         # -------------------------------
         #       Trigger Match: OR 
         #   Only to Muons and Electrons
         # -------------------------------
-        trigger_mask, trigger_match_mask = get_trigger_match_mask(
-            events=events,
-            leptons = {"mu": muons, "ele": electrons},
+        trigger_match_mask = get_trigger_match_mask(
+            objects=objects,
+            year=self.year,    
             lepton_flavor=self.lepton_flavor,
-            year=self.year,
-            electron_id_wp = self.criteria["electron"][self.lepton_flavor]["id"],
-            muon_id_wp = self.criteria["muon"][self.lepton_flavor]["id"]
+            trigger_names=trigger_names
         )
 
-        # add trigger weights
-        if self.lepton_flavor == "mu" and self.is_mc:
-            muon_corrector.add_triggeriso_weight(
-                trigger_mask=trigger_mask,
-                trigger_match_mask=trigger_match_mask,
-            )
-
-        # --------------------------
-        #  Number of leptons and jets
-        # -------------------------
-        # add number of leptons and jets
-        self.selections.add("one_electron", ak.num(objects["electrons"]) == 1)
-        self.selections.add("two_electrons", ak.num(objects["electrons"]) == 2)        
-        self.selections.add("electron_veto", ak.num(objects["electrons"]) == 0)
-        
-        self.selections.add("one_muon", ak.num(objects["muons"]) == 1)
-        self.selections.add("two_muons", ak.num(objects["muons"]) == 2)        
-        self.selections.add("muon_veto", ak.num(objects["muons"]) == 0)
-
-        self.selections.add("one_tau", ak.num(objects["taus"]) == 1)  
-        self.selections.add("two_taus", ak.num(objects["taus"]) == 2)                    
-        self.selections.add("tau_veto", ak.num(objects["taus"]) == 0)
-
-        self.selections.add("one_bjet", ak.num(bjets) == 1)
-        self.selections.add("bjet_veto", ak.num(bjets) == 0)
-
-        self.selections.add("Z_boson", good_Z_mask) 
+        self.selections.add("trigger_match", trigger_match_mask)
 
         # --------------------------
         #     HEM cleaning
         # -------------------------        
         HEM_cleaning_mask = get_HEM_cleaning(events = events, 
-                    jets = jets_veto,
-                    electrons = objects["electrons"],
-                    year = self.year
+            jets=events.Jet,
+            electrons=events.Electron,
+            year=self.year
         )
         self.selections.add("HEMCleaning", HEM_cleaning_mask)
 
@@ -560,116 +410,216 @@ class ZToLLProcessor(processor.ProcessorABC):
         # -------------------------
         stitching_mask = get_stitching_mask(events= events, dataset_name=dataset)        
         self.selections.add("Stitching", stitching_mask)
+        
+        # --------------------------
+        #  Z boson
+        # --------------------------
+        self.selections.add("Z_boson", Z_masks["nominal"])
+        
 
+        # --------------------------
+        #  Number of leptons and jets
+        # -------------------------
+        # add number of leptons and jets
+        self.selections.add("one_electron", ak.num(objects_tmp["electrons"]) == 1)
+        self.selections.add("electron_veto", ak.num(objects["electrons"]) == 0)
+        self.selections.add("two_electrons", ak.num(objects["electrons"]) == 2)
 
+        self.selections.add("one_muon", ak.num(objects["muons"]) == 1)
+        self.selections.add("muon_veto", ak.num(objects["muons"]) == 0)
+        self.selections.add("two_muons", ak.num(objects["muons"]) == 2)
+
+        self.selections.add("one_tau", ak.num(objects["taus"]) == 1)            
+        self.selections.add("tau_veto", ak.num(objects["taus"]) == 0)
+        self.selections.add("two_taus", ak.num(objects["taus"]) == 2)
+
+        self.selections.add("one_bjet", ak.num(objects["bjets"]) == 1)
+        self.selections.add("bjet_veto", ak.num(objects["bjets"]) == 0)
+
+        
         # ====================================================
         #     Define selection regions for each channel
-        # ====================================================
+        # ===================================================
         region_selection = {
             "tau": [
                 "goodvertex",
-                "Stitching",
-                "lumi",
-                "trigger",
+                "veto_map",
+                "HEMCleaning",                
                 "metfilters",
-                "HEMCleaning",
+                "lumi",
+                "Stitching",
+                "trigger_match",
+                "trigger",                
                 "electron_veto",
                 "muon_veto",
-                "bjet_veto",                
+                "bjet_veto",
                 "two_taus",
-                "Z_boson",
+                "Z_boson"
             ],
             "mu": [
                 "goodvertex",
+                "veto_map",
+                "HEMCleaning",                
+                "metfilters",
                 "Stitching",
                 "lumi",
-                "trigger",
                 "trigger_match",
-                "metfilters",
-                "HEMCleaning",
+                "trigger",
                 "electron_veto",
                 "tau_veto",
-                "bjet_veto",                
+                "bjet_veto",
                 "two_muons",
-                "Z_boson",
+                "Z_boson"                
             ],
-        }
-        # --------------
-        # save cutflow 
-        # --------------
-        cut_names = region_selection[self.lepton_flavor]
-        output["metadata"].update({"cutflow": {}})
-        output["metadata"].update({"cutflow_raw": {}})
-        fill_cutflow(metadata = output["metadata"], cut_name = "sumw", table_name = "cutflow", weights = weights_container.weight())
-        selections = []        
-        for cut_name in cut_names:
-            selections.append(cut_name)
-            current_selection = self.selections.all(*selections)
-            fill_cutflow(metadata = output["metadata"], cut_name = cut_name, table_name = "cutflow", weights = weights_container.weight()[current_selection])
+        }             
 
-        # ----------------------------
-        # Save weights statistics
-        # ----------------------------    
-        # save sum of weights before selections
-        output["metadata"].update({"sumw": ak.sum(weights_container.weight())})
-        # save weights statistics
-        output["metadata"].update({"weight_statistics": {}})
-        for weight, statistics in weights_container.weightStatistics.items():
-            output["metadata"]["weight_statistics"][weight] = statistics               
+        # -------------------------------------------------------------
+        # sumw without ID weights
+        # -------------------------------------------------------------
+        output["metadata"]["main"] = {}
+        # Weighted events
+        output["metadata"]["main"].update({"sumw": ak.sum(weights_container.weight())})
 
-           
-        self.selections.add(
-            self.lepton_flavor,
-            self.selections.all(
-                *region_selection[self.lepton_flavor]
-            ),
-        )
-        region_selection_mask = self.selections.all(self.lepton_flavor)
-        # check that there are events left after selection
-        nevents_after = ak.sum(region_selection_mask)
-        
 
-        if nevents_after > 0:
-            # =============================================================
-            #                   Filling the histograms
-            # =============================================================
-            histograms_output_Z_analysis_syst(self, 
-                    bjets = bjets, jets = jets, 
-                    electrons = electrons, muons = muons, taus = taus, 
-                    met = events.MET, 
-                    mask = region_mask, 
-                    lepton_flavor= self.lepton_flavor,
-                    channel= self.channel, 
-                    is_mc = self.is_mc,
-                    events = events,
-                    syst_flag = "nominal"
+
+        # -------------------------
+        # Object ID corrections
+        # -------------------------
+        # top boost weights
+        if self.is_mc:
+            has_bjet = any("bjet" in cut for cut in region_selection[self.lepton_flavor])
+            has_top  = any("top_tagger" in cut for cut in region_selection[self.lepton_flavor])
+
+
+            # ************************************
+            #          Pileup Jet ID
+            # ************************************
+            add_pujetid_weight(
+                jets=objects["jets"],
+                weights=weights_container,
+                year=self.year,
+                working_point = self.criteria["jet"][self.lepton_flavor]["pileup_id"],
+                jet_mask = get_mask_until_object(self.selections, region_selection[self.lepton_flavor], "top_tagger" if has_top and not has_bjet else "bjet")
             )
 
+            # ************************************
+            #              Bjets
+            # ************************************
+            btag_corrector = BTagCorrector(
+                jets=objects["jets"],
+                dataset = dataset,
+                year=self.year,
+                tagger="deepJet",                
+                weights=weights_container,
+                pass_working_point=self.criteria["bjet"][self.lepton_flavor]["btag_wp_pass"],
+                bjet_mask = get_mask_until_object(self.selections, region_selection[self.lepton_flavor], "top_tagger" if has_top and not has_bjet else "bjet")
+            )            
+            # add b-tagging weights
+            btag_corrector.add_btag_weights(flavor="bc", correlated=False)
+            btag_corrector.add_btag_weights(flavor="light", correlated=False)
+            
+
+            # ************************************
+            # Electrons
+            # ************************************
+            electron_corrector = ElectronCorrector(
+                electrons=objects["electrons"],
+                weights=weights_container,
+                year=self.year,
+                electron_mask = get_mask_until_object(self.selections, region_selection[self.lepton_flavor], "electron")
+            )
+
+            # add electron ID weights
+            electron_corrector.add_id_weight(
+                id_working_point = self.criteria["electron"][self.lepton_flavor]["id"]
+            )
+
+            # add electron reco weights
+            electron_corrector.add_reco_weight("Above20")
+            electron_corrector.add_reco_weight("Below20")
 
 
-            if self.output_type == "array":
-                array_dict = {}
-                self.add_feature(
-                    "weights", region_selection_weights[mask_top]
+            # ************************************
+            #               Muons
+            # ************************************
+            muon_corrector = MuonCorrector(
+                muons=objects["muons"],
+                weights=weights_container,
+                year=self.year,
+                id_wp = self.criteria["muon"][self.lepton_flavor]["id"],
+                iso_wp = self.criteria["muon"][self.lepton_flavor]["iso"],
+                pt_range = "MediumPt",
+                muon_mask = get_mask_until_object(self.selections, region_selection[self.lepton_flavor], "muon")
+            )
+
+            # add muon RECO weights
+            muon_corrector.add_reco_weight()
+            # add muon ID weights
+            muon_corrector.add_id_weight()
+            # add muon iso weights
+            muon_corrector.add_iso_weight()
+
+
+            # ************************************
+            # Hadronic taus
+            # ************************************
+            tau_corrector = TauCorrector(
+                taus=objects["taus"],
+                weights=weights_container,
+                year=self.year,
+                tau_vs_jet = self.criteria["tau"][self.lepton_flavor]["fake_VSjet_pass"],
+                tau_vs_ele = self.criteria["tau"][self.lepton_flavor]["fake_VSe"],
+                tau_vs_mu = self.criteria["tau"][self.lepton_flavor]["fake_VSmu"],
+                tau_mask = get_mask_until_object(self.selections, region_selection[self.lepton_flavor], "tau")
+            )
+            tau_corrector.add_id_weight_DeepTau2017v2p1VSe()
+            tau_corrector.add_id_weight_DeepTau2017v2p1VSmu()
+            tau_corrector.add_id_weight_DeepTau2017v2p1VSjet()
+
+            
+            # ************************************
+            #        Trigger weights
+            # ************************************
+            if self.criteria["trigger"][self.lepton_flavor]["main"] == "dimuon":
+                muon_corrector.add_dimuon_trigger_weight(
+                    trigger_mask=trigger_mask,
+                    trigger_match_mask=trigger_match_mask
                 )
 
 
-                # select variables and put them in column accumulators
-                array_dict.update(
-                    {
-                        feature_name: processor.column_accumulator(
-                            normalize(feature_array)
-                        )
-                        for feature_name, feature_array in self.features.items()
-                    }
-                )
+        # ============================================================== 
+        #  Save cutflow: Table with nominal values
+        # ==============================================================        
+        output["metadata"]["main"]["weight_statistics"] = {}
+        for weight, statistics in weights_container.weightStatistics.items():
+            output["metadata"]["main"]["weight_statistics"][weight] = statistics
 
-        # define output dictionary accumulator
-        if self.output_type == "array":
-            output["arrays"] = array_dict
+        
+        fill_cutflow(region_selection[self.lepton_flavor], self.selections, "cutflow", output["metadata"]["main"], weights_container.weight())
+            
+        # =============================================================
+        #             Histograms
+        # =============================================================
+        hist = Histograms(self.lepton_flavor, self.processor, objects, weights_container.weight(), self.selections, region_selection[self.lepton_flavor])
+        output["hist"]["main"] = {}
+        output["hist"]["main"]["nominal"] = hist.fill_histograms()
+        output["hist"]["main"]["nominal"]["sumw_all_weights"] = ak.sum(weights_container.weight())
+        output["hist"]["main"]["nominal"]["count"] = 1        
 
 
+        # -------------------------------------------------------------
+        # ISR boost weights: 2D histogram
+        # -------------------------------------------------------------
+        output["hist"]["main"]["ISR_boost_weight"] = {}
+        ISR_boost_plot(
+            objects = objects, 
+            out = output["hist"]["main"]["ISR_boost_weight"] , 
+            mask = self.selections.all(*region_selection[self.lepton_flavor]),
+            weights_container = weights_container.weight()
+        )
+
+        
         return {dataset: output}
-
+        
     def postprocess(self, accumulator):
-        return accumulator
+        return accumulator 

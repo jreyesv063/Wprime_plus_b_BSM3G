@@ -1,0 +1,91 @@
+{
+    "_comment": {
+        "2016APV": "https://cms-xpog.docs.cern.ch/autoDoc/NanoAODv9/2016ULpreVFP/doc_SingleMuon_Run2016F-HIPM_UL2016_MiniAODv2_NanoAODv9-v2.html#Tau",
+        "2016": "https://cms-xpog.docs.cern.ch/autoDoc/NanoAODv9/2016ULpostVFP/doc_SingleMuon_Run2016H-UL2016_MiniAODv2_NanoAODv9-v1.html",
+        "2017": "https://cms-xpog.docs.cern.ch/autoDoc/NanoAODv9/2017UL/doc_SingleMuon_Run2017F-UL2017_MiniAODv2_NanoAODv9-v1.html",
+        "2018": "https://cms-xpog.docs.cern.ch/autoDoc/NanoAODv9/2018UL/doc_SingleMuon_Run2018D-UL2018_MiniAODv2_NanoAODv9-v1.html"
+    },
+    "DeepTau2017": {
+        "tau_vs_jet": {
+            "fail": 0,
+            "VVVLoose": 1,
+            "VVLoose": 3,
+            "VLoose": 7,
+            "Loose": 15,
+            "Medium": 31,
+            "Tight": 63,
+            "VTight": 127,
+            "VVTight": 255
+        },
+
+        "tau_vs_e": {
+            "fail": 0,
+            "VVVLoose": 1,
+            "VVLoose": 3,
+            "VLoose": 7,
+            "Loose": 15,
+            "Medium": 31,
+            "Tight": 63,
+            "VTight": 127,
+            "VVTight": 255
+        },    
+
+        "tau_vs_mu": {
+            "fail": 0,
+            "VLoose": 1,
+            "Loose": 3,
+            "Medium": 7,
+            "Tight": 15
+        }
+    },
+    "DeepTau2018": {
+       "tau_vs_jet": {
+            "VVVLoose": 1,
+            "VVLoose": 2,
+            "VLoose": 3,
+            "Loose": 4,
+            "Medium": 5,
+            "Tight": 6,
+            "VTight": 7,
+            "VVTight": 8
+        },
+
+        "tau_vs_e": {
+            "VVVLoose": 1,
+            "VVLoose": 2,
+            "VLoose": 3,
+            "Loose": 4,
+            "Medium": 5,
+            "Tight": 6,
+            "VTight": 7,
+            "VVTight": 8
+        },    
+
+        "tau_vs_mu": {
+            "VLoose": 1,
+            "Loose": 2,
+            "Medium": 3,
+            "Tight": 4       
+        }
+    },
+    "genPartFlav": {
+        "unknown": 0,            
+        "prompt_electron": 1, 
+        "prompt_muon": 2, 
+        "tau_e_decay": 3, 
+        "tau_mu_decay": 4, 
+        "hadronic_tau_decay": 5,
+        "unmatched": 6
+    },
+    "prongs": {
+        "_comment": "DM = 5*(Nc-1)+Np, where Nc is the number of charged hadrons (prongs) and Np is the number of pi0s in the decay",
+        "default": [-1],
+        "1prong": [0, 1, 2],
+        "2prongs": [5, 6, 7],
+        "3prongs": [10, 11],
+        "1or2prongs": [0, 1, 2, 5, 6, 7],
+        "1or3prongs": [0, 1, 2, 10, 11],
+        "2or3prongs": [5, 6, 7, 10, 11],
+        "trigger_corr": [-1, 0, 1, 10]
+    }
+}

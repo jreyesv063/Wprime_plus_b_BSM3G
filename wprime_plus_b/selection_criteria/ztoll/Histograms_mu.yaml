@@ -1,0 +1,228 @@
+pdf: 
+    pdf_nominal:
+        include_plot: True
+        type: Variable
+        edges: [0, 0.2, 0.4, 0.6, 0.8, 1.0, 1.2, 1.4, 1.6, 1.8, 2.0, 3.0, 4.0, 5.0]
+        label: "pdf_variations"
+        expression: objects['pdf_nominal']
+        
+    pdf_ratio:
+        include_plot: True
+        type: Variable
+        edges: [0, 0.1, 0.2, 0.3, 0.4, 0.5,  0.6, 0.7, 0.8, 1.0, 1.2, 1.4, 1.6, 1.8, 2.0, 2.5, 3.0, 4.0, 5.0]
+        label: "delta_pdf/nominal"
+        expression: objects['pdf_ratio']
+        
+main_lepton:
+    leading_lepton_pt:
+        include_plot: True
+        type: Variable
+        edges: [0, 20, 40, 60, 80, 100, 120, 140, 160, 180, 200, 250, 300, 400, 500]
+        label: '$p_T(\mu)$ [GeV]'
+        expression: ak.fill_none(ak.firsts(objects['muons'].pt), np.nan)
+    
+    leading_lepton_eta:
+        include_plot: False
+        type: Regular
+        bins: 48
+        start: -2.4
+        stop: 2.4
+        label: '$\eta(\mu)$'
+        expression: ak.fill_none(ak.firsts(objects['muons'].eta), np.nan)
+
+    leading_lepton_phi:
+        include_plot: False
+        type: Regular
+        bins: 32
+        start: -3.2
+        stop: 3.2
+        label: '$\phi(\mu)$'
+        expression: ak.fill_none(ak.firsts(objects['muons'].phi), np.nan)
+
+
+bjet:
+    bjet_pt:
+        include_plot: False
+        type: Variable
+        edges: [0, 20, 40, 60, 80, 100, 120, 140, 160, 180, 200, 250, 300, 400, 500]              
+        label: '$p_T$(bjet) [GeV]'
+        expression: ak.fill_none(ak.firsts(objects['bjets'].pt), np.nan)
+
+    bjet_eta:
+        include_plot: False
+        type: Regular
+        bins: 48
+        start: -2.4
+        stop: 2.4
+        label: '$\eta(bjet)$'
+        expression: ak.fill_none(ak.firsts(objects['bjets'].eta), np.nan)
+
+    bjet_phi:
+        include_plot: False
+        type: Regular
+        bins: 32
+        start: -3.2
+        stop: 3.2
+        label: '$\phi(bjet)$'
+        expression: ak.fill_none(ak.firsts(objects['bjets'].phi), np.nan)
+
+met:
+    met_pt: 
+        include_plot: True
+        type: Variable
+        edges: [0, 20, 40, 60, 80, 100, 120, 150, 180, 200, 250, 300, 350, 400, 600]
+        label: '$p_T^{miss}$ [GeV]'
+        expression: objects['met'].pt 
+    
+    met_phi:
+        include_plot: False
+        type: Regular
+        bins: 32
+        start: -3.2
+        stop: 3.2
+        label: '$\phi(p_T^{miss})$'
+        expression: objects['met'].phi
+    
+jets:
+    HT:
+        include_plot: False
+        type: Variable
+        edges: [0, 50, 100, 150, 200, 250, 300, 400, 500, 600, 700, 800, 900, 1000]
+        label: 'HT(j)'
+        expression: ak.fill_none(ak.sum(objects['jets'].pt, axis=1), np.nan)
+        
+    ST:
+        include_plot: False
+        type: Variable
+        edges: [0, 50, 100, 150, 200, 250, 300, 400, 500, 600, 700, 800, 900, 1000]
+        label: '$ST(\tau, j, fj)$'
+        expression: ak.fill_none(ak.sum(objects['jets'].pt, axis=1) + ak.sum(objects['taus'].pt, axis=1), np.nan)
+        
+    ST_met: 
+        include_plot: True
+        type: Variable
+        edges: [0, 20, 40, 60, 80, 100, 120, 150, 200, 300, 400, 500, 600, 700, 800, 900, 1000]
+        label: '$ST(\tau, j, fj, p_{T}^{miss})$'
+        expression: ak.fill_none(ak.sum(objects['jets'].pt, axis=1) + ak.sum(objects['taus'].pt, axis=1) + objects['met'].pt, np.nan)
+
+
+Z_boson: 
+    Z_mass:
+        include_plot: True
+        type: Variable
+        edges: [0, 20, 30, 40, 50, 60, 70, 80, 90, 100, 110, 120, 130, 140, 150, 160, 170, 180, 190, 200]
+        label: '$m(Z)$ [GeV]'
+        expression: ak.fill_none(objects['events'].Z_mass, np.nan)
+    
+    Z_pt:
+        include_plot: True
+        type: Variable
+        edges: [0, 20, 40, 60, 80, 100, 120, 140, 160, 180, 200, 250, 300, 400, 500]
+        label: '$p_T(Z)$ [GeV]'
+        expression: ak.fill_none(objects['events'].Z_pt, np.nan)
+
+    Z_charge:
+        include_plot: False
+        type: Variable
+        edges: [-3, -2, -1, 0, 1, 2, 3]
+        label: '$Q(Z)$'
+        expression: ak.fill_none(objects['events'].Z_charge, np.nan)
+    
+    leading_pt:
+        include_plot: True
+        type: Variable
+        edges: [0, 20, 40, 60, 80, 100, 120, 140, 160, 180, 200, 250, 300, 400, 500]
+        label: '$p_T(leading-mu)$ [GeV]'
+        expression: ak.fill_none(objects['events'].leading_pt, np.nan)
+
+    subleading_pt:
+        include_plot: True
+        type: Variable
+        edges: [0, 20, 40, 60, 80, 100, 120, 140, 160, 180, 200, 250, 300, 400, 500]
+        label: '$p_T(subleading-mu)$ [GeV]'
+        expression: ak.fill_none(objects['events'].subleading_pt, np.nan)
+
+N:
+    npvs:
+        include_plot: False
+        type: Regular
+        bins: 50
+        start: 0
+        stop: 50
+        label: '$npvs$'
+        expression: objects['events'].PV.npvsGood                         
+
+    njets:
+        include_plot: True
+        type: Regular
+        bins: 10
+        start: 0
+        stop: 10
+        label: '$N(j)$'
+        expression: ak.num(objects['jets']) 
+
+    nbjets:
+        include_plot: False
+        type: Regular
+        bins: 10
+        start: 0
+        stop: 10
+        label: '$N(b)$'
+        expression: ak.num(objects['bjets']) 
+
+    nlightjets:
+        include_plot: False
+        type: Regular
+        bins: 10
+        start: 0
+        stop: 10
+        label: '$N(lj)$'
+        expression: ak.num(objects['lightjets'])               
+
+
+    ntopjets:
+        include_plot: False
+        type: Regular
+        bins: 10
+        start: 0
+        stop: 10
+        label: '$N(t)$'
+        expression: ak.num(objects['topjets'])                
+
+    nwjets:
+        include_plot: False
+        type: Regular
+        bins: 10
+        start: 0
+        stop: 10
+        label: '$N(W)$'
+        expression: ak.num(objects['wjets'])     
+
+    ntaus:
+        include_plot: False 
+        type: Regular
+        bins: 10
+        start: 0
+        stop: 10
+        label: '$N(\tau)$'
+        expression: ak.num(objects['taus'])     
+
+    nelectrons:
+        include_plot: False       
+        type: Regular
+        bins: 10
+        start: 0
+        stop: 10
+        label: '$N(e)$'
+        expression: ak.num(objects['electrons'])     
+
+    nmuons:
+        include_plot: False         
+        type: Regular
+        bins: 10
+        start: 0
+        stop: 10
+        label: '$N(\mu)$'
+        expression: ak.num(objects['muons'])                      
+   
+    

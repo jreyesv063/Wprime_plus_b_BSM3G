@@ -1,36 +1,27 @@
+import json
 import pickle
 import numpy as np
 import awkward as ak
-import importlib.resources
+from coffea.lumi_tools import LumiMask
 
-def get_lumi_mask(events: ak.Array, year: str, is_mc: bool) -> np.ndarray:
+def get_lumi_mask(events: ak.Array, year: str) -> np.ndarray:
     """
     Return the luminosity mask for data, or a trivial mask for MC.
 
-    Parameters
-    ----------
-    events : ak.Array
-        NanoEvents array containing 'run' and 'luminosityBlock'.
-    year : str
-        Data-taking year (used to select the correct lumi mask for data).
-    is_mc : bool
-        True if processing MC; MC always returns a full True mask.
-
-    Returns
-    -------
-    lumi_mask : np.ndarray
-        Boolean mask per event. True if the event passes the luminosity mask.
     """
-    # Load the luminosity masks dictionary from pickle
-    with open("wprime_plus_b/general_selections/lumi_Certificates/lumi_masks.pkl", "rb") as f:
-        lumi_masks_dict = pickle.load(f)
+    # MC → accept all events
+    if hasattr(events, "genWeight"):
+        return np.ones(len(events), dtype=bool)
 
-    if not is_mc:
-        # Apply the data lumi mask function for the given year
-        lumi_mask_func = lumi_masks_dict[year]
-        lumi_mask = lumi_mask_func(events.run, events.luminosityBlock)
-    else:
-        # For MC, accept all events
-        lumi_mask = np.ones(len(events), dtype=bool)
+    # ===================================
+    # Load certificate names
+    # ===================================
+    with open("wprime_plus_b/json_files/lumi_certificates.json", "r") as f:
+        certificate_name = json.load(f)
+    
+    # Create LumiMask object
+    lumi_map = LumiMask(f"wprime_plus_b/general_selections/certificates/{certificate_name[year]}")    
 
+    lumi_mask = lumi_map(events.run, events.luminosityBlock)
+    
     return lumi_mask

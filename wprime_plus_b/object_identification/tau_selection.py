@@ -11,13 +11,13 @@ def select_good_taus(
     tau_pt_threshold: float = 20.0,
     tau_eta_threshold: float = 2.4,
     tau_dz_threshold: float = 0.2,
-    tau_vs_jet_pass: str = "T",
+    tau_vs_jet_pass: str = "Tight",
     tau_vs_jet_fail: Optional[float] = None,
-    tau_vs_ele: str = "T",
-    tau_vs_mu: str = "T",
-    prong: int = 13,
-    is_mc: bool = True,
+    tau_vs_ele: str = "Tight",
+    tau_vs_mu: str = "Tight",
+    prong: str = "1or3prongs",
     year: str = "2017",
+    syst_var: bool  = True
 ) -> Dict[str, ak.Array]:
     """
     - Run 2: https://twiki.cern.ch/twiki/bin/view/CMS/TauIDRecommendationForRun2#Corrections_to_be_applied_to_gen 
@@ -38,81 +38,80 @@ def select_good_taus(
     # ============================================================
     # Load DeepTau working points
     # ============================================================
-    with open("wprime_plus_b/json_files/tau_wps.json", "r") as f:
-        tau_wps_all = json.load(f)
-        
+    with open("wprime_plus_b/json_files/tau.json", "r") as f:
+        tau_info = json.load(f)
+
+    tau_id_version = "DeepTau2017" if year in ["2016APV", "2016", "2017", "2018"] else "DeepTau2018"
+    suffix = "2017v2p1" if tau_id_version == "DeepTau2017" else "2018v2p5"
+    
     # ============================================================
     # Decay mode (prong) selection
     # ============================================================
-
-    prong_to_modes = {
-        1: [0, 1, 2],           # 1 prong
-        2: [5, 6, 7],           # 2 prongs 
-        3: [10, 11],            # 3 prongs 
-        12: [0, 1, 2, 5, 6, 7], # 1 or 2 prongs
-        13: [0, 1, 2, 10, 11],  # 1 or 3 prongs
-        23: [5, 6, 7, 10, 11],  # 2 or 3 prongs
-    }
-
-    if prong not in prong_to_modes:
-        raise ValueError(
-            f"Invalid prong={prong}. Allowed values: {sorted(prong_to_modes)}"
-        )
-
-    tau_dm = events.Tau.decayMode
-    decay_mode_mask = ak.zeros_like(tau_dm, dtype=bool)
-
-    for mode in prong_to_modes[prong]:
-        decay_mode_mask = decay_mode_mask | (tau_dm == mode)
+    tau_dm_mask = ak.zeros_like(events.Tau.decayMode, dtype=bool)
+    for decay_mode in tau_info['prongs'][prong]:
+        tau_dm_mask = tau_dm_mask | (events.Tau.decayMode == decay_mode)
 
     # ============================================================
-    # Helper to build tau mask
+    # ID
     # ============================================================
-    def build_tau_mask(tau_pt: ak.Array) -> ak.Array:
+    tau_id_mask = (
+        (getattr(events.Tau, f"idDeepTau{suffix}VSjet") >= tau_info[tau_id_version]["tau_vs_jet"][tau_vs_jet_pass])
+        & (getattr(events.Tau, f"idDeepTau{suffix}VSe") >= tau_info[tau_id_version]["tau_vs_e"][tau_vs_ele])
+        & (getattr(events.Tau, f"idDeepTau{suffix}VSmu") >= tau_info[tau_id_version]["tau_vs_mu"][tau_vs_mu])
+    )
+    
+    if tau_vs_jet_fail is not None:
+        fail_id_mask = getattr(events.Tau, f"idDeepTau{suffix}VSjet") < tau_info[tau_id_version]["tau_vs_jet"][tau_vs_jet_fail]
+        tau_id_mask = tau_id_mask & fail_id_mask
         
-        tau_id_version = "DeepTau2017" if year in ["2016APV", "2016", "2017", "2018"] else "DeepTau2018"
-        suffix = "2017v2p1" if tau_id_version == "DeepTau2017" else "2018v2p5"
-
-        # Load working points
-        tau_wps = tau_wps_all[tau_id_version]
-
-        tau_mask = (
-            (tau_pt > tau_pt_threshold)
-            & (np.abs(events.Tau.eta) < tau_eta_threshold)
-            & (np.abs(events.Tau.dz) < tau_dz_threshold)
-            & (getattr(events.Tau, f"idDeepTau{suffix}VSjet") > tau_wps["deep_tau_jet"][tau_vs_jet_pass])
-            & (getattr(events.Tau, f"idDeepTau{suffix}VSe") > tau_wps["deep_tau_electron"][tau_vs_ele])
-            & (getattr(events.Tau, f"idDeepTau{suffix}VSmu") > tau_wps["deep_tau_muon"][tau_vs_mu])
-            & decay_mode_mask
-        )
-
-        if tau_id_version == "DeepTau2018":
-            tau_mask = tau_mask & events.Tau.idDecayModeNewDMs
-
-        if tau_vs_jet_fail is not None:
-            fail_tau_id = getattr(events.Tau, f"idDeepTau{suffix}VSjet") < tau_wps["deep_tau_jet"][tau_vs_jet_fail]
-            tau_mask = tau_mask & fail_tau_id
-
-
-        return tau_mask
+    # ============================================================
+    # Eta
+    # ============================================================    
+    tau_eta_mask = (np.abs(events.Tau.eta) < tau_eta_threshold)
 
     # ============================================================
-    # Build masks for nominal / systematics
+    # dz
+    # ============================================================     
+    tau_dz_mask = (np.abs(events.Tau.dz) < tau_dz_threshold)
+
+
     # ============================================================
+    # pt
+    # ============================================================       
+    tau_pt_mask = (events.Tau.pt >= tau_pt_threshold)
 
-    good_tau_masks = {}
 
-    if is_mc:
-        pt_variations = {
-            "nominal": events.Tau.pt,
-            "up": events.Tau.pt_up,
-            "down": events.Tau.pt_down,
+    # ============================================================
+    # Final electron selection mask
+    # ============================================================        
+    tau_mask_ref = tau_dm_mask & tau_id_mask & tau_eta_mask & tau_dz_mask
+    
+    if year not in ["2016APV", "2016", "2017", "2018"]:
+        tau_mask_ref = tau_mask & events.Tau.idDecayModeNewDMs
+
+    tau_mask = tau_mask_ref & tau_pt_mask
+
+    # ============================================================
+    # Systematic variations: TES
+    # ============================================================      
+    # Check if the necessary attributes for TES variations are present in the events and Tau collection
+    if (
+        syst_var 
+        and hasattr(events, "genWeight")
+        and hasattr(events.Tau, "pt_up")
+        and hasattr(events.Tau, "pt_down")
+    ):
+        tau_up_mask = (events.Tau.pt_up >= tau_pt_threshold) & tau_mask_ref
+        tau_down_mask = (events.Tau.pt_down >= tau_pt_threshold) & tau_mask_ref
+
+        return {
+            "nominal": tau_mask,
+            "TES": {
+                "up": tau_up_mask, "down": tau_down_mask
+            }
         }
 
-        for name, tau_pt in pt_variations.items():
-            good_tau_masks[name] = build_tau_mask(tau_pt)
-
     else:
-        good_tau_masks["nominal"] = build_tau_mask(events.Tau.pt)
-
-    return good_tau_masks
+        return  {
+            "nominal": tau_mask
+        }

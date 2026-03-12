@@ -1,7 +1,6 @@
+import json
 import numpy as np
 import awkward as ak
-import json
-from coffea.nanoevents import NanoEventsFactory, NanoAODSchema
 from wprime_plus_b.processors.utils.analysis_utils import chi2_test, delta_r_mask, pdg_masses, tagger_constants
 
 # --------------------------
@@ -14,23 +13,18 @@ class topXfinder:
         lepton_flavor,
         bjets,
         jets,
-        fatjets,
+        topjets,
         wjets,
- #       year: str = "2017",
- #       year_mod: str = "",
         cc: float = 0.4,
     ) -> None:
         
-        
-        # year
-#        self.year = year
-#        self.year_mod = year_mod        
+            
         
         self.cross_cleaning = cc
         
         self.bjets = bjets
         self.jets = jets
-        self.fatjets = fatjets
+        self.topjets = topjets
         self.wjets = wjets
 
         self.lepton_flavor = lepton_flavor
@@ -59,27 +53,27 @@ class topXfinder:
         top_sigma, top_low_mass, top_up_mass, w_sigma, w_low_mass, w_up_mass, chi2 = tagger_constants("boosted")
         
         
-        # We select scenarios with 1 fatjet
+        # We select scenarios with 1 topjet
         initial_mask = (
             (ak.num(self.bjets) == 0)
             & (ak.num(self.jets) == 0)
-            & (ak.num(self.fatjets) == 1)
+            & (ak.num(self.topjets) == 1)
             & (ak.num(self.wjets) == 0)
         )
         
         mask_objects = ak.fill_none(initial_mask, False)
         
-        fatjets_masked = self.fatjets.mask[mask_objects]
+        topjets_masked = self.topjets.mask[mask_objects]
     
         # ------
         # Topjet identification
         # ------
         good_top_mass = (
-            (fatjets_masked.mass > top_low_mass) 
-            & (fatjets_masked.mass < top_up_mass) 
+            (topjets_masked.mass > top_low_mass) 
+            & (topjets_masked.mass < top_up_mass) 
         )
         
-        tops = fatjets_masked.mask[good_top_mass]
+        tops = topjets_masked.mask[good_top_mass]
         
         mask_final = ak.fill_none(ak.firsts(good_top_mass), False)
         top = ak.fill_none(ak.firsts(tops.mass), 0)
@@ -96,40 +90,40 @@ class topXfinder:
        
         top_sigma, top_low_mass, top_up_mass, w_sigma, w_low_mass, w_up_mass, chi2 = tagger_constants("boosted")
 
-        # We select scenarios with 1b and 1 fatjet
+        # We select scenarios with 1b and 1 topjet
         initial_mask = (
             (ak.num(self.bjets) == 1)
             & (ak.num(self.jets) == 0)
-            & (ak.num(self.fatjets) == 1)
+            & (ak.num(self.topjets) == 1)
             & (ak.num(self.wjets) == 0)
         )
         
         mask_objects = ak.fill_none(initial_mask, False)
         
         jet_bs = self.bjets.mask[mask_objects]
-        jet_fatjets = self.fatjets.mask[mask_objects]
+        jet_topjets = self.topjets.mask[mask_objects]
         
         
         # -------------------------------------------
         # Cross cleaning
         cross_cleaning = (
-            (jet_bs.delta_r(jet_fatjets) > 2*self.cross_cleaning)
+            (jet_bs.delta_r(jet_topjets) > 2*self.cross_cleaning)
         )
 
         b1_cc = jet_bs.mask[cross_cleaning]            
-        fatjet_cc = jet_fatjets.mask[cross_cleaning]            
+        topjet_cc = jet_topjets.mask[cross_cleaning]            
 
         
         # ------
         # Topjet identification
         # ------
         good_top_mass = (
-            (fatjet_cc.mass > top_low_mass) 
-            & (fatjet_cc.mass < top_up_mass) 
+            (topjet_cc.mass > top_low_mass) 
+            & (topjet_cc.mass < top_up_mass) 
         )
         
         
-        tops = fatjet_cc.mask[good_top_mass]
+        tops = topjet_cc.mask[good_top_mass]
         mask_final = ak.fill_none(ak.firsts(good_top_mass), False)
         top = ak.fill_none(ak.firsts(tops.mass), 0)
         
@@ -149,7 +143,7 @@ class topXfinder:
         initial_mask = (
             (ak.num(self.bjets) == 1)
             & (ak.num(self.jets) == 0)
-            & (ak.num(self.fatjets) == 0)
+            & (ak.num(self.topjets) == 0)
             & (ak.num(self.wjets) == 1)
         )
         
@@ -230,7 +224,7 @@ class topXfinder:
         initial_mask = (
             (ak.num(self.bjets) == 2)
             & (ak.num(self.jets) == 0)
-            & (ak.num(self.fatjets) == 0)
+            & (ak.num(self.topjets) == 0)
             & (ak.num(self.wjets) == 1)
         )
         
@@ -318,7 +312,7 @@ class topXfinder:
         initial_mask = ( 
             (ak.num(self.bjets) == 1)
             & (ak.num(self.jets) == 2)
-            & (ak.num(self.fatjets) == 0)
+            & (ak.num(self.topjets) == 0)
             & (ak.num(self.wjets) == 0)
         )     
         
@@ -411,7 +405,7 @@ class topXfinder:
         initial_mask = ( 
             (ak.num(self.bjets) == 2)
             & (ak.num(self.jets) == 2)
-            & (ak.num(self.fatjets) == 0)
+            & (ak.num(self.topjets) == 0)
             & (ak.num(self.wjets) == 0)
         )     
         
@@ -510,7 +504,7 @@ class topXfinder:
     ######################################
     #########  N Jets ####################
     ######################################
-    # fatjets and wjets limitacions have been removed.
+    # topjets and wjets limitacions have been removed.
     # https://awkward-array.org/doc/main/reference/generated/ak.combinations.html
     # ----------------------------------------
     #  Scenario N (b=2  + light_jets > 2)
@@ -638,7 +632,7 @@ class topXfinder:
         
 
 
-    # fatjets and wjets limitacions have been removed.
+    # topjets and wjets limitacions have been removed.
     # https://awkward-array.org/doc/main/reference/generated/ak.combinations.html
     # ----------------------------------------
     #  Scenario N (b > 2  + light_jets = 2)
@@ -746,27 +740,27 @@ class topXfinder:
         top_sigma, top_low_mass, top_up_mass, w_sigma, w_low_mass, w_up_mass, chi2 = tagger_constants("boosted")
 
 
-        # We select scenarios with 1 fatjet
+        # We select scenarios with 1 topjet
         initial_mask = (
             (ak.num(self.bjets) == 0)
             & (ak.num(self.jets) > 0)
-            & (ak.num(self.fatjets) == 1)
+            & (ak.num(self.topjets) == 1)
             & (ak.num(self.wjets) == 0)
         )
 
         mask_objects = ak.fill_none(initial_mask, False)
 
-        fatjets_masked = self.fatjets.mask[mask_objects]
+        topjets_masked = self.topjets.mask[mask_objects]
 
         # ------
         # Topjet identification
         # ------
         good_top_mass = (
-            (fatjets_masked.mass > top_low_mass) 
-            & (fatjets_masked.mass < top_up_mass) 
+            (topjets_masked.mass > top_low_mass) 
+            & (topjets_masked.mass < top_up_mass) 
         )
 
-        tops = fatjets_masked.mask[good_top_mass]
+        tops = topjets_masked.mask[good_top_mass]
 
         mask_final = ak.fill_none(ak.firsts(good_top_mass), False)
         top = ak.fill_none(ak.firsts(tops.mass), 0)
@@ -781,40 +775,40 @@ class topXfinder:
     def Scenario_2jets_unresolve_general(self):  
         top_sigma, top_low_mass, top_up_mass, w_sigma, w_low_mass, w_up_mass, chi2 = tagger_constants("boosted")
 
-        # We select scenarios with 1b and 1 fatjet
+        # We select scenarios with 1b and 1 topjet
         initial_mask = (
             (ak.num(self.bjets) == 1)
             & (ak.num(self.jets) > 0)
-            & (ak.num(self.fatjets) == 1)
+            & (ak.num(self.topjets) == 1)
             & (ak.num(self.wjets) == 0)
         )
         
         mask_objects = ak.fill_none(initial_mask, False)
         
         jet_bs = self.bjets.mask[mask_objects]
-        jet_fatjets = self.fatjets.mask[mask_objects]
+        jet_topjets = self.topjets.mask[mask_objects]
         
         
         # -------------------------------------------
         # Cross cleaning
         cross_cleaning = (
-            (jet_bs.delta_r(jet_fatjets) > 2*self.cross_cleaning)
+            (jet_bs.delta_r(jet_topjets) > 2*self.cross_cleaning)
         )
 
         b1_cc = jet_bs.mask[cross_cleaning]            
-        fatjet_cc = jet_fatjets.mask[cross_cleaning]            
+        topjet_cc = jet_topjets.mask[cross_cleaning]            
 
         
         # ------
         # Topjet identification
         # ------
         good_top_mass = (
-            (fatjet_cc.mass > top_low_mass) 
-            & (fatjet_cc.mass < top_up_mass) 
+            (topjet_cc.mass > top_low_mass) 
+            & (topjet_cc.mass < top_up_mass) 
         )
         
         
-        tops = fatjet_cc.mask[good_top_mass]
+        tops = topjet_cc.mask[good_top_mass]
         mask_final = ak.fill_none(ak.firsts(good_top_mass), False)
         top = ak.fill_none(ak.firsts(tops.mass), 0)
         
@@ -834,7 +828,7 @@ class topXfinder:
         initial_mask = (
             (ak.num(self.bjets) == 1)
             & (ak.num(self.jets) > 0)
-            & (ak.num(self.fatjets) == 0)
+            & (ak.num(self.topjets) == 0)
             & (ak.num(self.wjets) == 1)
         )
         
@@ -915,7 +909,7 @@ class topXfinder:
         initial_mask = (
             (ak.num(self.bjets) == 2)
             & (ak.num(self.jets) == 0)
-            & (ak.num(self.fatjets) > 0)
+            & (ak.num(self.topjets) > 0)
             & (ak.num(self.wjets) == 1)
         )
         
@@ -1001,7 +995,7 @@ class topXfinder:
         initial_mask = ( 
             (ak.num(self.bjets) == 1)
             & (ak.num(self.jets) > 2)
-            & (ak.num(self.fatjets) == 0)
+            & (ak.num(self.topjets) == 0)
             & (ak.num(self.wjets) == 0)
         )     
         
@@ -1072,5 +1066,3 @@ class topXfinder:
         
         
         return top, mask_final  
-
- 

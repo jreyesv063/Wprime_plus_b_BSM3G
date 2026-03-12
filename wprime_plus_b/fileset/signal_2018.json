@@ -25,8 +25,7 @@
     "/store/user/crendonh/Wpb_TauNu_M300/RunIISummer20UL18_NanoAODv9_Wpb_TauNu_M300/251126_023439/0000/NanoAODv9_23.root",
     "/store/user/crendonh/Wpb_TauNu_M300/RunIISummer20UL18_NanoAODv9_Wpb_TauNu_M300/251126_023439/0000/NanoAODv9_24.root",                            
     "/store/user/crendonh/Wpb_TauNu_M300/RunIISummer20UL18_NanoAODv9_Wpb_TauNu_M300/251126_023439/0000/NanoAODv9_25.root" 
-  ]
-,
+  ],
 "SignalTau_400GeV": [
     "/store/user/crendonh/Wpb_TauNu_M400/RunIISummer20UL18_NanoAODv9_Wpb_TauNu_M400/251125_183154/0000/NanoAODv9_1.root",
     "/store/user/crendonh/Wpb_TauNu_M400/RunIISummer20UL18_NanoAODv9_Wpb_TauNu_M400/251125_183154/0000/NanoAODv9_2.root",
@@ -53,8 +52,7 @@
     "/store/user/crendonh/Wpb_TauNu_M400/RunIISummer20UL18_NanoAODv9_Wpb_TauNu_M400/251125_183154/0000/NanoAODv9_23.root",
     "/store/user/crendonh/Wpb_TauNu_M400/RunIISummer20UL18_NanoAODv9_Wpb_TauNu_M400/251125_183154/0000/NanoAODv9_24.root",
     "/store/user/crendonh/Wpb_TauNu_M400/RunIISummer20UL18_NanoAODv9_Wpb_TauNu_M400/251125_183154/0000/NanoAODv9_25.root"
-]
-,
+],
 "SignalTau_600GeV": [
     "/store/user/crendonh/Wpb_TauNu_M600/RunIISummer20UL18_NanoAODv9_Wpb_TauNu_M600/251127_200610/0000/NanoAODv9_1.root",
     "/store/user/crendonh/Wpb_TauNu_M600/RunIISummer20UL18_NanoAODv9_Wpb_TauNu_M600/251127_200610/0000/NanoAODv9_2.root",
@@ -81,8 +79,7 @@
     "/store/user/crendonh/Wpb_TauNu_M600/RunIISummer20UL18_NanoAODv9_Wpb_TauNu_M600/251127_200610/0000/NanoAODv9_23.root",
     "/store/user/crendonh/Wpb_TauNu_M600/RunIISummer20UL18_NanoAODv9_Wpb_TauNu_M600/251127_200610/0000/NanoAODv9_24.root",
     "/store/user/crendonh/Wpb_TauNu_M600/RunIISummer20UL18_NanoAODv9_Wpb_TauNu_M600/251127_200610/0000/NanoAODv9_25.root"
-]
-,
+],
 "SignalTau_750GeV": [
     "/store/user/crendonh/Wpb_TauNu_M750/RunIISummer20UL18_NanoAODv9_Wpb_TauNu_M750/251126_023417/0000/NanoAODv9_1.root",
     "/store/user/crendonh/Wpb_TauNu_M750/RunIISummer20UL18_NanoAODv9_Wpb_TauNu_M750/251126_023417/0000/NanoAODv9_2.root",
@@ -109,8 +106,7 @@
     "/store/user/crendonh/Wpb_TauNu_M750/RunIISummer20UL18_NanoAODv9_Wpb_TauNu_M750/251126_023417/0000/NanoAODv9_23.root",
     "/store/user/crendonh/Wpb_TauNu_M750/RunIISummer20UL18_NanoAODv9_Wpb_TauNu_M750/251126_023417/0000/NanoAODv9_24.root",
     "/store/user/crendonh/Wpb_TauNu_M750/RunIISummer20UL18_NanoAODv9_Wpb_TauNu_M750/251126_023417/0000/NanoAODv9_25.root"
-]
-,
+],
 "SignalTau_1000GeV": [
     "/store/user/crendonh/Wpb_TauNu_M1000/RunIISummer20UL18_NanoAODv9_Wpb_TauNu_M1000/251127_135251/0000/NanoAODv9_1.root",
     "/store/user/crendonh/Wpb_TauNu_M1000/RunIISummer20UL18_NanoAODv9_Wpb_TauNu_M1000/251127_135251/0000/NanoAODv9_2.root",
@@ -137,8 +133,7 @@
     "/store/user/crendonh/Wpb_TauNu_M1000/RunIISummer20UL18_NanoAODv9_Wpb_TauNu_M1000/251127_135251/0000/NanoAODv9_23.root",
     "/store/user/crendonh/Wpb_TauNu_M1000/RunIISummer20UL18_NanoAODv9_Wpb_TauNu_M1000/251127_135251/0000/NanoAODv9_24.root",
     "/store/user/crendonh/Wpb_TauNu_M1000/RunIISummer20UL18_NanoAODv9_Wpb_TauNu_M1000/251127_135251/0000/NanoAODv9_25.root"
-]
-,
+],
 "SignalTau_1500GeV": [
     "/store/user/crendonh/Wpb_TauNu_M1500/RunIISummer20UL18_NanoAODv9_Wpb_TauNu_M1500/251211_135331/0000/NanoAODv9_1.root",
     "/store/user/crendonh/Wpb_TauNu_M1500/RunIISummer20UL18_NanoAODv9_Wpb_TauNu_M1500/251211_135331/0000/NanoAODv9_2.root",
@@ -165,8 +160,7 @@
     "/store/user/crendonh/Wpb_TauNu_M1500/RunIISummer20UL18_NanoAODv9_Wpb_TauNu_M1500/251211_135331/0000/NanoAODv9_23.root",
     "/store/user/crendonh/Wpb_TauNu_M1500/RunIISummer20UL18_NanoAODv9_Wpb_TauNu_M1500/251211_135331/0000/NanoAODv9_24.root",
     "/store/user/crendonh/Wpb_TauNu_M1500/RunIISummer20UL18_NanoAODv9_Wpb_TauNu_M1500/251211_135331/0000/NanoAODv9_25.root"
-]
-,
+],
 "SignalTau_2000GeV": [
     "/store/user/crendonh/Wpb_TauNu_M2000/RunIISummer20UL18_NanoAODv9_Wpb_TauNu_M2000/251203_151618/0000/NanoAODv9_1.root",
     "/store/user/crendonh/Wpb_TauNu_M2000/RunIISummer20UL18_NanoAODv9_Wpb_TauNu_M2000/251203_151618/0000/NanoAODv9_2.root",
@@ -193,8 +187,7 @@
     "/store/user/crendonh/Wpb_TauNu_M2000/RunIISummer20UL18_NanoAODv9_Wpb_TauNu_M2000/251203_151618/0000/NanoAODv9_23.root",
     "/store/user/crendonh/Wpb_TauNu_M2000/RunIISummer20UL18_NanoAODv9_Wpb_TauNu_M2000/251203_151618/0000/NanoAODv9_24.root",
     "/store/user/crendonh/Wpb_TauNu_M2000/RunIISummer20UL18_NanoAODv9_Wpb_TauNu_M2000/251203_151618/0000/NanoAODv9_25.root"
-]
-,
+],
 "SignalTau_3000GeV": [
     "/store/user/crendonh/Wpb_TauNu_M3000/RunIISummer20UL18_NanoAODv9_Wpb_TauNu_M3000/251203_151703/0000/NanoAODv9_1.root",
     "/store/user/crendonh/Wpb_TauNu_M3000/RunIISummer20UL18_NanoAODv9_Wpb_TauNu_M3000/251203_151703/0000/NanoAODv9_2.root",

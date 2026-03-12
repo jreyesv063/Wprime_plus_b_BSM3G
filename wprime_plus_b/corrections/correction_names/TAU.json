@@ -1,0 +1,57 @@
+{
+    "CMS_fake_t_DeepTau_VSe": {
+        "2016APV": "DeepTau2017v2p1VSe",
+        "2016": "DeepTau2017v2p1VSe",
+        "2017": "DeepTau2017v2p1VSe",
+        "2018": "DeepTau2017v2p1VSe",
+        "2022_pre": "DeepTau2018v2p5VSe",
+        "2022_post": "DeepTau2018v2p5VSe",
+        "2023_pre": "DeepTau2018v2p5VSe",
+        "2023_post": "DeepTau2018v2p5VSe",
+        "2024": "DeepTau2018v2p5VSe"
+    },
+    "CMS_fake_t_DeepTau_VSmu": {
+        "2016APV": "DeepTau2017v2p1VSmu",
+        "2016": "DeepTau2017v2p1VSmu",
+        "2017": "DeepTau2017v2p1VSmu",
+        "2018": "DeepTau2017v2p1VSmu",
+        "2022_pre": "DeepTau2018v2p5VSmu",
+        "2022_post": "DeepTau2018v2p5VSmu",
+        "2023_pre": "DeepTau2018v2p5VSmu",
+        "2023_post": "DeepTau2018v2p5VSmu",
+        "2024": "DeepTau2018v2p5VSmu"
+    },
+    "CMS_fake_t_DeepTau_VSjet": {
+        "2016APV": "DeepTau2017v2p1VSjet",
+        "2016": "DeepTau2017v2p1VSjet",
+        "2017": "DeepTau2017v2p1VSjet",
+        "2018": "DeepTau2017v2p1VSjet",
+        "2022_pre": "DeepTau2018v2p5VSjet",
+        "2022_post": "DeepTau2018v2p5VSjet",
+        "2023_pre": "DeepTau2018v2p5VSjet",
+        "2023_post": "DeepTau2018v2p5VSjet",
+        "2024": "DeepTau2018v2p5VSjet"
+    },
+    "CMS_scale_t_DeepTau": {
+        "2016APV": "tau_energy_scale",
+        "2016": "tau_energy_scale",
+        "2017": "tau_energy_scale",
+        "2018": "tau_energy_scale",
+        "2022_pre": "tau_energy_scale",
+        "2022_post": "tau_energy_scale",
+        "2023_pre": "tau_energy_scale",
+        "2023_post": "tau_energy_scale",
+        "2024":  "tau_energy_scale" 
+    },
+    "CMS_trig_t_ditau": {
+        "2016APV": "tau_trigger",
+        "2016": "tau_trigger",
+        "2017": "tau_trigger",
+        "2018": "tau_trigger",
+        "2022_pre": "tau_trigger",
+        "2022_post": "tau_trigger",
+        "2023_pre": "tau_trigger",
+        "2023_post": "tau_trigger",
+        "2024": "tau_trigger"
+    }
+}

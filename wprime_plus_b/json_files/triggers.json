@@ -1,109 +1,339 @@
 {
-   "2016APV":{
-      "ele":{
-         "wp80iso":[
-            "Ele27_WPTight_Gsf",
-            "Photon175"
-         ],
-         "wp90iso":[
-            "Ele27_WPTight_Gsf",
-            "Photon175"
-         ]
-      },
-      "mu":{
-         "Tight":[
-            "IsoMu24",
-            "IsoTkMu24"
-         ],
-         "Highpt":[
-            "Mu50",
-            "OldMu100",
-            "TkMu100"
-         ]
-      },
-      "tau": ["PFMETNoMu120_PFMHTNoMu120_IDTight"]
-   },
-   "2016":{
-      "ele":{
-         "wp80iso":[
-            "Ele27_WPTight_Gsf",
-            "Photon175"
-         ],
-         "wp90iso":[
-            "Ele27_WPTight_Gsf",
-            "Photon175"
-         ]
-      },
-      "mu":{
-         "Tight":[
-            "IsoMu24",
-            "IsoTkMu24"
-         ],
-         "Highpt":[
-            "Mu50",
-            "OldMu100",
-            "TkMu100"
-         ]
-      },
-      "tau": ["PFMETNoMu120_PFMHTNoMu120_IDTight"]
-   },
-   "2017":{
-      "ele":{
-         "wp80iso":[
-            "Ele35_WPTight_Gsf",
-             "Photon200"
-         ],
-         "wp90iso":[
-            "Ele35_WPTight_Gsf",
-             "Photon200"
-         ]
-      },
-      "mu":{
-         "Tight":[
-            "IsoMu27"
-         ],
-         "Highpt":[
-            "Mu50",
-            "OldMu100",
-            "TkMu100"
-         ]
-      },
-      "tau": [
-         "PFMETNoMu120_PFMHTNoMu120_IDTight"
-      ],
-      "ditau":[
-         "DoubleTightChargedIsoPFTau35_Trk1_TightID_eta2p1_Reg",
-         "DoubleMediumChargedIsoPFTau40_Trk1_TightID_eta2p1_Reg",
-         "DoubleTightChargedIsoPFTau40_Trk1_eta2p1_Reg"
-      ]
-   },
-   "2018":{
-      "ele":{
-         "wp80iso":[
-            "Ele32_WPTight_Gsf"
-         ],
-         "wp90iso":[
-            "Ele32_WPTight_Gsf"
-         ]
-      },
-      "mu":{
-         "Tight":[
-            "IsoMu24"
-         ],
-         "Highpt":[
-            "Mu50",
-            "OldMu100",
-            "TkMu100"
-         ]
-      },
-      "tau": [
-         "PFMETNoMu120_PFMHTNoMu120_IDTight"
-      ],
-      "ditau": [
-         "DoubleTightChargedIsoPFTau35_Trk1_TightID_eta2p1_Reg",
-         "DoubleMediumChargedIsoPFTau40_Trk1_TightID_eta2p1_Reg",
-         "DoubleTightChargedIsoPFTau40_Trk1_eta2p1_Reg",
-         "DoubleMediumChargedIsoPFTauHPS35_Trk1_eta2p1_Reg"
-      ]
-   }
+    "HLT_names": {
+        "2016APV": {
+            "ele": [
+                "Ele27_WPTight_Gsf", 
+                "Photon175"
+            ],
+            "mu": [
+                "IsoMu24",
+                "IsoTkMu24"
+            ],
+            "dimuon": [
+                "IsoMu24",
+                "IsoTkMu24"
+            ],
+            "tau": [
+                "PFMETNoMu120_PFMHTNoMu120_IDTight"
+            ],
+            "ditau": [
+                "DoubleTightChargedIsoPFTau35_Trk1_TightID_eta2p1_Reg",
+                "DoubleMediumChargedIsoPFTau40_Trk1_TightID_eta2p1_Reg",
+                "DoubleTightChargedIsoPFTau40_Trk1_eta2p1_Reg",
+                "DoubleMediumChargedIsoPFTauHPS35_Trk1_eta2p1_Reg"
+            ],
+            "muon_highPt": [
+                "Mu50",
+                "TkMu50"
+            ]
+       },
+       "2016": {
+            "ele": [
+                "Ele27_WPTight_Gsf", 
+                "Photon175"
+            ],
+            "mu": [
+                "IsoMu24",
+                "IsoTkMu24"
+            ],
+            "dimuon": [
+                "IsoMu24",
+                "IsoTkMu24"
+            ],           
+            "tau": [
+                "PFMETNoMu120_PFMHTNoMu120_IDTight"
+            ],
+            "ditau": [
+                "DoubleTightChargedIsoPFTau35_Trk1_TightID_eta2p1_Reg",
+                "DoubleMediumChargedIsoPFTau40_Trk1_TightID_eta2p1_Reg",
+                "DoubleTightChargedIsoPFTau40_Trk1_eta2p1_Reg",
+                "DoubleMediumChargedIsoPFTauHPS35_Trk1_eta2p1_Reg"            
+            ],
+            "muon_highPt": [
+                "Mu50",
+                "TkMu50"
+            ]
+        },
+        "2017": {
+            "ele": [
+                "Ele35_WPTight_Gsf",
+                "Photon200"
+            ],
+            "mu": [
+                "IsoMu27"
+            ],
+            "dimuon": [
+                "IsoMu27"
+            ],            
+            "tau": [
+                "PFMETNoMu120_PFMHTNoMu120_IDTight"
+            ],
+            "ditau": [
+                "DoubleTightChargedIsoPFTau35_Trk1_TightID_eta2p1_Reg",
+                "DoubleMediumChargedIsoPFTau40_Trk1_TightID_eta2p1_Reg",
+                "DoubleTightChargedIsoPFTau40_Trk1_eta2p1_Reg",
+                "DoubleMediumChargedIsoPFTauHPS35_Trk1_eta2p1_Reg"
+            ],
+            "muon_highPt": [
+                "Mu50",
+                "TkMu100",
+                "OldMu100"
+            ]
+        },
+        "2018": {
+            "ele": [
+                "Ele32_WPTight_Gsf"
+            ],
+            "mu": [
+                "IsoMu24"
+            ],
+            "dimuon": [
+                "IsoMu24"
+            ],             
+            "tau": [
+                "PFMETNoMu120_PFMHTNoMu120_IDTight"
+            ],
+            "ditau": [
+                "DoubleTightChargedIsoPFTau35_Trk1_TightID_eta2p1_Reg",
+                "DoubleMediumChargedIsoPFTau40_Trk1_TightID_eta2p1_Reg",
+                "DoubleTightChargedIsoPFTau40_Trk1_eta2p1_Reg",
+                "DoubleMediumChargedIsoPFTauHPS35_Trk1_eta2p1_Reg"            
+            ],
+            "muon_highPt": [
+                "Mu50",
+                "TkMu100",
+                "OldMu100"        
+            ]
+        },
+        "2022_pre": {
+            "ele": [
+                "Ele30_WPTight_Gsf"
+            ],
+            "mu": [
+                "IsoMu24"
+            ],
+            "dimuon": [
+                "IsoMu24"
+            ],             
+            "tau": [
+                "PFMETNoMu120_PFMHTNoMu120_IDTight"            
+            ],
+            "ditau": [
+                "DoubleTightChargedIsoPFTau35_Trk1_TightID_eta2p1_Reg",
+                "DoubleMediumChargedIsoPFTau40_Trk1_TightID_eta2p1_Reg",
+                "DoubleTightChargedIsoPFTau40_Trk1_eta2p1_Reg",
+                "DoubleMediumChargedIsoPFTauHPS35_Trk1_eta2p1_Reg"                
+            ],
+            "muon_highPt": [
+                "Mu50",
+                "HighPtTkMu100",
+                "CascadeMu100"
+            ]
+        },
+        "2022_post": {
+            "ele": [
+                "Ele30_WPTight_Gsf"
+            ],
+            "mu": [
+                "IsoMu24"
+            ],
+            "dimuon": [
+                "IsoMu24"
+            ],             
+            "tau": [
+                "PFMETNoMu120_PFMHTNoMu120_IDTight"            
+            ],
+            "ditau": [
+            ],
+            "muon_highPt": [
+                "Mu50",
+                "HighPtTkMu100",
+                "CascadeMu100"            
+            ]
+        },
+        "2023_pre": {
+            "ele": [
+                "Ele30_WPTight_Gsf"
+            ],
+            "mu": [
+                "IsoMu24"
+            ],
+            "dimuon": [
+                "IsoMu24"
+            ],             
+            "tau": [
+                "PFMETNoMu120_PFMHTNoMu120_IDTight"               
+            ],
+            "ditau": [
+                "DoubleTightChargedIsoPFTau35_Trk1_TightID_eta2p1_Reg",
+                "DoubleMediumChargedIsoPFTau40_Trk1_TightID_eta2p1_Reg",
+                "DoubleTightChargedIsoPFTau40_Trk1_eta2p1_Reg",
+                "DoubleMediumChargedIsoPFTauHPS35_Trk1_eta2p1_Reg"                
+            ],
+            "muon_highPt": [
+                "Mu50",
+                "HighPtTkMu100",
+                "CascadeMu100"            
+            ]
+        },
+        "2023_post": {
+            "ele": [
+                "Ele30_WPTight_Gsf"
+            ],
+            "mu": [
+                "IsoMu24"
+            ],
+            "dimuon": [
+                "IsoMu24"
+            ],             
+            "tau": [
+                "PFMETNoMu120_PFMHTNoMu120_IDTight"               
+            ],
+            "ditau": [
+                "DoubleTightChargedIsoPFTau35_Trk1_TightID_eta2p1_Reg",
+                "DoubleMediumChargedIsoPFTau40_Trk1_TightID_eta2p1_Reg",
+                "DoubleTightChargedIsoPFTau40_Trk1_eta2p1_Reg",
+                "DoubleMediumChargedIsoPFTauHPS35_Trk1_eta2p1_Reg"                
+            ],
+            "muon_highPt": [
+                "Mu50",
+                "HighPtTkMu100",
+                "CascadeMu100"            
+            ]
+        },
+        "2024": {
+            "ele": [
+                "Ele30_WPTight_Gsf"            
+            ],
+            "mu": [
+                "IsoMu24"            
+            ],
+            "dimuon": [
+                "IsoMu24"
+            ],             
+            "tau": [
+                "PFMETNoMu120_PFMHTNoMu120_IDTight"                  
+            ],
+            "ditau": [
+                "DoubleTightChargedIsoPFTau35_Trk1_TightID_eta2p1_Reg",
+                "DoubleMediumChargedIsoPFTau40_Trk1_TightID_eta2p1_Reg",
+                "DoubleTightChargedIsoPFTau40_Trk1_eta2p1_Reg",
+                "DoubleMediumChargedIsoPFTauHPS35_Trk1_eta2p1_Reg"                
+            ],
+            "muon_highPt": [
+                "Mu50",
+                "HighPtTkMu100",
+                "CascadeMu100"                  
+            ]
+    
+        }
+    },
+    "trigger_match_run2": {
+        "IsoMu24": {
+          "id": 13,
+          "pt": 22,
+          "filterBits": 8,
+          "delta_r": 0.1
+        },
+        "IsoMu27": {
+          "id": 13,
+          "pt": 25,
+          "filterBits": 8,
+          "delta_r": 0.1
+        },
+        "Mu50": {
+          "id": 13,
+          "pt": 45,
+          "filterBits": 1024,
+          "delta_r": 0.1
+        },
+    
+        "TkMu100": {
+          "id": 13,
+          "pt": 95,
+          "filterBits": 2048,
+          "delta_r": 0.1
+        },
+    
+        "OldMu100": {
+          "id": 13,
+          "pt": 95,
+          "filterBits": 2048,
+          "delta_r": 0.1
+        },
+    
+        "Ele27": {
+          "id": 11,
+          "pt": 25,
+          "filterBits": 2,
+          "delta_r": 0.1
+        },
+    
+        "Ele32": {
+          "id": 11,
+          "pt": 30,
+          "filterBits": 2,
+          "delta_r": 0.1
+        },
+    
+        "Ele35": {
+          "id": 11,
+          "pt": 33,
+          "filterBits": 2,
+          "delta_r": 0.1
+        },
+    
+        "Photon175": {
+          "id": 11,
+          "pt": 170,
+          "filterBits": 8192,
+          "delta_r": 0.1
+        },
+    
+        "Photon200": {
+          "id": 11,
+          "pt": 195,
+          "filterBits": 8192,
+          "delta_r": 0.1
+        }
+    },
+
+    "trigger_match_run3": {
+        "IsoMu24": {
+          "id": 13,
+          "pt": 23,
+          "filterBits": 8,
+          "delta_r": 0.1
+        },  
+        "Mu17_TrkIsoVVL_Mu8_TrkIsoVVL": {
+          "id": 13,
+          "pt": 7,
+          "filterBits": 1,
+          "delta_r": 0.1
+        },
+        "Mu50": {
+          "id": 13,
+          "pt": 45,
+          "filterBits": 1024,
+          "delta_r": 0.1
+        },
+        "Mu100": {
+          "id": 13,
+          "pt": 95,
+          "filterBits": 2048,
+          "delta_r": 0.1
+        },
+        "Ele30": {
+          "id": 11,
+          "pt": 28,
+          "filterBits": 2,
+          "delta_r": 0.1
+        },
+        "Photon200": {
+          "id": 22,
+          "pt": 195,
+          "filterBits": 7,
+          "delta_r": 0.1
+        }
+    }
 }

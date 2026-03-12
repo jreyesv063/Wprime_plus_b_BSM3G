@@ -25,8 +25,8 @@ from wprime_plus_b.processors.zplusc_processor import ZplusCProcessor
 from wprime_plus_b.processors.wplusjets_processor import WplusJetsProcessor
 from wprime_plus_b.processors.top_tagger_processor import TopTaggerProccessor
 from wprime_plus_b.processors.qcd_closure_processor import QCD_closure_Proccessor
-from wprime_plus_b.processors.btag_efficiency_processor import BTagEfficiencyProcessor
-from wprime_plus_b.processors.ctag_efficiency_processor import CTagEfficiencyProcessor
+#from wprime_plus_b.processors.btag_efficiency_processor import BTagEfficiencyProcessor
+#from wprime_plus_b.processors.ctag_efficiency_processor import CTagEfficiencyProcessor
 
 
 
@@ -38,12 +38,12 @@ def main(args):
     # ==================================================
     processors = {
         "ztoll": ZToLLProcessor,
+        "wjets": WjetsProccessor,
         "zplusc": ZplusCProcessor,
-        "btag_eff": BTagEfficiencyProcessor,
-        "ctag_eff": CTagEfficiencyProcessor,
+        #"btag_eff": BTagEfficiencyProcessor,
+        #"ctag_eff": CTagEfficiencyProcessor,
         "top_tagger": TopTaggerProccessor,
         "signal": SignalProccessor,
-        "wjets": WjetsProccessor,
         "qcd_hadronic_closure": QCD_closure_Proccessor,
         "wplusjets": WplusJetsProcessor,
     }
@@ -56,6 +56,7 @@ def main(args):
         "syst",
         "run_systematics",
         "qcd_data_driven",
+        "unblinded",
         "output_folder"
     ]
     processor_kwargs = {k: args[k] for k in processor_args if args[k]}
@@ -86,7 +87,6 @@ def main(args):
     # ======================================================
     #           Load filesets 
     # ======================================================
-    print(">>> Llamando get_filesets")
     # get .json filesets for sample
     filesets = get_filesets(
         sample=args["sample"],
@@ -149,210 +149,60 @@ def main(args):
         # get metadata
         metadata = {"walltime": exec_time}
         metadata.update({"fileset": fileset[sample]})
+
+        # Save cutflows and other metadata
         if "metadata" in out[sample]:
+            # ============================================================
+            #         Save cutflows
+            # ============================================================  
             output_metadata = out[sample]["metadata"]
+            clean_metadata = output_metadata.copy()
 
-            # save top_tagger metadata
-            if args["processor"] in ["top_tagger", "signal", "qcd_hadronic_closure", "wplusjets"]:
-                # Define the common keys and corresponding suffixes
-                all_keys = [
-                    "one_jet_unresolve", "two_jets_unresolve", "two_jets_partially_resolve", 
-                    "three_jets_partially_resolve", "three_jets_resolve", "four_jets_resolve", 
-                    "N_jets_resolve", "N_bjets_resolve", "one_jet_unresolve_gen", 
-                    "two_jets_unresolve_gen", "two_jets_partially_resolve_gen", 
-                    "three_jets_partially_resolve_gen", "three_jets_resolve_gen"
-                ]
+            # Lista de secciones donde puede aparecer weight_statistics
+            sections = ["main", "cr_b", "cr_c", "cr_d"]
 
-                suffixes = ["triggered_raw", "triggered_nevents", "raw", "nevents"]
+            for section in sections:
+                if section in clean_metadata and "weight_statistics" in clean_metadata[section]:
+                    ws = clean_metadata[section].pop("weight_statistics")
 
-                # Función para construir un diccionario de entradas
-                def build_entries_dict(output_metadata, suffix, all_keys):
-                    entries = {}
-                    for key in all_keys:
-                        full_key = f"{key}_{suffix}"
-                        if full_key in output_metadata:
-                            entries[key] = float(output_metadata[full_key])
-                    return entries
+                    # Convertimos cada estadística a string
+                    for weight, statistics in ws.items():
+                        ws[weight] = str(statistics)
 
-                # Generar los diccionarios de entradas dinámicamente
-                top_tagger_triggered_raw_entries = build_entries_dict(output_metadata, "triggered_raw", all_keys)
-                top_tagger_triggered_raw_entries["total"] = float(output_metadata.get("Total_triggered_raw", 0.0))
+                    # Guardamos en metadata de forma segura
+                    clean_metadata.setdefault(section, {})["weight_statistics"] = ws
 
-                top_tagger_triggered_nevents_entries = build_entries_dict(output_metadata, "triggered_nevents", all_keys)
-                top_tagger_triggered_nevents_entries["total"] = float(output_metadata.get("Total_triggered_nevents", 0.0))
+            # Actualizamos el resto de metadata
+            metadata.update(clean_metadata)
 
-                top_tagger_raw_entries = build_entries_dict(output_metadata, "raw", all_keys)
-                top_tagger_raw_entries["total"] = float(output_metadata.get("Total_raw", 0.0))
-
-                top_tagger_entries = build_entries_dict(output_metadata, "nevents", all_keys)
-                top_tagger_entries["total"] = float(output_metadata.get("Total_nevents", 0.0))
-
-                # Actualizar el diccionario de metadata
-                metadata.update({
-                    "top_tagger_triggered_raw": top_tagger_triggered_raw_entries,
-                    "top_tagger_triggered_nevents": top_tagger_triggered_nevents_entries,
-                    "top_tagger_raw": top_tagger_raw_entries,
-                    "top_tagger_nevents": top_tagger_entries
-                })            
-
-            # save metadata
-            if args["processor"] in ["ztoll", "zplusc", "top_tagger", "signal", "wjets", "qcd_hadronic_closure", "wplusjets"]:
-
-                # Step 1: create `main` with baseline info
-                metadata.update({
-                    "main": {
-                        "nominal": {k: str(v) for k, v in output_metadata.get("cutflow", {}).items()},
-                        "raw":     {k: str(v) for k, v in output_metadata.get("cutflow_raw", {}).items()},
-                        "raw_initial_nevents": float(output_metadata["raw_initial_nevents"]),
-                        "raw_final_nevents": float(output_metadata.get("raw_final_nevents", 0.)),
-                        "sumw": float(output_metadata["sumw"]),
-                        "weighted_final_nevents": float(output_metadata.get("weighted_final_nevents", 0.)),
-                        "weight_statistics": {k: str(v) for k, v in output_metadata.get("weight_statistics", {}).items()},
-                    }
-                })
-
-                # Step 2: add extra fields only for non-data samples
-                if args["sample"] not in ["MET", "SingleMuon", "SingleElectron", "Tau"]:
-                    metadata["main"].update({
-                        "sumw_no_object_weights": float(output_metadata["sumw_no_object_weights"]),
-                        "sumw_POG": float(output_metadata["sumw_POG"]),
-                        "sumw_POG_plus_no_trigger": float(output_metadata["sumw_POG_plus_no_trigger"]),
-                    })
 
 
             # ============================================================
             #         Save event selection criteria
             # ============================================================
             # Load event selection criteria
-            with open(f"wprime_plus_b/selections/{args['processor']}/event_selection_criteria.yaml") as f:
+            with open(f"wprime_plus_b/selection_criteria/{args['processor']}/event_selection_criteria.yaml") as f:
                 criteria = yaml.safe_load(f)
 
-            # ------------------------------------------------------------
-            #          Save top tagger selectios on metadata
-            # ------------------------------------------------------------
-            if args["processor"] in ["top_tagger", "signal", "wplusjets", "qcd_hadronic_closure", "ztoll", "zplusc"]:  
-             
-                selections = {
-                    "electron_selection":  criteria["electron"][args["lepton_flavor"]],
-                    "muon_selection": criteria["muon"][args["lepton_flavor"]],
-                    "tau_selection": criteria["tau"][args["lepton_flavor"]],
-                    "bjet_selection": criteria["bjet"][args["lepton_flavor"]],
-                    "cross_cleaning_selection": criteria["cross_cleaning"][args["lepton_flavor"]],
-                    "trigger_selection": criteria["trigger"][args["lepton_flavor"]],
-                }
+            lepton_flavor = args["lepton_flavor"]
+            selection_criteria = {}
 
-                if args["processor"] not in ["ztoll", "zplusc"]:
-                    selections["jet_selection"] = criteria["jet"][args["lepton_flavor"]]                    
-                    selections["fatjet_selection"] = criteria["fatjet"][args["lepton_flavor"]]
-                    selections["wjet_selection"] = criteria["wjet"][args["lepton_flavor"]]
-                    selections["top_tagger_cases"] = criteria["top_tagger"][args["lepton_flavor"]]
-                    selections["met_selection"] =  criteria["met"][args["lepton_flavor"]]
-
-                metadata.update({"selections": selections})
-
-                # Remove duplicates while preserving the original order
-                triggers = list(dict.fromkeys(output_metadata["Triggers"]))
-
-
-                # Update the metadata dictionary with the cleaned triggers list as a string
-                metadata.update({"Triggers": str(triggers)})
-
-
-                if "Triggers_eff" in output_metadata:
-                    triggers_eff = list(dict.fromkeys(output_metadata["Triggers_eff"]))
-                    metadata.update({"Triggers_eff": str(triggers_eff)})
-                else:
-                    metadata.update({"Triggers_eff": "Not activated"})
-
-
-                if args["run_systematics"] == "true" and args["sample"] not in ["MET", "SingleMuon", "SingleElectron", "Tau"]:
-
-                    syst_var_object = [
-                        "muon_Rochester_up", "muon_Rochester_down",
-                        "tau_TES_up", "tau_TES_down",
-                        "jet_JES_up", "jet_JES_up",
-                        "jet_JER_up", "jet_JER_up",
-                        "fatjet_JES_up", "fatjet_JES_up",
-                        "fatjet_JER_up", "fatjet_JER_up",     
-                    ]
-
-                    has_fatjets = output_metadata.get("Are there Fatjets?", False)
-                    # Si no hay fatjets, eliminar sistemáticas relacionadas con fatjets
-                    if not has_fatjets:
-                        syst_var_object = [s for s in syst_var_object if "fatjet" not in s.lower()]
-
-                    cutflow_syst = {}
-
-                    for syst in syst_var_object:
-                        cutflow_syst[syst] = {
-                            "nominal":{k: str(v) for k, v in output_metadata.get(f"cutflow_({syst})", {}).items()}, 
-                            "raw":{k: str(v) for k, v in output_metadata.get(f"cutflow_({syst})_raw", {}).items()}, 
-                        }
-                        metadata["main"]["systematic_variations"] = cutflow_syst
-                    
-
-                if args["qcd_data_driven"] == "true":
-
-                    cutflow_BCD = {}
-                    values_BCD = {}
-                    cr_data_driven = ["cr_b", "cr_c", "cr_d"]
-
-                    for cr in ["cr_b", "cr_c", "cr_d"]:
-                        # Save cutflow
-                        cutflow_BCD[cr] = {
-                            "nominal": {k: str(v) for k, v in output_metadata.get(f"cutflow_{cr}", {}).items()}, 
-                            "raw": {k: str(v) for k, v in output_metadata.get(f"cutflow_{cr}_raw", {}).items()}
-                        }
-                        # Save number of events
-                        values_BCD[cr] = {
-                            "raw_initial_nevents": float(output_metadata["raw_initial_nevents"]),
-                            "raw_final_nevents": float(output_metadata.get(f"raw_final_nevents_{cr}", 0.)),
-                            "sumw": float(output_metadata[f"sumw_{cr}"]),
-                            "weighted_final_nevents": float(output_metadata.get(f"weighted_final_nevents_{cr}", 0.)),
-                        }
-
-                    metadata["BCD"] = {
-                        "cutflow": cutflow_BCD,
-                        "values":  values_BCD,
-                    }
-
-
-                    selections_BCD = {
-                        "QCD_data_driven (CR B)":  criteria["data_driven_qcd_estimation"]["cr_b"][args["lepton_flavor"]],
-                        "QCD_data_driven (CR C)":  criteria["data_driven_qcd_estimation"]["cr_c"][args["lepton_flavor"]],
-                        "QCD_data_driven (CR D)":  criteria["data_driven_qcd_estimation"]["cr_d"][args["lepton_flavor"]]
-                    }
-                    metadata.update({"selections_BCD": selections_BCD})
-
+            for channel, values in criteria.items():
+                # Caso 1: Estructura estándar (muon, electron, tau, jet, cross_cleaning, etc.)
+                if isinstance(values, dict) and lepton_flavor in values:
+                    selection_criteria[channel] = values[lepton_flavor]
                 
-                    if args["run_systematics"] == "true" and args["sample"] not in ["MET", "SingleMuon", "SingleElectron", "Tau"]:
+                # Caso 2: Estructuras anidadas (como data_driven_qcd_estimation)
+                elif isinstance(values, dict):
+                    sub_dict = {}
+                    for sub_channel, sub_values in values.items():
+                        if isinstance(sub_values, dict) and lepton_flavor in sub_values:
+                            sub_dict[sub_channel] = sub_values[lepton_flavor]
+                    
+                    if sub_dict: # Solo lo guardamos si encontramos algo para ese sabor
+                        selection_criteria[channel] = sub_dict
 
-                        syst_var_object = [
-                            "muon_Rochester_up", "muon_Rochester_down",
-                            "met_UNCLUSTERED_up", "met_UNCLUSTERED_down",
-                            "tau_TES_up", "tau_TES_down",
-                            "jet_JES_up", "jet_JES_up",
-                            "jet_JER_up", "jet_JER_up",
-                            "fatjet_JES_up", "fatjet_JES_up",
-                            "fatjet_JER_up", "fatjet_JER_up",     
-                        ]
-
-                        has_fatjets = output_metadata.get("Are there Fatjets?", False)
-                        # Si no hay fatjets, eliminar sistemáticas relacionadas con fatjets
-                        if not has_fatjets:
-                            syst_var_object = [s for s in syst_var_object if "fatjet" not in s.lower()]
-
-                        cutflow_syst_cr = {}
-
-                        for cr in ["cr_b", "cr_c", "cr_d"]:
-                            cutflow_syst_cr[cr] = {}
-                            for syst in syst_var_object:
-                                cutflow_syst_cr[cr][syst] = {
-                                    "nominal":{k: str(v) for k, v in output_metadata.get(f"cutflow_{cr}_({syst})", {}).items()}, 
-                                    "raw":{k: str(v) for k, v in output_metadata.get(f"cutflow_{cr}_({syst})_raw", {}).items()}, 
-                                }
-                        
-                        metadata["BCD"][f"systematic_variations"] =  cutflow_syst_cr                                  
+            metadata["selections"] = selection_criteria
 
 
         # save args to metadata
@@ -375,7 +225,7 @@ if __name__ == "__main__":
         dest="processor",
         type=str,
         default="",
-        help="processor to be used {ttbar, ztoll, zplusc, qcd, trigger_eff, btag_eff, ctag_eff, signal, wjets, qcd_abcd} (default ttbar)",
+        help="processor to be used {ttbar, ztoll, zplusc, trigger_eff, btag_eff, ctag_eff, signal, wjets} (default ttbar)",
     )
     parser.add_argument(
         "--channel",
@@ -490,6 +340,14 @@ if __name__ == "__main__":
         default="false",
         help="Run systematics (true/false)",
      )     
+
+    parser.add_argument(
+        "--unblinded",
+        dest="unblinded",
+        type=str,
+        default="false",
+        help="Use data in SR",
+     )       
 
     parser.add_argument(
         "--output_folder",

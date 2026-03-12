@@ -6,9 +6,9 @@ import awkward as ak
 import importlib.resources
 from typing import Type
 from pathlib import Path
-from .utils import unflat_sf
+from typing import Optional, Union, List
 from coffea.analysis_tools import Weights
-from wprime_plus_b.corrections.utils import pog_years, get_pog_json
+from wprime_plus_b.corrections.utils import pog_years, get_pog_json, unflat_sf
 
 
 """
@@ -44,38 +44,44 @@ class TauCorrector:
         tau_vs_jet: str = "Tight",
         tau_vs_ele: str = "Tight",
         tau_vs_mu: str = "Tight",
-        variation: str = "nominal",
+        tau_mask = None
     ) -> None:
 
 
+        self.tau_mask = tau_mask
         self.weights = weights
         self.year = year
-
-        # ============================================================
-        # Load DeepTau working points
-        # ============================================================
-        with open("wprime_plus_b/json_files/tau_wps.json", "r") as f:
-            taus_wp = json.load(f)
         
-        tau_id_version = "DeepTau2017" if self.year in ["2016APV", "2016", "2017", "2018"] else "DeepTau2018"
-        self.suffix = "2017v2p1" if tau_id_version == "DeepTau2017" else "2018v2p5"
-        self.tau_id_algorithm = f"{tau_id_version}v2p1" if self.year in ["2016APV", "2016", "2017", "2018"] else f"{tau_id_version}v2p5"
-                    
-        self.tau_vs_jet_wp = taus_wp[tau_id_version]["deep_tau_jet"][tau_vs_jet]
-        self.tau_vs_ele_wp = taus_wp[tau_id_version]["deep_tau_electron"][tau_vs_ele]
-        self.tau_vs_mu_wp = taus_wp[tau_id_version]["deep_tau_muon"][tau_vs_mu]
+        # Working points
+        tau_id_version = "DeepTau2017" if self.year in ["2016APV", "2016", "2017", "2018"] else "DeepTau2018"        
+        self.suffix = "2017v2p1" if year in ["2016APV", "2016", "2017", "2018"] else "2018v2p5"
+        
+        # ============================================================
+        # Load tau information
+        # ============================================================
+        with open("wprime_plus_b/json_files/tau.json", "r") as f:
+            taus_info = json.load(f)
 
+       
+        
+        self.tau_vs_jet_wp = taus_info[tau_id_version]["tau_vs_jet"][tau_vs_jet]
+        self.tau_vs_ele_wp = taus_info[tau_id_version]["tau_vs_e"][tau_vs_ele]
+        self.tau_vs_mu_wp = taus_info[tau_id_version]["tau_vs_mu"][tau_vs_mu]
+
+        self.taus_genMatch = taus_info["genPartFlav"] 
+        self.taus_prongs = taus_info["prongs"] 
+        
 
         # flat taus array
         self.taus, self.n = ak.flatten(taus), ak.num(taus)
 
-        # tau transverse momentum and pseudorapidity
+        # tau transverse momentum, pseudorapidity, genPartFlav and decayMode
         self.taus_pt = self.taus.pt
         self.taus_eta = self.taus.eta
-
-        # tau genPartFlav and decayMode
-        self.taus_genMatch = self.taus.genPartFlav
-        self.taus_dm = self.taus.decayMode
+        self.taus_genPartFlav = self.taus.genPartFlav
+        self.taus_decayMode = self.taus.decayMode
+       
+        
         self.taus_wp_jet = getattr(self.taus, f"idDeepTau{self.suffix}VSjet")
         self.taus_wp_e = getattr(self.taus, f"idDeepTau{self.suffix}VSe")  
         self.taus_wp_mu = getattr(self.taus, f"idDeepTau{self.suffix}VSmu")
@@ -87,13 +93,18 @@ class TauCorrector:
         self.tau_vs_mu = tau_vs_mu
 
 
-        self.variation = variation
 
         # define correction set_id
-        self.cset = correctionlib.CorrectionSet.from_file(
-            get_pog_json(json_name="tau", year=self.year)
-        )
+        self.cset = correctionlib.CorrectionSet.from_file(get_pog_json(json_name="tau", year=self.year))
         self.pog_year = pog_years[year]
+
+        # ===========================================================
+        #  Read json file: corrections
+        # ============================================================
+        # Correction name
+        with open("wprime_plus_b/corrections/correction_names/TAU.json", "r") as f:
+            self.case = json.load(f)
+            
         """
         Check: https://github.com/cms-tau-pog/TauFW/blob/43bc39474b689d9712107d53a953b38c3cd9d43e/PicoProducer/python/analysis/ModuleETau.py#L270 
         """
@@ -108,49 +119,47 @@ class TauCorrector:
         evaluate(eta (real),  genmatch (int) , wp (string), syst (string))
 
         """
+
+        correction_name = self.case["CMS_fake_t_DeepTau_VSe"][self.year]
+
+        # =============================================================
+        #  Tau candidates
+        # =============================================================           
         # tau pseudorapidity range: [0, 2.3)
         tau_eta_mask = np.abs(self.taus_eta < 2.3) 
         # GenMatch = 0 "unmatched", 1 "electron";
-        tau_genMatch_mask = (self.taus_genMatch == 1) | (self.taus_genMatch == 3)
+        tau_genMatch_mask = (self.taus_genPartFlav == self.taus_genMatch["prompt_electron"]) | (self.taus_genPartFlav == self.taus_genMatch["tau_e_decay"])
         # Only taus passing the wp stablished
-        tau_wp_mask = self.taus_wp_e > self.tau_vs_ele_wp
+        tau_wp_mask = (self.taus_wp_e >= self.tau_vs_ele_wp)
 
         in_tau_mask = tau_genMatch_mask & tau_wp_mask  & tau_eta_mask
         # get 'in-limits' taus
         in_limit_taus = self.taus.mask[in_tau_mask]
-        # get pt and eta
+
+        
         # fill Nones with some 'in-limit' value
         tau_eta = ak.fill_none(in_limit_taus.eta, 0)
         tau_genMatch = ak.fill_none(in_limit_taus.genPartFlav, 0.0)
-        # wp
-        wp = self.tau_vs_ele
-        # syst
-        syst = "nom"
-        # get nominal scale factors
-        nominal_sf = unflat_sf(
-            self.cset[f"{self.tau_id_algorithm}VSe"].evaluate(tau_eta, tau_genMatch, wp, "nom"),
-            in_tau_mask,
-            self.n,
-        )
 
-        # get 'up' and 'down' scale factors
-        up_sf = unflat_sf(
-            self.cset[f"{self.tau_id_algorithm}VSe"].evaluate(
-                tau_eta, tau_genMatch, wp, "up"
-            ),
-            in_tau_mask,
-            self.n,
-        )
-        down_sf = unflat_sf(
-            self.cset[f"{self.tau_id_algorithm}VSe"].evaluate(
-                tau_eta, tau_genMatch, wp, "down"
-            ),
-            in_tau_mask,
-            self.n,
-        )
+
+        # =============================================================
+        # Correction: event-level weight (nominal/up/down)
+        # =============================================================        
+        # Get nominal, up, and down scale factors
+        nominal_sf, up_sf, down_sf = [
+            unflat_sf(self.cset[correction_name].evaluate(tau_eta, tau_genMatch, self.tau_vs_ele, v), in_tau_mask, self.n)
+            for v in ("nom", "up", "down")
+        ]
+
+
+        nominal_sf, up_sf, down_sf = [
+            ak.where(self.tau_mask, sf, 1.0)
+            for sf in (nominal_sf, up_sf, down_sf)
+        ]
+
         # add scale factors to weights container
         self.weights.add(
-            name=f"CMS_fake_t_DeepTau{self.suffix}_VSe",
+            name=f"CMS_fake_t_DeepTau{self.suffix}_VSe_{self.year}",
             weight=nominal_sf,
             weightUp=up_sf,
             weightDown=down_sf,
@@ -168,55 +177,57 @@ class TauCorrector:
         evaluate(eta (real),  genmatch (int) , wp (string), syst (string))
 
         """
+
+        correction_name = self.case["CMS_fake_t_DeepTau_VSmu"][self.year]
+        
+        # =============================================================
+        #  Tau candidates
+        # =============================================================     
         # tau pseudorapidity range: [0, 2.3)
         tau_eta_mask = np.abs(self.taus_eta < 2.3) 
         # GenMatch = 0 "unmatched", 2 "muon";
-        tau_genMatch_mask = (self.taus_genMatch == 2) | (self.taus_genMatch == 4)
+        tau_genMatch_mask = (self.taus_genPartFlav == self.taus_genMatch["prompt_muon"]) | (self.taus_genPartFlav == self.taus_genMatch["tau_mu_decay"])
+        
         # Only taus passing the wp stablished
-        tau_wp_mask = self.taus_wp_mu > self.tau_vs_mu_wp
+        tau_wp_mask = (self.taus_wp_mu >= self.tau_vs_mu_wp)
         in_tau_mask = tau_genMatch_mask & tau_wp_mask  & tau_eta_mask 
         # get 'in-limits' taus
         in_limit_taus = self.taus.mask[in_tau_mask]
-        # get pt and etaF
+
         # fill Nones with some 'in-limit' value
         tau_eta = ak.fill_none(in_limit_taus.eta, 0)
         tau_genMatch = ak.fill_none(in_limit_taus.genPartFlav, 0.0)
-        # wp
-        wp = self.tau_vs_mu
-        # get nominal scale factors
-        nominal_sf = unflat_sf(
-            self.cset[f"{self.tau_id_algorithm}VSmu"].evaluate(tau_eta, tau_genMatch, wp, "nom"),
-            in_tau_mask,
-            self.n,
-        )
-        # get 'up' and 'down' scale factors
-        up_sf = unflat_sf(
-            self.cset[f"{self.tau_id_algorithm}VSmu"].evaluate(
-                tau_eta, tau_genMatch, wp, "up"
-            ),
-            in_tau_mask,
-            self.n,
-        )
-        down_sf = unflat_sf(
-            self.cset[f"{self.tau_id_algorithm}VSmu"].evaluate(
-                tau_eta, tau_genMatch, wp, "down"
-            ),
-            in_tau_mask,
-            self.n,
-        )
+
+
+        # =============================================================
+        # Correction: event-level weight (nominal/up/down)
+        # =============================================================        
+        # Get nominal, up, and down scale factors
+        nominal_sf, up_sf, down_sf = [
+            unflat_sf(self.cset[correction_name].evaluate(tau_eta, tau_genMatch, self.tau_vs_mu, v), in_tau_mask, self.n)
+            for v in ("nom", "up", "down")
+        ]
+
+
+        nominal_sf, up_sf, down_sf = [
+            ak.where(self.tau_mask, sf, 1.0)
+            for sf in (nominal_sf, up_sf, down_sf)
+        ]        
+        
         # add scale factors to weights container
         self.weights.add(
-            name=f"CMS_fake_t_DeepTau{self.suffix}_VSmu",
+            name=f"CMS_fake_t_DeepTau{self.suffix}_VSmu_{self.year}",
             weight=nominal_sf,
             weightUp=up_sf,
             weightDown=down_sf,
         )
 
 
-    # By default, use the pT-dependent SFs with the 'pt' flag
-    # pt = (-inf, inf); dm = 0, 1, 2, 10, 11; genmatch = 0, 1, 2, 3, 4, 5, 6; wp = Loose, Medium, Tight, VTight; wp_VSe = Tight, VVLoose; syst = down, nom, up; flag = dm, pt
 
-    def add_id_weight_DeepTau2017v2p1VSjet(self, flag: str = "pt"):
+    def add_id_weight_DeepTau2017v2p1VSjet(
+        self, 
+        flag: str = "pt"
+        ):
         """
         https://github.com/LEAF-HQ/LEAF/blob/d22cc55594a4b16d061c25dbf7ecdec04eedbc34/Analyzer/src/TauScaleFactorApplicatorJson.cc#L28
 
@@ -228,21 +239,28 @@ class TauCorrector:
          - getmatch: 0 or 6 = unmatched or jet, 1 or 3 = electron, 2 or 4 = muon, 5 = real tau
          - flag: We have worked in 'pt' = pT-dependent
 
+        By default, use the pT-dependent SFs with the 'pt' flag
+        pt = (-inf, inf); dm = 0, 1, 2, 10, 11; genmatch = 0, 1, 2, 3, 4, 5, 6; wp = Loose, Medium, Tight, VTight; wp_VSe = Tight, VVLoose; syst = down, nom, up; flag = dm, pt
+        
         """
+
+        correction_name = self.case["CMS_fake_t_DeepTau_VSjet"][self.year]
+        
+        # =============================================================
+        #  Tau candidates
+        # =============================================================         
         # tau decayMode
-        tau_dm_mask = (
-            (self.taus_dm == 0)
-            | (self.taus_dm == 1)
-            | (self.taus_dm == 2)
-            | (self.taus_dm == 10)
-            | (self.taus_dm == 11)
-        )
+        tau_dm_mask = ak.zeros_like(self.taus_decayMode, dtype=bool)
+        for decay_mode in self.taus_prongs["1or3prongs"]:
+            tau_dm_mask = tau_dm_mask | (self.taus_decayMode == decay_mode)
+
         # GenMatch = 0 or 6 = unmatched or jet, 1 or 3 = electron, 2 or 4 = muon, 5 = real tau
-        tau_genMatch_mask = self.taus_genMatch == 5
+        tau_genMatch_mask = (self.taus_genPartFlav == self.taus_genMatch["hadronic_tau_decay"])
+        
         # Only taus passing the wp stablished
         tau_wp_mask = (
-            (self.taus_wp_jet > self.tau_vs_jet_wp)  # vs Jet mask
-            & (self.taus_wp_jet > self.tau_vs_ele_wp) # vs Ele mask
+            (self.taus_wp_jet >= self.tau_vs_jet_wp)  # vs Jet mask
+            & (self.taus_wp_jet >= self.tau_vs_ele_wp) # vs Ele mask
         )
         in_tau_mask = tau_dm_mask & tau_genMatch_mask & tau_wp_mask
         # get 'in-limits' taus
@@ -252,64 +270,81 @@ class TauCorrector:
         tau_pt = ak.fill_none(in_limit_taus.pt, 0)
         tau_dm = ak.fill_none(in_limit_taus.decayMode, 0)
         tau_genMatch = ak.fill_none(in_limit_taus.genPartFlav, 0.0)
-        # wp
-        wp = self.tau_vs_jet
-        # wp_VSe
-        wp_VSe = self.tau_vs_ele
-        # get nominal scale factors
-        nominal_sf = unflat_sf(
-            self.cset[f"{self.tau_id_algorithm}VSjet"].evaluate(
-                tau_pt, tau_dm, tau_genMatch, wp, wp_VSe, "default", flag
-            ),
-            in_tau_mask,
-            self.n,
-        )
-        # get 'up' and 'down' scale factors
-        up_sf = unflat_sf(
-            self.cset[f"{self.tau_id_algorithm}VSjet"].evaluate(
-                tau_pt, tau_dm, tau_genMatch, wp, wp_VSe, "up", flag
-            ),
-            in_tau_mask,
-            self.n,
-        )
-        down_sf = unflat_sf(
-            self.cset[f"{self.tau_id_algorithm}VSjet"].evaluate(
-                tau_pt, tau_dm, tau_genMatch, wp, wp_VSe, "down", flag
-            ),
-            in_tau_mask,
-            self.n,
-        )
+
+
+        # =============================================================
+        # Correction: event-level weight (nominal/up/down)
+        # =============================================================        
+        # Get nominal, up, and down scale factors
+        nominal_sf, up_sf, down_sf = [
+            unflat_sf(self.cset[correction_name].evaluate(tau_pt, tau_dm, tau_genMatch, self.tau_vs_jet, self.tau_vs_ele, v, flag), in_tau_mask, self.n)
+            for v in ("default", "up", "down")
+        ]
+
+        
+        nominal_sf, up_sf, down_sf = [
+            ak.where(self.tau_mask, sf, 1.0)
+            for sf in (nominal_sf, up_sf, down_sf)
+        ]
+        
         # add scale factors to weights container
         self.weights.add(
-            name=f"CMS_fake_t_DeepTau{self.suffix}_VSjet",
+            name=f"CMS_fake_t_DeepTau{self.suffix}_VSjet_{self.year}",
             weight=nominal_sf,
             weightUp=up_sf,
             weightDown=down_sf,
         )
         
 
-        # By default, use the pT-dependent SFs with the 'pt' flag
-        # pt = [24.59953, inf); dm = -1, 0, 1, 10; trigtype = 'ditau', 'etau', 'mutau', 'ditauvbf; wp "DeepTauVSjet"= Loose, Medium, Tight, VLoose, VTight, VVLoose, VVTight, VVVLoose; corrtype =  eff_data, eff_mc, sf;  syst = down, nom, up
-
-    def add_id_weight_diTauTrigger(
-        self, mask_trigger, trigger: str = "ditau", info: str = "sf", dm: int = -1
-    ):
+    #def add_id_weight_diTauTrigger(self, mask_trigger, trigger: str = "ditau", info: str = "sf", dm: int = -1, trigger_name: str | list[str] = "HLT", events: ak.Array | None = None):
+    def add_ditau_trigger_weight(
+            self, 
+            trigger_mask,
+            trigger_match_mask,
+            trigger: str = "ditau", 
+            info: str = "sf", 
+            dm: int = -1
+        ):
         """
-            Tau Trigger SFs and efficiencies for {0} ditau, etau, mutau or ditauvbf triggers. Ditauvbf
+        Computes and stores CMS Tau Trigger scale factors (nominal/up/down) for diTau-based triggers.
+        
+        Tau Trigger SFs and efficiencies for {0} ditau, etau, mutau or ditauvbf triggers. Ditauvbf
+        
         trigger SF is only available for 2017 and 2018. To get the usual DM-specific SF's, specify the
         DM, otherwise set DM to -1 to get the inclusive SFs. Default corrections are set to SF's, if you
         require the input efficiencies, you can specify so in the corrtype input variable
 
+        pt = [24.59953, inf); dm = -1, 0, 1, 10; trigtype = 'ditau', 'etau', 'mutau', 'ditauvbf; wp "DeepTauVSjet"= Loose, Medium, Tight, VLoose, VTight, VVLoose, VVTight, VVVLoose; corrtype =  eff_data, eff_mc, sf;  syst = down, nom, up
+
+
+        Run 2: https://github.com/cms-tau-pog/TauTriggerSFs/tree/run2_SFs
+        
+
         """
+
+        correction_name = self.case["CMS_trig_t_ditau"][self.year]
+
+        # =============================================================
+        # Trigger mask: Only events that pass the selected trigger
+        # =============================================================
+        masks = [events.HLT[trig] for trig in trigger_name if trig in events.HLT.fields]
+        if masks:
+            mask_reference_trigger = ak.any(ak.Array(masks), axis=0)
+        else:
+            # If no matching triggers, return all False
+            mask_reference_trigger = ak.zeros(len(events), dtype=bool)
+        
+        
+        # =============================================================
+        #  Tau candidates
+        # =============================================================            
         # tau pt range: [24.59953, inf]
-        tau_pt_mask = self.taus_pt >= 40
+        tau_pt_mask = (self.taus_pt >= 40)
+
         # tau decayMode
-        tau_dm_mask = (
-            (self.taus_dm == -1)
-            | (self.taus_dm == 0)
-            | (self.taus_dm == 1)
-            | (self.taus_dm == 10)
-        )
+        for decay_mode in self.taus_prongs["trigger_corr"]:
+            tau_dm_mask= tau_dm_mask | (self.taus_decayMode == decay_mode)
+            
         # Only taus passing the wp stablished
         tau_wp_mask = self.taus_wp_jet > self.tau_vs_jet_wp
         tau_mask = tau_pt_mask & tau_dm_mask & tau_wp_mask
@@ -321,36 +356,21 @@ class TauCorrector:
         tau_dm = ak.fill_none(in_limit_taus.decayMode, -1)
         trigtype = trigger
         corrtype = info
-        wp = self.tau_vs_jet
-        # get nominal scale factors
-        sf = unflat_sf(
-            self.cset["tau_trigger"].evaluate(
-                tau_pt, tau_dm, trigtype, wp, corrtype, "nom"
-            ),
-            tau_mask,
-            self.n,
-        )
-        nominal_sf = np.where(mask_trigger, sf, 1.0)
-        # get 'up' and 'down' scale factors
-        up_sf = unflat_sf(
-            self.cset["tau_trigger"].evaluate(
-                tau_pt, tau_dm, trigtype, wp, corrtype, "up"
-            ),
-            tau_mask,
-            self.n,
-        )
-        down_sf = unflat_sf(
-            self.cset["tau_trigger"].evaluate(
-                tau_pt, tau_dm, trigtype, wp, corrtype, "down"
-            ),
-            tau_mask,
-            self.n,
-        )
+
+
+        # =============================================================
+        # Correction: event-level weight (nominal/up/down)
+        # =============================================================  
+        # Get nominal, up, and down scale factors
+        nominal_sf, up_sf, down_sf = [
+            unflat_sf(self.cset[correction_name].evaluate(tau_pt, tau_dm, trigtype, self.tau_vs_jet, v), tau_mask, self.n)
+            for v in ("nom", "up", "down")
+        ]
+
         # add scale factors to weights container
         self.weights.add(
-            name=f"CMS_trig_t_ditau_{wp}_eff_mc_{self.year}",
+            name=f"CMS_trig_t_ditau_{self.tau_vs_jet}_eff_mc_{self.year}",
             weight=nominal_sf,
             weightUp=up_sf,
             weightDown=down_sf,
         )
-

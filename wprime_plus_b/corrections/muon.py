@@ -1,11 +1,11 @@
 import json
 import copy
-import correctionlib
 import numpy as np
 import awkward as ak
-import importlib.resources
+import correctionlib
 from typing import Type
 from pathlib import Path
+import importlib.resources
 from .utils import unflat_sf
 from coffea.analysis_tools import Weights
 from wprime_plus_b.corrections.utils import pog_years, get_pog_json
@@ -14,36 +14,11 @@ from wprime_plus_b.corrections.utils import pog_years, get_pog_json
 # https://twiki.cern.ch/twiki/bin/view/CMS/MuonUL2017
 # https://twiki.cern.ch/twiki/bin/view/CMS/MuonUL2018
 
-def get_id_wps(muons):
-    return {
-        # cutbased ID working points
-        "Loose": muons.looseId,
-        "Medium": muons.mediumId,
-        "Tight": muons.tightId,
-    }
-
-def get_iso_wps(muons):
-    return {
-        "Loose": (
-            muons.pfRelIso04_all < 0.25
-            if hasattr(muons, "pfRelIso04_all")
-            else muons.pfRelIso03_all < 0.25
-        ),
-        "Medium": (
-            muons.pfRelIso04_all < 0.20
-            if hasattr(muons, "pfRelIso04_all")
-            else muons.pfRelIso03_all < 0.20
-        ),
-        "Tight": (
-            muons.pfRelIso04_all < 0.15
-            if hasattr(muons, "pfRelIso04_all")
-            else muons.pfRelIso03_all < 0.15
-        ),
-    }
-
-
 class MuonCorrector:
     """
+
+    Source: https://muon-wiki.docs.cern.ch/guidelines/corrections/?h=l1#l1-trigger-prefiring
+    
     Muon corrector class
 
     Parameters:
@@ -67,9 +42,11 @@ class MuonCorrector:
         muons: ak.Array,
         weights: Type[Weights],
         year: str = "2017",
-        variation: str = "nominal",
         id_wp: str = "Tight",
         iso_wp: str = "Tight",
+        variation: str = "nominal",
+        pt_range: str = "MediumPt",
+        muon_mask = None
     ) -> None:
         self.muons = muons
         self.variation = variation
@@ -83,6 +60,7 @@ class MuonCorrector:
         self.m, self.n = ak.flatten(muons), ak.num(muons)
         
         # weights container
+        self.muon_mask = muon_mask
         self.weights = weights
         
         # define correction set
@@ -92,10 +70,31 @@ class MuonCorrector:
         self.year = year
         self.pog_year = pog_years[year]
 
+        # ===========================================================
+        #  Read json file: corrections
+        # ============================================================
+        # Correction name
+        with open("wprime_plus_b/corrections/correction_names/MUO.json", "r") as f:
+            self.case = json.load(f)[pt_range]
+
+        # ===========================================================
+        #  Read json file: muon id, muon reco
+        # ============================================================
+        # Correction name
+        with open("wprime_plus_b/json_files/muon.json", "r") as f:
+            self.muon_map = json.load(f)
+            
+
     def add_reco_weight(self):
         """
         add muon RECO scale factors to weights container
         """
+        
+        correction_name = self.case["CMS_eff_m_reco"][self.year]
+
+        # =============================================================
+        #  Muon candidates
+        # =============================================================      
         # get muons within SF binning
         muon_pt_mask = self.m.pt >= 40.0
         muon_eta_mask = np.abs(self.m.eta) < 2.4
@@ -105,40 +104,26 @@ class MuonCorrector:
         # get muons pT and abseta (replace None values with some 'in-limit' value)
         muon_pt = ak.fill_none(in_muons.pt, 40.0)
         muon_eta = np.abs(ak.fill_none(in_muons.eta, 0.0))
+
+
+        # =============================================================
+        # Correction: event-level weight (nominal/up/down)
+        # =============================================================         
+        # Get nominal, up, and down scale factors
+        nominal_sf, up_sf, down_sf = [
+            unflat_sf(self.cset[correction_name].evaluate(muon_eta, muon_pt, v), in_muon_mask, self.n)
+            for v in ("nominal", "systup", "systdown")
+        ]
+
+
+        nominal_sf, up_sf, down_sf = [
+            ak.where(self.muon_mask, sf, 1.0)
+            for sf in (nominal_sf, up_sf, down_sf)
+        ]
         
-        # 'id' scale factors names
-        reco_corrections = {
-            "2016APV": "NUM_TrackerMuons_DEN_genTracks", 
-            "2016": "NUM_TrackerMuons_DEN_genTracks",
-            "2017": "NUM_TrackerMuons_DEN_genTracks",
-            "2018": "NUM_TrackerMuons_DEN_genTracks",
-        }
-        # get nominal scale factors
-        nominal_sf = unflat_sf(
-            self.cset[reco_corrections[self.year]].evaluate(
-                muon_eta, muon_pt, "nominal"
-            ),
-            in_muon_mask,
-            self.n,
-        )
-        # get 'up' and 'down' scale factors
-        up_sf = unflat_sf(
-            self.cset[reco_corrections[self.year]].evaluate(
-                muon_eta, muon_pt, "systup"
-            ),
-            in_muon_mask,
-            self.n,
-        )
-        down_sf = unflat_sf(
-            self.cset[reco_corrections[self.year]].evaluate(
-                muon_eta, muon_pt, "systdown"
-            ),
-            in_muon_mask,
-            self.n,
-        )
         # add scale factors to weights container
         self.weights.add(
-            name=f"CMS_eff_m_reco_syst",
+            name=f"CMS_eff_m_reco_syst_{self.year}",
             weight=nominal_sf,
             weightUp=up_sf,
             weightDown=down_sf,
@@ -149,10 +134,16 @@ class MuonCorrector:
         """
         add muon ID scale factors to weights container
         """
+        correction_name = self.case["CMS_eff_id_reco"][self.year][self.id_wp]      
+        
+        # =============================================================
+        #  Muon candidates
+        # =============================================================              
         # get muons that pass the id wp, and within SF binning
         muon_pt_mask = (self.m.pt > 15.0) & (self.m.pt < 199.999)
         muon_eta_mask = np.abs(self.m.eta) < 2.39
-        muon_id_mask = get_id_wps(self.m)[self.id_wp]
+        muon_id_mask = getattr(self.m, self.muon_map['Id'][self.id_wp])     
+        
         in_muon_mask = muon_pt_mask & muon_eta_mask & muon_id_mask
         in_muons = self.m.mask[in_muon_mask]
 
@@ -160,56 +151,24 @@ class MuonCorrector:
         muon_pt = ak.fill_none(in_muons.pt, 15.0)
         muon_eta = np.abs(ak.fill_none(in_muons.eta, 0.0))
 
-        # 'id' scale factors names
-        id_corrections = {
-            "2016APV": {
-                "Loose": "NUM_LooseID_DEN_TrackerMuons",
-                "Medium": "NUM_MediumID_DEN_TrackerMuons",
-                "Tight": "NUM_TightID_DEN_TrackerMuons",
-            },
-            "2016": {
-                "Loose": "NUM_LooseID_DEN_TrackerMuons",
-                "Medium": "NUM_MediumID_DEN_TrackerMuons",
-                "Tight": "NUM_TightID_DEN_TrackerMuons",
-            },
-            "2017": {
-                "Loose": "NUM_LooseID_DEN_TrackerMuons",
-                "Medium": "NUM_MediumID_DEN_TrackerMuons",
-                "Tight": "NUM_TightID_DEN_TrackerMuons",
-            },
-            "2018": {
-                "Loose": "NUM_LooseID_DEN_TrackerMuons",
-                "Medium": "NUM_MediumID_DEN_TrackerMuons",
-                "Tight": "NUM_TightID_DEN_TrackerMuons",
-            },
-        }
 
-        # get nominal scale factors
-        nominal_sf = unflat_sf(
-            self.cset[id_corrections[self.year][self.id_wp]].evaluate(
-                muon_eta, muon_pt, "nominal"
-            ),
-            in_muon_mask,
-            self.n,
-        )
-        # get 'up' and 'down' scale factors
-        up_sf = unflat_sf(
-            self.cset[
-                id_corrections[self.year][self.id_wp]
-            ].evaluate(muon_eta, muon_pt, "systup"),
-            in_muon_mask,
-            self.n,
-        )
-        down_sf = unflat_sf(
-            self.cset[
-                id_corrections[self.year][self.id_wp]
-            ].evaluate(muon_eta, muon_pt, "systdown"),
-            in_muon_mask,
-            self.n,
-        )
+        # =============================================================
+        # Correction: event-level weight (nominal/up/down)
+        # =============================================================         
+        # Get nominal, up, and down scale factors
+        nominal_sf, up_sf, down_sf = [
+            unflat_sf(self.cset[correction_name].evaluate(muon_eta, muon_pt, v), in_muon_mask, self.n)
+            for v in ("nominal", "systup", "systdown")
+        ]
+
+        nominal_sf, up_sf, down_sf = [
+            ak.where(self.muon_mask, sf, 1.0)
+            for sf in (nominal_sf, up_sf, down_sf)
+        ]
+
         # add scale factors to weights container
         self.weights.add(
-            name=f"CMS_eff_m_id_syst",
+            name=f"CMS_eff_m_id_syst_{self.year}",
             weight=nominal_sf,
             weightUp=up_sf,
             weightDown=down_sf,
@@ -220,84 +179,42 @@ class MuonCorrector:
         """
         add muon Iso (LooseRelIso with mediumID) scale factors to weights container
         """
+        # Structure: Iso/Id -> RelIso is used as isolation, see wprime_plus_b/json_files/muon.json
+        correction_name = self.case["CMS_eff_m_iso"][self.year][f"{self.iso_wp}RelIso"][self.id_wp]
+        
+        # =============================================================
+        #  Muon candidates
+        # =============================================================                
         # get 'in-limits' muons
         muon_pt_mask = self.m.pt > 15.0
         muon_eta_mask = np.abs(self.m.eta) < 2.39
-        muon_id_mask = get_id_wps(self.m)[self.id_wp]
-        muon_iso_mask = get_iso_wps(self.m)[self.iso_wp]
-        in_muon_mask = muon_pt_mask & muon_eta_mask & muon_id_mask & muon_iso_mask
+        muon_id_mask =  getattr(self.m, self.muon_map['Id'][self.id_wp]) 
+        muon_iso_mask = getattr(self.m, self.muon_map['Iso']['Flag']) < self.muon_map['Iso'][self.iso_wp]
+
+        in_muon_mask = muon_pt_mask & muon_eta_mask & muon_id_mask #& muon_iso_mask
         in_muons = self.m.mask[in_muon_mask]
 
         # get muons pT and abseta (replace None values with some 'in-limit' value)
         muon_pt = ak.fill_none(in_muons.pt, 29.0)
         muon_eta = np.abs(ak.fill_none(in_muons.eta, 0.0))
 
-        iso_corrections = {
-            "Run_2": {
-                "Loose": {
-                    "Loose": "NUM_LooseRelIso_DEN_LooseID",
-                    "Medium": None,
-                    "Tight": None,
-                },
-                "Medium": {
-                    "Loose": "NUM_LooseRelIso_DEN_MediumID",
-                    "Medium": None,
-                    "Tight": "NUM_TightRelIso_DEN_MediumID",
-                },
-                "Tight": {
-                    "Loose": "NUM_LooseRelIso_DEN_TightIDandIPCut",
-                    "Medium": None,
-                    "Tight": "NUM_TightRelIso_DEN_TightIDandIPCut",
-                },
-            },
-            "Run_3": {
-                "Loose": {
-                    "Loose": "NUM_LoosePFIso_DEN_LooseID",
-                    "Medium": "NUM_LoosePFIso_DEN_MediumID",
-                    "Tight": "NUM_LoosePFIso_DEN_TightID",
-                },
-                "Medium": {
-                    "Loose": None,
-                    "Medium": None,
-                    "Tight": None,
-                },
-                "Tight": {
-                    "Loose": None,
-                    "Medium": "NUM_TightPFIso_DEN_MediumID",
-                    "Tight": "NUM_TightPFIso_DEN_TightID",
-                },
-            }
-        }
+        # =============================================================
+        # Correction: event-level weight (nominal/up/down)
+        # =============================================================         
+        # Get nominal, up, and down scale factors
+        nominal_sf, up_sf, down_sf = [
+            unflat_sf(self.cset[correction_name].evaluate(muon_eta, muon_pt, v), in_muon_mask, self.n)
+            for v in ("nominal", "systup", "systdown")
+        ]
+        
+        nominal_sf, up_sf, down_sf = [
+            ak.where(self.muon_mask, sf, 1.0)
+            for sf in (nominal_sf, up_sf, down_sf)
+        ]
 
-        run_case = "Run_2" if self.year in ["2016APV", "2016", "2017", "2018"] else "Run_3"
-
-        correction_name = iso_corrections[run_case][self.id_wp][self.iso_wp]
-        assert correction_name, "No Iso SF's available"
-
-        # get nominal scale factors
-        nominal_sf = unflat_sf(
-            self.cset[correction_name].evaluate(muon_eta, muon_pt, "nominal"),
-            in_muon_mask,
-            self.n,
-        )
-        # get 'up' and 'down' scale factors
-        up_sf = unflat_sf(
-            self.cset[correction_name].evaluate(
-                muon_eta, muon_pt, "systup"
-            ),
-            in_muon_mask,
-            self.n,
-        )
-        down_sf = unflat_sf(
-            self.cset[correction_name].evaluate(
-                muon_eta, muon_pt, "systdown"
-            ),
-            in_muon_mask,
-            self.n,
-        )
         # add scale factors to weights container
         self.weights.add(
-            name=f"CMS_eff_m_iso_syst",
+            name=f"CMS_eff_m_iso_syst_{self.year}",
             weight=nominal_sf,
             weightUp=up_sf,
             weightDown=down_sf,
@@ -316,69 +233,66 @@ class MuonCorrector:
         assert (
             self.id_wp == "Tight" and self.iso_wp == "Tight"
         ), "there's only available muon trigger SF for 'tight' ID and Iso"
+
+
+        correction_name = self.case["CMS_eff_m_trigger"][self.year]
         
-        # get 'in-limits' muons
-        muon_pt_mask = (self.m.pt > 29.0) #& (self.m.pt < 199.999)
-        muon_eta_mask = np.abs(self.m.eta) < 2.399
-        muon_id_mask = get_id_wps(self.m)[self.id_wp]
-        muon_iso_mask = get_iso_wps(self.m)[self.iso_wp]
-        
-        trigger_mask = ak.flatten(ak.ones_like(self.muons.pt) * trigger_mask) > 0
-        trigger_match_mask = ak.flatten(trigger_match_mask)
-        
+        # =============================================================
+        #  Muon candidates
+        # =============================================================  
+        muon_pt_mask = (
+            (self.m.pt > 29.0)
+        )
+        muon_eta_mask = (
+            (np.abs(self.m.eta) < 2.4)
+        )
+
+        one_muon_per_event = (
+            (self.n == 1)
+        )
 
         in_muon_mask = (
-            muon_pt_mask & muon_eta_mask & muon_id_mask & muon_iso_mask & trigger_mask & trigger_match_mask
-        )
-        in_muons = self.m.mask[in_muon_mask]
+            muon_pt_mask & muon_eta_mask
+        )        
 
+        in_muons = self.m.mask[in_muon_mask]
+        
         # get muons transverse momentum and abs pseudorapidity (replace None values with some 'in-limit' value)
         muon_pt = ak.fill_none(in_muons.pt, 29.0)
         muon_eta = np.abs(ak.fill_none(in_muons.eta, 0.0))
 
-        # scale factors keys
-        sfs_keys = {
-            "2016APV": "NUM_IsoMu24_or_IsoTkMu24_DEN_CutBasedIdTight_and_PFIsoTight",
-            "2016": "NUM_IsoMu24_or_IsoTkMu24_DEN_CutBasedIdTight_and_PFIsoTight",
-            "2017": "NUM_IsoMu27_DEN_CutBasedIdTight_and_PFIsoTight",
-            "2018": "NUM_IsoMu24_DEN_CutBasedIdTight_and_PFIsoTight",
-        }
-        # get nominal scale factors
-        sf = self.cset[sfs_keys[self.year]].evaluate(
-            muon_eta, muon_pt, "nominal"
-        )
-        nominal_sf = unflat_sf(
-            sf,
-            in_muon_mask,
-            self.n,
-        )
-        # get 'up' and 'down' scale factors
-        up_sf = self.cset[sfs_keys[self.year]].evaluate(
-            muon_eta, muon_pt, "systup"
-        )
-        up_sf = unflat_sf(
-            up_sf,
-            in_muon_mask,
-            self.n,
-        )
-        down_sf = self.cset[sfs_keys[self.year]].evaluate(
-            muon_eta, muon_pt, "systdown"
-        )
-        down_sf = unflat_sf(
-            down_sf,
-            in_muon_mask,
-            self.n,
-        )
+        # =============================================================
+        # Correction: event-level weight (nominal/up/down)
+        # =============================================================         
+        # Get nominal, up, and down scale factors
+        nominal_sf_tmp, up_sf_tmp, down_sf_tmp = [
+            unflat_sf(self.cset[correction_name].evaluate(muon_eta, muon_pt, v), in_muon_mask, self.n)
+            for v in ("nominal", "systup", "systdown")
+        ]
+
+        # consider the events that only triggered the trigger.
+        event_mask = trigger_mask & trigger_match_mask
+        
+        nominal_sf, up_sf, down_sf = [
+            ak.where(event_mask, sf, 1.0)
+            for sf in (nominal_sf_tmp, up_sf_tmp, down_sf_tmp)
+        ]
+
+        nominal_sf, up_sf, down_sf = [
+            ak.where(self.muon_mask, sf, 1.0)
+            for sf in (nominal_sf, up_sf, down_sf)
+        ]
+
         # add scale factors to weights container
         self.weights.add(
-            name=f"muon_triggeriso",
+            name=f"CMS_eff_m_trigger_{self.year}",
             weight=nominal_sf,
             weightUp=up_sf,
             weightDown=down_sf,
         )
      
 
-    def add_dimuon_trigger_weight(self) -> None:        
+    def add_dimuon_trigger_weight(self, trigger_mask, trigger_match_mask) -> None:        
         """
         https://cms.cern.ch/iCMS/jsp/openfile.jsp?tp=draft&files=AN2015_324_v15.pdf
 
@@ -391,6 +305,11 @@ class MuonCorrector:
 
         """    
         
+        correction_name = self.case["CMS_eff_m_trigger"][self.year]
+
+        # =============================================================
+        #  Muon candidates
+        # =============================================================         
         pt_threshold = {
             "2016APV": 26.0,
             "2016": 26.0,
@@ -411,28 +330,24 @@ class MuonCorrector:
         muon_pt = ak.fill_none(in_muons.pt, 30.0)
         muon_eta = np.abs(ak.fill_none(in_muons.eta, 0.0))
 
-        sfs_keys = {
-            "2016APV": "NUM_IsoMu24_or_IsoTkMu24_DEN_CutBasedIdTight_and_PFIsoTight",
-            "2016": "NUM_IsoMu24_or_IsoTkMu24_DEN_CutBasedIdTight_and_PFIsoTight",
-            "2017": "NUM_IsoMu27_DEN_CutBasedIdTight_and_PFIsoTight",
-            "2018": "NUM_IsoMu24_DEN_CutBasedIdTight_and_PFIsoTight",
-        }
-
-
+        # =============================================================
+        # Correction: event-level weight (nominal/up/down)
+        # =============================================================         
+        # Calculate SF
         double_cset = correctionlib.CorrectionSet.from_file(
-                f"{Path.cwd()}/wprime_plus_b/data/{self.year}_Muon_HLT_Eff.json"
+                f"{Path.cwd()}/wprime_plus_b/corrections/HLT/mu/{self.year}_Muon_HLT_Eff.json"
         )
 
         data_eff = double_cset["Muon-HLT-DataEff"].evaluate(
                 self.variation,
-                sfs_keys[self.year],
+                correction_name,
                 muon_eta,
                 muon_pt,
         )
 
         mc_eff = double_cset["Muon-HLT-McEff"].evaluate(
                 self.variation,
-                sfs_keys[self.year],
+                correction_name,
                 muon_eta,
                 muon_pt,
         )
@@ -458,9 +373,19 @@ class MuonCorrector:
         full_data_eff = data_eff_1 + data_eff_2 - data_eff_1 * data_eff_2
         full_mc_eff = mc_eff_1 + mc_eff_2 - mc_eff_1 * mc_eff_2
 
-        nominal_sf = full_data_eff / full_mc_eff
+        nominal_sf_tmp = full_data_eff / full_mc_eff
+
+
+        # consider the events that only triggered the trigger.
+        event_mask = trigger_mask & trigger_match_mask    
+        nominal_sf = ak.where(event_mask, nominal_sf_tmp, 1.0)
+         
+        nominal_sf, up_sf, down_sf = [
+            ak.where(self.muon_mask, sf, 1.0)
+            for sf in (nominal_sf, up_sf, down_sf)
+        ]
 
         self.weights.add(
-                    name=f"dimuon_trigger_{self.year}",
-                    weight=nominal_sf,
+            name=f"CMS_eff_m_trigger_{self.year}",
+            weight=nominal_sf,
         )

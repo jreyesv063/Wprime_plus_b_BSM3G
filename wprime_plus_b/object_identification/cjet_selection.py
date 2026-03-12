@@ -1,157 +1,132 @@
 import json
 import numpy as np
 import awkward as ak
+from typing import Dict
 import importlib.resources
+from typing import Optional
 
 
 def select_good_cjets(
-    jets,
+    events: ak.Array,
     year: str = "2017",
-    ctag_working_point: str = "M",
-    jet_pt_threshold: int = 20,
-    jet_eta_threshold: float = 2.4,
-    jet_id_wp: str = "tight_tightLepVeto",
-    jet_pileup_id: str = "T",
-    is_mc: bool = True,
-) -> ak.highlevel.Array:
-    """
-    Selects and filters 'good' c-jets from a collection of jets based on specified criteria
-
-    Parameters:
-    -----------
-    events:
-        A collection of events represented using the NanoEventsArray class.
-
-    year: {'2016', '2017', '2018'}
-        Year for which the data is being analyzed. Default is '2017'.
-
-    btag_working_point: {'L', 'M', 'T'}
-        Working point for b-tagging. Default is 'M'.
-
-    jet_id: https://twiki.cern.ch/twiki/bin/view/CMS/JetID#Run_II
-        Jet ID flags {1, 2, 3, 6, 7}
-        For 2016 samples:
-            1 means: pass loose ID, fail tight, fail tightLepVeto
-            3 means: pass loose and tight ID, fail tightLepVeto
-            7 means: pass loose, tight, tightLepVeto ID.
-        For 2017 and 2018 samples:
-            2 means: pass tight ID, fail tightLepVeto
-            6 means: pass tight and tightLepVeto ID.
-
-    jet_pileup_id: https://twiki.cern.ch/twiki/bin/viewauth/CMS/PileupJetID
-        Pileup ID flags for pre-UL trainings {0, 4, 6, 7}. Should be applied only to AK4 CHS jets with pT < 50 GeV
-        0 means 000: fail all PU ID;
-        4 means 100: pass loose ID, fail medium, fail tight;
-        6 means 110: pass loose and medium ID, fail tight;
-        7 means 111: pass loose, medium, tight ID.
-
-    Returns:
-    --------
-        An Awkward Array mask containing the selected "good" c-jets that satisfy the specified criteria.
-    """
-   
-    puid_wps = {"Fail": 0, "Loose": 4, "Medium": 6, "Tight": 7}
+    ctag_working_point_pass: str = "Tight",
+    cjet_pt_threshold: int = 20,
+    cjet_eta_threshold: float = 2.4,
+    cjet_id_wp: str = "TightLepVeto",
+    cjet_pileup_id: str = "Tight",
+    syst_var: bool = True
+) -> Dict[str, ak.Array]:
     
-    if year in ["2016APV","2016", "2017", "2018"]:
-        # --------------------------------------------------------
-        # Run 2: jetId flags are stored correctly in NanoAOD
-        # --------------------------------------------------------        
-        jet_id_flags = {
-            "2016APV": {"Loose": 1, "Tight": 3, "TightLepVeto": 6},
-            "2016": {"Loose": 1, "Tight": 3, "TightLepVeto": 6},
-            "2017": {"Tight": 2, "TightLepVeto": 6},
-            "2018": {"Tight": 2, "TightLepVeto": 6},
-        }
+    # ------------------------------------------------------------------
+    # Load working points from JSON
+    # ------------------------------------------------------------------
+    with open("wprime_plus_b/json_files/jet.json", "r") as f:
+        cjet_info = json.load(f)
+
+    # --------------------------------------------------
+    # Load b-tag thresholds
+    # --------------------------------------------------
+    with open("wprime_plus_b/json_files/cjet.json", "r") as f:
+        ctag_thresholds = json.load(f)["deepJet"][year]
+
+        ctag_threshold = [
+            ctag_thresholds["CvB_cut"][ctag_working_point_pass], 
+            ctag_thresholds["CvL_cut"][ctag_working_point_pass]
+        ]
+
+    # ============================================================
+    # Eta
+    # ============================================================
+    cjet_eta_mask = np.abs(events.Jet.eta) < cjet_eta_threshold   
+
+    # ============================================================
+    # jet ID
+    # ============================================================
+    if year in ["2016APV", "2016", "2017", "2018"]:
+        cjet_jetId_mask = (events.Jet.jetId  == cjet_info["jetid"][year][cjet_id_wp])
 
 
-        jet_id = jet_id_flags[year][jet_id_wp]
+    # ============================================================
+    # Ctag flavor
+    # ============================================================
+    cjet_btag_mask = (
+        (events.Jet.btagDeepFlavCvB > ctag_threshold[0])      # DeepJet c vs b+bb+lepb discriminator
+        & (events.Jet.btagDeepFlavCvL > ctag_threshold[1])    # DeepJet c vs uds+g discriminator
+    )
 
+    
+    # ============================================================
+    # pt
+    # ============================================================
+    cjet_pt_mask = (events.Jet.pt >= cjet_pt_threshold)
 
-    # open and load ctagDeepFlavB working point
-    with open("wprime_plus_b/json_files/btagWPs.json", "r") as f:
-        ctagwps  = json.load(f)
-        ctag_threshold = (
-            ctagwps["deepJet"][year]["CvB_cut"][ctag_working_point], 
-            ctagwps["deepJet"][year]["CvL_cut"][ctag_working_point]
+    
+    # ============================================================
+    # pileupjet ID (pt < 50)
+    # ============================================================
+    cjet_pileupId_mask = (events.Jet.puId  == cjet_info["jetid"][year][cjet_pileup_id])  
+    
+    
+    # ============================================================
+    # Final bjet selection mask
+    # ============================================================ 
+    cjet_mask_ref = cjet_eta_mask & cjet_jetId_mask & cjet_btag_mask
+        
+
+    cjet_mask = ak.where(
+        (events.Jet.pt < 50),
+        cjet_mask_ref & cjet_pileupId_mask & cjet_pt_mask,
+        cjet_mask_ref  & cjet_pt_mask,
+    )
+
+    # ============================================================
+    # Systematic variations: JES and JEC
+    # ============================================================
+    if (
+        syst_var
+        and hasattr(events, "genWeight")
+        and hasattr(events.Jet, "JES_pt_up")
+        and hasattr(events.Jet, "JES_pt_down")
+        and hasattr(events.Jet, "JER_pt_up")
+        and hasattr(events.Jet, "JER_pt_down")
+    ):  
+        # JES
+        cjet_JES_up_mask = ak.where(
+            (events.Jet.JES_pt_up < 50),
+            cjet_mask_ref & cjet_pileupId_mask & (events.Jet.JES_pt_up >= cjet_pt_threshold),
+            cjet_mask_ref  & (events.Jet.JES_pt_up >= cjet_pt_threshold),
         )
 
+        cjet_JES_down_mask = ak.where(
+            (events.Jet.JES_pt_down < 50),
+            cjet_mask_ref & cjet_pileupId_mask & (events.Jet.JES_pt_down >= cjet_pt_threshold),
+            cjet_mask_ref  & (events.Jet.JES_pt_down >= cjet_pt_threshold),
+        )
 
-    good_cjet_masks = {}
-    
+        # JER
+        cjet_JER_up_mask = ak.where(
+            (events.Jet.JER_pt_up < 50),
+            cjet_mask_ref & cjet_pileupId_mask & (events.Jet.JER_pt_up >= cjet_pt_threshold),
+            cjet_mask_ref  & (events.Jet.JER_pt_up >= cjet_pt_threshold),
+        )
 
-    if is_mc:
-        jet_shift = {
-            "JES": {"nominal": jets,
-                    # "up":  jets.JES_jes.up,
-                    # "down": jets.JES_jes.down
+        cjet_JER_down_mask = ak.where(
+            (events.Jet.JES_pt_down < 50),
+            cjet_mask_ref & cjet_pileupId_mask & (events.Jet.JER_pt_down >= cjet_pt_threshold),
+            cjet_mask_ref  & (events.Jet.JER_pt_down >= cjet_pt_threshold),
+        )
+
+        return {
+            "nominal": cjet_mask,
+            "JES": {
+                "up":  cjet_JES_up_mask, "down":  cjet_JES_down_mask
             },
-            # "JER": {
-            #         "up":  jets.JER.up,
-            #         "down": jets.JER.down
-            # },  
+            "JER": {
+                "up":  cjet_JER_up_mask, "down":  cjet_JER_down_mask
+            }
         }
 
-
-
-        for shift_type, variations in jet_shift.items():
-            for variation, shift in variations.items():
-                # Máscara para jets de bajo pT
-                low_pt_jets_mask = (
-                    (shift.pt > jet_pt_threshold) & (shift.pt < 50)
-                    & (np.abs(shift.eta) < jet_eta_threshold)
-                    & (shift.jetId == jet_id)
-                    & (shift.puId == puid_wps[jet_pileup_id])
-                    & (shift.btagDeepFlavCvB > ctag_threshold[0])
-                    & (shift.btagDeepFlavCvL > ctag_threshold[1])
-                )
-
-                # Máscara para jets de alto pT
-                high_pt_jets_mask = (
-                    (shift.pt >= 50)
-                    & (np.abs(shift.eta) < 2.4)
-                    & (shift.jetId == jet_id)
-                    & (shift.btagDeepFlavCvB > ctag_threshold[0])
-                    & (shift.btagDeepFlavCvL > ctag_threshold[1])
-                )
-
-                # Guardar las máscaras en el diccionario
-                if variation == "nominal":
-                    good_cjet_masks[variation] = ak.where(
-                        (shift.pt > jet_pt_threshold) & (shift.pt < 50),
-                        low_pt_jets_mask,
-                        high_pt_jets_mask,
-                    )
-                else:
-                    good_cjet_masks[f"{shift_type}_{variation}"] = ak.where(
-                        (shift.pt > jet_pt_threshold) & (shift.pt < 50),
-                        low_pt_jets_mask,
-                        high_pt_jets_mask,
-                    )
-                
     else:
-        low_pt_jets_mask = (
-            (jets.pt > jet_pt_threshold)
-            & (jets.pt < 50)
-            & (np.abs(jets.eta) < jet_eta_threshold)
-            & (jets.jetId == jet_id)
-            & (jets.puId == puid_wps[jet_pileup_id])
-            & (jets.btagDeepFlavCvB > ctag_threshold[0])
-            & (jets.btagDeepFlavCvL > ctag_threshold[1])
-        )
-
-        high_pt_jets_mask = (
-            (jets.pt >= 50)
-            & (np.abs(jets.eta) < 2.4)
-            & (jets.jetId == jet_id)
-            & (jets.btagDeepFlavCvB > ctag_threshold[0])
-            & (jets.btagDeepFlavCvL > ctag_threshold[1])
-        )
-
-        good_cjet_masks["nominal"] = ak.where(
-            (jets.pt > jet_pt_threshold) & (jets.pt < 50),
-            low_pt_jets_mask,
-            high_pt_jets_mask,
-        )
-
-
-    return good_cjet_masks
+        return  {
+            "nominal": cjet_mask
+        }

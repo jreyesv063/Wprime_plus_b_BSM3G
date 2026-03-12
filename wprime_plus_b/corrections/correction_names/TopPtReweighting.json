@@ -1,0 +1,13 @@
+{
+    "_comment": "Ref: https://github.com/DesyTau/CPinHToTauTau/blob/ba5936185dbed76ccc58747ad84c4bf90b3168d6/httcp/production/top_pt_weight.py#L85-L92",
+    "a": {
+        "nominal": 0.0615,
+        "up": 0.09225,
+        "down": 0.03075
+    },
+    "b": {
+        "nominal": -0.0005,
+        "up": -0.00075,
+        "down": -0.00025
+    }
+}

@@ -22,100 +22,92 @@ Parameters:
     
     https://twiki.cern.ch/twiki/bin/view/CMS/ParticleNetTopWSFs
     
-            https://indico.physics.lbl.gov/event/975/contributions/8301/attachments/4047/5437/23.07.31_BOOST_Xbbcc_performance_CL.pdf
+    https://indico.physics.lbl.gov/event/975/contributions/8301/attachments/4047/5437/23.07.31_BOOST_Xbbcc_performance_CL.pdf
 
 """
     
 # ParticleNet_Top_Nominal
 def add_QCD_vs_Top_weight(
-    fatjets: ak.Array,
+    topjets: ak.Array,
     weights: Type[Weights],
     year: str = "2017",
-    working_point_fatjet: str = "Tight",
-    variation: str = "nominal",
+    working_point_topjet: str = "Tight",
+    top_mask = None
 ):
-    
-    # Please, check the table https://twiki.cern.ch/twiki/bin/viewauth/CMS/ParticleNetTopWSFs (2017 Data). You will understand the meaning of 0p1; 5p0; etc.
-    mistagging_rate_equivalence = {
-        "Loose": "1p0",
-        "Medium": "0p5",
-        "Tight": "0p1"
-    }
-    
-    
-    # Wps top tagger
-    with open("wprime_plus_b/json_files/topWps.json", "r") as f: 
-        Wps = json.load(f)
+    """
+    Adds event-level weights comparing Top-jet vs QCD efficiencies using ParticleNet TvsQCD tagger scale factors.
+    The function flattens the input fatjet array, selects good Top-jet candidates within pt/eta and working-point limits,
+    evaluates the corresponding correction set (nominal, up, down), restores the original jet structure (unflatten),
+    and stores the resulting weights in the provided Weights container.
+    """
+    # ===========================================================
+    #  Read json files
+    # ============================================================
+    # Correction name
+    with open("wprime_plus_b/corrections/correction_names/JME.json", "r") as f:
+        case = json.load(f)
+
+    correction_name = case['CMS_eff_j_ParticleNet_Top_Nominal'][year]
         
-    pNet_id = Wps[year]["TvsQCD"][working_point_fatjet]  
+    # Wps top tagger
+    with open("wprime_plus_b/json_files/fatjet.json", "r") as f: 
+        Wps = json.load(f)
+
+    # Particle Net: Working points        
+    pNet_id = Wps[year]["TvsQCD"][working_point_topjet]['value']
+    mistagging_rate =  Wps[year]["TvsQCD"][working_point_topjet]['mistagging_rate']
     
-    
+
+    # =============================================================
+    #  Fat jet candidates
+    # =============================================================    
     # flat fatjets array since correction function works only on flat arrays
-    fj, n = ak.flatten(fatjets), ak.num(fatjets)
+    tj, n = ak.flatten(topjets), ak.num(topjets)
     
     # get 'in-limits' jets
-    fatjet_pt_mask = (
-        (fj.pt >= 300.0) 
-        & (fj.pt < 1200.0)
-    )
+    topjet_pt_mask = ((tj.pt >= 300.0) & (tj.pt < 1200.0))
     
     if year == "2017" or year == "2018":
-        fatjet_eta_mask = (
-            (np.abs(fj.eta) < 2.499)
-        )
-
+        topjet_eta_mask = ((np.abs(tj.eta) < 2.499))
     else:
-        fatjet_eta_mask = (
-            (np.abs(fj.eta) < 2.399)
-        )
+        topjet_eta_mask = ((np.abs(tj.eta) < 2.399)) 
 
-    fatjet_wp_mask = (
-        (fj.particleNet_TvsQCD >= pNet_id)
-    )
+    # Passing working point
+    topjet_wp_mask = ((tj.particleNet_TvsQCD >= pNet_id))
+
     
-    in_fatjet_mask = fatjet_pt_mask & fatjet_eta_mask & fatjet_wp_mask
+    in_topjet_mask = topjet_pt_mask & topjet_eta_mask & topjet_wp_mask
     
-    in_fatjets = fj.mask[in_fatjet_mask]
+    in_topjets = tj.mask[in_topjet_mask]
     
     # get jet transverse momentum and pseudorapidity (replace None values with some 'in-limit' value)
-    fatjets_pt = ak.fill_none(in_fatjets.pt, 400.0)
-    fatjets_eta = ak.fill_none(in_fatjets.eta, 0.0)
-    working_point = mistagging_rate_equivalence[working_point_fatjet]
+    topjets_pt = ak.fill_none(in_topjets.pt, 400.0)
+    topjets_eta = ak.fill_none(in_topjets.eta, 0.0)
     
+    # =============================================================
+    # Correction: event-level weight (nominal/up/down)
+    # =============================================================
+    cset = correctionlib.CorrectionSet.from_file(get_pog_json("pujetid", year))
     
-    # define correction set
-    cset = correctionlib.CorrectionSet.from_file(
-        get_pog_json("pujetid", year)
-    )
+    # Get nominal, up, and down scale factors: If jet in 'in-limits' jets, then take the computed SF, otherwise assign 1
+    nominal_sf, up_sf, down_sf = [
+        unflat_sf(cset[correction_name].evaluate(topjets_eta, topjets_pt, v, mistagging_rate), in_topjet_mask, n)
+        for v in ("nom", "up", "down")
+    ]
     
-    # get nominal scale factors
-    # If jet in 'in-limits' jets, then take the computed SF, otherwise assign 1
-    # Unflatten to original shape
-    nominal_sf = unflat_sf(
-        cset["ParticleNet_Top_Nominal"].evaluate(fatjets_eta, fatjets_pt, "nom", working_point),
-        in_fatjet_mask,
-        n,
-    )
-    
-    # get 'up' and 'down' variations
-    up_sf = unflat_sf(
-        cset["ParticleNet_Top_Nominal"].evaluate(fatjets_eta, fatjets_pt, "up", working_point),
-        in_fatjet_mask,
-        n,
-    )
-    down_sf = unflat_sf(
-        cset["ParticleNet_Top_Nominal"].evaluate(fatjets_eta, fatjets_pt, "down", working_point),
-        in_fatjet_mask,
-        n,
-    )
+    nominal_sf, up_sf, down_sf = [
+        ak.where(top_mask, sf, 1.0)
+        for sf in (nominal_sf, up_sf, down_sf)
+    ]
+
     # add nominal, up and down scale factors to weights container
     weights.add(
-        name="CMS_eff_j_ParticleNet_Top_Nominal",
+        name=f"CMS_eff_j_ParticleNet_Top_Nominal_{year}",
         weight=nominal_sf,
         weightUp=up_sf,
         weightDown=down_sf,
     )
-
+    
     
 # ParticleNet_W_Nominal
 def add_QCD_vs_W_weight(
@@ -123,45 +115,49 @@ def add_QCD_vs_W_weight(
     weights: Type[Weights],
     year: str = "2017",
     working_point_wjet: str = "Tight",
-    variation: str = "nominal",
+    W_mask = None
 ):
-    
-    # Please, check the table https://twiki.cern.ch/twiki/bin/viewauth/CMS/ParticleNetTopWSFs (2017 Data). You will understand the meaning of 0p1; 5p0; etc.
-    mistagging_rate_equivalence = {
-        "Loose": "5p0",
-        "Medium": "1p0",
-        "Tight": "0p5"
-    }
-    
-    
-    # Wps top tagger
-    with open("wprime_plus_b/json_files/topWps.json", "r") as f: 
-        Wps = json.load(f)
+    """
+    Adds event-level weights comparing W-jet vs QCD efficiencies using ParticleNet WvsQCD tagger scale factors.
+    The function flattens the input jet array, selects good W-jet candidates within pt/eta and working-point limits,
+    evaluates the corresponding correction set (nominal, up, down), restores the original shape (unflatten),
+    and stores the resulting weights in the provided Weights container.
+    """
+    # ===========================================================
+    #  Read json files
+    # ============================================================
+    # Correction name
+    with open("wprime_plus_b/corrections/correction_names/JME.json", "r") as f:
+        case = json.load(f)
+
+    correction_name = case['CMS_eff_j_ParticleNet_W_Nominal'][year]
         
-    pNet_id = Wps[year]["WvsQCD"][working_point_wjet]  
+    # Wps top tagger
+    with open("wprime_plus_b/json_files/fatjet.json", "r") as f: 
+        Wps = json.load(f)
+
+    # Particle Net: Working points        
+    pNet_id = Wps[year]["WvsQCD"][working_point_wjet]['value']
+    mistagging_rate =  Wps[year]["WvsQCD"][working_point_wjet]['mistagging_rate']
     
-    
+
+    # =============================================================
+    #  W jet candidates
+    # =============================================================    
     # flat fatjets array since correction function works only on flat arrays
     wj, n = ak.flatten(wjets), ak.num(wjets)
     
     # get 'in-limits' jets
-    wjet_pt_mask = (
-        (wj.pt >= 200.0) 
-        & (wj.pt < 800.0)
-    )
+    wjet_pt_mask = ((wj.pt >= 200.0) & (wj.pt < 800.0))
     
     if year == "2017" or year == "2018":
-        wjet_eta_mask = (
-            (np.abs(wj.eta) < 2.499)
-        )
+        wjet_eta_mask = ((np.abs(wj.eta) < 2.499))
     else:
-        wjet_eta_mask = (
-            (np.abs(wj.eta) < 2.399)
-        ) 
-    
-    wjet_wp_mask = (
-        (wj.particleNet_WvsQCD >= pNet_id)
-    )
+        wjet_eta_mask = ((np.abs(wj.eta) < 2.399)) 
+
+    # Passing working point
+    wjet_wp_mask = ((wj.particleNet_WvsQCD >= pNet_id))
+
     
     in_wjet_mask = wjet_pt_mask & wjet_eta_mask & wjet_wp_mask
     
@@ -170,39 +166,27 @@ def add_QCD_vs_W_weight(
     # get jet transverse momentum and pseudorapidity (replace None values with some 'in-limit' value)
     wjets_pt = ak.fill_none(in_wjets.pt, 400.0)
     wjets_eta = ak.fill_none(in_wjets.eta, 0.0)
-    working_point = mistagging_rate_equivalence[working_point_wjet]
     
+    # =============================================================
+    # Correction: event-level weight (nominal/up/down)
+    # =============================================================
+    cset = correctionlib.CorrectionSet.from_file(get_pog_json("pujetid", year))
     
-    # define correction set
-    cset = correctionlib.CorrectionSet.from_file(
-        get_pog_json("pujetid", year)
-    )
+    # Get nominal, up, and down scale factors: If jet in 'in-limits' jets, then take the computed SF, otherwise assign 1
+    nominal_sf, up_sf, down_sf = [
+        unflat_sf(cset[correction_name].evaluate(wjets_eta, wjets_pt, v, mistagging_rate), in_wjet_mask, n)
+        for v in ("nom", "up", "down")
+    ]
     
-    # get nominal scale factors
-    # If jet in 'in-limits' jets, then take the computed SF, otherwise assign 1
-    # Unflatten to original shape
-    nominal_sf = unflat_sf(
-        cset["ParticleNet_W_Nominal"].evaluate(wjets_eta, wjets_pt, "nom", working_point),
-        in_wjet_mask,
-        n,
-    )
-
-    # get 'up' and 'down' variations
-    up_sf = unflat_sf(
-        cset["ParticleNet_W_Nominal"].evaluate(wjets_eta, wjets_pt, "up", working_point),
-        in_wjet_mask,
-        n,
-    )
-    down_sf = unflat_sf(
-        cset["ParticleNet_W_Nominal"].evaluate(wjets_eta, wjets_pt, "down", working_point),
-        in_wjet_mask,
-        n,
-    )
+    nominal_sf, up_sf, down_sf = [
+        ak.where(W_mask, sf, 1.0)
+        for sf in (nominal_sf, up_sf, down_sf)
+    ]
+        
     # add nominal, up and down scale factors to weights container
     weights.add(
-        name="CMS_eff_j_ParticleNet_W_Nominal",
+        name=f"CMS_eff_j_ParticleNet_W_Nominal_{year}",
         weight=nominal_sf,
         weightUp=up_sf,
         weightDown=down_sf,
     )
-

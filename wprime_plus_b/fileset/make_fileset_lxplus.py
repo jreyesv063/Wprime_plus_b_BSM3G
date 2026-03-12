@@ -3,6 +3,7 @@ import json
 import argparse
 from coffea.dataset_tools.dataset_query import DataDiscoveryCLI
 
+# Important: Sample information can be found in https://opendata.cern.ch/
 
 ERAS = {
     "2016APV": ["B1", "B2", "C", "D", "E","F"],
@@ -19,28 +20,28 @@ ERAS = {
 SITES = {
     "2016APV": [
         # ---- T1 sites ----
-    #   "T1_DE_KIT_Disk",
-    #   "T1_ES_PIC_Disk",
-       "T1_FR_CCIN2P3_Disk",
+        "T1_DE_KIT_Disk",
+        "T1_ES_PIC_Disk",
+        "T1_FR_CCIN2P3_Disk",
         "T1_FR_CCIN2P3_Tape",
-    #   "T1_RU_JINR_Disk",
-    #    "T1_UK_RAL_Disk",
+    #   "T1_RU_JINR_Disk", # 24/02/2026
+        "T1_UK_RAL_Disk",
         "T1_US_FNAL_Disk",
         # ---- T2 sites ----
-    #   "T2_BE_IIHE",
+    #   "T2_BE_IIHE", # 24/02/2026
         "T2_BR_UERJ",
         "T2_CH_CERN",
-    #   "T2_DE_DESY",
-        "T2_DE_RWTH",
+        "T2_DE_DESY",
+    #   "T2_DE_RWTH", # 24/02/2026
         "T2_FR_IPHC",
     #   "T2_IN_TIFR",
         "T2_IT_Legnaro",
         "T2_IT_Rome",
     #   "T2_TW_NCHC",
-        "T2_UK_London_IC",
-    #   "T2_US_MIT",
-    #   "T2_US_Nebraska",
-    #   "T2_US_Purdue",
+    #   "T2_UK_London_IC", # 24/02/2026
+        "T2_US_MIT",
+        "T2_US_Nebraska",
+        "T2_US_Purdue",
     #   "T2_US_Vanderbilt",
         "T3_CH_CERN_OpenData",
         # ---- T3 sites ----
@@ -69,7 +70,7 @@ SITES = {
         "T2_IT_Legnaro",
         "T2_IT_Rome",
     #   "T2_TW_NCHC",
-        "T2_UK_London_IC",
+    #    "T2_UK_London_IC", #24/02/2026
         "T2_US_MIT",
     #   "T2_US_Nebraska",
     #   "T2_US_Purdue",
@@ -84,19 +85,19 @@ SITES = {
     "2017": [
         # ---- T1 sites ----
         "T1_FR_CCIN2P3_Tape",
-        "T1_RU_JINR_Disk",
-        "T1_US_FNAL_Disk",
+    #    "T1_RU_JINR_Disk", # Hoy
+        "T1_US_FNAL_Disk", 
         #---- T2 sites ----
         #"T2_BE_IIHE",
         "T2_BE_UCL",
         "T2_CH_CERN",
-        "T2_DE_DESY",
+    #    "T2_DE_DESY",  # Hoy
         "T2_DE_RWTH",
         #"T2_EE_Estonia",
-        "T2_ES_CIEMAT",
+    #    "T2_ES_CIEMAT", # 28/02/2026
         "T2_FR_IPHC",
         "T2_HU_Budapest",
-        "T2_UK_London_IC",
+    #    "T2_UK_London_IC", # 22/02/2026
         "T2_US_MIT",       
     #    "T2_US_Nebraska",
         "T2_US_Purdue",
@@ -105,7 +106,7 @@ SITES = {
     #    "T3_CH_PSI",
         "T3_FR_IPNL",
         "T3_IT_Trieste",
-    #   "T3_KR_KISTI",
+    #    "T3_KR_KISTI",  # Este por Purpue
         #"T3_KR_UOS",
         #"T3_US_Baylor",
         "T3_US_FNALLPC",
@@ -115,15 +116,15 @@ SITES = {
         # ---- T1 sites ----
         "T1_DE_KIT_Disk",
         "T1_FR_CCIN2P3_Disk",
-    #   "T1_FR_CCIN2P3_Tape", #hoy
-    #   "T1_IT_CNAF_Disk",
-        "T1_RU_JINR_Disk",
+        #"T1_FR_CCIN2P3_Tape", 
+        #"T1_IT_CNAF_Disk",
+        #"T1_RU_JINR_Disk", # 24/02/2026
         "T1_UK_RAL_Disk",
         "T1_US_FNAL_Disk",
         #---- T2 sites ----
         #"T2_BE_IIHE",
         "T2_BE_UCL",
-        "T2_BR_SPRACE",
+        #"T2_BR_SPRACE", # 22/02/2026
         "T2_CH_CERN",
         "T2_DE_DESY",
         "T2_DE_RWTH",
@@ -134,8 +135,8 @@ SITES = {
         "T2_UK_London_IC",
         #"T2_US_Caltech",
         #"T2_US_Nebraska",
-        "T2_US_Purdue",
-        "T2_US_Vanderbilt",
+        #"T2_US_Purdue",
+        #"T2_US_Vanderbilt",
         "T2_US_Wisconsin",
         # ---- T3 sites ----
         "T3_IT_Trieste",

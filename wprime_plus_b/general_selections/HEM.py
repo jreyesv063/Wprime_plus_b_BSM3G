@@ -80,5 +80,4 @@ def get_HEM_cleaning(events: ak.Array,
     HEM_cleaning_mask = ~hem_cleaning
         
 
-
-        
+    return HEM_cleaning_mask

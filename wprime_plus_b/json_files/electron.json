@@ -1,0 +1,23 @@
+{
+    "Id": {
+        "MVA": {
+            "wp80iso": "mvaFall17V2Iso_WP80",
+            "wp90iso": "mvaFall17V2Iso_WP90",
+            "wp80noiso": "mvaFall17V2noIso_WP80",
+            "wp90noiso": "mvaFall17V2noIso_WP90"
+        },
+        "Cutbased": {
+            "flag": "cutBased",
+            "Loose": 2,
+            "Medium": 3,
+            "Tight": 4
+        }
+    },
+    "Iso": {
+        "Flag": "pfRelIso03_all",
+        "Loose": 0.25,
+        "Medium": 0.20,
+        "Tight": 0.15
+
+    }
+}

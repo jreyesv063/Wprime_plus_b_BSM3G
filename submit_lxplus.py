@@ -138,7 +138,7 @@ if __name__ == "__main__":
         dest="processor",
         type=str,
         default="",
-        help="processor to be used {ttbar, top_tagger, signal , ztoll, qcd, trigger_eff, btag_eff} (default ttbar)",
+        help="processor to be used {top_tagger, signal, wplusjets,  qcd_hadronic_closure, wjets, ztoll, zplusc, btag_eff, ctag_eff}",
     )
     parser.add_argument(
         "--channel",
@@ -233,6 +233,14 @@ if __name__ == "__main__":
         default="false",
         help="Run systematics (true/false)",
     )
+
+    parser.add_argument(
+        "--unblinded",
+        dest="unblinded",
+        type=str,
+        default="false",
+        help="Use data in SR",
+     )       
 
     parser.add_argument(
         "--output_folder",

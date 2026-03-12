@@ -1,287 +1,321 @@
 import re
 import json
-import warnings
+import hist
 import numpy as np
-import awkward as ak
 import correctionlib
-from coffea import util
+import awkward as ak
 from typing import Type
+from coffea import util
 import importlib.resources
 from coffea.analysis_tools import Weights
+from coffea.lookup_tools.dense_lookup import dense_lookup
+
 from wprime_plus_b.corrections.utils import get_pog_json
-
-
+    
+    
 class BTagCorrector:
-    """
-    BTag corrector class.
-
-    Parameters:
-    -----------
-        sf_type:
-            scale factors type to use {mujets, comb}
-            For the working point corrections the SFs in 'mujets' and 'comb' are for b/c jets.
-            The 'mujets' SFs contain only corrections derived in QCD-enriched regions.
-            The 'comb' SFs contain corrections derived in QCD and ttbar-enriched regions.
-            Hence, 'comb' SFs can be used everywhere, except for ttbar-dileptonic enriched analysis regions.
-            For the ttbar-dileptonic regionsthe 'mujets' SFs should be used.
-        working_point:
-            worging point {'L', 'M', 'T'}
-        tagger:
-            tagger {'deepJet', 'deepCSV'}
-        year:
-            dataset year {'2016', '2017', '2018'}
-        year_mod:
-            year modifier {"", "APV"}
-        jets:
-            Jet collection
-        njets:
-            Number of jets to use
-        weights:
-            Weights container from coffea.analysis_tools
-        variation:
-            if 'nominal' (default) add 'nominal', 'up' and 'down' variations to weights container. else, add only 'nominal' weights.
-        full_run:
-            False (default) if only one year is analized,
-            True if the fullRunII data is analyzed.
-            If False, the 'up' and 'down' systematics are be used.
-            If True, 'up/down_correlated' and 'up/down_uncorrelated'
-            systematics are used instead of the 'up/down' ones,
-            which are supposed to be correlated/decorrelated
-            between the different data years
-
-        Names https://cms-analysis-corrections.docs.cern.ch/corrections_era/Run2-2017-UL-NanoAODv9/BTV/2025-08-19/#btaggingjsongz:
-            bc -> deepJet_comb: deepJet comb working point scale factors for UL 2017 b/c jets.
-            light -> deepJet_incl: deepJet incl working point scale factors for UL 2017 light jets.
-    """
-
     def __init__(
-        self,
+        self, 
         jets: ak.Array,
+        bjet_mask: ak.Array,
+        mask_eff_btag: ak.Array,    
         weights: Type[Weights],
-        sf_type: str = "comb",
-        working_point: str = "M",
-        tagger: str = "deepJet",
-        year: str = "2017",
-        variation: str = "nominal",
-        full_run: bool = False,
         dataset: str = "",
-    ) -> None:
-        self._sf = sf_type
-        self._year = year
-        self._tagger = tagger
-        self._wp = working_point
-        self._weights = weights
-        self._full_run = full_run
-        self._variation = variation
-
-        # Remove trailing _X from dataset name
-        self.cleaned_dataset = re.sub(r'_\d+$', '', dataset)
-
+        year: str = "2017",
+        tagger: str = "deepJet",
+        pass_working_point: str = "Tight",
+        fail_working_point: str = None
+    ):
+        """
+        Ref: https://twiki.cern.ch/twiki/bin/view/CMS/BTagSFMethods
+        
+        """
         # =========================================================
         #     Load efficiency lookup table (only for deepJet)
         #             efflookup(pt, |eta|, flavor)
-        # =========================================================
-        with importlib.resources.path(
-            "wprime_plus_b.corrections.efficiency_maps_btag", f"btag_eff_{self._tagger}_{self._wp}_{year}.coffea"
-        ) as filename:
-            eff_dict = util.load(str(filename))
-            if isinstance(eff_dict, dict):
-                self._efflookup = eff_dict[self.cleaned_dataset]
-            else:
-                warnings.warn(
-                    f"[WARNING] Dataset '{self.cleaned_dataset}' not found in efficiency dictionary. "
-                    "Using empty lookup or default behavior.",
-                    UserWarning,
-                )  
+        # =========================================================        
+        self.year = year
+        self.tagger = tagger
+        self.dataset_name = re.sub(r'_\d+$', '', dataset)
 
-        # load btagging working point (only for deepJet)
-        # https://twiki.cern.ch/twiki/bin/viewauth/CMS/BtagRecommendation
-        with open("wprime_plus_b/json_files/btagWPs.json", "r") as f:
-            btag_working_points = json.load(f)
+        self.mask_eff_btag = mask_eff_btag
+        
+        self.bjet_mask = bjet_mask
+        self.weights = weights
+
+        # ==========================================================
+        #  Load btag working point
+        # ==========================================================
+        with open("wprime_plus_b/json_files/bjet.json", "r") as f:
+            btag_wps = json.load(f)[tagger][year]
+        
+        self.pass_btag_wp = btag_wps[pass_working_point]
+        self.pass_wp = pass_working_point
             
-        self._btagwp = btag_working_points[tagger][year][working_point]
+        if fail_working_point is not None:
+            self.fail_btag_wp = btag_wps[fail_working_point]
+            self.fail_wp = fail_working_point
+            self.multiple_wps = True            
+        else:
+            self.multiple_wps = False
 
+
+        # ===========================================================
+        #  Correction 
+        # ============================================================
+        # Correction name
+        with open("wprime_plus_b/corrections/correction_names/BTV.json", "r") as f:
+            case = json.load(f)
+
+        self.correction_name_map = {
+            "bc": case["CMS_btag_fixedWP_bc_simple"][year],
+            "light": case["CMS_btag_fixedWP_light_simple"][year]
+        }
         # define correction set
-        self._cset = correctionlib.CorrectionSet.from_file(
-            get_pog_json(json_name="btag", year=year)
-        )
+        self.cset = correctionlib.CorrectionSet.from_file(get_pog_json(json_name="btag", year=year))
 
-        # hadron flavor definition: 5=b, 4=c, 0=udsg
-        self._bc_jets = jets[jets.hadronFlavour > 0]
-        self._light_jets = jets[jets.hadronFlavour == 0]
-        self._jet_map = {"bc": self._bc_jets, "light": self._light_jets}
+        # ===========================================================
+        #  Flavor: 5=b, 4=c, 0=udsg
+        # ============================================================
+        self.jet_map = {
+            "bc": jets[jets.hadronFlavour > 0],
+            "light": jets[jets.hadronFlavour == 0]
+        }      
 
-
-    def add_btag_weights(self, flavor: str) -> None:
+    def get_eff(self, jets_pt, abs_jets_eta, jets_btag, jets_flavor, btag_wp_value, flavor):
         """
-        Add b-tagging weights (nominal, up and down) to weights container for bc or light jets
+        https://btv-wiki.docs.cern.ch/ScaleFactors/
+        https://btv-wiki.docs.cern.ch/PerformanceCalibration/fixedWPSFRecommendations/#b-tagging-efficiencies-in-simulation
 
-        Parameters:
-        -----------
-            flavor:
-                hadron flavor {'bc', 'light'}
+        Tagging efficiencies depend on event kinematics.  Therefore, it is mandatory to first compute from simulation the tagging efficiencies for each flavour as a function of the jet 
+        pT and jet |eta|  for your specific analysis. Afterwards, you can weigh them by the provided SF values using one of the recommendations linked in the table below.
+
+        -  pT: A recommended binning is along the same lines as is used in the scale factor derivation, e.g. [20, 30, 50, 70, 100, 140, 200, 300, 600, 1000].
+        -  η: A recommended binning depends on the available simulation statistics, one could e.g. only use one single bin, or separate into barrel and endcap regions, or use a few homogeneous bins.
+
+        Please note that the derivation of these efficiency maps only makes sense if no b-tagging related event selections have been applied yet. Best practice is to derive these efficiencies after the analysis 
+        event selection, but omitting any b-tagging selection, such as the number of b-tagged jets, etc.
+
         """
-        # efficiencies
-        eff = self.efficiency(flavor=flavor)
+        # Jets passing the btag wp
+        is_btagged = jets_btag > btag_wp_value
 
-        # mask with events that pass the btag working point
-        passbtag = self.passbtag_mask(flavor=flavor)
-
-        # nominal scale factors
-        jets_sf = self.get_scale_factors(flavor=flavor, syst="central")
-
-        # nominal weights
-        jets_weight = self.get_btag_weight(eff, jets_sf, passbtag)
-
-        # systematics
-        syst_up = "up_correlated" if self._full_run else "up"
-        syst_down = "down_correlated" if self._full_run else "down"
-
-        # up and down scale factors
-        jets_sf_up = self.get_scale_factors(flavor=flavor, syst=syst_up)
-        jets_sf_down = self.get_scale_factors(flavor=flavor, syst=syst_down)
-
-        jets_weight_up = self.get_btag_weight(eff, jets_sf_up, passbtag)
-        jets_weight_down = self.get_btag_weight(eff, jets_sf_down, passbtag)
-
-        # add weights to Weights container
-        self._weights.add(
-            name=f"{flavor}_jets",
-            weight=jets_weight,
-            weightUp=jets_weight_up,
-            weightDown=jets_weight_down,
-        )
-
-    def efficiency(self, flavor: str, fill_value=1) -> ak.Array:
-        """compute the btagging efficiency for 'njets' jets"""
-        jets = self._jet_map[flavor]
-        hf = jets.hadronFlavour
-
-        # Map {0,4,5} -> {0,1,2} sin fallback
-        mapped_flavour = ak.where(hf == 0, 0,
-                        ak.where(hf == 4, 1,
-                        ak.where(hf == 5, 2, -1)))  # -1 indica valor inesperado
-        
-        eff = self._efflookup(
-            jets.pt,
-            np.abs(jets.eta),
-            mapped_flavour,
-        )
-        
-        # Print min/max para debug
-        #eff_flat = ak.flatten(eff)
-        #print(f"Efficiency for flavor '{flavor}' | min: {np.min(eff_flat):.4f}, max: {np.max(eff_flat):.4f}")
-        
-        return eff
-
-
-
-    def passbtag_mask(self, flavor, fill_value=True) -> ak.Array:
-        """return the mask with jets that pass the b-tagging working point"""
-        return self._jet_map[flavor]["btagDeepFlavB"] > self._btagwp
-
-    def get_scale_factors(self, flavor: str, syst="central", fill_value=1) -> ak.Array:
-        """
-        compute jets scale factors
-        """
-        return self.get_sf(flavor=flavor, syst=syst)
-
-    def get_sf(self, flavor: str, syst: str = "central") -> ak.Array:
-        """
-        compute the scale factors for bc or light jets
-
-        Parameters:
-        -----------
-            flavor:
-                hadron flavor {'bc', 'light'}
-            syst:
-                Name of the systematic {'central', 'down', 'down_correlated', 'down_uncorrelated', 'up', 'up_correlated'}
-        """
-        
-        cset_keys = {
-            "bc": f"{self._tagger}_{self._sf}",
-            "light": f"{self._tagger}_incl",
+        # Flavor mask: 5: b, 4: c, 0: light (udsg)
+        flavor_masks = {
+            "b": (jets_flavor == 5),
+            "c": (jets_flavor == 4),
+            "bc": (jets_flavor == 4) | (jets_flavor == 5),
+            "light": (jets_flavor == 0),
         }
+
+        pt_bins = [20, 30, 50, 70, 100, 150, 200, 300, 500, 1000]
+        eta_bins = [0.0, 1.3, 2.5, 3.0, 5.2]
+
+        def make_h2():
+            return hist.Hist(
+                hist.axis.Variable(pt_bins, name="pt"),
+                hist.axis.Variable(eta_bins, name="eta"),
+            )
+
+        flavor_mask = flavor_masks[flavor]
+        tagged_mask = flavor_mask & is_btagged
+
+
+        # Denominator: Only flavor mask
+        h_denom = make_h2()
+        h_denom.fill(
+            pt=jets_pt[flavor_mask],
+            eta=abs_jets_eta[flavor_mask]
+        )
+
+        # Numerator: Flavor mask & btag mask
+        h_num = make_h2()
+        h_num.fill(
+            pt=jets_pt[tagged_mask],
+            eta=abs_jets_eta[tagged_mask]
+        )
+
+        num = h_num.values()
+        den = h_denom.values()
+
+        eff = np.divide(num, den, out=np.zeros_like(num), where=den > 0)
+
+        eff_lookup = dense_lookup(eff, [ax.edges for ax in h_denom.axes])
+
+        return eff_lookup
+
+        
+
+    def add_btag_weights(self, flavor: str, correlated: bool):
+
+        # --------------------------------------------------------
+        #  1. Jet candidates
+        # --------------------------------------------------------
+        jets = self.jet_map[flavor]
+        j, nj = ak.flatten(jets), ak.num(jets)
+
+        
+        jet_eta_mask = (np.abs(j.eta) < 2.5) 
+        jet_mask = jet_eta_mask
+        in_jets = j.mask[jet_mask]
+        
+        # get jet pt and eta (replace None values with some 'in-limit' value)
+        jet_pt = ak.fill_none(in_jets.pt, 0.0)
+        jet_eta = ak.fill_none(np.abs(in_jets.eta), 0.0)
+        
+        
+        
+        # ---------------------------------------------------------
+        # 2. Efficiencies (MC)
+        # ---------------------------------------------------------
+        # Important: If two wps are considered, e.g Loose no Medium, the pass variable will be looser than the fail variable.
+        # Use jets passing general cuts without criteria associated with the number of jets.
+        #jets_eff = j[self.mask_eff_btag]
+        jets_eff = ak.flatten(jets[self.mask_eff_btag])
+
+        # Bjets passing wp
+        eff_lookup_p = self.get_eff(
+            jets_pt=jets_eff.pt, 
+            abs_jets_eta=np.abs(jets_eff.eta), 
+            jets_btag=jets_eff.btagDeepFlavB,
+            jets_flavor=jets_eff.hadronFlavour, 
+            btag_wp_value=self.pass_btag_wp,
+            flavor=flavor
+        )
+        # Evaluate
+        eff_p = eff_lookup_p(jets.pt, np.abs(jets.eta))
+        
+        # Bjets failing wp
+        eff_lookup_f = self.get_eff(
+            jets_pt=jets_eff.pt, 
+            abs_jets_eta=np.abs(jets_eff.eta), 
+            jets_btag=jets_eff.btagDeepFlavB,
+            jets_flavor=jets_eff.hadronFlavour, 
+            btag_wp_value=self.fail_btag_wp,
+            flavor=flavor
+        ) if self.multiple_wps else None
+        # Evaluate
+        eff_f = eff_lookup_f(jets.pt, np.abs(jets.eta)) if self.multiple_wps else None
+               
+        
+        # Define whether it is a correlated case or not
+        suffix = "_correlated" if correlated else ""
+        variations = {"nominal": "central", "up": f"up{suffix}", "down": f"down{suffix}"}
+
+
+        # -----------------------------------------------------------
+        # 3. Get the correction name
+        # -----------------------------------------------------------
+        correction_name = self.correction_name_map[flavor]
+        
+        weights = {}
+        for label, var in variations.items():
+            # var: "nominal", "up", "down
+            # -----------------------------------------------------------
+            # 4. Obtain the scale factor
+            # -----------------------------------------------------------
+            # Read the value of the scale factor
+            sf_evaluated = self.cset[correction_name].evaluate(
+                var, self.pass_wp[0], j.hadronFlavour, np.abs(jet_eta), jet_pt
+            )
             
-        # until correctionlib handles jagged data natively we have to flatten and unflatten
-        j, nj = ak.flatten(self._jet_map[flavor]), ak.num(self._jet_map[flavor])
+            # Discarding artificial values
+            sf_masked = ak.where(jet_mask, sf_evaluated, 1.0)
 
-        # get 'in-limits' jets
-        jet_eta_mask = np.abs(j.eta) < 2.499
-        jet_btag_wp_mask = j.btagDeepFlavB > self._btagwp
-        in_jet_mask = jet_eta_mask & jet_btag_wp_mask 
-        in_jets = j.mask[in_jet_mask]
+            # Restore the original structure per event.
+            sf_p = ak.unflatten(sf_masked, nj)
+            
 
-        # get jet transverse momentum, abs pseudorapidity and hadron flavour (replace None values with some 'in-limit' value)
-        jets_pt = ak.fill_none(in_jets.pt, 0.0)
-        jets_eta = ak.fill_none(np.abs(in_jets.eta), 0.0)
-        jets_hadron_flavour = ak.fill_none(in_jets.hadronFlavour, 5 if flavor == "bc" else 0)
+            if not self.multiple_wps:
+                # -----------------------------------------------------------
+                # 5. Calculate the weight, case of 1 wp.
+                # -----------------------------------------------------------
+                passbtag = (jets.btagDeepFlavB > self.pass_btag_wp)
+                weight = ak.where(passbtag, sf_p, (1 - sf_p * eff_p) / (1 - eff_p))
 
-        sf = self._cset[cset_keys[flavor]].evaluate(
-            syst,
-            self._wp[0],
-            np.array(jets_hadron_flavour),
-            np.array(jets_eta),
-            np.array(jets_pt),
+
+                den = 1 - eff_p
+                mask_bad = den == 0
+
+                if ak.any(mask_bad):
+                    print("⚠️ eff_p = 1 encontrado en", ak.sum(mask_bad), "jets de un número total de ", len(mask_bad))
+
+            else:
+                # -----------------------------------------------------------
+                # 5. Calculate the SF of the second working point
+                # -----------------------------------------------------------
+                sf_evaluated = self.cset[correction_name].evaluate(
+                    var, self.fail_wp[0], j.hadronFlavour, np.abs(jet_eta), jet_pt
+                )
+                
+                # Discarding artificial values
+                sf_masked = ak.where(jet_mask, sf_evaluated, 1.0)
+    
+                # Restore the original structure per event.
+                sf_f = ak.unflatten(sf_masked, nj)
+
+                # -----------------------------------------------------------
+                # 6. Masks of the three terms
+                # -----------------------------------------------------------
+                # Jets passing the tightest WP
+                mask_pass_tightest = (jets.btagDeepFlavB > self.fail_btag_wp)
+
+                # Jets within the band defined by the two wps
+                mask_in_interval = (
+                    (jets.btagDeepFlavB > self.pass_btag_wp) 
+                    & (jets.btagDeepFlavB <= self.fail_btag_wp)
+                )
+
+                # Jet fails the softest wp
+                mask_fail_all = (jets.btagDeepFlavB <= self.pass_btag_wp)
+
+                # -----------------------------------------------------------
+                # 7. Calculation of the three terms of the product separately
+                # -----------------------------------------------------------
+                # Category: i Tagged T 
+                first_term = sf_f 
+
+                # Category: Tagged L not T
+                delta_eff = eff_p - eff_f
+                second_term = (eff_p * sf_p - eff_f * sf_f) / (eff_p - eff_f)
+                
+
+                # Category: No tagged.
+                third_term = (1 - eff_p * sf_p) / (1 - eff_p)
+
+                # -----------------------------------------------------------
+                # 6. Calculate the weights for the case of 2 wps.
+                # -----------------------------------------------------------
+
+                weight = ak.ones_like(jets.pt)
+
+                # Assign the corresponding term to each jet according to its mask
+                weight = ak.where(mask_pass_tightest, first_term, weight)
+                weight = ak.where(mask_in_interval, second_term, weight)
+                weight = ak.where(mask_fail_all, third_term, weight)
+                
+
+            # The weight of the event is the product of the weights of all its jets.    
+            weights[label] = ak.fill_none(ak.prod(weight, axis=-1), 1.0)
+
+
+        
+        """
+        nominal_sf, up_sf, down_sf = [
+            ak.where(self.bjet_mask, sf, 1.0)
+            for sf in (weights["nominal"], weights["up"], weights["down"])
+        ]  
+        """
+        nominal_sf, up_sf, down_sf = [
+            ak.where(self.bjet_mask, ak.nan_to_num(sf, nan=1.0, posinf=1.0, neginf=1.0), 1.0)
+            for sf in (weights["nominal"], weights["up"], weights["down"])
+        ]
+
+            
+        # add scale factors to weights container
+        self.weights.add(
+            name=f"CMS_btag_{'heavy' if flavor == 'bc' else 'light'}_{self.year}",
+            weight=nominal_sf,
+            weightUp=up_sf,
+            weightDown=down_sf
         )
-        sf = ak.where(in_jet_mask, sf, ak.ones_like(sf))
-        return ak.unflatten(sf, nj)
-
-    @staticmethod
-    def get_btag_weight(eff: ak.Array, sf: ak.Array, passbtag: ak.Array) -> ak.Array:
-        """
-        compute b-tagging weights
-
-        see: https://twiki.cern.ch/twiki/bin/viewauth/CMS/BTagSFMethods
-
-        Parameters:
-        -----------
-            eff:
-                btagging efficiencies
-            sf:
-                jets scale factors
-            passbtag:
-                mask with jets that pass the b-tagging working point
-        """
-        # tagged SF = SF * eff / eff = SF
-        tagged_sf = ak.prod(sf.mask[passbtag], axis=-1)
-
-        # untagged SF = (1 - SF * eff) / (1 - eff)
-        untagged_sf = ak.prod(((1 - sf * eff) / (1 - eff)).mask[~passbtag], axis=-1)
-
-        return ak.fill_none(tagged_sf * untagged_sf, 1.0)
-
-
-    def print_efficiency_min_max_per_flavor(self):
-        """
-        Print the minimum and maximum b-tagging efficiencies 
-        separately for b-jets, c-jets, and light-jets using correct flavor mapping.
-        """
-        flavor_map = {
-            5: ("b-jets", self._bc_jets[self._bc_jets.hadronFlavour == 5]),
-            4: ("c-jets", self._bc_jets[self._bc_jets.hadronFlavour == 4]),
-            0: ("light-jets", self._light_jets),
-        }
-
-        print(f" ============================================ ")
-        print(f" BTagging Efficiency Summary: {self.cleaned_dataset}")
-
-        for hf, (tag, jets) in flavor_map.items():
-            if len(jets) == 0:
-                print(f"No jets of type {tag}")
-                continue
-
-            # Map {0,4,5} -> {0,1,2} usando ak.where
-            hf_array = jets.hadronFlavour
-            mapped_flavour = ak.where(hf_array == 0, 0,
-                            ak.where(hf_array == 4, 1,
-                            ak.where(hf_array == 5, 2, -1)))  # -1 = valor inesperado
-
-            eff = self._efflookup(jets.pt, np.abs(jets.eta), mapped_flavour)
-
-            eff_flat = ak.flatten(eff)
-            eff_min = np.min(eff_flat)
-            eff_max = np.max(eff_flat)
-
-            print(f"{tag}: minimum efficiency = {eff_min:.4f}, maximum efficiency = {eff_max:.4f}")
-

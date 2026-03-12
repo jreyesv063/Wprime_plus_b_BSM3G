@@ -1,0 +1,57 @@
+{
+    "CMS_eff_e_id_13TeV": {
+        "2016APV": "UL-Electron-ID-SF",
+        "2016": "UL-Electron-ID-SF",
+        "2017": "UL-Electron-ID-SF",
+        "2018": "UL-Electron-ID-SF",
+        "2022_pre": "Electron-ID-SF",
+        "2022_post": "Electron-ID-SF",
+        "2023_pre": "Electron-ID-SF",
+        "2023_post": "Electron-ID-SF",
+        "2024": "Electron-ID-SF"        
+    },  
+    "CMS_eff_e_reco_Above20_13TeV": {
+        "2016APV": "UL-Electron-ID-SF",
+        "2016": "UL-Electron-ID-SF",
+        "2017": "UL-Electron-ID-SF",
+        "2018": "UL-Electron-ID-SF",
+        "2022_pre": "...",
+        "2022_post": "...",
+        "2023_pre": "...",
+        "2023_post": "...",
+        "2024": "..."    
+    },
+    "CMS_eff_e_reco_Below20_13TeV": {
+        "2016APV": "UL-Electron-ID-SF",
+        "2016": "UL-Electron-ID-SF",
+        "2017": "UL-Electron-ID-SF",
+        "2018": "UL-Electron-ID-SF",
+        "2022_pre": "Electron-ID-SF",
+        "2022_post": "Electron-ID-SF",
+        "2023_pre": "Electron-ID-SF",
+        "2023_post": "Electron-ID-SF",
+        "2024": "Electron-ID-SF"    
+    },
+    "CMS_eff_e_reco_20to75_13TeV": {
+        "2016APV": "...",
+        "2016": "...",
+        "2017": "...",
+        "2018": "...",
+        "2022_pre": "Electron-ID-SF",
+        "2022_post": "Electron-ID-SF",
+        "2023_pre": "Electron-ID-SF",
+        "2023_post": "Electron-ID-SF",
+        "2024": "Electron-ID-SF"    
+    },
+    "CMS_eff_e_reco_Above75_13TeV": {
+        "2016APV": "...",
+        "2016": "...",
+        "2017": "...",
+        "2018": "...",
+        "2022_pre": "Electron-ID-SF",
+        "2022_post": "Electron-ID-SF",
+        "2023_pre": "Electron-ID-SF",
+        "2023_post": "Electron-ID-SF",
+        "2024": "Electron-ID-SF"    
+    } 
+}

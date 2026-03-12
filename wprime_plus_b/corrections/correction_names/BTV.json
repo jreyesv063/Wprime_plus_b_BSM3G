@@ -1,0 +1,24 @@
+{
+    "CMS_btag_fixedWP_bc_simple": {
+        "2016APV": "deepJet_comb",
+        "2016": "deepJet_comb",
+        "2017": "deepJet_comb",
+        "2018": "deepJet_comb",
+        "2022_pre":"deepJet_comb",
+        "2022_post":"deepJet_comb",
+        "2023_pre":"deepJet_comb",
+        "2023_post":"deepJet_comb",
+        "2024": "UParTAK4_kinfit"
+    },
+    "CMS_btag_fixedWP_light_simple": {
+        "2016APV": "deepJet_incl",
+        "2016": "deepJet_incl",
+        "2017": "deepJet_incl",
+        "2018": "deepJet_incl",
+        "2022_pre": "deepJet_light",
+        "2022_post": "deepJet_light",
+        "2023_pre": "deepJet_light",
+        "2023_post": "deepJet_light",
+        "2024": "UParTAK4_negtagDY"
+    }    
+}

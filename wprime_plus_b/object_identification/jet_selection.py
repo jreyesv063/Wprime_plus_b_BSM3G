@@ -3,129 +3,110 @@ import numpy as np
 import awkward as ak
 from typing import Dict
 import importlib.resources
+from typing import Optional
 
 
 def select_good_jets(
     events: ak.Array,
-    jets: ak.Array,    
     year: str = "2017",
     jet_pt_threshold: int = 20,
     jet_eta_threshold: float = 2.4,
     jet_id_wp: str = "TightLepVeto",
     jet_pileup_id: str = "Tight",
-    leading_jet_pt: float = 100.0,
-    is_mc: bool = True,
+    syst_var: bool = True
 ) -> Dict[str, ak.Array]:
-    """
-    Selects and filters 'good' b-jets from a collection of jets based on specified criteria
+    
+    # ------------------------------------------------------------------
+    # Load working points from JSON
+    # ------------------------------------------------------------------
+    with open("wprime_plus_b/json_files/jet.json", "r") as f:
+        jet_info = json.load(f)
 
-    Parameters:
-    -----------
-    events:
-        A collection of events represented using the NanoEventsArray class.
 
-    year: {'2016', '2017', '2018'}
-        Year for which the data is being analyzed. Default is '2017'.
+    # ============================================================
+    # Eta
+    # ============================================================
+    jet_eta_mask = np.abs(events.Jet.eta) < jet_eta_threshold   
 
-    btag_working_point: {'L', 'M', 'T'}
-        Working point for b-tagging. Default is 'M'.
+    # ============================================================
+    # jet ID
+    # ============================================================
+    if year in ["2016APV", "2016", "2017", "2018"]:
+        jet_jetId_mask = (events.Jet.jetId  == jet_info["jetid"][year][jet_id_wp])
 
-    jet_id: https://twiki.cern.ch/twiki/bin/view/CMS/JetID#Run_II
-        Jet ID flags {1, 2, 3, 6, 7}
-        For 2016 samples:
-            1 means: pass loose ID, fail tight, fail tightLepVeto
-            3 means: pass loose and tight ID, fail tightLepVeto
-            7 means: pass loose, tight, tightLepVeto ID.
-        For 2017 and 2018 samples:
-            2 means: pass tight ID, fail tightLepVeto
-            6 means: pass tight and tightLepVeto ID.
+    
+    # ============================================================
+    # pt
+    # ============================================================
+    jet_pt_mask = (events.Jet.pt >= jet_pt_threshold)
 
-    jet_pileup_id: https://twiki.cern.ch/twiki/bin/viewauth/CMS/PileupJetID
-        Pileup ID flags for pre-UL trainings {0, 4, 6, 7}. Should be applied only to AK4 CHS jets with pT < 50 GeV
-        0 means 000: fail all PU ID;
-        4 means 100: pass loose ID, fail medium, fail tight;
-        6 means 110: pass loose and medium ID, fail tight;
-        7 means 111: pass loose, medium, tight ID.
+    
+    # ============================================================
+    # pileupjet ID (pt < 50)
+    # ============================================================
+    jet_pileupId_mask = (events.Jet.puId  == jet_info["pujetid"][year][jet_pileup_id])  
+    
+    
+    # ============================================================
+    # Final Jet selection mask
+    # ============================================================ 
+    jet_mask_ref = jet_eta_mask & jet_jetId_mask 
 
-    Returns:
-    --------
-        An Awkward Array mask containing the selected "good" b-jets that satisfy the specified criteria.
-    """
 
-    # --------------------------------------------------
-    # Working points and flags
-    # --------------------------------------------------
+    jet_mask = ak.where(
+        (events.Jet.pt < 50),
+        jet_mask_ref & jet_pileupId_mask & jet_pt_mask,
+        jet_mask_ref & jet_pt_mask,
+    )
 
-    puid_wps = {"Fail": 0, "Loose": 4, "Medium": 6, "Tight": 7}
+    # ============================================================
+    # Systematic variations: JES and JEC
+    # ============================================================
+    if (
+        syst_var
+        and hasattr(events, "genWeight")
+        and hasattr(events.Jet, "JES_pt_up")
+        and hasattr(events.Jet, "JES_pt_down")
+        and hasattr(events.Jet, "JER_pt_up")
+        and hasattr(events.Jet, "JER_pt_down")
+    ):        
+        # JES
+        jet_JES_up_mask = ak.where(
+            (events.Jet.JES_pt_up < 50),
+            jet_mask_ref & jet_pileupId_mask & (events.Jet.JES_pt_up >= jet_pt_threshold),
+            jet_mask_ref  & (events.Jet.JES_pt_up >= jet_pt_threshold),
+        )
 
-    if year in ["2016APV","2016", "2017", "2018"]:
-        # --------------------------------------------------------
-        # Run 2: jetId flags are stored correctly in NanoAOD
-        # --------------------------------------------------------        
-        jet_id_flags = {
-            "2016APV": {"Loose": 1, "Tight": 3, "TightLepVeto": 6},
-            "2016": {"Loose": 1, "Tight": 3, "TightLepVeto": 6},
-            "2017": {"Tight": 2, "TightLepVeto": 6},
-            "2018": {"Tight": 2, "TightLepVeto": 6},
+        jet_JES_down_mask = ak.where(
+            (events.Jet.JES_pt_down < 50),
+            jet_mask_ref & jet_pileupId_mask & (events.Jet.JES_pt_down >= jet_pt_threshold),
+            jet_mask_ref  & (events.Jet.JES_pt_down >= jet_pt_threshold),
+        )
+
+        # JER
+        jet_JER_up_mask = ak.where(
+            (events.Jet.JER_pt_up < 50),
+            jet_mask_ref & jet_pileupId_mask & (events.Jet.JER_pt_up >= jet_pt_threshold),
+            jet_mask_ref  & (events.Jet.JER_pt_up >= jet_pt_threshold),
+        )
+
+        jet_JER_down_mask = ak.where(
+            (events.Jet.JER_pt_down < 50),
+            jet_mask_ref & jet_pileupId_mask & (events.Jet.JER_pt_down >= jet_pt_threshold),
+            jet_mask_ref  & (events.Jet.JER_pt_down >= jet_pt_threshold),
+        )
+
+        return {
+            "nominal": jet_mask,
+            "JES": {
+                "up":  jet_JES_up_mask, "down":  jet_JES_down_mask
+            },
+            "JER": {
+                "up":  jet_JER_up_mask, "down":  jet_JER_down_mask
+            }
         }
-
-
-        jet_id = jet_id_flags[year][jet_id_wp]
-
-    # --------------------------------------------------
-    # Load b-tag thresholds
-    # --------------------------------------------------
-    with open("wprime_plus_b/json_files/btagWPs.json", "r") as f:
-        btag_thresholds = json.load(f)["deepJet"][year]
-        btag_fail = (
-            btag_thresholds[btag_working_point_fail]
-            if btag_working_point_fail
-            else None
-        )
-
-    # --------------------------------------------------
-    # Helper to build masks
-    # --------------------------------------------------
-
-    def build_masks(shift):
-        # Low pT jets (PU ID applied)
-        low_pt_mask = (
-            (shift.pt > jet_pt_threshold)
-            & (shift.pt < 50)
-            & (np.abs(shift.eta) < jet_eta_threshold)
-            & (shift.jetId  == jet_id)
-            & (shift.puId  == puid_wps[jet_pileup_id])
-        )
-
-        # High pT jets (no PU ID)
-        high_pt_mask = (
-            (shift.pt >= 50)
-            & (np.abs(shift.eta) < jet_eta_threshold)
-            & (shift.jetId  == jet_id)
-        )
-
-
-        return low_pt_mask | high_pt_mask
-
-
-    # --------------------------------------------------
-    # Main logic
-    # --------------------------------------------------
-    good_jet_masks = {}
-
-    if is_mc:
-        jet_shifts = {
-            "nominal": jets,
-            "JES_up": jets.JES_jes.up,
-            "JES_down": jets.JES_jes.down,
-            "JER_up": jets.JER.up,
-            "JER_down": jets.JER.down,
-        }
-
-        for name, shift in jet_shifts.items():
-            good_jet_masks[name] = build_masks(shift)
 
     else:
-        good_jet_masks["nominal"] = build_masks(jets)
-
-    return good_jet_masks
+        return  {
+            "nominal": jet_mask
+        }

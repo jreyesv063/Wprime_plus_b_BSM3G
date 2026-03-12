@@ -1,0 +1,1108 @@
+{
+    "2016APV": {
+        "_comment": "https://cms-analysis-corrections.docs.cern.ch/corrections_era/Run2-2016preVFP-UL-NanoAODv9/JME/2025-04-11/#jet_jercjsongz",
+        "DATA": {
+            "JEC": {
+                "B": {
+                    "L1FastJet": "Summer19UL16APV_RunBCD_V7_DATA_L1FastJet_AK8PFPuppi",
+                    "L2Relative": "Summer19UL16APV_RunBCD_V7_DATA_L2Relative_AK8PFPuppi",
+                    "L3Absolute": "Summer19UL16APV_RunBCD_V7_DATA_L3Absolute_AK8PFPuppi",
+                    "L2L3Residual": "Summer19UL16APV_RunBCD_V7_DATA_L2L3Residual_AK8PFPuppi",
+                    "full": "Summer19UL16APV_RunBCD_V7_DATA_L1L2L3Res_AK8PFPuppi"
+                },
+                "C": {
+                    "L1FastJet": "Summer19UL16APV_RunBCD_V7_DATA_L1FastJet_AK8PFPuppi",
+                    "L2Relative": "Summer19UL16APV_RunBCD_V7_DATA_L2Relative_AK8PFPuppi",
+                    "L3Absolute": "Summer19UL16APV_RunBCD_V7_DATA_L3Absolute_AK8PFPuppi",
+                    "L2L3Residual": "Summer19UL16APV_RunBCD_V7_DATA_L2L3Residual_AK8PFPuppi",
+                    "full": "Summer19UL16APV_RunBCD_V7_DATA_L1L2L3Res_AK8PFPuppi"
+                },
+                "D": {
+                    "L1FastJet": "Summer19UL16APV_RunBCD_V7_DATA_L1FastJet_AK8PFPuppi",
+                    "L2Relative": "Summer19UL16APV_RunBCD_V7_DATA_L2Relative_AK8PFPuppi",
+                    "L3Absolute": "Summer19UL16APV_RunBCD_V7_DATA_L3Absolute_AK8PFPuppi",
+                    "L2L3Residual": "Summer19UL16APV_RunBCD_V7_DATA_L2L3Residual_AK8PFPuppi",
+                    "full": "Summer19UL16APV_RunBCD_V7_DATA_L1L2L3Res_AK8PFPuppi"
+                },                
+                "E": {
+                    "L1FastJet": "Summer19UL16APV_RunEF_V7_DATA_L1FastJet_AK8PFPuppi",
+                    "L2Relative": "Summer19UL16APV_RunEF_V7_DATA_L2Relative_AK8PFPuppi",
+                    "L3Absolute": "Summer19UL16APV_RunEF_V7_DATA_L3Absolute_AK8PFPuppi",
+                    "L2L3Residual": "Summer19UL16APV_RunEF_V7_DATA_L2L3Residual_AK8PFPuppi",
+                    "full": "Summer19UL16APV_RunEF_V7_DATA_L1L2L3Res_AK8PFPuppi"
+                },
+                "F": {
+                    "L1FastJet": "Summer19UL16APV_RunEF_V7_DATA_L1FastJet_AK8PFPuppi",
+                    "L2Relative": "Summer19UL16APV_RunEF_V7_DATA_L2Relative_AK8PFPuppi",
+                    "L3Absolute": "Summer19UL16APV_RunEF_V7_DATA_L3Absolute_AK8PFPuppi",
+                    "L2L3Residual": "Summer19UL16APV_RunEF_V7_DATA_L2L3Residual_AK8PFPuppi",
+                    "full": "Summer19UL16APV_RunEF_V7_DATA_L1L2L3Res_AK8PFPuppi"
+                }                
+            }
+        },
+        "MC": {
+            "JEC": {
+                "nominal": {
+                    "L1FastJet": "Summer19UL16APV_V7_MC_L1FastJet_AK8PFPuppi",
+                    "L2Relative": "Summer19UL16APV_V7_MC_L2Relative_AK8PFPuppi",
+                    "L3Absolute": "Summer19UL16APV_V7_MC_L3Absolute_AK8PFPuppi",
+                    "L2L3Residual": "Summer19UL16APV_V7_MC_L2L3Residual_AK8PFPuppi",
+                    "full": "Summer19UL16APV_V7_MC_L1L2L3Res_AK8PFPuppi"
+                },
+                "Uncertainties": {
+                    "individual": {
+                        "AbsoluteStat": "Summer19UL16APV_V7_MC_AbsoluteStat_AK8PFPuppi",
+                        "AbsoluteScale": "Summer19UL16APV_V7_MC_AbsoluteScale_AK8PFPuppi",
+                        "AbsoluteFlavor": "Summer19UL16APV_V7_MC_AbsoluteFlavMap_AK8PFPuppi",
+                        "AbsoluteMPFBias": "Summer19UL16APV_V7_MC_AbsoluteMPFBias_AK8PFPuppi",
+                        "Fragmentation": "Summer19UL16APV_V7_MC_Fragmentation_AK8PFPuppi",
+                        "SinglePionECAL": "Summer19UL16APV_V7_MC_SinglePionECAL_AK8PFPuppi",
+                        "SinglePionHCAL": "Summer19UL16APV_V7_MC_SinglePionHCAL_AK8PFPuppi",
+                        "FlavorQCD": "Summer19UL16APV_V7_MC_FlavorQCD_AK8PFPuppi",
+                        "TimePtEta": "Summer19UL16APV_V7_MC_TimePtEta_AK8PFPuppi",
+                        "RelativeJEREC1": "Summer19UL16APV_V7_MC_RelativeJEREC1_AK8PFPuppi",
+                        "RelativeJEREC2": "Summer19UL16APV_V7_MC_RelativeJEREC2_AK8PFPuppi",
+                        "RelativeJERHF": "Summer19UL16APV_V7_MC_RelativeJERHF_AK8PFPuppi",
+                        "RelativePtBB": "Summer19UL16APV_V7_MC_RelativePtBB_AK8PFPuppi",
+                        "RelativePtEC1": "Summer19UL16APV_V7_MC_RelativePtEC1_AK8PFPuppi",
+                        "RelativePtEC2": "Summer19UL16APV_V7_MC_RelativePtEC2_AK8PFPuppi",
+                        "RelativePtHF": "Summer19UL16APV_V7_MC_RelativePtHF_AK8PFPuppi",
+                        "RelativeBal": "Summer19UL16APV_V7_MC_RelativeBal_AK8PFPuppi",
+                        "RelativeSample": "Summer19UL16APV_V7_MC_RelativeSample_AK8PFPuppi",
+                        "RelativeFSR": "Summer19UL16APV_V7_MC_RelativeFSR_AK8PFPuppi",
+                        "RelativeStatFSR": "Summer19UL16APV_V7_MC_RelativeStatFSR_AK8PFPuppi",
+                        "RelativeStatEC": "Summer19UL16APV_V7_MC_RelativeStatEC_AK8PFPuppi",
+                        "RelativeStatHF": "Summer19UL16APV_V7_MC_RelativeStatHF_AK8PFPuppi",
+                        "PileUpDataMC": "Summer19UL16APV_V7_MC_PileUpDataMC_AK8PFPuppi",
+                        "PileUpPtRef": "Summer19UL16APV_V7_MC_PileUpPtRef_AK8PFPuppi",
+                        "PileUpPtBB": "Summer19UL16APV_V7_MC_PileUpPtBB_AK8PFPuppi",
+                        "PileUpPtEC1": "Summer19UL16APV_V7_MC_PileUpPtEC1_AK8PFPuppi",
+                        "PileUpPtEC2": "Summer19UL16APV_V7_MC_PileUpPtEC2_AK8PFPuppi",
+                        "PileUpPtHF": "Summer19UL16APV_V7_MC_PileUpPtHF_AK8PFPuppi",
+                        "PileUpMuZero": "Summer19UL16APV_V7_MC_PileUpMuZero_AK8PFPuppi",
+                        "PileUpEnvelope": "Summer19UL16APV_V7_MC_PileUpEnvelope_AK8PFPuppi"
+                    },
+                    "subtotal": {
+                        "SubTotalPileUp": "Summer19UL16APV_V7_MC_SubTotalPileUp_AK8PFPuppi",
+                        "SubTotalRelative": "Summer19UL16APV_V7_MC_SubTotalRelative_AK8PFPuppi",
+                        "SubTotalPt": "Summer19UL16APV_V7_MC_SubTotalPt_AK8PFPuppi",
+                        "SubTotalScale": "Summer19UL16APV_V7_MC_SubTotalScale_AK8PFPuppi",
+                        "SubTotalAbsolute": "Summer19UL16APV_V7_MC_SubTotalAbsolute_AK8PFPuppi",
+                        "SubTotalMC": "Summer19UL16APV_V7_MC_SubTotalMC_AK8PFPuppi"
+                    },
+                    "total": {
+                        "Total": "Summer19UL16APV_V7_MC_Total_AK8PFPuppi",
+                        "TotalNoFlavor": "Summer19UL16APV_V7_MC_TotalNoFlavor_AK8PFPuppi",
+                        "TotalNoTime": "Summer19UL16APV_V7_MC_TotalNoTime_AK8PFPuppi",
+                        "TotalNoFlavorNoTime": "Summer19UL16APV_V7_MC_TotalNoFlavorNoTime_AK8PFPuppi"
+                    },
+                    "regrouped": {
+                        "Regrouped_FlavorQCD": "Summer19UL16APV_V7_MC_Regrouped_FlavorQCD_AK8PFPuppi",
+                        "Regrouped_RelativeBal": "Summer19UL16APV_V7_MC_Regrouped_RelativeBal_AK8PFPuppi",
+                        "Regrouped_HF": "Summer19UL16APV_V7_MC_Regrouped_HF_AK8PFPuppi",
+                        "Regrouped_BBEC1": "Summer19UL16APV_V7_MC_Regrouped_BBEC1_AK8PFPuppi",
+                        "Regrouped_EC2": "Summer19UL16APV_V7_MC_Regrouped_EC2_AK8PFPuppi",
+                        "Regrouped_Absolute": "Summer19UL16APV_V7_MC_Regrouped_Absolute_AK8PFPuppi",
+                        "Regrouped_BBEC1_2016": "Summer19UL16APV_V7_MC_Regrouped_BBEC1_2016_AK8PFPuppi",
+                        "Regrouped_EC2_2016": "Summer19UL16APV_V7_MC_Regrouped_EC2_2016_AK8PFPuppi",
+                        "Regrouped_Absolute_2016": "Summer19UL16APV_V7_MC_Regrouped_Absolute_2016_AK8PFPuppi",
+                        "Regrouped_HF_2016": "Summer19UL16APV_V7_MC_Regrouped_HF_2016_AK8PFPuppi",
+                        "Regrouped_RelativeSample_2016": "Summer19UL16APV_V7_MC_Regrouped_RelativeSample_2016_AK8PFPuppi",
+                        "Regrouped_Total": "Summer19UL16APV_V7_MC_Regrouped_Total_AK8PFPuppi"
+                    },
+                    "correlation": {
+                        "CorrelationGroupMPFInSitu": "Summer19UL16APV_V7_MC_CorrelationGroupMPFInSitu_AK8PFPuppi",
+                        "CorrelationGroupIntercalibration": "Summer19UL16APV_V7_MC_CorrelationGroupIntercalibration_AK8PFPuppi",
+                        "CorrelationGroupbJES": "Summer19UL16APV_V7_MC_CorrelationGroupbJES_AK8PFPuppi",
+                        "CorrelationGroupFlavor": "Summer19UL16APV_V7_MC_CorrelationGroupFlavor_AK8PFPuppi",
+                        "CorrelationGroupUncorrelated": "Summer19UL16APV_V7_MC_CorrelationGroupUncorrelated_AK8PFPuppi"
+                    },
+                    "flavor": {
+                        "FlavorZJet": "Summer19UL16APV_V7_MC_FlavorZJet_AK8PFPuppi",
+                        "FlavorPhotonJet": "Summer19UL16APV_V7_MC_FlavorPhotonJet_AK8PFPuppi",
+                        "FlavorPureGluon": "Summer19UL16APV_V7_MC_FlavorPureGluon_AK8PFPuppi",
+                        "FlavorPureQuark": "Summer19UL16APV_V7_MC_FlavorPureQuark_AK8PFPuppi",
+                        "FlavorPureCharm": "Summer19UL16APV_V7_MC_FlavorPureCharm_AK8PFPuppi",
+                        "FlavorPureBottom": "Summer19UL16APV_V7_MC_FlavorPureBottom_AK8PFPuppi"
+                    },
+                    "time": {
+                        "TimeRunBCD": "Summer19UL16APV_V7_MC_TimeRunBCD_AK8PFPuppi",
+                        "TimeRunEF": "Summer19UL16APV_V7_MC_TimeRunEF_AK8PFPuppi",
+                        "TimeRunGH": "Summer19UL16APV_V7_MC_TimeRunGH_AK8PFPuppi"
+                    }
+                }
+            },
+            "JER": {
+                "ptResolution": "Summer20UL16APV_JRV3_MC_PtResolution_AK8PFPuppi",
+                "ScaleFactor": "Summer20UL16APV_JRV3_MC_SF_AK8PFPuppi"
+            },
+            "Uncertainties": {
+                "Sources": "Summer19UL16APV_V7_MC_UncertaintySources_AK8PFPuppi",
+                "Total": "Summer19UL16APV_V7_MC_Uncertainty_AK8PFPuppi"
+            }
+        }
+    },
+    "2016": {
+        "_comment": "Summer19UL16 JEC for 2016 non-APV (Run FGH) - AK8PFPuppi jets",
+        "DATA": {
+            "JEC": {
+                "F": {
+                    "L1FastJet": "Summer19UL16_RunFGH_V7_DATA_L1FastJet_AK8PFPuppi",
+                    "L2Relative": "Summer19UL16_RunFGH_V7_DATA_L2Relative_AK8PFPuppi",
+                    "L3Absolute": "Summer19UL16_RunFGH_V7_DATA_L3Absolute_AK8PFPuppi",
+                    "L2L3Residual": "Summer19UL16_RunFGH_V7_DATA_L2L3Residual_AK8PFPuppi",
+                    "full": "Summer19UL16_RunFGH_V7_DATA_L1L2L3Res_AK8PFPuppi"
+                },
+                "G": {
+                    "L1FastJet": "Summer19UL16_RunFGH_V7_DATA_L1FastJet_AK8PFPuppi",
+                    "L2Relative": "Summer19UL16_RunFGH_V7_DATA_L2Relative_AK8PFPuppi",
+                    "L3Absolute": "Summer19UL16_RunFGH_V7_DATA_L3Absolute_AK8PFPuppi",
+                    "L2L3Residual": "Summer19UL16_RunFGH_V7_DATA_L2L3Residual_AK8PFPuppi",
+                    "full": "Summer19UL16_RunFGH_V7_DATA_L1L2L3Res_AK8PFPuppi"
+                },
+                "H": {
+                    "L1FastJet": "Summer19UL16_RunFGH_V7_DATA_L1FastJet_AK8PFPuppi",
+                    "L2Relative": "Summer19UL16_RunFGH_V7_DATA_L2Relative_AK8PFPuppi",
+                    "L3Absolute": "Summer19UL16_RunFGH_V7_DATA_L3Absolute_AK8PFPuppi",
+                    "L2L3Residual": "Summer19UL16_RunFGH_V7_DATA_L2L3Residual_AK8PFPuppi",
+                    "full": "Summer19UL16_RunFGH_V7_DATA_L1L2L3Res_AK8PFPuppi"
+                }                
+            }
+        },
+        "MC": {
+            "JEC": {
+                "nominal": {
+                    "L1FastJet": "Summer19UL16_V7_MC_L1FastJet_AK8PFPuppi",
+                    "L2Relative": "Summer19UL16_V7_MC_L2Relative_AK8PFPuppi",
+                    "L3Absolute": "Summer19UL16_V7_MC_L3Absolute_AK8PFPuppi",
+                    "L2L3Residual": "Summer19UL16_V7_MC_L2L3Residual_AK8PFPuppi",
+                    "full": "Summer19UL16_V7_MC_L1L2L3Res_AK8PFPuppi"
+                },
+                "Uncertainties": {
+                    "individual": {
+                        "AbsoluteStat": "Summer19UL16_V7_MC_AbsoluteStat_AK8PFPuppi",
+                        "AbsoluteScale": "Summer19UL16_V7_MC_AbsoluteScale_AK8PFPuppi",
+                        "AbsoluteFlavor": "Summer19UL16_V7_MC_AbsoluteFlavMap_AK8PFPuppi",
+                        "AbsoluteMPFBias": "Summer19UL16_V7_MC_AbsoluteMPFBias_AK8PFPuppi",
+                        "Fragmentation": "Summer19UL16_V7_MC_Fragmentation_AK8PFPuppi",
+                        "SinglePionECAL": "Summer19UL16_V7_MC_SinglePionECAL_AK8PFPuppi",
+                        "SinglePionHCAL": "Summer19UL16_V7_MC_SinglePionHCAL_AK8PFPuppi",
+                        "FlavorQCD": "Summer19UL16_V7_MC_FlavorQCD_AK8PFPuppi",
+                        "TimePtEta": "Summer19UL16_V7_MC_TimePtEta_AK8PFPuppi",
+                        "RelativeJEREC1": "Summer19UL16_V7_MC_RelativeJEREC1_AK8PFPuppi",
+                        "RelativeJEREC2": "Summer19UL16_V7_MC_RelativeJEREC2_AK8PFPuppi",
+                        "RelativeJERHF": "Summer19UL16_V7_MC_RelativeJERHF_AK8PFPuppi",
+                        "RelativePtBB": "Summer19UL16_V7_MC_RelativePtBB_AK8PFPuppi",
+                        "RelativePtEC1": "Summer19UL16_V7_MC_RelativePtEC1_AK8PFPuppi",
+                        "RelativePtEC2": "Summer19UL16_V7_MC_RelativePtEC2_AK8PFPuppi",
+                        "RelativePtHF": "Summer19UL16_V7_MC_RelativePtHF_AK8PFPuppi",
+                        "RelativeBal": "Summer19UL16_V7_MC_RelativeBal_AK8PFPuppi",
+                        "RelativeSample": "Summer19UL16_V7_MC_RelativeSample_AK8PFPuppi",
+                        "RelativeFSR": "Summer19UL16_V7_MC_RelativeFSR_AK8PFPuppi",
+                        "RelativeStatFSR": "Summer19UL16_V7_MC_RelativeStatFSR_AK8PFPuppi",
+                        "RelativeStatEC": "Summer19UL16_V7_MC_RelativeStatEC_AK8PFPuppi",
+                        "RelativeStatHF": "Summer19UL16_V7_MC_RelativeStatHF_AK8PFPuppi",
+                        "PileUpDataMC": "Summer19UL16_V7_MC_PileUpDataMC_AK8PFPuppi",
+                        "PileUpPtRef": "Summer19UL16_V7_MC_PileUpPtRef_AK8PFPuppi",
+                        "PileUpPtBB": "Summer19UL16_V7_MC_PileUpPtBB_AK8PFPuppi",
+                        "PileUpPtEC1": "Summer19UL16_V7_MC_PileUpPtEC1_AK8PFPuppi",
+                        "PileUpPtEC2": "Summer19UL16_V7_MC_PileUpPtEC2_AK8PFPuppi",
+                        "PileUpPtHF": "Summer19UL16_V7_MC_PileUpPtHF_AK8PFPuppi",
+                        "PileUpMuZero": "Summer19UL16_V7_MC_PileUpMuZero_AK8PFPuppi",
+                        "PileUpEnvelope": "Summer19UL16_V7_MC_PileUpEnvelope_AK8PFPuppi"
+                    },
+                    "subtotal": {
+                        "SubTotalPileUp": "Summer19UL16_V7_MC_SubTotalPileUp_AK8PFPuppi",
+                        "SubTotalRelative": "Summer19UL16_V7_MC_SubTotalRelative_AK8PFPuppi",
+                        "SubTotalPt": "Summer19UL16_V7_MC_SubTotalPt_AK8PFPuppi",
+                        "SubTotalScale": "Summer19UL16_V7_MC_SubTotalScale_AK8PFPuppi",
+                        "SubTotalAbsolute": "Summer19UL16_V7_MC_SubTotalAbsolute_AK8PFPuppi",
+                        "SubTotalMC": "Summer19UL16_V7_MC_SubTotalMC_AK8PFPuppi"
+                    },
+                    "total": {
+                        "Total": "Summer19UL16_V7_MC_Total_AK8PFPuppi",
+                        "TotalNoFlavor": "Summer19UL16_V7_MC_TotalNoFlavor_AK8PFPuppi",
+                        "TotalNoTime": "Summer19UL16_V7_MC_TotalNoTime_AK8PFPuppi",
+                        "TotalNoFlavorNoTime": "Summer19UL16_V7_MC_TotalNoFlavorNoTime_AK8PFPuppi"
+                    },
+                    "regrouped": {
+                        "Regrouped_FlavorQCD": "Summer19UL16_V7_MC_Regrouped_FlavorQCD_AK8PFPuppi",
+                        "Regrouped_RelativeBal": "Summer19UL16_V7_MC_Regrouped_RelativeBal_AK8PFPuppi",
+                        "Regrouped_HF": "Summer19UL16_V7_MC_Regrouped_HF_AK8PFPuppi",
+                        "Regrouped_BBEC1": "Summer19UL16_V7_MC_Regrouped_BBEC1_AK8PFPuppi",
+                        "Regrouped_EC2": "Summer19UL16_V7_MC_Regrouped_EC2_AK8PFPuppi",
+                        "Regrouped_Absolute": "Summer19UL16_V7_MC_Regrouped_Absolute_AK8PFPuppi",
+                        "Regrouped_BBEC1_2016": "Summer19UL16_V7_MC_Regrouped_BBEC1_2016_AK8PFPuppi",
+                        "Regrouped_EC2_2016": "Summer19UL16_V7_MC_Regrouped_EC2_2016_AK8PFPuppi",
+                        "Regrouped_Absolute_2016": "Summer19UL16_V7_MC_Regrouped_Absolute_2016_AK8PFPuppi",
+                        "Regrouped_HF_2016": "Summer19UL16_V7_MC_Regrouped_HF_2016_AK8PFPuppi",
+                        "Regrouped_RelativeSample_2016": "Summer19UL16_V7_MC_Regrouped_RelativeSample_2016_AK8PFPuppi",
+                        "Regrouped_Total": "Summer19UL16_V7_MC_Regrouped_Total_AK8PFPuppi"
+                    },
+                    "correlation": {
+                        "CorrelationGroupMPFInSitu": "Summer19UL16_V7_MC_CorrelationGroupMPFInSitu_AK8PFPuppi",
+                        "CorrelationGroupIntercalibration": "Summer19UL16_V7_MC_CorrelationGroupIntercalibration_AK8PFPuppi",
+                        "CorrelationGroupbJES": "Summer19UL16_V7_MC_CorrelationGroupbJES_AK8PFPuppi",
+                        "CorrelationGroupFlavor": "Summer19UL16_V7_MC_CorrelationGroupFlavor_AK8PFPuppi",
+                        "CorrelationGroupUncorrelated": "Summer19UL16_V7_MC_CorrelationGroupUncorrelated_AK8PFPuppi"
+                    },
+                    "flavor": {
+                        "FlavorZJet": "Summer19UL16_V7_MC_FlavorZJet_AK8PFPuppi",
+                        "FlavorPhotonJet": "Summer19UL16_V7_MC_FlavorPhotonJet_AK8PFPuppi",
+                        "FlavorPureGluon": "Summer19UL16_V7_MC_FlavorPureGluon_AK8PFPuppi",
+                        "FlavorPureQuark": "Summer19UL16_V7_MC_FlavorPureQuark_AK8PFPuppi",
+                        "FlavorPureCharm": "Summer19UL16_V7_MC_FlavorPureCharm_AK8PFPuppi",
+                        "FlavorPureBottom": "Summer19UL16_V7_MC_FlavorPureBottom_AK8PFPuppi"
+                    },
+                    "time": {
+                        "TimeRunBCD": "Summer19UL16_V7_MC_TimeRunBCD_AK8PFPuppi",
+                        "TimeRunEF": "Summer19UL16_V7_MC_TimeRunEF_AK8PFPuppi",
+                        "TimeRunGH": "Summer19UL16_V7_MC_TimeRunGH_AK8PFPuppi"
+                    }
+                }
+            },
+            "JER": {
+                "ptResolution": "Summer20UL16_JRV3_MC_PtResolution_AK8PFPuppi",
+                "ScaleFactor": "Summer20UL16_JRV3_MC_SF_AK8PFPuppi"
+            },
+            "Uncertainties": {
+                "Sources": "Summer19UL16_V7_MC_UncertaintySources_AK8PFPuppi",
+                "Total": "Summer19UL16_V7_MC_Uncertainty_AK8PFPuppi"
+            }
+        }
+    },
+    "2017": {
+        "_comment": "https://cms-analysis-corrections.docs.cern.ch/corrections_era/Run2-2017-UL-NanoAODv9/JME/2025-04-11/#jet_jercjsongz",
+        "DATA": {
+            "JEC": {
+                "B": {
+                    "L1FastJet": "Summer19UL17_RunB_V5_DATA_L1FastJet_AK8PFPuppi",
+                    "L2Relative": "Summer19UL17_RunB_V5_DATA_L2Relative_AK8PFPuppi",
+                    "L3Absolute": "Summer19UL17_RunB_V5_DATA_L3Absolute_AK8PFPuppi",
+                    "L2L3Residual": "Summer19UL17_RunB_V5_DATA_L2L3Residual_AK8PFPuppi",
+                    "full": "Summer19UL17_RunB_V5_DATA_L1L2L3Res_AK8PFPuppi"
+                },
+                "C": {
+                    "L1FastJet": "Summer19UL17_RunC_V5_DATA_L1FastJet_AK8PFPuppi",
+                    "L2Relative": "Summer19UL17_RunC_V5_DATA_L2Relative_AK8PFPuppi",
+                    "L3Absolute": "Summer19UL17_RunC_V5_DATA_L3Absolute_AK8PFPuppi",
+                    "L2L3Residual": "Summer19UL17_RunC_V5_DATA_L2L3Residual_AK8PFPuppi",
+                    "full": "Summer19UL17_RunC_V5_DATA_L1L2L3Res_AK8PFPuppi"
+                },
+                "D": {
+                    "L1FastJet": "Summer19UL17_RunD_V5_DATA_L1FastJet_AK8PFPuppi",
+                    "L2Relative": "Summer19UL17_RunD_V5_DATA_L2Relative_AK8PFPuppi",
+                    "L3Absolute": "Summer19UL17_RunD_V5_DATA_L3Absolute_AK8PFPuppi",
+                    "L2L3Residual": "Summer19UL17_RunD_V5_DATA_L2L3Residual_AK8PFPuppi",
+                    "full": "Summer19UL17_RunD_V5_DATA_L1L2L3Res_AK8PFPuppi"
+                },
+                "E": {
+                    "L1FastJet": "Summer19UL17_RunE_V5_DATA_L1FastJet_AK8PFPuppi",
+                    "L2Relative": "Summer19UL17_RunE_V5_DATA_L2Relative_AK8PFPuppi",
+                    "L3Absolute": "Summer19UL17_RunE_V5_DATA_L3Absolute_AK8PFPuppi",
+                    "L2L3Residual": "Summer19UL17_RunE_V5_DATA_L2L3Residual_AK8PFPuppi",
+                    "full": "Summer19UL17_RunE_V5_DATA_L1L2L3Res_AK8PFPuppi"
+                },
+                "F": {
+                    "L1FastJet": "Summer19UL17_RunF_V5_DATA_L1FastJet_AK8PFPuppi",
+                    "L2Relative": "Summer19UL17_RunF_V5_DATA_L2Relative_AK8PFPuppi",
+                    "L3Absolute": "Summer19UL17_RunF_V5_DATA_L3Absolute_AK8PFPuppi",
+                    "L2L3Residual": "Summer19UL17_RunF_V5_DATA_L2L3Residual_AK8PFPuppi",
+                    "full": "Summer19UL17_RunF_V5_DATA_L1L2L3Res_AK8PFPuppi"
+                }
+            }
+        },
+        "MC": {
+            "JEC": {
+                "nominal": {
+                    "L1FastJet": "Summer19UL17_V5_MC_L1FastJet_AK8PFPuppi",
+                    "L2Relative": "Summer19UL17_V5_MC_L2Relative_AK8PFPuppi",
+                    "L3Absolute": "Summer19UL17_V5_MC_L3Absolute_AK8PFPuppi",
+                    "L2L3Residual": "Summer19UL17_V5_MC_L2L3Residual_AK8PFPuppi",
+                    "full": "Summer19UL17_V5_MC_L1L2L3Res_AK8PFPuppi"
+                },
+                "Uncertainties": {
+                    "individual": {
+                        "AbsoluteStat": "Summer19UL17_V5_MC_AbsoluteStat_AK8PFPuppi",
+                        "AbsoluteScale": "Summer19UL17_V5_MC_AbsoluteScale_AK8PFPuppi",
+                        "AbsoluteFlavor": "Summer19UL17_V5_MC_AbsoluteFlavMap_AK8PFPuppi",
+                        "AbsoluteMPFBias": "Summer19UL17_V5_MC_AbsoluteMPFBias_AK8PFPuppi",
+                        "Fragmentation": "Summer19UL17_V5_MC_Fragmentation_AK8PFPuppi",
+                        "SinglePionECAL": "Summer19UL17_V5_MC_SinglePionECAL_AK8PFPuppi",
+                        "SinglePionHCAL": "Summer19UL17_V5_MC_SinglePionHCAL_AK8PFPuppi",
+                        "FlavorQCD": "Summer19UL17_V5_MC_FlavorQCD_AK8PFPuppi",
+                        "TimePtEta": "Summer19UL17_V5_MC_TimePtEta_AK8PFPuppi",
+                        "RelativeJERC1": "Summer19UL17_V5_MC_RelativeJEREC1_AK8PFPuppi",
+                        "RelativeJERC2": "Summer19UL17_V5_MC_RelativeJEREC2_AK8PFPuppi",
+                        "RelativeJERHF": "Summer19UL17_V5_MC_RelativeJERHF_AK8PFPuppi",
+                        "RelativePtBB": "Summer19UL17_V5_MC_RelativePtBB_AK8PFPuppi",
+                        "RelativePtEC1": "Summer19UL17_V5_MC_RelativePtEC1_AK8PFPuppi",
+                        "RelativePtEC2": "Summer19UL17_V5_MC_RelativePtEC2_AK8PFPuppi",
+                        "RelativePtHF": "Summer19UL17_V5_MC_RelativePtHF_AK8PFPuppi",
+                        "RelativeBal": "Summer19UL17_V5_MC_RelativeBal_AK8PFPuppi",
+                        "RelativeSample": "Summer19UL17_V5_MC_RelativeSample_AK8PFPuppi",
+                        "RelativeFSR": "Summer19UL17_V5_MC_RelativeFSR_AK8PFPuppi",
+                        "RelativeStatFSR": "Summer19UL17_V5_MC_RelativeStatFSR_AK8PFPuppi",
+                        "RelativeStatEC": "Summer19UL17_V5_MC_RelativeStatEC_AK8PFPuppi",
+                        "RelativeStatHF": "Summer19UL17_V5_MC_RelativeStatHF_AK8PFPuppi",
+                        "PileUpDataMC": "Summer19UL17_V5_MC_PileUpDataMC_AK8PFPuppi",
+                        "PileUpPtRef": "Summer19UL17_V5_MC_PileUpPtRef_AK8PFPuppi",
+                        "PileUpPtBB": "Summer19UL17_V5_MC_PileUpPtBB_AK8PFPuppi",
+                        "PileUpPtEC1": "Summer19UL17_V5_MC_PileUpPtEC1_AK8PFPuppi",
+                        "PileUpPtEC2": "Summer19UL17_V5_MC_PileUpPtEC2_AK8PFPuppi",
+                        "PileUpPtHF": "Summer19UL17_V5_MC_PileUpPtHF_AK8PFPuppi",
+                        "PileUpMuZero": "Summer19UL17_V5_MC_PileUpMuZero_AK8PFPuppi",
+                        "PileUpEnvelope": "Summer19UL17_V5_MC_PileUpEnvelope_AK8PFPuppi"
+                    },
+                    "subtotal": {
+                        "SubTotalPileUp": "Summer19UL17_V5_MC_SubTotalPileUp_AK8PFPuppi",
+                        "SubTotalRelative": "Summer19UL17_V5_MC_SubTotalRelative_AK8PFPuppi",
+                        "SubTotalPt": "Summer19UL17_V5_MC_SubTotalPt_AK8PFPuppi",
+                        "SubTotalScale": "Summer19UL17_V5_MC_SubTotalScale_AK8PFPuppi",
+                        "SubTotalAbsolute": "Summer19UL17_V5_MC_SubTotalAbsolute_AK8PFPuppi",
+                        "SubTotalMC": "Summer19UL17_V5_MC_SubTotalMC_AK8PFPuppi"
+                    },
+                    "total": {
+                        "Total": "Summer19UL17_V5_MC_Total_AK8PFPuppi",
+                        "TotalNoFlavor": "Summer19UL17_V5_MC_TotalNoFlavor_AK8PFPuppi",
+                        "TotalNoTime": "Summer19UL17_V5_MC_TotalNoTime_AK8PFPuppi",
+                        "TotalNoFlavorNoTime": "Summer19UL17_V5_MC_TotalNoFlavorNoTime_AK8PFPuppi"
+                    },
+                    "regrouped": {
+                        "Regrouped_FlavorQCD": "Summer19UL17_V5_MC_Regrouped_FlavorQCD_AK8PFPuppi",
+                        "Regrouped_RelativeBal": "Summer19UL17_V5_MC_Regrouped_RelativeBal_AK8PFPuppi",
+                        "Regrouped_HF": "Summer19UL17_V5_MC_Regrouped_HF_AK8PFPuppi",
+                        "Regrouped_BBEC1": "Summer19UL17_V5_MC_Regrouped_BBEC1_AK8PFPuppi",
+                        "Regrouped_EC2": "Summer19UL17_V5_MC_Regrouped_EC2_AK8PFPuppi",
+                        "Regrouped_Absolute": "Summer19UL17_V5_MC_Regrouped_Absolute_AK8PFPuppi",
+                        "Regrouped_BBEC1_2017": "Summer19UL17_V5_MC_Regrouped_BBEC1_2017_AK8PFPuppi",
+                        "Regrouped_RelativeSample_2017": "Summer19UL17_V5_MC_Regrouped_RelativeSample_2017_AK8PFPuppi",
+                        "Regrouped_EC2_2017": "Summer19UL17_V5_MC_Regrouped_EC2_2017_AK8PFPuppi",
+                        "Regrouped_HF_2017": "Summer19UL17_V5_MC_Regrouped_HF_2017_AK8PFPuppi",
+                        "Regrouped_Absolute_2017": "Summer19UL17_V5_MC_Regrouped_Absolute_2017_AK8PFPuppi",
+                        "Regrouped_Total": "Summer19UL17_V5_MC_Regrouped_Total_AK8PFPuppi"
+                    },
+                    "correlation": {
+                        "CorrelationGroupMPFInSitu": "Summer19UL17_V5_MC_CorrelationGroupMPFInSitu_AK8PFPuppi",
+                        "CorrelationGroupIntercalibration": "Summer19UL17_V5_MC_CorrelationGroupIntercalibration_AK8PFPuppi",
+                        "CorrelationGroupbJES": "Summer19UL17_V5_MC_CorrelationGroupbJES_AK8PFPuppi",
+                        "CorrelationGroupFlavor": "Summer19UL17_V5_MC_CorrelationGroupFlavor_AK8PFPuppi",
+                        "CorrelationGroupUncorrelated": "Summer19UL17_V5_MC_CorrelationGroupUncorrelated_AK8PFPuppi"
+                    },
+                    "flavor": {
+                        "FlavorZJet": "Summer19UL17_V5_MC_FlavorZJet_AK8PFPuppi",
+                        "FlavorPhotonJet": "Summer19UL17_V5_MC_FlavorPhotonJet_AK8PFPuppi",
+                        "FlavorPureGluon": "Summer19UL17_V5_MC_FlavorPureGluon_AK8PFPuppi",
+                        "FlavorPureQuark": "Summer19UL17_V5_MC_FlavorPureQuark_AK8PFPuppi",
+                        "FlavorPureCharm": "Summer19UL17_V5_MC_FlavorPureCharm_AK8PFPuppi",
+                        "FlavorPureBottom": "Summer19UL17_V5_MC_FlavorPureBottom_AK8PFPuppi"
+                    },
+                    "time": {
+                        "TimeRunB": "Summer19UL17_V5_MC_TimeRunB_AK8PFPuppi",
+                        "TimeRunC": "Summer19UL17_V5_MC_TimeRunC_AK8PFPuppi",
+                        "TimeRunDE": "Summer19UL17_V5_MC_TimeRunDE_AK8PFPuppi",
+                        "TimeRunF": "Summer19UL17_V5_MC_TimeRunF_AK8PFPuppi"
+                    }
+                }
+            },
+            "JER": {
+                "ptResolution": "Summer19UL17_JRV3_MC_PtResolution_AK8PFPuppi",
+                "ScaleFactor": "Summer19UL17_JRV3_MC_SF_AK8PFPuppi"
+            },
+            "Uncertainties": {
+                "Sources": "Summer19UL17_V5_MC_UncertaintySources_AK8PFPuppi",
+                "Total": "Summer19UL17_V5_MC_Uncertainty_AK8PFPuppi"
+            }
+        }
+    },
+    "2018": {
+        "_comment": "https://cms-analysis-corrections.docs.cern.ch/corrections_era/Run2-2018-UL-NanoAODv9/JME/2025-04-11/#jet_jercjsongz",
+        "DATA": {
+            "JEC": {
+                "A": {
+                    "L1FastJet": "Summer19UL18_RunA_V5_DATA_L1FastJet_AK8PFPuppi",
+                    "L2Relative": "Summer19UL18_RunA_V5_DATA_L2Relative_AK8PFPuppi",
+                    "L3Absolute": "Summer19UL18_RunA_V5_DATA_L3Absolute_AK8PFPuppi",
+                    "L2L3Residual": "Summer19UL18_RunA_V5_DATA_L2L3Residual_AK8PFPuppi",
+                    "full": "Summer19UL18_RunA_V5_DATA_L1L2L3Res_AK8PFPuppi"
+                },
+                "B": {
+                    "L1FastJet": "Summer19UL18_RunB_V5_DATA_L1FastJet_AK8PFPuppi",
+                    "L2Relative": "Summer19UL18_RunB_V5_DATA_L2Relative_AK8PFPuppi",
+                    "L3Absolute": "Summer19UL18_RunB_V5_DATA_L3Absolute_AK8PFPuppi",
+                    "L2L3Residual": "Summer19UL18_RunB_V5_DATA_L2L3Residual_AK8PFPuppi",
+                    "full": "Summer19UL18_RunB_V5_DATA_L1L2L3Res_AK8PFPuppi"
+                },
+                "C": {
+                    "L1FastJet": "Summer19UL18_RunC_V5_DATA_L1FastJet_AK8PFPuppi",
+                    "L2Relative": "Summer19UL18_RunC_V5_DATA_L2Relative_AK8PFPuppi",
+                    "L3Absolute": "Summer19UL18_RunC_V5_DATA_L3Absolute_AK8PFPuppi",
+                    "L2L3Residual": "Summer19UL18_RunC_V5_DATA_L2L3Residual_AK8PFPuppi",
+                    "full": "Summer19UL18_RunC_V5_DATA_L1L2L3Res_AK8PFPuppi"
+                },
+                "D": {
+                    "L1FastJet": "Summer19UL18_RunD_V5_DATA_L1FastJet_AK8PFPuppi",
+                    "L2Relative": "Summer19UL18_RunD_V5_DATA_L2Relative_AK8PFPuppi",
+                    "L3Absolute": "Summer19UL18_RunD_V5_DATA_L3Absolute_AK8PFPuppi",
+                    "L2L3Residual": "Summer19UL18_RunD_V5_DATA_L2L3Residual_AK8PFPuppi",
+                    "full": "Summer19UL18_RunD_V5_DATA_L1L2L3Res_AK8PFPuppi"
+                }
+            }
+        },
+        "MC": {
+            "JEC": {
+                "nominal": {
+                    "L1FastJet": "Summer19UL18_V5_MC_L1FastJet_AK8PFPuppi",
+                    "L2Relative": "Summer19UL18_V5_MC_L2Relative_AK8PFPuppi",
+                    "L3Absolute": "Summer19UL18_V5_MC_L3Absolute_AK8PFPuppi",
+                    "L2L3Residual": "Summer19UL18_V5_MC_L2L3Residual_AK8PFPuppi",
+                    "full": "Summer19UL18_V5_MC_L1L2L3Res_AK8PFPuppi"
+                },
+                "Uncertainties": {
+                    "individual": {
+                        "AbsoluteStat": "Summer19UL18_V5_MC_AbsoluteStat_AK8PFPuppi",
+                        "AbsoluteScale": "Summer19UL18_V5_MC_AbsoluteScale_AK8PFPuppi",
+                        "AbsoluteSample": "Summer19UL18_V5_MC_AbsoluteSample_AK8PFPuppi",
+                        "AbsoluteFlavor": "Summer19UL18_V5_MC_AbsoluteFlavMap_AK8PFPuppi",
+                        "AbsoluteMPFBias": "Summer19UL18_V5_MC_AbsoluteMPFBias_AK8PFPuppi",
+                        "Fragmentation": "Summer19UL18_V5_MC_Fragmentation_AK8PFPuppi",
+                        "SinglePionECAL": "Summer19UL18_V5_MC_SinglePionECAL_AK8PFPuppi",
+                        "SinglePionHCAL": "Summer19UL18_V5_MC_SinglePionHCAL_AK8PFPuppi",
+                        "FlavorQCD": "Summer19UL18_V5_MC_FlavorQCD_AK8PFPuppi",
+                        "TimePtEta": "Summer19UL18_V5_MC_TimePtEta_AK8PFPuppi",
+                        "RelativeJERC1": "Summer19UL18_V5_MC_RelativeJEREC1_AK8PFPuppi",
+                        "RelativeJERC2": "Summer19UL18_V5_MC_RelativeJEREC2_AK8PFPuppi",
+                        "RelativeJERHF": "Summer19UL18_V5_MC_RelativeJERHF_AK8PFPuppi",
+                        "RelativePtBB": "Summer19UL18_V5_MC_RelativePtBB_AK8PFPuppi",
+                        "RelativePtEC1": "Summer19UL18_V5_MC_RelativePtEC1_AK8PFPuppi",
+                        "RelativePtEC2": "Summer19UL18_V5_MC_RelativePtEC2_AK8PFPuppi",
+                        "RelativePtHF": "Summer19UL18_V5_MC_RelativePtHF_AK8PFPuppi",
+                        "RelativeBal": "Summer19UL18_V5_MC_RelativeBal_AK8PFPuppi",
+                        "RelativeSample": "Summer19UL18_V5_MC_RelativeSample_AK8PFPuppi",
+                        "RelativeFSR": "Summer19UL18_V5_MC_RelativeFSR_AK8PFPuppi",
+                        "RelativeStatFSR": "Summer19UL18_V5_MC_RelativeStatFSR_AK8PFPuppi",
+                        "RelativeStatEC": "Summer19UL18_V5_MC_RelativeStatEC_AK8PFPuppi",
+                        "RelativeStatHF": "Summer19UL18_V5_MC_RelativeStatHF_AK8PFPuppi",
+                        "PileUpDataMC": "Summer19UL18_V5_MC_PileUpDataMC_AK8PFPuppi",
+                        "PileUpPtRef": "Summer19UL18_V5_MC_PileUpPtRef_AK8PFPuppi",
+                        "PileUpPtBB": "Summer19UL18_V5_MC_PileUpPtBB_AK8PFPuppi",
+                        "PileUpPtEC1": "Summer19UL18_V5_MC_PileUpPtEC1_AK8PFPuppi",
+                        "PileUpPtEC2": "Summer19UL18_V5_MC_PileUpPtEC2_AK8PFPuppi",
+                        "PileUpPtHF": "Summer19UL18_V5_MC_PileUpPtHF_AK8PFPuppi",
+                        "PileUpMuZero": "Summer19UL18_V5_MC_PileUpMuZero_AK8PFPuppi",
+                        "PileUpEnvelope": "Summer19UL18_V5_MC_PileUpEnvelope_AK8PFPuppi"
+                    },
+                    "subtotal": {
+                        "SubTotalPileUp": "Summer19UL18_V5_MC_SubTotalPileUp_AK8PFPuppi",
+                        "SubTotalRelative": "Summer19UL18_V5_MC_SubTotalRelative_AK8PFPuppi",
+                        "SubTotalPt": "Summer19UL18_V5_MC_SubTotalPt_AK8PFPuppi",
+                        "SubTotalScale": "Summer19UL18_V5_MC_SubTotalScale_AK8PFPuppi",
+                        "SubTotalAbsolute": "Summer19UL18_V5_MC_SubTotalAbsolute_AK8PFPuppi",
+                        "SubTotalMC": "Summer19UL18_V5_MC_SubTotalMC_AK8PFPuppi"
+                    },
+                    "total": {
+                        "Total": "Summer19UL18_V5_MC_Total_AK8PFPuppi",
+                        "TotalNoFlavor": "Summer19UL18_V5_MC_TotalNoFlavor_AK8PFPuppi",
+                        "TotalNoTime": "Summer19UL18_V5_MC_TotalNoTime_AK8PFPuppi",
+                        "TotalNoFlavorNoTime": "Summer19UL18_V5_MC_TotalNoFlavorNoTime_AK8PFPuppi"
+                    },
+                    "regrouped": {
+                        "Regrouped_FlavorQCD": "Summer19UL18_V5_MC_Regrouped_FlavorQCD_AK8PFPuppi",
+                        "Regrouped_RelativeBal": "Summer19UL18_V5_MC_Regrouped_RelativeBal_AK8PFPuppi",
+                        "Regrouped_HF": "Summer19UL18_V5_MC_Regrouped_HF_AK8PFPuppi",
+                        "Regrouped_BBEC1": "Summer19UL18_V5_MC_Regrouped_BBEC1_AK8PFPuppi",
+                        "Regrouped_EC2": "Summer19UL18_V5_MC_Regrouped_EC2_AK8PFPuppi",
+                        "Regrouped_Absolute": "Summer19UL18_V5_MC_Regrouped_Absolute_AK8PFPuppi",
+                        "Regrouped_BBEC1_2018": "Summer19UL18_V5_MC_Regrouped_BBEC1_2018_AK8PFPuppi",
+                        "Regrouped_RelativeSample_2018": "Summer19UL18_V5_MC_Regrouped_RelativeSample_2018_AK8PFPuppi",
+                        "Regrouped_EC2_2018": "Summer19UL18_V5_MC_Regrouped_EC2_2018_AK8PFPuppi",
+                        "Regrouped_HF_2018": "Summer19UL18_V5_MC_Regrouped_HF_2018_AK8PFPuppi",
+                        "Regrouped_Absolute_2018": "Summer19UL18_V5_MC_Regrouped_Absolute_2018_AK8PFPuppi",
+                        "Regrouped_Total": "Summer19UL18_V5_MC_Regrouped_Total_AK8PFPuppi"
+                    },
+                    "correlation": {
+                        "CorrelationGroupMPFInSitu": "Summer19UL18_V5_MC_CorrelationGroupMPFInSitu_AK8PFPuppi",
+                        "CorrelationGroupIntercalibration": "Summer19UL18_V5_MC_CorrelationGroupIntercalibration_AK8PFPuppi",
+                        "CorrelationGroupbJES": "Summer19UL18_V5_MC_CorrelationGroupbJES_AK8PFPuppi",
+                        "CorrelationGroupFlavor": "Summer19UL18_V5_MC_CorrelationGroupFlavor_AK8PFPuppi",
+                        "CorrelationGroupUncorrelated": "Summer19UL18_V5_MC_CorrelationGroupUncorrelated_AK8PFPuppi"
+                    },
+                    "flavor": {
+                        "FlavorZJet": "Summer19UL18_V5_MC_FlavorZJet_AK8PFPuppi",
+                        "FlavorPhotonJet": "Summer19UL18_V5_MC_FlavorPhotonJet_AK8PFPuppi",
+                        "FlavorPureGluon": "Summer19UL18_V5_MC_FlavorPureGluon_AK8PFPuppi",
+                        "FlavorPureQuark": "Summer19UL18_V5_MC_FlavorPureQuark_AK8PFPuppi",
+                        "FlavorPureCharm": "Summer19UL18_V5_MC_FlavorPureCharm_AK8PFPuppi",
+                        "FlavorPureBottom": "Summer19UL18_V5_MC_FlavorPureBottom_AK8PFPuppi"
+                    },
+                    "time": {
+                        "TimeRunA": "Summer19UL18_V5_MC_TimeRunA_AK8PFPuppi",
+                        "TimeRunB": "Summer19UL18_V5_MC_TimeRunB_AK8PFPuppi",
+                        "TimeRunC": "Summer19UL18_V5_MC_TimeRunC_AK8PFPuppi",
+                        "TimeRunD": "Summer19UL18_V5_MC_TimeRunD_AK8PFPuppi"
+                    }
+                }
+            },
+            "JER": {
+                "ptResolution": "Summer19UL18_JRV2_MC_PtResolution_AK8PFPuppi",
+                "ScaleFactor": "Summer19UL18_JRV2_MC_SF_AK8PFPuppi"
+            },
+            "Uncertainties": {
+                "Sources": "Summer19UL18_V5_MC_UncertaintySources_AK8PFPuppi",
+                "Total": "Summer19UL18_V5_MC_Uncertainty_AK8PFPuppi"
+            }
+        }
+    },
+    "2022_pre": {
+        "_comment": "https://cms-analysis-corrections.docs.cern.ch/corrections_era/Run3-2022-22Sep2023-NanoAODv12/JME/2025-04-11/#jet_jercjsongz",
+        "DATA": {
+            "JEC": {
+                "C": {
+                    "L1FastJet": "Summer22_22Sep2023_RunCD_V3_DATA_L1FastJet_AK8PFPuppi",
+                    "L2Relative": "Summer22_22Sep2023_RunCD_V3_DATA_L2Relative_AK8PFPuppi",
+                    "L3Absolute": "Summer22_22Sep2023_RunCD_V3_DATA_L3Absolute_AK8PFPuppi",
+                    "L2L3Residual": "Summer22_22Sep2023_RunCD_V3_DATA_L2L3Residual_AK8PFPuppi",
+                    "full": "Summer22_22Sep2023_RunCD_V3_DATA_L1L2L3Res_AK8PFPuppi"
+                },
+                "D": {
+                    "L1FastJet": "Summer22_22Sep2023_RunCD_V3_DATA_L1FastJet_AK8PFPuppi",
+                    "L2Relative": "Summer22_22Sep2023_RunCD_V3_DATA_L2Relative_AK8PFPuppi",
+                    "L3Absolute": "Summer22_22Sep2023_RunCD_V3_DATA_L3Absolute_AK8PFPuppi",
+                    "L2L3Residual": "Summer22_22Sep2023_RunCD_V3_DATA_L2L3Residual_AK8PFPuppi",
+                    "full": "Summer22_22Sep2023_RunCD_V3_DATA_L1L2L3Res_AK8PFPuppi"
+                }                
+            }
+        },
+        "MC": {
+            "JEC": {
+                "nominal": {
+                    "L1FastJet": "Summer22_22Sep2023_V3_MC_L1FastJet_AK8PFPuppi",
+                    "L2Relative": "Summer22_22Sep2023_V3_MC_L2Relative_AK8PFPuppi",
+                    "L3Absolute": "Summer22_22Sep2023_V3_MC_L3Absolute_AK8PFPuppi",
+                    "L2L3Residual": "Summer22_22Sep2023_V3_MC_L2L3Residual_AK8PFPuppi",
+                    "full": "Summer22_22Sep2023_V3_MC_L1L2L3Res_AK8PFPuppi"
+                },
+                "Uncertainties": {
+                    "individual": {
+                        "AbsoluteStat": "Summer22_22Sep2023_V3_MC_AbsoluteStat_AK8PFPuppi",
+                        "AbsoluteScale": "Summer22_22Sep2023_V3_MC_AbsoluteScale_AK8PFPuppi",
+                        "AbsoluteSample": "Summer22_22Sep2023_V3_MC_AbsoluteSample_AK8PFPuppi",
+                        "AbsoluteFlavor": "Summer22_22Sep2023_V3_MC_AbsoluteFlavMap_AK8PFPuppi",
+                        "AbsoluteMPFBias": "Summer22_22Sep2023_V3_MC_AbsoluteMPFBias_AK8PFPuppi",
+                        "Fragmentation": "Summer22_22Sep2023_V3_MC_Fragmentation_AK8PFPuppi",
+                        "SinglePionECAL": "Summer22_22Sep2023_V3_MC_SinglePionECAL_AK8PFPuppi",
+                        "SinglePionHCAL": "Summer22_22Sep2023_V3_MC_SinglePionHCAL_AK8PFPuppi",
+                        "FlavorQCD": "Summer22_22Sep2023_V3_MC_FlavorQCD_AK8PFPuppi",
+                        "TimePtEta": "Summer22_22Sep2023_V3_MC_TimePtEta_AK8PFPuppi",
+                        "RelativeJERC1": "Summer22_22Sep2023_V3_MC_RelativeJEREC1_AK8PFPuppi",
+                        "RelativeJERC2": "Summer22_22Sep2023_V3_MC_RelativeJEREC2_AK8PFPuppi",
+                        "RelativeJERHF": "Summer22_22Sep2023_V3_MC_RelativeJERHF_AK8PFPuppi",
+                        "RelativePtBB": "Summer22_22Sep2023_V3_MC_RelativePtBB_AK8PFPuppi",
+                        "RelativePtEC1": "Summer22_22Sep2023_V3_MC_RelativePtEC1_AK8PFPuppi",
+                        "RelativePtEC2": "Summer22_22Sep2023_V3_MC_RelativePtEC2_AK8PFPuppi",
+                        "RelativePtHF": "Summer22_22Sep2023_V3_MC_RelativePtHF_AK8PFPuppi",
+                        "RelativeBal": "Summer22_22Sep2023_V3_MC_RelativeBal_AK8PFPuppi",
+                        "RelativeSample": "Summer22_22Sep2023_V3_MC_RelativeSample_AK8PFPuppi",
+                        "RelativeFSR": "Summer22_22Sep2023_V3_MC_RelativeFSR_AK8PFPuppi",
+                        "RelativeStatFSR": "Summer22_22Sep2023_V3_MC_RelativeStatFSR_AK8PFPuppi",
+                        "RelativeStatEC": "Summer22_22Sep2023_V3_MC_RelativeStatEC_AK8PFPuppi",
+                        "RelativeStatHF": "Summer22_22Sep2023_V3_MC_RelativeStatHF_AK8PFPuppi",
+                        "PileUpDataMC": "Summer22_22Sep2023_V3_MC_PileUpDataMC_AK8PFPuppi",
+                        "PileUpPtRef": "Summer22_22Sep2023_V3_MC_PileUpPtRef_AK8PFPuppi",
+                        "PileUpPtBB": "Summer22_22Sep2023_V3_MC_PileUpPtBB_AK8PFPuppi",
+                        "PileUpPtEC1": "Summer22_22Sep2023_V3_MC_PileUpPtEC1_AK8PFPuppi",
+                        "PileUpPtEC2": "Summer22_22Sep2023_V3_MC_PileUpPtEC2_AK8PFPuppi",
+                        "PileUpPtHF": "Summer22_22Sep2023_V3_MC_PileUpPtHF_AK8PFPuppi",
+                        "PileUpMuZero": "Summer22_22Sep2023_V3_MC_PileUpMuZero_AK8PFPuppi",
+                        "PileUpEnvelope": "Summer22_22Sep2023_V3_MC_PileUpEnvelope_AK8PFPuppi"
+                    },
+                    "subtotal": {
+                        "SubTotalPileUp": "Summer22_22Sep2023_V3_MC_SubTotalPileUp_AK8PFPuppi",
+                        "SubTotalRelative": "Summer22_22Sep2023_V3_MC_SubTotalRelative_AK8PFPuppi",
+                        "SubTotalPt": "Summer22_22Sep2023_V3_MC_SubTotalPt_AK8PFPuppi",
+                        "SubTotalScale": "Summer22_22Sep2023_V3_MC_SubTotalScale_AK8PFPuppi",
+                        "SubTotalAbsolute": "Summer22_22Sep2023_V3_MC_SubTotalAbsolute_AK8PFPuppi",
+                        "SubTotalMC": "Summer22_22Sep2023_V3_MC_SubTotalMC_AK8PFPuppi"
+                    },
+                    "total": {
+                        "Total": "Summer22_22Sep2023_V3_MC_Total_AK8PFPuppi",
+                        "TotalNoFlavor": "Summer22_22Sep2023_V3_MC_TotalNoFlavor_AK8PFPuppi",
+                        "TotalNoTime": "Summer22_22Sep2023_V3_MC_TotalNoTime_AK8PFPuppi",
+                        "TotalNoFlavorNoTime": "Summer22_22Sep2023_V3_MC_TotalNoFlavorNoTime_AK8PFPuppi"
+                    },
+                    "regrouped": {},
+                    "correlation": {
+                        "CorrelationGroupMPFInSitu": "Summer22_22Sep2023_V3_MC_CorrelationGroupMPFInSitu_AK8PFPuppi",
+                        "CorrelationGroupIntercalibration": "Summer22_22Sep2023_V3_MC_CorrelationGroupIntercalibration_AK8PFPuppi",
+                        "CorrelationGroupbJES": "Summer22_22Sep2023_V3_MC_CorrelationGroupbJES_AK8PFPuppi",
+                        "CorrelationGroupFlavor": "Summer22_22Sep2023_V3_MC_CorrelationGroupFlavor_AK8PFPuppi",
+                        "CorrelationGroupUncorrelated": "Summer22_22Sep2023_V3_MC_CorrelationGroupUncorrelated_AK8PFPuppi"
+                    },
+                    "flavor": {
+                        "FlavorZJet": "Summer22_22Sep2023_V3_MC_FlavorZJet_AK8PFPuppi",
+                        "FlavorPhotonJet": "Summer22_22Sep2023_V3_MC_FlavorPhotonJet_AK8PFPuppi",
+                        "FlavorPureGluon": "Summer22_22Sep2023_V3_MC_FlavorPureGluon_AK8PFPuppi",
+                        "FlavorPureQuark": "Summer22_22Sep2023_V3_MC_FlavorPureQuark_AK8PFPuppi",
+                        "FlavorPureCharm": "Summer22_22Sep2023_V3_MC_FlavorPureCharm_AK8PFPuppi",
+                        "FlavorPureBottom": "Summer22_22Sep2023_V3_MC_FlavorPureBottom_AK8PFPuppi"
+                    },
+                    "time": {}
+                }
+            },
+            "JER": {
+                "ptResolution": "Summer22_22Sep2023_JRV1_MC_PtResolution_AK8PFPuppi",
+                "etaResolution": "Summer22_22Sep2023_JRV1_MC_EtaResolution_AK8PFPuppi",
+                "phiResolution": "Summer22_22Sep2023_JRV1_MC_PhiResolution_AK8PFPuppi",
+                "ScaleFactor": "Summer22_22Sep2023_JRV1_MC_SF_AK8PFPuppi"
+            }
+        }
+    },
+    "2022_post": {
+        "_comment": "https://cms-analysis-corrections.docs.cern.ch/corrections_era/Run3-2022-22Sep2023-NanoAODv12/JME/2025-04-11/#jet_jercjsongz",
+        "DATA": {
+            "JEC": {
+                "E": {
+                    "L1FastJet": "Summer22EE_22Sep2023_RunE_V3_DATA_L1FastJet_AK8PFPuppi",
+                    "L2Relative": "Summer22EE_22Sep2023_RunE_V3_DATA_L2Relative_AK8PFPuppi",
+                    "L3Absolute": "Summer22EE_22Sep2023_RunE_V3_DATA_L3Absolute_AK8PFPuppi",
+                    "L2L3Residual": "Summer22EE_22Sep2023_RunE_V3_DATA_L2L3Residual_AK8PFPuppi",
+                    "full": "Summer22EE_22Sep2023_RunE_V3_DATA_L1L2L3Res_AK8PFPuppi"
+                },
+                "F": {
+                    "L1FastJet": "Summer22EE_22Sep2023_RunF_V3_DATA_L1FastJet_AK8PFPuppi",
+                    "L2Relative": "Summer22EE_22Sep2023_RunF_V3_DATA_L2Relative_AK8PFPuppi",
+                    "L3Absolute": "Summer22EE_22Sep2023_RunF_V3_DATA_L3Absolute_AK8PFPuppi",
+                    "L2L3Residual": "Summer22EE_22Sep2023_RunF_V3_DATA_L2L3Residual_AK8PFPuppi",
+                    "full": "Summer22EE_22Sep2023_RunF_V3_DATA_L1L2L3Res_AK8PFPuppi"
+                },
+                "G": {
+                    "L1FastJet": "Summer22EE_22Sep2023_RunG_V3_DATA_L1FastJet_AK8PFPuppi",
+                    "L2Relative": "Summer22EE_22Sep2023_RunG_V3_DATA_L2Relative_AK8PFPuppi",
+                    "L3Absolute": "Summer22EE_22Sep2023_RunG_V3_DATA_L3Absolute_AK8PFPuppi",
+                    "L2L3Residual": "Summer22EE_22Sep2023_RunG_V3_DATA_L2L3Residual_AK8PFPuppi",
+                    "full": "Summer22EE_22Sep2023_RunG_V3_DATA_L1L2L3Res_AK8PFPuppi"
+                }
+            }
+        },
+        "MC": {
+            "JEC": {
+                "nominal": {
+                    "L1FastJet": "Summer22EE_22Sep2023_V3_MC_L1FastJet_AK8PFPuppi",
+                    "L2Relative": "Summer22EE_22Sep2023_V3_MC_L2Relative_AK8PFPuppi",
+                    "L3Absolute": "Summer22EE_22Sep2023_V3_MC_L3Absolute_AK8PFPuppi",
+                    "L2L3Residual": "Summer22EE_22Sep2023_V3_MC_L2L3Residual_AK8PFPuppi",
+                    "full": "Summer22EE_22Sep2023_V3_MC_L1L2L3Res_AK8PFPuppi"
+                },
+                "Uncertainties": {
+                    "individual": {
+                        "AbsoluteStat": "Summer22EE_22Sep2023_V3_MC_AbsoluteStat_AK8PFPuppi",
+                        "AbsoluteScale": "Summer22EE_22Sep2023_V3_MC_AbsoluteScale_AK8PFPuppi",
+                        "AbsoluteSample": "Summer22EE_22Sep2023_V3_MC_AbsoluteSample_AK8PFPuppi",
+                        "AbsoluteFlavor": "Summer22EE_22Sep2023_V3_MC_AbsoluteFlavMap_AK8PFPuppi",
+                        "AbsoluteMPFBias": "Summer22EE_22Sep2023_V3_MC_AbsoluteMPFBias_AK8PFPuppi",
+                        "Fragmentation": "Summer22EE_22Sep2023_V3_MC_Fragmentation_AK8PFPuppi",
+                        "SinglePionECAL": "Summer22EE_22Sep2023_V3_MC_SinglePionECAL_AK8PFPuppi",
+                        "SinglePionHCAL": "Summer22EE_22Sep2023_V3_MC_SinglePionHCAL_AK8PFPuppi",
+                        "FlavorQCD": "Summer22EE_22Sep2023_V3_MC_FlavorQCD_AK8PFPuppi",
+                        "TimePtEta": "Summer22EE_22Sep2023_V3_MC_TimePtEta_AK8PFPuppi",
+                        "RelativeJERC1": "Summer22EE_22Sep2023_V3_MC_RelativeJEREC1_AK8PFPuppi",
+                        "RelativeJERC2": "Summer22EE_22Sep2023_V3_MC_RelativeJEREC2_AK8PFPuppi",
+                        "RelativeJERHF": "Summer22EE_22Sep2023_V3_MC_RelativeJERHF_AK8PFPuppi",
+                        "RelativePtBB": "Summer22EE_22Sep2023_V3_MC_RelativePtBB_AK8PFPuppi",
+                        "RelativePtEC1": "Summer22EE_22Sep2023_V3_MC_RelativePtEC1_AK8PFPuppi",
+                        "RelativePtEC2": "Summer22EE_22Sep2023_V3_MC_RelativePtEC2_AK8PFPuppi",
+                        "RelativePtHF": "Summer22EE_22Sep2023_V3_MC_RelativePtHF_AK8PFPuppi",
+                        "RelativeBal": "Summer22EE_22Sep2023_V3_MC_RelativeBal_AK8PFPuppi",
+                        "RelativeSample": "Summer22EE_22Sep2023_V3_MC_RelativeSample_AK8PFPuppi",
+                        "RelativeFSR": "Summer22EE_22Sep2023_V3_MC_RelativeFSR_AK8PFPuppi",
+                        "RelativeStatFSR": "Summer22EE_22Sep2023_V3_MC_RelativeStatFSR_AK8PFPuppi",
+                        "RelativeStatEC": "Summer22EE_22Sep2023_V3_MC_RelativeStatEC_AK8PFPuppi",
+                        "RelativeStatHF": "Summer22EE_22Sep2023_V3_MC_RelativeStatHF_AK8PFPuppi",
+                        "PileUpDataMC": "Summer22EE_22Sep2023_V3_MC_PileUpDataMC_AK8PFPuppi",
+                        "PileUpPtRef": "Summer22EE_22Sep2023_V3_MC_PileUpPtRef_AK8PFPuppi",
+                        "PileUpPtBB": "Summer22EE_22Sep2023_V3_MC_PileUpPtBB_AK8PFPuppi",
+                        "PileUpPtEC1": "Summer22EE_22Sep2023_V3_MC_PileUpPtEC1_AK8PFPuppi",
+                        "PileUpPtEC2": "Summer22EE_22Sep2023_V3_MC_PileUpPtEC2_AK8PFPuppi",
+                        "PileUpPtHF": "Summer22EE_22Sep2023_V3_MC_PileUpPtHF_AK8PFPuppi",
+                        "PileUpMuZero": "Summer22EE_22Sep2023_V3_MC_PileUpMuZero_AK8PFPuppi",
+                        "PileUpEnvelope": "Summer22EE_22Sep2023_V3_MC_PileUpEnvelope_AK8PFPuppi"
+                    },
+                    "subtotal": {
+                        "SubTotalPileUp": "Summer22EE_22Sep2023_V3_MC_SubTotalPileUp_AK8PFPuppi",
+                        "SubTotalRelative": "Summer22EE_22Sep2023_V3_MC_SubTotalRelative_AK8PFPuppi",
+                        "SubTotalPt": "Summer22EE_22Sep2023_V3_MC_SubTotalPt_AK8PFPuppi",
+                        "SubTotalScale": "Summer22EE_22Sep2023_V3_MC_SubTotalScale_AK8PFPuppi",
+                        "SubTotalAbsolute": "Summer22EE_22Sep2023_V3_MC_SubTotalAbsolute_AK8PFPuppi",
+                        "SubTotalMC": "Summer22EE_22Sep2023_V3_MC_SubTotalMC_AK8PFPuppi"
+                    },
+                    "total": {
+                        "Total": "Summer22EE_22Sep2023_V3_MC_Total_AK8PFPuppi",
+                        "TotalNoFlavor": "Summer22EE_22Sep2023_V3_MC_TotalNoFlavor_AK8PFPuppi",
+                        "TotalNoTime": "Summer22EE_22Sep2023_V3_MC_TotalNoTime_AK8PFPuppi",
+                        "TotalNoFlavorNoTime": "Summer22EE_22Sep2023_V3_MC_TotalNoFlavorNoTime_AK8PFPuppi"
+                    },
+                    "regrouped": {},
+                    "correlation": {
+                        "CorrelationGroupMPFInSitu": "Summer22EE_22Sep2023_V3_MC_CorrelationGroupMPFInSitu_AK8PFPuppi",
+                        "CorrelationGroupIntercalibration": "Summer22EE_22Sep2023_V3_MC_CorrelationGroupIntercalibration_AK8PFPuppi",
+                        "CorrelationGroupbJES": "Summer22EE_22Sep2023_V3_MC_CorrelationGroupbJES_AK8PFPuppi",
+                        "CorrelationGroupFlavor": "Summer22EE_22Sep2023_V3_MC_CorrelationGroupFlavor_AK8PFPuppi",
+                        "CorrelationGroupUncorrelated": "Summer22EE_22Sep2023_V3_MC_CorrelationGroupUncorrelated_AK8PFPuppi"
+                    },
+                    "flavor": {
+                        "FlavorZJet": "Summer22EE_22Sep2023_V3_MC_FlavorZJet_AK8PFPuppi",
+                        "FlavorPhotonJet": "Summer22EE_22Sep2023_V3_MC_FlavorPhotonJet_AK8PFPuppi",
+                        "FlavorPureGluon": "Summer22EE_22Sep2023_V3_MC_FlavorPureGluon_AK8PFPuppi",
+                        "FlavorPureQuark": "Summer22EE_22Sep2023_V3_MC_FlavorPureQuark_AK8PFPuppi",
+                        "FlavorPureCharm": "Summer22EE_22Sep2023_V3_MC_FlavorPureCharm_AK8PFPuppi",
+                        "FlavorPureBottom": "Summer22EE_22Sep2023_V3_MC_FlavorPureBottom_AK8PFPuppi"
+                    },
+                    "time": {}
+                }
+            },
+            "JER": {
+                "ptResolution": "Summer22EE_22Sep2023_JRV1_MC_PtResolution_AK8PFPuppi",
+                "etaResolution": "Summer22EE_22Sep2023_JRV1_MC_EtaResolution_AK8PFPuppi",
+                "phiResolution": "Summer22EE_22Sep2023_JRV1_MC_PhiResolution_AK8PFPuppi",
+                "ScaleFactor": "Summer22EE_22Sep2023_JRV1_MC_SF_AK8PFPuppi"
+            }
+        }
+    },
+    "2023_pre": {
+        "_comment": "https://cms-analysis-corrections.docs.cern.ch/corrections_era/Run3-2023-19Sep2023-NanoAODv12/JME/2025-04-11/#jet_jercjsongz",
+        "DATA": {
+            "JEC": {
+                "C": {
+                    "L1FastJet": "Summer23Prompt23_V2_DATA_L1FastJet_AK8PFPuppi",
+                    "L2Relative": "Summer23Prompt23_V2_DATA_L2Relative_AK8PFPuppi",
+                    "L3Absolute": "Summer23Prompt23_V2_DATA_L3Absolute_AK8PFPuppi",
+                    "L2L3Residual": "Summer23Prompt23_V2_DATA_L2L3Residual_AK8PFPuppi",
+                    "full": "Summer23Prompt23_V2_DATA_L1L2L3Res_AK8PFPuppi"
+                }
+            }
+        },
+        "MC": {
+            "JEC": {
+                "nominal": {
+                    "L1FastJet": "Summer23Prompt23_V2_MC_L1FastJet_AK8PFPuppi",
+                    "L2Relative": "Summer23Prompt23_V2_MC_L2Relative_AK8PFPuppi",
+                    "L3Absolute": "Summer23Prompt23_V2_MC_L3Absolute_AK8PFPuppi",
+                    "L2L3Residual": "Summer23Prompt23_V2_MC_L2L3Residual_AK8PFPuppi",
+                    "full": "Summer23Prompt23_V2_MC_L1L2L3Res_AK8PFPuppi"
+                },
+                "Uncertainties": {
+                    "individual": {
+                        "AbsoluteStat": "Summer23Prompt23_V2_MC_AbsoluteStat_AK8PFPuppi",
+                        "AbsoluteScale": "Summer23Prompt23_V2_MC_AbsoluteScale_AK8PFPuppi",
+                        "AbsoluteSample": "Summer23Prompt23_V2_MC_AbsoluteSample_AK8PFPuppi",
+                        "AbsoluteFlavor": "Summer23Prompt23_V2_MC_AbsoluteFlavMap_AK8PFPuppi",
+                        "AbsoluteMPFBias": "Summer23Prompt23_V2_MC_AbsoluteMPFBias_AK8PFPuppi",
+                        "Fragmentation": "Summer23Prompt23_V2_MC_Fragmentation_AK8PFPuppi",
+                        "SinglePionECAL": "Summer23Prompt23_V2_MC_SinglePionECAL_AK8PFPuppi",
+                        "SinglePionHCAL": "Summer23Prompt23_V2_MC_SinglePionHCAL_AK8PFPuppi",
+                        "FlavorQCD": "Summer23Prompt23_V2_MC_FlavorQCD_AK8PFPuppi",
+                        "TimePtEta": "Summer23Prompt23_V2_MC_TimePtEta_AK8PFPuppi",
+                        "RelativeJERC1": "Summer23Prompt23_V2_MC_RelativeJEREC1_AK8PFPuppi",
+                        "RelativeJERC2": "Summer23Prompt23_V2_MC_RelativeJEREC2_AK8PFPuppi",
+                        "RelativeJERHF": "Summer23Prompt23_V2_MC_RelativeJERHF_AK8PFPuppi",
+                        "RelativePtBB": "Summer23Prompt23_V2_MC_RelativePtBB_AK8PFPuppi",
+                        "RelativePtEC1": "Summer23Prompt23_V2_MC_RelativePtEC1_AK8PFPuppi",
+                        "RelativePtEC2": "Summer23Prompt23_V2_MC_RelativePtEC2_AK8PFPuppi",
+                        "RelativePtHF": "Summer23Prompt23_V2_MC_RelativePtHF_AK8PFPuppi",
+                        "RelativeBal": "Summer23Prompt23_V2_MC_RelativeBal_AK8PFPuppi",
+                        "RelativeSample": "Summer23Prompt23_V2_MC_RelativeSample_AK8PFPuppi",
+                        "RelativeFSR": "Summer23Prompt23_V2_MC_RelativeFSR_AK8PFPuppi",
+                        "RelativeStatFSR": "Summer23Prompt23_V2_MC_RelativeStatFSR_AK8PFPuppi",
+                        "RelativeStatEC": "Summer23Prompt23_V2_MC_RelativeStatEC_AK8PFPuppi",
+                        "RelativeStatHF": "Summer23Prompt23_V2_MC_RelativeStatHF_AK8PFPuppi",
+                        "PileUpDataMC": "Summer23Prompt23_V2_MC_PileUpDataMC_AK8PFPuppi",
+                        "PileUpPtRef": "Summer23Prompt23_V2_MC_PileUpPtRef_AK8PFPuppi",
+                        "PileUpPtBB": "Summer23Prompt23_V2_MC_PileUpPtBB_AK8PFPuppi",
+                        "PileUpPtEC1": "Summer23Prompt23_V2_MC_PileUpPtEC1_AK8PFPuppi",
+                        "PileUpPtEC2": "Summer23Prompt23_V2_MC_PileUpPtEC2_AK8PFPuppi",
+                        "PileUpPtHF": "Summer23Prompt23_V2_MC_PileUpPtHF_AK8PFPuppi",
+                        "PileUpMuZero": "Summer23Prompt23_V2_MC_PileUpMuZero_AK8PFPuppi",
+                        "PileUpEnvelope": "Summer23Prompt23_V2_MC_PileUpEnvelope_AK8PFPuppi"
+                    },
+                    "subtotal": {
+                        "SubTotalPileUp": "Summer23Prompt23_V2_MC_SubTotalPileUp_AK8PFPuppi",
+                        "SubTotalRelative": "Summer23Prompt23_V2_MC_SubTotalRelative_AK8PFPuppi",
+                        "SubTotalPt": "Summer23Prompt23_V2_MC_SubTotalPt_AK8PFPuppi",
+                        "SubTotalScale": "Summer23Prompt23_V2_MC_SubTotalScale_AK8PFPuppi",
+                        "SubTotalAbsolute": "Summer23Prompt23_V2_MC_SubTotalAbsolute_AK8PFPuppi",
+                        "SubTotalMC": "Summer23Prompt23_V2_MC_SubTotalMC_AK8PFPuppi"
+                    },
+                    "total": {
+                        "Total": "Summer23Prompt23_V2_MC_Total_AK8PFPuppi",
+                        "TotalNoFlavor": "Summer23Prompt23_V2_MC_TotalNoFlavor_AK8PFPuppi",
+                        "TotalNoTime": "Summer23Prompt23_V2_MC_TotalNoTime_AK8PFPuppi",
+                        "TotalNoFlavorNoTime": "Summer23Prompt23_V2_MC_TotalNoFlavorNoTime_AK8PFPuppi"
+                    },
+                    "regrouped": {},
+                    "correlation": {
+                        "CorrelationGroupMPFInSitu": "Summer23Prompt23_V2_MC_CorrelationGroupMPFInSitu_AK8PFPuppi",
+                        "CorrelationGroupIntercalibration": "Summer23Prompt23_V2_MC_CorrelationGroupIntercalibration_AK8PFPuppi",
+                        "CorrelationGroupbJES": "Summer23Prompt23_V2_MC_CorrelationGroupbJES_AK8PFPuppi",
+                        "CorrelationGroupFlavor": "Summer23Prompt23_V2_MC_CorrelationGroupFlavor_AK8PFPuppi",
+                        "CorrelationGroupUncorrelated": "Summer23Prompt23_V2_MC_CorrelationGroupUncorrelated_AK8PFPuppi"
+                    },
+                    "flavor": {
+                        "FlavorZJet": "Summer23Prompt23_V2_MC_FlavorZJet_AK8PFPuppi",
+                        "FlavorPhotonJet": "Summer23Prompt23_V2_MC_FlavorPhotonJet_AK8PFPuppi",
+                        "FlavorPureGluon": "Summer23Prompt23_V2_MC_FlavorPureGluon_AK8PFPuppi",
+                        "FlavorPureQuark": "Summer23Prompt23_V2_MC_FlavorPureQuark_AK8PFPuppi",
+                        "FlavorPureCharm": "Summer23Prompt23_V2_MC_FlavorPureCharm_AK8PFPuppi",
+                        "FlavorPureBottom": "Summer23Prompt23_V2_MC_FlavorPureBottom_AK8PFPuppi"
+                    },
+                    "time": {}
+                }
+            },
+            "JER": {
+                "ptResolution": "Summer23Prompt23_RunCv1234_JRV1_MC_PtResolution_AK8PFPuppi",
+                "ScaleFactor": "Summer23Prompt23_RunCv1234_JRV1_MC_SF_AK8PFPuppi"
+            }
+        }
+    },
+    "2023_post": {
+        "_comment": "Summer23BPixPrompt23 Corrections for Run 3, AK8PFPuppi jets",
+        "DATA": {
+            "JEC": {
+                "D": {
+                    "L1FastJet": "Summer23BPixPrompt23_V3_DATA_L1FastJet_AK8PFPuppi",
+                    "L2Relative": "Summer23BPixPrompt23_V3_DATA_L2Relative_AK8PFPuppi",
+                    "L3Absolute": "Summer23BPixPrompt23_V3_DATA_L3Absolute_AK8PFPuppi",
+                    "L2L3Residual": "Summer23BPixPrompt23_V3_DATA_L2L3Residual_AK8PFPuppi",
+                    "full": "Summer23BPixPrompt23_V3_DATA_L1L2L3Res_AK8PFPuppi"
+                }
+            }
+        },
+        "MC": {
+            "JEC": {
+                "nominal": {
+                    "L1FastJet": "Summer23BPixPrompt23_V3_MC_L1FastJet_AK8PFPuppi",
+                    "L2Relative": "Summer23BPixPrompt23_V3_MC_L2Relative_AK8PFPuppi",
+                    "L3Absolute": "Summer23BPixPrompt23_V3_MC_L3Absolute_AK8PFPuppi",
+                    "L2L3Residual": "Summer23BPixPrompt23_V3_MC_L2L3Residual_AK8PFPuppi",
+                    "full": "Summer23BPixPrompt23_V3_MC_L1L2L3Res_AK8PFPuppi"
+                },
+                "Uncertainties": {
+                    "individual": {
+                        "AbsoluteStat": "Summer23BPixPrompt23_V3_MC_AbsoluteStat_AK8PFPuppi",
+                        "AbsoluteScale": "Summer23BPixPrompt23_V3_MC_AbsoluteScale_AK8PFPuppi",
+                        "AbsoluteSample": "Summer23BPixPrompt23_V3_MC_AbsoluteSample_AK8PFPuppi",
+                        "AbsoluteFlavor": "Summer23BPixPrompt23_V3_MC_AbsoluteFlavMap_AK8PFPuppi",
+                        "AbsoluteMPFBias": "Summer23BPixPrompt23_V3_MC_AbsoluteMPFBias_AK8PFPuppi",
+                        "Fragmentation": "Summer23BPixPrompt23_V3_MC_Fragmentation_AK8PFPuppi",
+                        "SinglePionECAL": "Summer23BPixPrompt23_V3_MC_SinglePionECAL_AK8PFPuppi",
+                        "SinglePionHCAL": "Summer23BPixPrompt23_V3_MC_SinglePionHCAL_AK8PFPuppi",
+                        "FlavorQCD": "Summer23BPixPrompt23_V3_MC_FlavorQCD_AK8PFPuppi",
+                        "TimePtEta": "Summer23BPixPrompt23_V3_MC_TimePtEta_AK8PFPuppi",
+                        "RelativeJERC1": "Summer23BPixPrompt23_V3_MC_RelativeJEREC1_AK8PFPuppi",
+                        "RelativeJERC2": "Summer23BPixPrompt23_V3_MC_RelativeJEREC2_AK8PFPuppi",
+                        "RelativeJERHF": "Summer23BPixPrompt23_V3_MC_RelativeJERHF_AK8PFPuppi",
+                        "RelativePtBB": "Summer23BPixPrompt23_V3_MC_RelativePtBB_AK8PFPuppi",
+                        "RelativePtEC1": "Summer23BPixPrompt23_V3_MC_RelativePtEC1_AK8PFPuppi",
+                        "RelativePtEC2": "Summer23BPixPrompt23_V3_MC_RelativePtEC2_AK8PFPuppi",
+                        "RelativePtHF": "Summer23BPixPrompt23_V3_MC_RelativePtHF_AK8PFPuppi",
+                        "RelativeBal": "Summer23BPixPrompt23_V3_MC_RelativeBal_AK8PFPuppi",
+                        "RelativeSample": "Summer23BPixPrompt23_V3_MC_RelativeSample_AK8PFPuppi",
+                        "RelativeFSR": "Summer23BPixPrompt23_V3_MC_RelativeFSR_AK8PFPuppi",
+                        "RelativeStatFSR": "Summer23BPixPrompt23_V3_MC_RelativeStatFSR_AK8PFPuppi",
+                        "RelativeStatEC": "Summer23BPixPrompt23_V3_MC_RelativeStatEC_AK8PFPuppi",
+                        "RelativeStatHF": "Summer23BPixPrompt23_V3_MC_RelativeStatHF_AK8PFPuppi",
+                        "PileUpDataMC": "Summer23BPixPrompt23_V3_MC_PileUpDataMC_AK8PFPuppi",
+                        "PileUpPtRef": "Summer23BPixPrompt23_V3_MC_PileUpPtRef_AK8PFPuppi",
+                        "PileUpPtBB": "Summer23BPixPrompt23_V3_MC_PileUpPtBB_AK8PFPuppi",
+                        "PileUpPtEC1": "Summer23BPixPrompt23_V3_MC_PileUpPtEC1_AK8PFPuppi",
+                        "PileUpPtEC2": "Summer23BPixPrompt23_V3_MC_PileUpPtEC2_AK8PFPuppi",
+                        "PileUpPtHF": "Summer23BPixPrompt23_V3_MC_PileUpPtHF_AK8PFPuppi",
+                        "PileUpMuZero": "Summer23BPixPrompt23_V3_MC_PileUpMuZero_AK8PFPuppi",
+                        "PileUpEnvelope": "Summer23BPixPrompt23_V3_MC_PileUpEnvelope_AK8PFPuppi"
+                    },
+                    "subtotal": {
+                        "SubTotalPileUp": "Summer23BPixPrompt23_V3_MC_SubTotalPileUp_AK8PFPuppi",
+                        "SubTotalRelative": "Summer23BPixPrompt23_V3_MC_SubTotalRelative_AK8PFPuppi",
+                        "SubTotalPt": "Summer23BPixPrompt23_V3_MC_SubTotalPt_AK8PFPuppi",
+                        "SubTotalScale": "Summer23BPixPrompt23_V3_MC_SubTotalScale_AK8PFPuppi",
+                        "SubTotalAbsolute": "Summer23BPixPrompt23_V3_MC_SubTotalAbsolute_AK8PFPuppi",
+                        "SubTotalMC": "Summer23BPixPrompt23_V3_MC_SubTotalMC_AK8PFPuppi"
+                    },
+                    "total": {
+                        "Total": "Summer23BPixPrompt23_V3_MC_Total_AK8PFPuppi",
+                        "TotalNoFlavor": "Summer23BPixPrompt23_V3_MC_TotalNoFlavor_AK8PFPuppi",
+                        "TotalNoTime": "Summer23BPixPrompt23_V3_MC_TotalNoTime_AK8PFPuppi",
+                        "TotalNoFlavorNoTime": "Summer23BPixPrompt23_V3_MC_TotalNoFlavorNoTime_AK8PFPuppi"
+                    },
+                    "flavor": {
+                        "FlavorZJet": "Summer23BPixPrompt23_V3_MC_FlavorZJet_AK8PFPuppi",
+                        "FlavorPhotonJet": "Summer23BPixPrompt23_V3_MC_FlavorPhotonJet_AK8PFPuppi",
+                        "FlavorPureGluon": "Summer23BPixPrompt23_V3_MC_FlavorPureGluon_AK8PFPuppi",
+                        "FlavorPureQuark": "Summer23BPixPrompt23_V3_MC_FlavorPureQuark_AK8PFPuppi",
+                        "FlavorPureCharm": "Summer23BPixPrompt23_V3_MC_FlavorPureCharm_AK8PFPuppi",
+                        "FlavorPureBottom": "Summer23BPixPrompt23_V3_MC_FlavorPureBottom_AK8PFPuppi"
+                    },
+                    "correlation": {
+                        "CorrelationGroupMPFInSitu": "Summer23BPixPrompt23_V3_MC_CorrelationGroupMPFInSitu_AK8PFPuppi",
+                        "CorrelationGroupIntercalibration": "Summer23BPixPrompt23_V3_MC_CorrelationGroupIntercalibration_AK8PFPuppi",
+                        "CorrelationGroupbJES": "Summer23BPixPrompt23_V3_MC_CorrelationGroupbJES_AK8PFPuppi",
+                        "CorrelationGroupFlavor": "Summer23BPixPrompt23_V3_MC_CorrelationGroupFlavor_AK8PFPuppi",
+                        "CorrelationGroupUncorrelated": "Summer23BPixPrompt23_V3_MC_CorrelationGroupUncorrelated_AK8PFPuppi"
+                    }
+                }
+            },
+            "JER": {
+                "ptResolution": "Summer23BPixPrompt23_RunD_JRV1_MC_PtResolution_AK8PFPuppi",
+                "ScaleFactor": "Summer23BPixPrompt23_RunD_JRV1_MC_SF_AK8PFPuppi"
+            }
+        }
+    },
+    "2024": {
+        "_comment": "Summer24Prompt24 Corrections for Run 4, AK8PFPuppi jets",
+        "DATA": {
+            "JEC": {
+                "C": {
+                    "L1FastJet": "Summer24Prompt24_V2_DATA_L1FastJet_AK8PFPuppi",
+                    "L2Relative": "Summer24Prompt24_V2_DATA_L2Relative_AK8PFPuppi",
+                    "L3Absolute": "Summer24Prompt24_V2_DATA_L3Absolute_AK8PFPuppi",
+                    "L2L3Residual": "Summer24Prompt24_V2_DATA_L2L3Residual_AK8PFPuppi",
+                    "full": "Summer24Prompt24_V2_DATA_L1L2L3Res_AK8PFPuppi"
+                },
+                "D": {
+                    "L1FastJet": "Summer24Prompt24_V2_DATA_L1FastJet_AK8PFPuppi",
+                    "L2Relative": "Summer24Prompt24_V2_DATA_L2Relative_AK8PFPuppi",
+                    "L3Absolute": "Summer24Prompt24_V2_DATA_L3Absolute_AK8PFPuppi",
+                    "L2L3Residual": "Summer24Prompt24_V2_DATA_L2L3Residual_AK8PFPuppi",
+                    "full": "Summer24Prompt24_V2_DATA_L1L2L3Res_AK8PFPuppi"
+                },
+                "E": {
+                    "L1FastJet": "Summer24Prompt24_V2_DATA_L1FastJet_AK8PFPuppi",
+                    "L2Relative": "Summer24Prompt24_V2_DATA_L2Relative_AK8PFPuppi",
+                    "L3Absolute": "Summer24Prompt24_V2_DATA_L3Absolute_AK8PFPuppi",
+                    "L2L3Residual": "Summer24Prompt24_V2_DATA_L2L3Residual_AK8PFPuppi",
+                    "full": "Summer24Prompt24_V2_DATA_L1L2L3Res_AK8PFPuppi"
+                },
+                "F": {
+                    "L1FastJet": "Summer24Prompt24_V2_DATA_L1FastJet_AK8PFPuppi",
+                    "L2Relative": "Summer24Prompt24_V2_DATA_L2Relative_AK8PFPuppi",
+                    "L3Absolute": "Summer24Prompt24_V2_DATA_L3Absolute_AK8PFPuppi",
+                    "L2L3Residual": "Summer24Prompt24_V2_DATA_L2L3Residual_AK8PFPuppi",
+                    "full": "Summer24Prompt24_V2_DATA_L1L2L3Res_AK8PFPuppi"
+                },
+                "G": {
+                    "L1FastJet": "Summer24Prompt24_V2_DATA_L1FastJet_AK8PFPuppi",
+                    "L2Relative": "Summer24Prompt24_V2_DATA_L2Relative_AK8PFPuppi",
+                    "L3Absolute": "Summer24Prompt24_V2_DATA_L3Absolute_AK8PFPuppi",
+                    "L2L3Residual": "Summer24Prompt24_V2_DATA_L2L3Residual_AK8PFPuppi",
+                    "full": "Summer24Prompt24_V2_DATA_L1L2L3Res_AK8PFPuppi"
+                },
+                "H": {
+                    "L1FastJet": "Summer24Prompt24_V2_DATA_L1FastJet_AK8PFPuppi",
+                    "L2Relative": "Summer24Prompt24_V2_DATA_L2Relative_AK8PFPuppi",
+                    "L3Absolute": "Summer24Prompt24_V2_DATA_L3Absolute_AK8PFPuppi",
+                    "L2L3Residual": "Summer24Prompt24_V2_DATA_L2L3Residual_AK8PFPuppi",
+                    "full": "Summer24Prompt24_V2_DATA_L1L2L3Res_AK8PFPuppi"
+                },
+                "I": {
+                    "L1FastJet": "Summer24Prompt24_V2_DATA_L1FastJet_AK8PFPuppi",
+                    "L2Relative": "Summer24Prompt24_V2_DATA_L2Relative_AK8PFPuppi",
+                    "L3Absolute": "Summer24Prompt24_V2_DATA_L3Absolute_AK8PFPuppi",
+                    "L2L3Residual": "Summer24Prompt24_V2_DATA_L2L3Residual_AK8PFPuppi",
+                    "full": "Summer24Prompt24_V2_DATA_L1L2L3Res_AK8PFPuppi"
+                }                
+            }
+        },
+        "MC": {
+            "JEC": {
+                "nominal": {
+                    "L1FastJet": "Summer24Prompt24_V2_MC_L1FastJet_AK8PFPuppi",
+                    "L2Relative": "Summer24Prompt24_V2_MC_L2Relative_AK8PFPuppi",
+                    "L3Absolute": "Summer24Prompt24_V2_MC_L3Absolute_AK8PFPuppi",
+                    "L2L3Residual": "Summer24Prompt24_V2_MC_L2L3Residual_AK8PFPuppi",
+                    "full": "Summer24Prompt24_V2_MC_L1L2L3Res_AK8PFPuppi"
+                },
+                "Uncertainties": {
+                    "individual": {
+                        "AbsoluteStat": "Summer24Prompt24_V2_MC_AbsoluteStat_AK8PFPuppi",
+                        "AbsoluteScale": "Summer24Prompt24_V2_MC_AbsoluteScale_AK8PFPuppi",
+                        "AbsoluteSample": "Summer24Prompt24_V2_MC_AbsoluteSample_AK8PFPuppi",
+                        "AbsoluteFlavor": "Summer24Prompt24_V2_MC_AbsoluteFlavMap_AK8PFPuppi",
+                        "AbsoluteMPFBias": "Summer24Prompt24_V2_MC_AbsoluteMPFBias_AK8PFPuppi",
+                        "Fragmentation": "Summer24Prompt24_V2_MC_Fragmentation_AK8PFPuppi",
+                        "SinglePionECAL": "Summer24Prompt24_V2_MC_SinglePionECAL_AK8PFPuppi",
+                        "SinglePionHCAL": "Summer24Prompt24_V2_MC_SinglePionHCAL_AK8PFPuppi",
+                        "FlavorQCD": "Summer24Prompt24_V2_MC_FlavorQCD_AK8PFPuppi",
+                        "TimePtEta": "Summer24Prompt24_V2_MC_TimePtEta_AK8PFPuppi",
+                        "RelativeJERC1": "Summer24Prompt24_V2_MC_RelativeJEREC1_AK8PFPuppi",
+                        "RelativeJERC2": "Summer24Prompt24_V2_MC_RelativeJEREC2_AK8PFPuppi",
+                        "RelativeJERHF": "Summer24Prompt24_V2_MC_RelativeJERHF_AK8PFPuppi",
+                        "RelativePtBB": "Summer24Prompt24_V2_MC_RelativePtBB_AK8PFPuppi",
+                        "RelativePtEC1": "Summer24Prompt24_V2_MC_RelativePtEC1_AK8PFPuppi",
+                        "RelativePtEC2": "Summer24Prompt24_V2_MC_RelativePtEC2_AK8PFPuppi",
+                        "RelativePtHF": "Summer24Prompt24_V2_MC_RelativePtHF_AK8PFPuppi",
+                        "RelativeBal": "Summer24Prompt24_V2_MC_RelativeBal_AK8PFPuppi",
+                        "RelativeSample": "Summer24Prompt24_V2_MC_RelativeSample_AK8PFPuppi",
+                        "RelativeFSR": "Summer24Prompt24_V2_MC_RelativeFSR_AK8PFPuppi",
+                        "RelativeStatFSR": "Summer24Prompt24_V2_MC_RelativeStatFSR_AK8PFPuppi",
+                        "RelativeStatEC": "Summer24Prompt24_V2_MC_RelativeStatEC_AK8PFPuppi",
+                        "RelativeStatHF": "Summer24Prompt24_V2_MC_RelativeStatHF_AK8PFPuppi",
+                        "PileUpDataMC": "Summer24Prompt24_V2_MC_PileUpDataMC_AK8PFPuppi",
+                        "PileUpPtRef": "Summer24Prompt24_V2_MC_PileUpPtRef_AK8PFPuppi",
+                        "PileUpPtBB": "Summer24Prompt24_V2_MC_PileUpPtBB_AK8PFPuppi",
+                        "PileUpPtEC1": "Summer24Prompt24_V2_MC_PileUpPtEC1_AK8PFPuppi",
+                        "PileUpPtEC2": "Summer24Prompt24_V2_MC_PileUpPtEC2_AK8PFPuppi",
+                        "PileUpPtHF": "Summer24Prompt24_V2_MC_PileUpPtHF_AK8PFPuppi",
+                        "PileUpMuZero": "Summer24Prompt24_V2_MC_PileUpMuZero_AK8PFPuppi",
+                        "PileUpEnvelope": "Summer24Prompt24_V2_MC_PileUpEnvelope_AK8PFPuppi"
+                    },
+                    "subtotal": {
+                        "SubTotalPileUp": "Summer24Prompt24_V2_MC_SubTotalPileUp_AK8PFPuppi",
+                        "SubTotalRelative": "Summer24Prompt24_V2_MC_SubTotalRelative_AK8PFPuppi",
+                        "SubTotalPt": "Summer24Prompt24_V2_MC_SubTotalPt_AK8PFPuppi",
+                        "SubTotalScale": "Summer24Prompt24_V2_MC_SubTotalScale_AK8PFPuppi",
+                        "SubTotalAbsolute": "Summer24Prompt24_V2_MC_SubTotalAbsolute_AK8PFPuppi",
+                        "SubTotalMC": "Summer24Prompt24_V2_MC_SubTotalMC_AK8PFPuppi"
+                    },
+                    "total": {
+                        "Total": "Summer24Prompt24_V2_MC_Total_AK8PFPuppi",
+                        "TotalNoFlavor": "Summer24Prompt24_V2_MC_TotalNoFlavor_AK8PFPuppi",
+                        "TotalNoTime": "Summer24Prompt24_V2_MC_TotalNoTime_AK8PFPuppi",
+                        "TotalNoFlavorNoTime": "Summer24Prompt24_V2_MC_TotalNoFlavorNoTime_AK8PFPuppi"
+                    },
+                    "regrouped": {
+                        "Regrouped_FlavorQCD": "Summer24Prompt24_V2_MC_Regrouped_FlavorQCD_AK8PFPuppi",
+                        "Regrouped_RelativeBal": "Summer24Prompt24_V2_MC_Regrouped_RelativeBal_AK8PFPuppi",
+                        "Regrouped_HF": "Summer24Prompt24_V2_MC_Regrouped_HF_AK8PFPuppi",
+                        "Regrouped_BBEC1": "Summer24Prompt24_V2_MC_Regrouped_BBEC1_AK8PFPuppi",
+                        "Regrouped_EC2": "Summer24Prompt24_V2_MC_Regrouped_EC2_AK8PFPuppi",
+                        "Regrouped_Absolute": "Summer24Prompt24_V2_MC_Regrouped_Absolute_AK8PFPuppi",
+                        "Regrouped_BBEC1_2024": "Summer24Prompt24_V2_MC_Regrouped_BBEC1_2024_AK8PFPuppi",
+                        "Regrouped_EC2_2024": "Summer24Prompt24_V2_MC_Regrouped_EC2_2024_AK8PFPuppi",
+                        "Regrouped_Absolute_2024": "Summer24Prompt24_V2_MC_Regrouped_Absolute_2024_AK8PFPuppi",
+                        "Regrouped_HF_2024": "Summer24Prompt24_V2_MC_Regrouped_HF_2024_AK8PFPuppi",
+                        "Regrouped_RelativeSample_2024": "Summer24Prompt24_V2_MC_Regrouped_RelativeSample_2024_AK8PFPuppi",
+                        "Regrouped_Total": "Summer24Prompt24_V2_MC_Regrouped_Total_AK8PFPuppi"
+                    },
+                    "flavor": {
+                        "FlavorZJet": "Summer24Prompt24_V2_MC_FlavorZJet_AK8PFPuppi",
+                        "FlavorPhotonJet": "Summer24Prompt24_V2_MC_FlavorPhotonJet_AK8PFPuppi",
+                        "FlavorPureGluon": "Summer24Prompt24_V2_MC_FlavorPureGluon_AK8PFPuppi",
+                        "FlavorPureQuark": "Summer24Prompt24_V2_MC_FlavorPureQuark_AK8PFPuppi",
+                        "FlavorPureCharm": "Summer24Prompt24_V2_MC_FlavorPureCharm_AK8PFPuppi",
+                        "FlavorPureBottom": "Summer24Prompt24_V2_MC_FlavorPureBottom_AK8PFPuppi"
+                    },
+                    "correlation": {
+                        "CorrelationGroupMPFInSitu": "Summer24Prompt24_V2_MC_CorrelationGroupMPFInSitu_AK8PFPuppi",
+                        "CorrelationGroupIntercalibration": "Summer24Prompt24_V2_MC_CorrelationGroupIntercalibration_AK8PFPuppi",
+                        "CorrelationGroupbJES": "Summer24Prompt24_V2_MC_CorrelationGroupbJES_AK8PFPuppi",
+                        "CorrelationGroupFlavor": "Summer24Prompt24_V2_MC_CorrelationGroupFlavor_AK8PFPuppi",
+                        "CorrelationGroupUncorrelated": "Summer24Prompt24_V2_MC_CorrelationGroupUncorrelated_AK8PFPuppi"
+                    }
+                }
+            },
+            "JER": {
+                "ptResolution": "Summer23BPixPrompt23_RunD_JRV1_MC_PtResolution_AK8PFPuppi",
+                "ScaleFactor": "Summer23BPixPrompt23_RunD_JRV1_MC_SF_AK8PFPuppi"
+            }
+        }
+    }
+}

@@ -2,7 +2,7 @@
 
 # Mapa de host → centro (en construcción)
 declare -A host_to_site=(
-["xrootd.hep.kbfi.ee"]="T2_EE_Estonia"
+    ["xrootd.hep.kbfi.ee"]="T2_EE_Estonia"
     ["cmsxrootd.fnal.gov"]="T1_US_FNAL_Disk"
     ["xrootd-redir.ultralight.org"]="T2_US_Nebraska"
     ["xrootd-cms.infn.it"]="T1_IT_CNAF_Disk"
@@ -30,8 +30,6 @@ declare -A host_to_site=(
     ["xrootd.uerj.br"]="T2_BR_UERJ"
     ["xrootdiphc.in2p3.fr"]="T2_FR_IPHC"
     ["se01.indiacms.res.in"]="T2_IN_TIFR"
-    ["cmsdcatape.tifr.res.in"]="T2_IN_TIFR"
-    ["cmsstorage.tifr.res.in"]="T2_IN_TIFR"
     ["xrootd-lhcb.infn.it"]="T2_IT_Legnaro"
     ["xrootd-cms-roma1.infn.it"]="T2_IT_Rome"
     ["xrootd-cms.infn.kfki.hu"]="T2_HU_Budapest"
@@ -51,7 +49,6 @@ declare -A host_to_site=(
     ["cmsxrootd1.physics.ntu.edu.tw"]="T2_TW_NCHC"
     ["xrootd-cms.cnaf.infn.it"]="T1_IT_CNAF_Disk"
     ["xrootd-cms.eki.ee"]="T2_EE_Estonia"
-    ["se01.indiacms.res.in"]="T2_IN_TIFR"
     ["xrootd-legnaro.pd.infn.it"]="T2_IT_Legnaro"
     ["xrootd.cmsaf.mit.edu"]="T2_US_MIT"
     ["eos.cms.rcac.purdue.edu"]="T2_US_Purdue"
@@ -76,6 +73,9 @@ declare -A host_to_site=(
     ["cms-xrdr.sdfarm.kr"]="T3_KR_KISTI"
     ["kodiak-se.baylor.edu"]="T3_US_Baylor"
     ["gaexrdoor.ciemat.es"]="T2_ES_CIEMAT"
+    ["grid-cms-xrootd.physik.rwth-aachen.de"]="T2_DE_RWTH"
+    ["gfe02.grid.hep.ph.ic.ac.uk"]="T2_UK_London_IC"
+    ["osg-se.sprace.org.br"]="T2_BR_SPRACE"
 )
 
 # Mapa de años con sus sitios válidos

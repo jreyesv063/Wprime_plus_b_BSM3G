@@ -5,30 +5,29 @@ from typing import Dict
 import importlib.resources as resources
 
 
-
 def select_good_wjets(
-    wjets: ak.Array,
+    events: ak.Array,
     year: str = "2017",
-    w_pt_threshold: float = 200.0,
-    w_eta_threshold: float = 2.4,
+    wjet_pt_threshold: float = 300.0,
+    wjet_eta_threshold: float = 2.4,
     WvsQCD: str = "Tight",
-    is_mc: bool = True,
+    syst_var: bool = True
 ) -> Dict[str, ak.Array]:
     """
-    Build masks selecting good W-tagged jets for nominal and JES/JER variations.
+    Build masks selecting good fat jets for nominal and JES/JER variations.
 
     Parameters
     ----------
-    wjets : ak.Array
-        W jet collection.
+    fatjets : ak.Array
+        FatJet collection.
     year : str
         Data-taking year (used to read working points).
-    w_pt_threshold : float
-        Minimum pT requirement for W jets.
-    w_eta_threshold : float
-        Maximum |eta| requirement for W jets.
-    WvsQCD : str
-        ParticleNet WvsQCD working point.
+    fatjet_pt_threshold : float
+        Minimum pT requirement for fat jets.
+    fatjet_eta_threshold : float
+        Maximum |eta| requirement for fat jets.
+    TvsQCD : str
+        ParticleNet TvsQCD working point.
     is_mc : bool
         Whether the sample is MC or data.
 
@@ -37,71 +36,76 @@ def select_good_wjets(
     Dict[str, ak.Array]
         Dictionary of boolean masks for each systematic variation.
     """
-
     # ------------------------------------------------------------------
     # Load working points from JSON
     # ------------------------------------------------------------------
-    # Wps top tagger, jet_id and jet_eta
-    with open("wprime_plus_b/json_files/topWps.json", "r") as f:
-        Wps = json.load(f)
+    with open("wprime_plus_b/json_files/fatjet.json", "r") as f:
+        wjet_info = json.load(f)
 
-    #with open("wprime_plus_b/jsons/topWps.json", "r") as f: 
-    #    Wps = json.load(f)
 
-    pNet_id = Wps[year]["WvsQCD"][WvsQCD]
-    jet_id = Wps[year]["jet_id"]
+    # ============================================================
+    # Eta
+    # ============================================================
+    wjet_eta_mask = (np.abs(events.FatJet.eta) <= wjet_eta_threshold)
 
-    good_wjet_masks: Dict[str, ak.Array] = {}
+    
+    # ============================================================
+    # jet ID
+    # ============================================================
+    wjet_jetId_mask = events.FatJet.jetId >= wjet_info[year]["jet_id"]    
 
-    # ------------------------------------------------------------------
-    # Helper function: base W jet selection
-    # ------------------------------------------------------------------
-    def wjet_selection(jets: ak.Array) -> ak.Array:
-        """
-        Apply baseline W jet selection.
-        """
-        return (
-            (jets.pt >= w_pt_threshold)
-            & (np.abs(jets.eta) <= w_eta_threshold)
-            & (jets.particleNet_WvsQCD >= pNet_id)
-            & (jets.jetId >= jet_id)
-        )
 
-    # ------------------------------------------------------------------
-    # MC samples
-    # ------------------------------------------------------------------
-    if is_mc:
+    # ============================================================
+    # Top tagger
+    # ============================================================
+    wjet_tagger_mask = (events.FatJet.particleNet_TvsQCD >= wjet_info[year]["WvsQCD"][WvsQCD]["value"])
+    
+    # ============================================================
+    # pt
+    # ============================================================
+    wjet_pt_mask = (events.FatJet.pt >= wjet_pt_threshold)
 
-        # If JES/JER information is missing, fall back to nominal only
-        if "JES_jes" not in wjets.fields or "JER" not in wjets.fields:
-            good_wjet_masks["nominal"] = wjet_selection(wjets)
 
-            # Fill missing systematics with empty masks for consistency
-            empty_mask = ak.zeros_like(wjets.pt, dtype=bool)
-            good_wjet_masks["JES_up"] = empty_mask
-            good_wjet_masks["JES_down"] = empty_mask
-            good_wjet_masks["JER_up"] = empty_mask
-            good_wjet_masks["JER_down"] = empty_mask
+    # ============================================================
+    # Final bjet selection mask
+    # ============================================================ 
+    wjet_mask_ref = wjet_eta_mask & wjet_jetId_mask & wjet_tagger_mask 
 
-            return good_wjet_masks
+    wjet_mask = wjet_pt_mask & wjet_mask_ref
 
-        # Define systematic variations
-        jet_shifts = {
-            "nominal": wjets,
-            "JES_up": wjets.JES_jes.up,
-            "JES_down": wjets.JES_jes.down,
-            "JER_up": wjets.JER.up,
-            "JER_down": wjets.JER.down,
+    
+    # ============================================================
+    # Systematic variations: JES and JEC
+    # ============================================================    
+    if (
+        syst_var
+        and hasattr(events, "genWeight")
+        and hasattr(events.FatJet, "JES_pt_up")
+        and hasattr(events.FatJet, "JES_pt_down")
+        and hasattr(events.FatJet, "JER_pt_up")
+        and hasattr(events.FatJet, "JER_pt_down")
+    ):  
+        # JES
+        wjet_JES_up_mask = ((events.FatJet.JES_pt_up >= wjet_pt_threshold) & wjet_mask_ref)
+        wjet_JES_down_mask = ((events.FatJet.JES_pt_down >= wjet_pt_threshold) & wjet_mask_ref)
+
+
+        # JER
+        wjet_JER_up_mask = ((events.FatJet.JER_pt_up >= wjet_pt_threshold) & wjet_mask_ref)
+        wjet_JER_down_mask = ((events.FatJet.JER_pt_down >= wjet_pt_threshold) & wjet_mask_ref)
+
+
+        return {
+            "nominal": wjet_mask,
+            "JES": {
+                "up":  wjet_JES_up_mask, "down": wjet_JES_down_mask
+            },
+            "JER": {
+                "up":  wjet_JER_up_mask, "down":  wjet_JER_down_mask
+            }
         }
 
-        # Apply selection to each variation
-        for name, jets in jet_shifts.items():
-            good_wjet_masks[name] = wjet_selection(jets)
-
-    # ------------------------------------------------------------------
-    # Data samples (no systematics)
-    # ------------------------------------------------------------------
     else:
-        good_wjet_masks["nominal"] = wjet_selection(wjets)
-
-    return good_wjet_masks
+        return  {
+            "nominal": wjet_mask
+        }

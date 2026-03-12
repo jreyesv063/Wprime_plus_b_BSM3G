@@ -1,0 +1,177 @@
+{
+    "deepJet": {
+        "2016APV": {
+            "_comment": "https://btv-wiki.docs.cern.ch/ScaleFactors/Run2UL2016preVFP/#ak4-c-tagging",            
+            "CvL_cut": {
+                "Loose": 0.039,
+                "Medium": 0.098,
+                "Tight": 0.270
+            },
+            "CvB_cut": {
+                "Loose": 0.327,
+                "Medium": 0.370,
+                "Tight": 0.256
+            }
+        },
+        "2016": {
+            "_comment": "https://btv-wiki.docs.cern.ch/ScaleFactors/Run2UL2016postVFP/#ak4-c-tagging",            
+            "CvL_cut": {
+                "Loose": 0.039,
+                "Medium": 0.099,
+                "Tight": 0.269
+            },
+            "CvB_cut": {
+                "Loose": 0.305,
+                "Medium": 0.353,
+                "Tight": 0.247
+            }
+        },
+        "2017": {
+            "_comment": "https://btv-wiki.docs.cern.ch/ScaleFactors/Run2UL2017/#ak4-c-tagging",
+            "CvL_cut": {
+                "Loose": 0.030,
+                "Medium": 0.085,
+                "Tight": 0.520
+            },
+            "CvB_cut": {
+                "Loose": 0.400,
+                "Medium": 0.340,
+                "Tight": 0.050
+            }
+        },
+        "2018": {
+            "_comment": "https://btv-wiki.docs.cern.ch/ScaleFactors/Run2UL2018/#ak4-c-tagging",
+            "CvL_cut": {
+                "Loose": 0.038,
+                "Medium": 0.099,
+                "Tight": 0.282
+            },
+            "CvB_cut": {
+                "Loose": 0.246,
+                "Medium": 0.325,
+                "Tight": 0.267
+            }
+        },
+        "2022_pre": {
+            "_comment": "https://btv-wiki.docs.cern.ch/ScaleFactors/Run3Summer22/#ak4-c-tagging",
+             "CvL_cut": {
+                "Loose": 0.042,
+                "Medium": 0.108,
+                "Tight": 0.303 
+            },
+            "CvB_cut": {
+                "Loose": 0.208,
+                "Medium": 0.299,
+                "Tight": 0.243 
+            }
+        },
+        "2022_post": {
+            "_comment": "https://btv-wiki.docs.cern.ch/ScaleFactors/Run3Summer22EE/#ak4-c-tagging",
+             "CvL_cut": {
+                "Loose": 0.042,
+                "Medium": 0.108,
+                "Tight": 0.305 
+            },
+            "CvB_cut": {
+                "Loose": 0.206,
+                "Medium": 0.298,
+                "Tight": 0.241 
+            }
+        },   
+        "2023_pre": {
+            "_comment": "https://btv-wiki.docs.cern.ch/ScaleFactors/Run3Summer22/#ak4-c-tagging",
+             "CvL_cut": {
+                "Loose": 0.042,
+                "Medium": 0.102,
+                "Tight": 0.250 
+            },
+            "CvB_cut": {
+                "Loose": 0.235,
+                "Medium": 0.322,
+                "Tight": 0.262 
+            }
+        },        
+        "2023_post": {
+            "_comment": "https://btv-wiki.docs.cern.ch/ScaleFactors/Run3Summer22/#ak4-c-tagging",
+             "CvL_cut": {
+                "Loose": 0.042,
+                "Medium": 0.102,
+                "Tight": 0.250 
+            },
+            "CvB_cut": {
+                "Loose": 0.242,
+                "Medium": 0.328,
+                "Tight": 0.267 
+            }
+        }       
+    },
+    "particleNet": {
+        "2022_pre": {
+            "_comment": "https://btv-wiki.docs.cern.ch/ScaleFactors/Run3Summer22/#ak4-c-tagging",
+            "CvL_cut": {
+                "Loose": 0.054,
+                "Medium": 0.160,
+                "Tight": 0.492
+            },
+            "CvB_cut": {
+                "Loose": 0.181,
+                "Medium": 0.306,
+                "Tight": 0.259
+            }
+        },
+        "2022_post": {
+            "_comment": "https://btv-wiki.docs.cern.ch/ScaleFactors/Run3Summer22EE/#ak4-c-tagging",
+            "CvL_cut": {
+                "Loose": 0.054,
+                "Medium": 0.160,
+                "Tight": 0.491
+            },
+            "CvB_cut": {
+                "Loose": 0.182,
+                "Medium": 0.304,
+                "Tight": 0.258
+            }
+        },
+        "2023_pre": {
+            "_comment": "https://btv-wiki.docs.cern.ch/ScaleFactors/Run3Summer23/#ak4-c-tagging",
+            "CvL_cut": {
+                "Loose": 0.052,
+                "Medium": 0.148,
+                "Tight": 0.434
+            },
+            "CvB_cut": {
+                "Loose": 0.221,
+                "Medium": 0.353,
+                "Tight": 0.300
+            }
+        },
+        "2023_post": {
+            "_comment": "https://btv-wiki.docs.cern.ch/ScaleFactors/Run3Summer23BPix/#ak4-c-tagging",
+            "CvL_cut": {
+                "Loose": 0.052,
+                "Medium": 0.436, 
+                "Tight": 0.634
+            },
+            "CvB_cut": {
+                "Loose": 0.228,
+                "Medium": 0.358,
+                "Tight": 0.303
+            }
+        }
+    },
+    "UParTAK4": {
+        "2024": {
+            "_comment": "https://btv-wiki.docs.cern.ch/ScaleFactors/Run3Summer24/#ak4-c-tagging",
+            "CvL_cut": {
+                "Loose": 0.086,
+                "Medium": 0.291,
+                "Tight": 0.650
+            },
+            "CvB_cut": {
+                "Loose": 0.233,
+                "Medium": 0.457,
+                "Tight": 0.421
+            }
+        }
+    }
+}

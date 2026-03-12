@@ -1,0 +1,18 @@
+{
+    "Id":{
+        "Loose": "looseId",
+        "Medium": "mediumId",
+        "Tight": "tightId",
+        "HighPt": "highPtId",
+        "MediumPrompt": "mediumPromptId",
+        "Soft": "softId",
+        "miniIso": "miniIsoId",
+        "multiIso": "multiIsoId"
+    },
+    "Iso": {
+        "Flag": "pfRelIso04_all",
+        "Loose": 0.25,
+        "Medium": 0.20,
+        "Tight": 0.15       
+    }
+}

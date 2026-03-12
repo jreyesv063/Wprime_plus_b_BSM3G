@@ -1,0 +1,57 @@
+{
+    "pujetid": {
+        "_comment": "Run 2: https://twiki.cern.ch/twiki/bin/view/CMS/PileupJetIDUL",
+        "2016APV": {
+            "fail": 0,
+            "Loose": 1,
+            "Medium": 3, 
+            "Tight": 7
+        },
+        "2016": {
+            "fail": 0,
+            "Loose": 1,
+            "Medium": 3,
+            "Tight": 7
+        },
+        "2017": {
+            "fail": 0,
+            "Loose": 4,
+            "Medium": 6,
+            "Tight": 7
+        },
+        "2018": {
+            "fail": 0,
+            "Loose": 4,
+            "Medium": 6,
+            "Tight": 7
+        }
+    },
+    "jetid": {
+        "2016APV": {
+            "Loose": 1,
+            "Medium": "...",
+            "Tight": 3,
+            "TightLepVeto": 6
+        },
+        "2016": {
+            "Loose": 1,
+            "Medium": "...",
+            "Tight": 3,
+            "TightLepVeto": 6
+        },
+        "2017": {
+            "Loose": "...",
+            "Medium": "...",
+            "Tight": 2,
+            "TightLepVeto": 6
+        },
+        "2018": {
+            "Loose": "...",
+            "Medium": "...",
+            "Tight": 2,
+            "TightLepVeto": 6
+        }
+    
+    }
+
+}

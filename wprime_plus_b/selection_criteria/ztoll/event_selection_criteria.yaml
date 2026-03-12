@@ -1,0 +1,153 @@
+electron:
+  ele:
+    pt: 10.0
+    eta: 2.4
+    id: "wp80iso"
+    iso: "Tight"
+
+  mu:
+    pt: 10.0
+    eta: 2.4
+    id: "wp80iso"
+    iso: "Tight"
+
+  tau:
+    pt: 10.0
+    eta: 2.4
+    id: "wp80iso"
+    iso: "Tight"    
+
+muon:
+  ele:
+    pt: 15.0
+    eta: 2.4
+    id: "Tight"
+    iso: "Tight"
+
+  mu:
+    pt: 28.0
+    eta: 2.4
+    id: "Tight"
+    iso: "Tight"
+
+  tau:
+    pt: 15.0
+    eta: 2.4
+    id: "Tight"
+    iso: "Tight"
+  
+tau:
+  ele:
+    pt: 20.0
+    eta: 2.3
+    dz: 0.2
+    fake_VSe: "Tight"
+    fake_VSmu: "Tight"
+    fake_VSjet_pass: "Tight"
+    fake_VSjet_fail: ""
+    prongs: "1or3prongs"
+
+  mu:
+    pt: 20.0
+    eta: 2.3
+    dz: 0.2
+    fake_VSe: "Tight"
+    fake_VSmu: "Tight"
+    fake_VSjet_pass: "Tight"
+    fake_VSjet_fail: ""
+    prongs: "1or3prongs"
+
+  tau:
+    pt: 70.0
+    eta: 2.3
+    dz: 0.2
+    fake_VSe: "Tight"
+    fake_VSmu: "Tight"
+    fake_VSjet_pass: "Tight"
+    fake_VSjet_fail: ""
+    prongs: "1or3prongs"        
+
+bjet:
+  ele:
+    pt: 20.0
+    eta: 2.4
+    btag_wp_pass: "Tight"
+    jet_id: "TightLepVeto"
+    pileup_id: "Tight"
+
+  mu:
+    pt: 20.0
+    eta: 2.4
+    btag_wp_pass: "Tight"
+    jet_id: "TightLepVeto"
+    pileup_id: "Tight"
+
+  tau: 
+    pt: 20.0
+    eta: 2.4
+    btag_wp_pass: "Tight"
+    jet_id: "TightLepVeto"
+    pileup_id: "Tight"        
+
+jet:
+  ele:
+    pt: 20.0
+    eta: 2.4
+    jet_id: "TightLepVeto"
+    pileup_id: "Tight"
+    leading_pt: 100.0
+
+  mu:
+    pt: 20.0
+    eta: 2.4
+    jet_id: "TightLepVeto"
+    pileup_id: "Tight"
+    leading_pt: 100.0
+
+  tau:
+    pt: 20.0
+    eta: 2.4
+    jet_id: "TightLepVeto"
+    pileup_id: "Tight"  
+    leading_pt: 100.0
+
+cross_cleaning:
+  ele: 0.4
+  mu: 0.4
+  tau: 0.4
+
+trigger:
+  ele:
+    main: "ele"
+    OR_trigger: True
+    efficiency: null
+    OR_trigger_num: True
+
+  mu:
+    main: "dimuon"
+    OR_trigger: True
+    efficiency: null
+    OR_trigger_num: True
+
+  tau:
+    main: "ditau"
+    OR_trigger: True
+    efficiency: "tau"
+    OR_trigger_num: False
+
+
+Z:
+  ele:
+    charge: "OS"
+    m_Z_min: 71.0
+    m_Z_max: 111.0
+
+  mu:
+    charge: "OS"
+    m_Z_min: 71.0
+    m_Z_max: 111.0
+
+  tau:
+    charge: "OS"
+    m_Z_min: 71.0
+    m_Z_max: 111.0

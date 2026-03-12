@@ -1,0 +1,562 @@
+{
+    "_comment":{
+        "general": "Scale factors are factorized into ID*ISO*HLT, and the names follow the next convention: NUM_{NumeratorNAME}_DEN_{DenominatorNAME} where NumeratorNAME can be TightID and denominator can be TrackerMuons",
+        "reference": "https://muon-wiki.docs.cern.ch/guidelines/recommendations/#medium-muon-id",
+        "ID": "cdxcs",
+        "ISO": "XSCDS",
+        "RECO": "xsxccs",
+        "Trigger": "cdcdca"
+    },
+    "LowPt": {
+        "_comment": " pT < 10 GeV",
+
+        "CMS_eff_m_reco": {
+            "2016APV": "NUM_TrackerMuons_DEN_genTracks",
+            "2016": "NUM_TrackerMuons_DEN_genTracks",
+            "2017": "NUM_TrackerMuons_DEN_genTracks",
+            "2018": "NUM_TrackerMuons_DEN_genTracks",
+            "2022_pre": "...",
+            "2022_post": "...",
+            "2023_pre": "...",
+            "2023_post": "...",
+            "2024": "..."
+        },
+        "CMS_eff_id_reco": {
+            "-comment:": "Loose, Soft, Medium & Tight ID",
+            "2016APV": {
+                "Loose": "NUM_LooseID_DEN_TrackerMuons",
+                "Medium": "NUM_MediumID_DEN_TrackerMuons",
+                "Tight": "NUM_TightID_DEN_TrackerMuons",
+                "Soft": "NUM_SoftID_DEN_TrackerMuons",
+                "HighPt": "NUM_HighPtID_DEN_TrackerMuons"
+            },
+            "2016": {
+                "Loose": "NUM_LooseID_DEN_TrackerMuons",
+                "Medium": "NUM_MediumID_DEN_TrackerMuons",
+                "Tight": "NUM_TightID_DEN_TrackerMuons",
+                "Soft": "NUM_SoftID_DEN_TrackerMuons",
+                "HighPt": "NUM_HighPtID_DEN_TrackerMuons"            
+            },
+            "2017": {
+                "Loose": "NUM_LooseID_DEN_TrackerMuons",
+                "Medium": "NUM_MediumID_DEN_TrackerMuons",
+                "Tight": "NUM_TightID_DEN_TrackerMuons",
+                "Soft": "NUM_SoftID_DEN_TrackerMuons",
+                "HighPt": "NUM_HighPtID_DEN_TrackerMuons"            
+            },
+            "2018": {
+                "Loose": "NUM_LooseID_DEN_TrackerMuons",
+                "Medium": "NUM_MediumID_DEN_TrackerMuons",
+                "Tight": "NUM_TightID_DEN_TrackerMuons",
+                "Soft": "NUM_SoftID_DEN_TrackerMuons",
+                "HighPt": "NUM_HighPtID_DEN_TrackerMuons"            
+            },
+            "2022_pre": {
+
+            },
+            "2022_post": {
+
+            },
+            "2023_pre": {
+
+            },
+            "2023_post": {
+
+            },
+            "2024": {
+
+            }        
+        },
+        "CMS_eff_m_trigger": {
+            "2016APV": "...",
+            "2016": "...",
+            "2017": "...",
+            "2018": "...",
+            "2022_pre": "...",
+            "2022_post": "...",
+            "2023_pre": "...",
+            "2023_post": "...",
+            "2024": "..."
+        }
+    },
+    "MediumPt": {
+        "_comment": "10 GeV < pT < 200 GeV",        
+
+        "CMS_eff_m_reco": {
+            "2016APV": "NUM_TrackerMuons_DEN_genTracks",
+            "2016": "NUM_TrackerMuons_DEN_genTracks",
+            "2017": "NUM_TrackerMuons_DEN_genTracks",
+            "2018": "NUM_TrackerMuons_DEN_genTracks",
+            "2022_pre": "...",
+            "2022_post": "...",
+            "2023_pre": "...",
+            "2023_post": "...",
+            "2024": "..."
+        },
+        "CMS_eff_id_reco": {
+            "-comment:": "Loose, Medium, MediumPrompt, Tight, Soft and High pT",
+            "2016APV": {
+                "Loose": "NUM_LooseID_DEN_TrackerMuons",
+                "Medium": "NUM_MediumID_DEN_TrackerMuons",
+                "MediumPrompt": "NUM_MediumPromptID_DEN_TrackerMuons",
+                "Tight": "NUM_TightID_DEN_TrackerMuons",
+                "Soft": "NUM_SoftID_DEN_TrackerMuons",
+                "HightpT": "NUM_HighPtID_DEN_TrackerMuons"
+            },
+            "2016": {
+                "Loose": "NUM_LooseID_DEN_TrackerMuons",
+                "Medium": "NUM_MediumID_DEN_TrackerMuons",
+                "MediumPrompt": "NUM_MediumPromptID_DEN_TrackerMuons",
+                "Tight": "NUM_TightID_DEN_TrackerMuons",
+                "Soft": "NUM_SoftID_DEN_TrackerMuons",
+                "HightpT": "NUM_HighPtID_DEN_TrackerMuons"                
+            },
+            "2017": {
+                "Loose": "NUM_LooseID_DEN_TrackerMuons",
+                "Medium": "NUM_MediumID_DEN_TrackerMuons",
+                "MediumPrompt": "NUM_MediumPromptID_DEN_TrackerMuons",
+                "Tight": "NUM_TightID_DEN_TrackerMuons",
+                "Soft": "NUM_SoftID_DEN_TrackerMuons",
+                "HightpT": "NUM_HighPtID_DEN_TrackerMuons"                
+            },
+            "2018": {
+                "Loose": "NUM_LooseID_DEN_TrackerMuons",
+                "Medium": "NUM_MediumID_DEN_TrackerMuons",
+                "MediumPrompt": "NUM_MediumPromptID_DEN_TrackerMuons",
+                "Tight": "NUM_TightID_DEN_TrackerMuons",
+                "Soft": "NUM_SoftID_DEN_TrackerMuons",
+                "HightpT": "NUM_HighPtID_DEN_TrackerMuons"
+            },
+            "2022_pre": {
+                "Loose": "NUM_LooseID_DEN_TrackerMuons",
+                "Medium": "NUM_MediumID_DEN_TrackerMuons",
+                "MediumPrompt": "NUM_MediumPromptID_DEN_TrackerMuons",
+                "Tight": "NUM_TightID_DEN_TrackerMuons",
+                "Soft": "NUM_SoftID_DEN_TrackerMuons",
+                "HightpT": "NUM_HighPtID_DEN_TrackerMuons"                
+            },
+            "2022_post": {
+                "Loose": "NUM_LooseID_DEN_TrackerMuons",
+                "Medium": "NUM_MediumID_DEN_TrackerMuons",
+                "MediumPrompt": "NUM_MediumPromptID_DEN_TrackerMuons",
+                "Tight": "NUM_TightID_DEN_TrackerMuons",
+                "Soft": "NUM_SoftID_DEN_TrackerMuons",
+                "HightpT": "NUM_HighPtID_DEN_TrackerMuons"                
+            },
+            "2023_pre": {
+                "Loose": "NUM_LooseID_DEN_TrackerMuons",
+                "Medium": "NUM_MediumID_DEN_TrackerMuons",
+                "MediumPrompt": "NUM_MediumPromptID_DEN_TrackerMuons",
+                "Tight": "NUM_TightID_DEN_TrackerMuons",
+                "Soft": "NUM_SoftID_DEN_TrackerMuons",
+                "HightpT": "NUM_HighPtID_DEN_TrackerMuons"                
+            },
+            "2023_post": {
+                "Loose": "NUM_LooseID_DEN_TrackerMuons",
+                "Medium": "NUM_MediumID_DEN_TrackerMuons",
+                "MediumPrompt": "NUM_MediumPromptID_DEN_TrackerMuons",
+                "Tight": "NUM_TightID_DEN_TrackerMuons",
+                "Soft": "NUM_SoftID_DEN_TrackerMuons",
+                "HightpT": "NUM_HighPtID_DEN_TrackerMuons"                
+            },
+            "2024": {
+                "Loose": "NUM_LooseID_DEN_TrackerMuons",
+                "Medium": "NUM_MediumID_DEN_TrackerMuons",
+                "MediumPrompt": "NUM_MediumPromptID_DEN_TrackerMuons",
+                "Tight": "NUM_TightID_DEN_TrackerMuons",
+                "Soft": "NUM_SoftID_DEN_TrackerMuons",
+                "HightpT": "NUM_HighPtID_DEN_TrackerMuons"                
+            }
+        },
+        "CMS_eff_m_iso": {
+            "_comment": "LoosePFIso on top of Loose, Medium, MediumpPrompt and Tight IDs; TightPFIso on top of Medium, MediumPrompt and Tight IDs; LooseMiniIso on top of Loose and Medium IDs; MediumMiniIso on top of Medium ID; TightMiniIso on top of Medium ID; LooseTkIso on top of HighPt ID; TightTkIso on top of HighPt ID",
+            "2016APV": {
+                "LooseRelIso": {
+                    "Loose": "NUM_LooseRelIso_DEN_LooseID",
+                    "Medium": "NUM_LooseRelIso_DEN_MediumID",
+                    "MediumPrompt": "NUM_LooseRelIso_DEN_MediumPromptID",
+                    "Tight": "NUM_LooseRelIso_DEN_TightIDandIPCut"
+                },
+                "LooseRelTkIso": {
+                    "HighpT": "NUM_LooseRelTkIso_DEN_HighPtIDandIPCut",
+                    "TrkHighpT": "NUM_LooseRelTkIso_DEN_TrkHighPtIDandIPCut"
+                },
+                "TightRelIso": {
+                    "Medium": "NUM_TightRelIso_DEN_MediumID",
+                    "MediumPromptID": "NUM_TightRelIso_DEN_MediumPromptID",
+                    "Tight": "NUM_TightRelIso_DEN_TightIDandIPCut",
+                    "HighPt": "NUM_TightRelTkIso_DEN_HighPtIDandIPCut",
+                    "TrkHighPt": "NUM_TightRelTkIso_DEN_TrkHighPtIDandIPCut"
+                }
+            },
+            "2016": {
+                "LooseRelIso": {
+                    "Loose": "NUM_LooseRelIso_DEN_LooseID",
+                    "Medium": "NUM_LooseRelIso_DEN_MediumID",
+                    "MediumPrompt": "NUM_LooseRelIso_DEN_MediumPromptID",
+                    "Tight": "NUM_LooseRelIso_DEN_TightIDandIPCut"
+                },
+                "LooseRelTkIso": {
+                    "HighpT": "NUM_LooseRelTkIso_DEN_HighPtIDandIPCut",
+                    "TrkHighpT": "NUM_LooseRelTkIso_DEN_TrkHighPtIDandIPCut"
+                },
+                "TightRelIso": {
+                    "Medium": "NUM_TightRelIso_DEN_MediumID",
+                    "MediumPromptID": "NUM_TightRelIso_DEN_MediumPromptID",
+                    "Tight": "NUM_TightRelIso_DEN_TightIDandIPCut",
+                    "HighPt": "NUM_TightRelTkIso_DEN_HighPtIDandIPCut",
+                    "TrkHighPt": "NUM_TightRelTkIso_DEN_TrkHighPtIDandIPCut"
+                }
+            },
+            "2017": {
+                "LooseRelIso": {
+                    "Loose": "NUM_LooseRelIso_DEN_LooseID",
+                    "Medium": "NUM_LooseRelIso_DEN_MediumID",
+                    "MediumPrompt": "NUM_LooseRelIso_DEN_MediumPromptID",
+                    "Tight": "NUM_LooseRelIso_DEN_TightIDandIPCut"
+                },
+                "LooseRelTkIso": {
+                    "HighpT": "NUM_LooseRelTkIso_DEN_HighPtIDandIPCut",
+                    "TrkHighpT": "NUM_LooseRelTkIso_DEN_TrkHighPtIDandIPCut"
+                },
+                "TightRelIso": {
+                    "Medium": "NUM_TightRelIso_DEN_MediumID",
+                    "MediumPromptID": "NUM_TightRelIso_DEN_MediumPromptID",
+                    "Tight": "NUM_TightRelIso_DEN_TightIDandIPCut",
+                    "HighPt": "NUM_TightRelTkIso_DEN_HighPtIDandIPCut",
+                    "TrkHighPt": "NUM_TightRelTkIso_DEN_TrkHighPtIDandIPCut"
+                }
+            },
+            "2018": {
+                "LooseRelIso": {
+                    "Loose": "NUM_LooseRelIso_DEN_LooseID",
+                    "Medium": "NUM_LooseRelIso_DEN_MediumID",
+                    "MediumPrompt": "NUM_LooseRelIso_DEN_MediumPromptID",
+                    "Tight": "NUM_LooseRelIso_DEN_TightIDandIPCut"
+                },
+                "LooseRelTkIso": {
+                    "HighpT": "NUM_LooseRelTkIso_DEN_HighPtIDandIPCut",
+                    "TrkHighpT": "NUM_LooseRelTkIso_DEN_TrkHighPtIDandIPCut"
+                },
+                "TightRelIso": {
+                    "Medium": "NUM_TightRelIso_DEN_MediumID",
+                    "MediumPromptID": "NUM_TightRelIso_DEN_MediumPromptID",
+                    "Tight": "NUM_TightRelIso_DEN_TightIDandIPCut",
+                    "HighPt": "NUM_TightRelTkIso_DEN_HighPtIDandIPCut",
+                    "TrkHighPt": "NUM_TightRelTkIso_DEN_TrkHighPtIDandIPCut"
+                }
+            },
+            "2022_pre": {
+                "TrackerMuons": {
+                    "Loose": "NUM_LooseID_DEN_TrackerMuons",
+                    "Medium": "NUM_MediumID_DEN_TrackerMuons",
+                    "MediumPromptID": "NUM_MediumPromptID_DEN_TrackerMuons",
+                    "Tight": "NUM_TightID_DEN_TrackerMuons",
+                    "Soft": "NUM_SoftID_DEN_TrackerMuons",
+                    "HightpT": "NUM_HighPtID_DEN_TrackerMuons",
+                    "TrkHighPt": "NUM_TrkHighPtID_DEN_TrackerMuons"
+                },
+                "LoosePFIso": {
+                    "Loose": "NUM_LoosePFIso_DEN_LooseID",
+                    "Medium": "NUM_LoosePFIso_DEN_MediumID",
+                    "MediumPromptID": "NUM_LoosePFIso_DEN_MediumPromptID",
+                    "Tight": "NUM_LoosePFIso_DEN_TightID"
+
+                },
+                "TightPFIso": {
+                    "Medium": "NUM_TightPFIso_DEN_MediumID",
+                    "MediumPromptID": "NUM_TightPFIso_DEN_MediumPromptID",
+                    "Tight": "NUM_TightPFIso_DEN_TightID"
+                },
+                "LooseRelTkIso": {
+                    "HighpT": "NUM_LooseRelTkIso_DEN_HighPtID",
+                    "TrkHighpT": "NUM_LooseRelTkIso_DEN_TrkHighPtID"
+                },
+                "TightRelTkIso": {
+                    "HighpT": "NUM_TightRelTkIso_DEN_HighPtID",
+                    "TrkHighpT": "NUM_TightRelTkIso_DEN_TrkHighPtID"                   
+                },
+                "LooseMiniIso": {
+                    "Loose": "NUM_LooseMiniIso_DEN_LooseID",
+                    "Medium": "NUM_LooseMiniIso_DEN_MediumID"
+                },
+                "MediumMiniIso": {
+                    "Medium": "NUM_MediumMiniIso_DEN_MediumID"
+                },
+                "TightMiniIso": {
+                    "Medium": "NUM_TightMiniIso_DEN_MediumID"
+                }
+            },
+            "2022_post": {
+                "TrackerMuons": {
+                    "Loose": "NUM_LooseID_DEN_TrackerMuons",
+                    "Medium": "NUM_MediumID_DEN_TrackerMuons",
+                    "MediumPromptID": "NUM_MediumPromptID_DEN_TrackerMuons",
+                    "Tight": "NUM_TightID_DEN_TrackerMuons",
+                    "Soft": "NUM_SoftID_DEN_TrackerMuons",
+                    "HightpT": "NUM_HighPtID_DEN_TrackerMuons",
+                    "TrkHighPt": "NUM_TrkHighPtID_DEN_TrackerMuons"
+                },
+                "LoosePFIso": {
+                    "Loose": "NUM_LoosePFIso_DEN_LooseID",
+                    "Medium": "NUM_LoosePFIso_DEN_MediumID",
+                    "MediumPromptID": "NUM_LoosePFIso_DEN_MediumPromptID",
+                    "Tight": "NUM_LoosePFIso_DEN_TightID"
+
+                },
+                "TightPFIso": {
+                    "Medium": "NUM_TightPFIso_DEN_MediumID",
+                    "MediumPromptID": "NUM_TightPFIso_DEN_MediumPromptID",
+                    "Tight": "NUM_TightPFIso_DEN_TightID"
+                },
+                "LooseRelTkIso": {
+                    "HighpT": "NUM_LooseRelTkIso_DEN_HighPtID",
+                    "TrkHighpT": "NUM_LooseRelTkIso_DEN_TrkHighPtID"
+                },
+                "TightRelTkIso": {
+                    "HighpT": "NUM_TightRelTkIso_DEN_HighPtID",
+                    "TrkHighpT": "NUM_TightRelTkIso_DEN_TrkHighPtID"                   
+                },
+                "LooseMiniIso": {
+                    "Loose": "NUM_LooseMiniIso_DEN_LooseID",
+                    "Medium": "NUM_LooseMiniIso_DEN_MediumID"
+                },
+                "MediumMiniIso": {
+                    "Medium": "NUM_MediumMiniIso_DEN_MediumID"
+                },
+                "TightMiniIso": {
+                    "Medium": "NUM_TightMiniIso_DEN_MediumID"
+                }
+            },
+            "2023_pre": {
+                "TrackerMuons": {
+                    "Loose": "NUM_LooseID_DEN_TrackerMuons",
+                    "Medium": "NUM_MediumID_DEN_TrackerMuons",
+                    "MediumPromptID": "NUM_MediumPromptID_DEN_TrackerMuons",
+                    "Tight": "NUM_TightID_DEN_TrackerMuons",
+                    "Soft": "NUM_SoftID_DEN_TrackerMuons",
+                    "HightpT": "NUM_HighPtID_DEN_TrackerMuons",
+                    "TrkHighPt": "NUM_TrkHighPtID_DEN_TrackerMuons"
+                },
+                "LoosePFIso": {
+                    "Loose": "NUM_LoosePFIso_DEN_LooseID",
+                    "Medium": "NUM_LoosePFIso_DEN_MediumID",
+                    "MediumPromptID": "NUM_LoosePFIso_DEN_MediumPromptID",
+                    "Tight": "NUM_LoosePFIso_DEN_TightID"
+
+                },
+                "TightPFIso": {
+                    "Medium": "NUM_TightPFIso_DEN_MediumID",
+                    "MediumPromptID": "NUM_TightPFIso_DEN_MediumPromptID",
+                    "Tight": "NUM_TightPFIso_DEN_TightID"
+                },
+                "LooseRelTkIso": {
+                    "HighpT": "NUM_LooseRelTkIso_DEN_HighPtID",
+                    "TrkHighpT": "NUM_LooseRelTkIso_DEN_TrkHighPtID"
+                },
+                "TightRelTkIso": {
+                    "HighpT": "NUM_TightRelTkIso_DEN_HighPtID",
+                    "TrkHighpT": "NUM_TightRelTkIso_DEN_TrkHighPtID"                   
+                },
+                "LooseMiniIso": {
+                    "Loose": "NUM_LooseMiniIso_DEN_LooseID",
+                    "Medium": "NUM_LooseMiniIso_DEN_MediumID"
+                },
+                "MediumMiniIso": {
+                    "Medium": "NUM_MediumMiniIso_DEN_MediumID"
+                },
+                "TightMiniIso": {
+                    "Medium": "NUM_TightMiniIso_DEN_MediumID"
+                }
+            },
+            "2023_post": {
+                "TrackerMuons": {
+                    "Loose": "NUM_LooseID_DEN_TrackerMuons",
+                    "Medium": "NUM_MediumID_DEN_TrackerMuons",
+                    "MediumPromptID": "NUM_MediumPromptID_DEN_TrackerMuons",
+                    "Tight": "NUM_TightID_DEN_TrackerMuons",
+                    "Soft": "NUM_SoftID_DEN_TrackerMuons",
+                    "HightpT": "NUM_HighPtID_DEN_TrackerMuons",
+                    "TrkHighPt": "NUM_TrkHighPtID_DEN_TrackerMuons"
+                },
+                "LoosePFIso": {
+                    "Loose": "NUM_LoosePFIso_DEN_LooseID",
+                    "Medium": "NUM_LoosePFIso_DEN_MediumID",
+                    "MediumPromptID": "NUM_LoosePFIso_DEN_MediumPromptID",
+                    "Tight": "NUM_LoosePFIso_DEN_TightID"
+
+                },
+                "TightPFIso": {
+                    "Medium": "NUM_TightPFIso_DEN_MediumID",
+                    "MediumPromptID": "NUM_TightPFIso_DEN_MediumPromptID",
+                    "Tight": "NUM_TightPFIso_DEN_TightID"
+                },
+                "LooseRelTkIso": {
+                    "HighpT": "NUM_LooseRelTkIso_DEN_HighPtID",
+                    "TrkHighpT": "NUM_LooseRelTkIso_DEN_TrkHighPtID"
+                },
+                "TightRelTkIso": {
+                    "HighpT": "NUM_TightRelTkIso_DEN_HighPtID",
+                    "TrkHighpT": "NUM_TightRelTkIso_DEN_TrkHighPtID"                   
+                },
+                "LooseMiniIso": {
+                    "Loose": "NUM_LooseMiniIso_DEN_LooseID",
+                    "Medium": "NUM_LooseMiniIso_DEN_MediumID"
+                },
+                "MediumMiniIso": {
+                    "Medium": "NUM_MediumMiniIso_DEN_MediumID"
+                },
+                "TightMiniIso": {
+                    "Medium": "NUM_TightMiniIso_DEN_MediumID"
+                }
+            },
+            "2024": {
+                "TrackerMuons": {
+                    "Loose": "NUM_LooseID_DEN_TrackerMuons",
+                    "Medium": "NUM_MediumID_DEN_TrackerMuons",
+                    "MediumPromptID": "NUM_MediumPromptID_DEN_TrackerMuons",
+                    "Tight": "NUM_TightID_DEN_TrackerMuons",
+                    "Soft": "NUM_SoftID_DEN_TrackerMuons",
+                    "HightpT": "NUM_HighPtID_DEN_TrackerMuons",
+                    "TrkHighPt": "NUM_TrkHighPtID_DEN_TrackerMuons",
+                    "MediumMva": "NUM_MediumMvaMuID_DEN_TrackerMuons",
+                    "TightMva": "NUM_TightMvaMuID_DEN_TrackerMuons"
+                },
+                "LoosePFIso": {
+                    "Loose": "NUM_LoosePFIso_DEN_LooseID",
+                    "Medium": "NUM_LoosePFIso_DEN_MediumID",
+                    "MediumPromptID": "NUM_LoosePFIso_DEN_MediumPromptID",
+                    "Tight": "NUM_LoosePFIso_DEN_TightID"
+
+                },
+                "MediumPFIso": {
+                    "Medium": "NUM_MediumPFIso_DEN_MediumID"
+                },
+                "TightPFIso": {
+                    "Medium": "NUM_TightPFIso_DEN_MediumID",
+                    "MediumPromptID": "NUM_TightPFIso_DEN_MediumPromptID",
+                    "Tight": "NUM_TightPFIso_DEN_TightID"
+                },
+                "LooseRelTkIso": {
+                    "HighpT": "NUM_LooseRelTkIso_DEN_HighPtID",
+                    "TrkHighpT": "NUM_LooseRelTkIso_DEN_TrkHighPtID"
+                },
+                "TightRelTkIso": {
+                    "HighpT": "NUM_TightRelTkIso_DEN_HighPtID",
+                    "TrkHighpT": "NUM_TightRelTkIso_DEN_TrkHighPtID"                   
+                },
+                "LooseMiniIso": {
+                    "Loose": "NUM_LooseMiniIso_DEN_LooseID",
+                    "Medium": "NUM_LooseMiniIso_DEN_MediumID"
+                },
+                "MediumMiniIso": {
+                    "Medium": "NUM_MediumMiniIso_DEN_MediumID"
+                },
+                "TightMiniIso": {
+                    "Medium": "NUM_TightMiniIso_DEN_MediumID",
+                    "Tight": "NUM_TightMiniIso_DEN_TightID"
+                },
+                "promptMVA": {
+                    "Medium": "NUM_promptMVA_WP64_DEN_MediumID",
+                    "Tight": "NUM_promptMVA_WP64_DEN_TightID"
+                }
+            }
+        },
+        "CMS_eff_m_trigger": {
+            "2016APV": "NUM_IsoMu24_or_IsoTkMu24_DEN_CutBasedIdTight_and_PFIsoTight",
+            "2016": "NUM_IsoMu24_or_IsoTkMu24_DEN_CutBasedIdTight_and_PFIsoTight",
+            "2017": "NUM_IsoMu27_DEN_CutBasedIdTight_and_PFIsoTight",
+            "2018": "NUM_IsoMu24_DEN_CutBasedIdTight_and_PFIsoTight",
+            "2022_pre": "NUM_IsoMu24_DEN_CutBasedIdTight_and_PFIsoTight",
+            "2022_post": "NUM_IsoMu24_DEN_CutBasedIdTight_and_PFIsoTight",
+            "2023_pre": "NUM_IsoMu24_DEN_CutBasedIdTight_and_PFIsoTight",
+            "2023_post": "NUM_IsoMu24_DEN_CutBasedIdTight_and_PFIsoTight",
+            "2024": "NUM_IsoMu24_DEN_CutBasedIdTight_and_PFIsoTight"
+        },
+        "CMS_scale_m": {
+            "_comment": "For Run 2, the recommended corrections to use are the Rochester corrections: https://twiki.cern.ch/twiki/bin/view/CMS/RochcorMuon. Run 3, the official corrections are produced centrally by the Muon POG: https://gitlab.cern.ch/cms-muonPOG/muonscarekit/-/tree/master",
+            "2016APV": "...",
+            "2016": "...",
+            "2017": "...",
+            "2018": "...",
+            "2022_pre": "...",
+            "2022_post": "...",
+            "2023_pre": "...",
+            "2023_post": "...",
+            "2024": "..."
+        },
+        "CMS_scale_m": {
+            "2016APV" : "...",
+            "2016" : "...",
+            "2017" : "...",
+            "2018" : "...",
+            "2022_pre": {
+                "crystall_ball": "cb_params",
+                "sigma": "poly_params",
+                "M_Data": "m_data",
+                "A_Data": "a_data",
+                "M_MC": "m_mc",
+                "A_MC": "a_mc",  
+                "k_Data": "k_data",
+                "k_MC": "k_mc"         
+            },
+            "2022_post": {
+                "crystall_ball": "cb_params",
+                "sigma": "poly_params",
+                "M_Data": "m_data",
+                "A_Data": "a_data",
+                "M_MC": "m_mc",
+                "A_MC": "a_mc",  
+                "k_Data": "k_data",
+                "k_MC": "k_mc"               
+            },
+            "2023_pre": {
+                "crystall_ball": "cb_params",
+                "sigma": "poly_params",
+                "M_Data": "m_data",
+                "A_Data": "a_data",
+                "M_MC": "m_mc",
+                "A_MC": "a_mc",  
+                "k_Data": "k_data",
+                "k_MC": "k_mc"        
+            },            
+            "2023_post": {
+                "crystall_ball": "cb_params",
+                "sigma": "poly_params",
+                "M_Data": "m_data",
+                "A_Data": "a_data",
+                "M_MC": "m_mc",
+                "A_MC": "a_mc",  
+                "k_Data": "k_data",
+                "k_MC": "k_mc"            
+            },
+            "2024": {
+                "crystall_ball": "cb_params",
+                "sigma": "poly_params",
+                "M_Data": "m_data",
+                "A_Data": "a_data",
+                "M_MC": "m_mc",
+                "A_MC": "a_mc",  
+                "k_Data": "k_data",
+                "k_MC": "k_mc"           
+            }          
+        }
+
+    },
+    "HighPt": {
+        "_comment": "pT > 200 GeV or using HLT_Mu50 as main trigger. SF are given as a function of momentum p and not pT.",
+        "CMS_eff_m_reco": {
+            "2016APV": "NUM_GlobalMuons_DEN_TrackerMuonProbes",
+            "2016": "NUM_GlobalMuons_DEN_TrackerMuonProbes",
+            "2017": "NUM_GlobalMuons_DEN_TrackerMuonProbes",
+            "2018": "NUM_GlobalMuons_DEN_TrackerMuonProbes",
+            "2022_pre": "NUM_GlobalMuons_DEN_TrackerMuonProbes",
+            "2022_post": "NUM_GlobalMuons_DEN_TrackerMuonProbes",
+            "2023_pre": "NUM_GlobalMuons_DEN_TrackerMuonProbes",
+            "2023_post": "NUM_GlobalMuons_DEN_TrackerMuonProbes",
+            "2024": "NUM_GlobalMuons_DEN_TrackerMuonProbes"
+        },
+        "Terminar": "Falta incluir trigger e id"
+    }
+   
+}

@@ -1,0 +1,143 @@
+{
+    "_comment": {
+        "Run_2": "https://twiki.cern.ch/twiki/bin/viewauth/CMS/ParticleNetTopWSFs",
+        "Run_3": "..."
+    },
+    "2016APV" : {
+        "jet_id": 3,
+        "jet_eta": 2.4,
+        "TvsQCD": {
+            "Loose": {
+                "value": 0.49,
+                "mistagging_rate": "1p0"
+            },
+            "Medium": {
+                "value": 0.74,
+                "mistagging_rate": "0p5"                 
+            },
+            "Tight": {
+                "value": 0.96,
+                "mistagging_rate": "0p1"                 
+            }
+        },
+
+        "WvsQCD": {
+            "Loose": {
+                "value": 0.68,
+                "mistagging_rate": "5p0"
+            },
+            "Medium": {
+                "value": 0.94,
+                "mistagging_rate": "1p0"
+            },
+            "Tight": {
+                "value": 0.97,
+                "mistagging_rate": "0p5"
+                
+            }
+        }
+    },    
+    "2016": {
+        "jet_id": 3,
+        "jet_eta": 2.4,
+        "TvsQCD": {
+            "Loose": {
+                "value": 0.50,
+                "mistagging_rate": "1p0"
+            },
+            "Medium": {
+                "value": 0.73,
+                "mistagging_rate": "0p5"                 
+            },
+            "Tight": {
+                "value": 0.96,
+                "mistagging_rate": "0p1"                 
+            }
+        },
+
+        "WvsQCD": {
+            "Loose": {
+                "value": 0.67,
+                "mistagging_rate": "5p0"
+            },
+            "Medium": {
+                "value": 0.93,
+                "mistagging_rate": "1p0"
+            },
+            "Tight": {
+                "value": 0.97,
+                "mistagging_rate": "0p5"
+                
+            }
+        }
+    },
+    "2017": {
+        "jet_id": 2,
+        "jet_eta": 2.5,
+        "TvsQCD": {
+            "Loose": {
+                "value": 0.58,
+                "mistagging_rate": "1p0"
+            },
+            "Medium": {
+                "value": 0.80,
+                "mistagging_rate": "0p5"                 
+            },
+            "Tight": {
+                "value": 0.97,
+                "mistagging_rate": "0p1"                 
+            }
+        },
+
+        "WvsQCD": {
+            "Loose": {
+                "value": 0.71,
+                "mistagging_rate": "5p0"
+            },
+            "Medium": {
+                "value": 0.94,
+                "mistagging_rate": "1p0"
+            },
+            "Tight": {
+                "value": 0.98,
+                "mistagging_rate": "0p5"
+                
+            }
+        }
+    },
+    "2018": {
+        "jet_id": 2,
+        "jet_eta": 2.5,
+        
+        "TvsQCD": {
+            "Loose": {
+                "value": 0.58,
+                "mistagging_rate": "1p0"
+            },
+            "Medium": {
+                "value": 0.80,
+                "mistagging_rate": "0p5"                 
+            },
+            "Tight": {
+                "value": 0.97,
+                "mistagging_rate": "0p1"                 
+            }
+        },
+
+        "WvsQCD": {
+            "Loose": {
+                "value": 0.70,
+                "mistagging_rate": "5p0"
+            },
+            "Medium": {
+                "value": 0.94,
+                "mistagging_rate": "1p0"
+            },
+            "Tight": {
+                "value": 0.98,
+                "mistagging_rate": "0p5"
+                
+            }
+        }
+    }
+}

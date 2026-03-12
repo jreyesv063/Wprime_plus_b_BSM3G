@@ -99,8 +99,6 @@ def apply_jet_corrections(events: NanoEventsArray, year: str, syst_var: bool, je
     # ============================================
     sample_type = "MC" if hasattr(events, "genWeight") else "DATA"
 
-    if sample_type == "DATA":
-        return
 
     if sample_type == "DATA":
         era_name = None

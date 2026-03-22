@@ -234,12 +234,6 @@ class BTagCorrector:
                 weight = ak.where(passbtag, sf_p, (1 - sf_p * eff_p) / (1 - eff_p))
 
 
-                den = 1 - eff_p
-                mask_bad = den == 0
-
-                if ak.any(mask_bad):
-                    print("⚠️ eff_p = 1 encontrado en", ak.sum(mask_bad), "jets de un número total de ", len(mask_bad))
-
             else:
                 # -----------------------------------------------------------
                 # 5. Calculate the SF of the second working point

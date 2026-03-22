@@ -65,7 +65,7 @@ tau:
     fake_VSe: "Tight"
     fake_VSmu: "Tight"
     fake_VSjet_pass: "Tight"
-    fake_VSjet_fail: ""
+    fake_VSjet_fail: null
     prongs: "1or3prongs"        
 
 met:
@@ -82,30 +82,27 @@ met:
   tau:
     met_min: 180.0
     delta_phi_jets_met: 0.7
-    invert_delta_phi: False      
+    invert_delta_phi: True     
 
 bjet:
   ele:
     pt: 20.0
     eta: 2.4
-    btag_wp_pass: "Loose"
-    btag_wp_fail: "Medium"
+    btag_wp_pass: "Tight"
     jet_id: "TightLepVeto"
     pileup_id: "Tight"
 
   mu:
     pt: 20.0
     eta: 2.4
-    btag_wp_pass: "Loose"
-    btag_wp_fail: "Medium"
+    btag_wp_pass: "Tight"
     jet_id: "TightLepVeto"
     pileup_id: "Tight"
 
   tau: 
     pt: 20.0
     eta: 2.4
-    btag_wp_pass: "Loose"
-    btag_wp_fail: "Medium"
+    btag_wp_pass: "Tight"
     jet_id: "TightLepVeto"
     pileup_id: "Tight"
 
@@ -288,7 +285,7 @@ data_driven_qcd_estimation:
 
     tau:
       invert_delta_phi: True
-      fake_VSjet_pass: "Loose"
+      fake_VSjet_pass: "Medium"
       fake_VSjet_fail: null
 
   cr_c:
@@ -303,9 +300,9 @@ data_driven_qcd_estimation:
       fake_VSjet_fail: "Tight"
 
     tau:
-      invert_delta_phi: False
-      fake_VSjet_pass: "VVVLoose"
-      fake_VSjet_fail: "Tight"
+      invert_delta_phi: True
+      fake_VSjet_pass: "Loose"
+      fake_VSjet_fail: null
 
 
   cr_d: 
@@ -321,5 +318,5 @@ data_driven_qcd_estimation:
     
     tau:
       invert_delta_phi: True
-      fake_VSjet_pass: "VVVLoose"    
-      fake_VSjet_fail: "Tight"
+      fake_VSjet_pass: "VLoose"    
+      fake_VSjet_fail: null

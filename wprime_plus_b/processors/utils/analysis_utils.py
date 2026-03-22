@@ -182,8 +182,8 @@ def get_mask_until_object(selections, cuts, obj_name, include_cut=True, only_cut
 
         # Check if the current cut matches any of the object patterns
         for pattern in patterns:
-            if re.fullmatch(pattern, cut):
-                
+            #if re.fullmatch(pattern, cut):
+            if pattern in cut:   
                 # returns the complete mask of the cut.
                 if only_cut:
                     return selections.all(cut)
@@ -257,6 +257,7 @@ def fill_cutflow(cut_names, selections, table_name, metadata, weights):
     #metadata.update({"sumw": ak.sum(weights)})
 
 
+
 # ===================================================
 #  Parallelization
 # ===================================================
@@ -270,9 +271,10 @@ def parallel_processing(key, func):
         (key, tops_array, mask_array)
     """    
     # Execute the scenario: returns tops found and a boolean mask
-    t, m = func()    
+    t, p,  m = func()    
 
-    return key, t, m
+    return key, t, p,  m
+    
     
 
 # =====================================================

@@ -15,6 +15,11 @@ def get_topXfinder_masks(
 ):
 
     # =======================================================
+    # Mask with initial cuts
+    # =======================================================    
+    #region_mask = selections.all(*initial_cuts)
+    
+    # =======================================================
     # Reduce the objects to be considered in the top tagger
     # =======================================================
     selected_objects = apply_selection(objects, region_mask)
@@ -48,11 +53,11 @@ def get_topXfinder_masks(
     }
 
 
- 
     # =================================
     # Parallelization per case
     # =================================    
-    tops = {}   # Dictionary to store tops for each scenario
+    top_masses = {}   # Dictionary to store tops for each scenario
+    top_pts = {}
     masks = {}  # Dictionary to store boolean masks for each scenario
 
     # Use as many threads as there are CPU cores
@@ -67,12 +72,12 @@ def get_topXfinder_masks(
         
         # Collect results as they finish (order may not match the original list)
         for fut in as_completed(futures):
-            key, t, m = fut.result()  # Get the returned tuple from run_case
-            tops[key] = t              # Store the tops array for this scenario
-            masks[key] = m             # Store the boolean mask for this scenario
+            key, t, p, m = fut.result()  # Get the returned tuple from run_case
+            top_masses[key] = t            # Store the top mass array for this scenario
+            top_pts[key] = p              # Store the top pt array for this scenario
+            masks[key] = m               # Store the boolean mask for this scenario
     
-
-
+    
     """
              Save top tagger cases
     Assign a numeric case ID to the SELECTED events
@@ -88,18 +93,21 @@ def get_topXfinder_masks(
     # Initial values
     case_id = ak.zeros_like(selected_objects["events"].event_index)
     top_mass = ak.zeros_like(selected_objects["events"].event_index, dtype=float)
+    top_pt = ak.zeros_like(selected_objects["events"].event_index, dtype=float)
 
     for case_name in masks.keys():
         # Extract numeric ID from "case_X": Case_1 -> 1; etc.
         cid = int(case_name.split("_")[1])
 
-        # Assign case ID where this mask is True
+         # Assign case ID where this mask is True
         case_id = ak.where(masks[case_name], cid, case_id)
-        top_mass = ak.where(tops[case_name] > 0, tops[case_name], top_mass)
+        top_mass = ak.where(top_masses[case_name] > 0, top_masses[case_name], top_mass)
+        top_pt = ak.where(top_pts[case_name] > 0, top_pts[case_name], top_pt)
 
     
     # Store case ID/mass in selected events
     selected_objects["events"] = ak.with_field(selected_objects["events"], top_mass, "top_tagger_mass")
+    selected_objects["events"] = ak.with_field(selected_objects["events"], top_pt, "top_tagger_pt")
     selected_objects["events"] = ak.with_field(selected_objects["events"], case_id, "top_tagger_case_id")
 
     
@@ -118,6 +126,12 @@ def get_topXfinder_masks(
         )
     )
 
+    pt_lookup = dict(
+        zip(
+            ak.to_list(selected_objects["events"].event_index),
+            ak.to_list(selected_objects["events"].top_tagger_pt),
+        )
+    )    
 
     # Fill full event arrays
     full_case_id = ak.Array([
@@ -130,6 +144,12 @@ def get_topXfinder_masks(
         for evt_idx in ak.to_list(objects["events"].event_index)
     ])
 
+    full_top_pt = ak.Array([
+        mass_lookup.get(evt_idx, -1.0)
+        for evt_idx in ak.to_list(objects["events"].event_index)
+    ])
+
+    
     # Store in full events
     objects["events"] = ak.with_field(
         objects["events"],
@@ -143,6 +163,12 @@ def get_topXfinder_masks(
         "top_tagger_mass",
     )
 
+    objects["events"] = ak.with_field(
+        objects["events"],
+        full_top_pt,
+        "top_tagger_pt",
+    )
+    
     # ============================================================================================
     # Determine the number of jets that did not participate in the reconstruction of the top.
     # ============================================================================================
@@ -166,3 +192,4 @@ def get_topXfinder_masks(
     
     #return object with the top tagger implementation
     return objects
+        

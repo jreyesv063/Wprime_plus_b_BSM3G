@@ -246,15 +246,6 @@ def apply_rochester_corrections_run2(
             add_delta = True
         )
 
-        # ---------------------------------------
-        #  Warning
-        # ---------------------------------------
-        max_met = ak.max(events.MET.pt)
-        max_met_nano = ak.max(events.MET.pt_nano)
-        if max_met > max_met_nano:
-            print(f"ALERTA: MET detectado de {max_met} GeV después de Rochester, antes el máximo era {max_met_nano} GeV.")
-            # Opcional: ver qué muones causaron esto
-            print(f"Max Muon pt: {ak.max(events.Muon.pt)}")
 
 # =============================================================================
 #            Run 3

@@ -18,7 +18,6 @@ class topXfinder:
         cc: float = 0.4,
     ) -> None:
         
-            
         
         self.cross_cleaning = cc
         
@@ -74,12 +73,17 @@ class topXfinder:
         )
         
         tops = topjets_masked.mask[good_top_mass]
-        
-        mask_final = ak.fill_none(ak.firsts(good_top_mass), False)
-        top = ak.fill_none(ak.firsts(tops.mass), 0)
-        
 
-        return top, mask_final
+        # ----------------
+        # Final variables
+        # ----------------
+        mask_final = ak.fill_none(ak.firsts(good_top_mass), False)
+        top_mass = ak.fill_none(ak.firsts(tops.mass), 0)
+        top_pt = ak.fill_none(ak.firsts(tops.pt), 0)
+
+  
+        
+        return top_mass, top_pt, mask_final
     
     ######################################
     #########  2 Jet #####################
@@ -125,10 +129,11 @@ class topXfinder:
         
         tops = topjet_cc.mask[good_top_mass]
         mask_final = ak.fill_none(ak.firsts(good_top_mass), False)
-        top = ak.fill_none(ak.firsts(tops.mass), 0)
+        top_mass = ak.fill_none(ak.firsts(tops.mass), 0)
+        top_pt = ak.fill_none(ak.firsts(tops.pt), 0)
         
  
-        return top, mask_final
+        return top_mass, top_pt, mask_final
     
     
     # ----------------------------------------
@@ -201,10 +206,11 @@ class topXfinder:
         tops = filtered_tops.mask[good_chi2]
         
         mask_final = ak.fill_none(good_chi2, False)
-        top = ak.fill_none(tops.mass, 0)
+        top_mass = ak.fill_none(tops.mass, 0)
+        top_pt = ak.fill_none(tops.pt, 0)
         
         
-        return top, mask_final
+        return top_mass, top_pt, mask_final
     
     
     
@@ -297,9 +303,10 @@ class topXfinder:
         tops = filtered_tops.mask[good_chi2]
         
         mask_final = ak.fill_none(good_chi2, False)
-        top = ak.fill_none(tops.mass, 0)
+        top_mass = ak.fill_none(tops.mass, 0)
+        top_pt = ak.fill_none(tops.pt, 0)
         
-        return top, mask_final
+        return top_mass, top_pt, mask_final
     
     
 
@@ -382,10 +389,11 @@ class topXfinder:
         tops = filtered_tops.mask[good_chi2]
         
         mask_final = ak.fill_none(good_chi2, False)
-        top = ak.fill_none(tops.mass, 0)
+        top_mass = ak.fill_none(tops.mass, 0)
+        top_pt = ak.fill_none(tops.pt, 0)
         
         
-        return top, mask_final
+        return top_mass, top_pt, mask_final
         
 
 
@@ -494,10 +502,11 @@ class topXfinder:
         tops = filtered_tops.mask[good_chi2]
         
         mask_final = ak.fill_none(good_chi2, False)
-        top = ak.fill_none(tops.mass, 0)
+        top_mass = ak.fill_none(tops.mass, 0)
+        top_pt = ak.fill_none(tops.pt, 0)
         
         
-        return top, mask_final
+        return top_mass, top_pt, mask_final
 
 
 
@@ -616,19 +625,23 @@ class topXfinder:
         
 
         filtered_chi2_cal = ak.fill_none(ak.sum(chi2_cal_comb, axis = 1), 1000)
-        filtered_tops = ak.firsts(ak.sort(filtered_trijet.mass))
+        
+        filtered_tops_mass = ak.firsts(filtered_trijet.mass)
+        filtered_tops_pt = ak.firsts(filtered_trijet.pt)
         
         
         # Final steps
         good_chi2 = (filtered_chi2_cal < chi2)
-        tops = filtered_tops.mask[good_chi2]
+        tops_mass = filtered_tops_mass.mask[good_chi2]
+        tops_pt = filtered_tops_pt.mask[good_chi2]
         
                 
         mask_final = ak.fill_none(good_chi2, False)
-        top = ak.fill_none(tops, 0)
         
+        top_mass = ak.fill_none(tops_mass, 0)
+        top_pt = ak.fill_none(tops_pt, 0)
         
-        return top, mask_final
+        return top_mass, top_pt, mask_final
         
 
 
@@ -716,19 +729,22 @@ class topXfinder:
         
         
         filtered_chi2_cal = ak.fill_none(ak.sum(chi2_cal, axis = 1), 1000)
-        filtered_tops = ak.firsts(ak.sort(filtered_trijets.mass))
+        filtered_tops_mass = ak.firsts(filtered_trijets.mass)
+        filtered_tops_pt = ak.firsts(filtered_trijets.pt)
         
         
         # Final steps
         good_chi2 = (filtered_chi2_cal < chi2)
-        tops = filtered_tops.mask[good_chi2]
+        tops_mass = filtered_tops_mass.mask[good_chi2]
+        tops_pt = filtered_tops_pt.mask[good_chi2]
         
         
         mask_final = ak.fill_none(good_chi2, False)
-        top = ak.fill_none(tops, 0)
+        top_mass = ak.fill_none(tops_mass, 0)
+        top_pt = ak.fill_none(tops_pt, 0)
         
     
-        return top, mask_final
+        return top_mass, top_pt, mask_final
 
 
     # ---------------------------
@@ -763,10 +779,12 @@ class topXfinder:
         tops = topjets_masked.mask[good_top_mass]
 
         mask_final = ak.fill_none(ak.firsts(good_top_mass), False)
-        top = ak.fill_none(ak.firsts(tops.mass), 0)
+        top_mass = ak.fill_none(ak.firsts(tops.mass), 0)
+        top_pt = ak.fill_none(ak.firsts(tops.pt), 0)
 
 
-        return top, mask_final
+        return top_mass, top_pt, mask_final
+        
     
     ######################################
     #########  2 Jet #####################
@@ -810,10 +828,11 @@ class topXfinder:
         
         tops = topjet_cc.mask[good_top_mass]
         mask_final = ak.fill_none(ak.firsts(good_top_mass), False)
-        top = ak.fill_none(ak.firsts(tops.mass), 0)
+        top_mass = ak.fill_none(ak.firsts(tops.mass), 0)
+        top_pt = ak.fill_none(ak.firsts(tops.pt), 0)
         
  
-        return top, mask_final
+        return top_mass, top_pt, mask_final
     
     
     # ----------------------------------------
@@ -886,10 +905,11 @@ class topXfinder:
         tops = filtered_tops.mask[good_chi2]
         
         mask_final = ak.fill_none(good_chi2, False)
-        top = ak.fill_none(tops.mass, 0)
+        top_mass = ak.fill_none(tops.mass, 0)
+        top_pt = ak.fill_none(tops.pt, 0)
         
         
-        return top, mask_final
+        return top_mass, top_pt, mask_final
     
     
     
@@ -982,9 +1002,11 @@ class topXfinder:
         tops = filtered_tops.mask[good_chi2]
         
         mask_final = ak.fill_none(good_chi2, False)
-        top = ak.fill_none(tops.mass, 0)
+        top_mass = ak.fill_none(tops.mass, 0)
+        top_pt = ak.fill_none(tops.pt, 0)
         
-        return top, mask_final
+        return top_mass, top_pt, mask_final
+
     
     # Case 13
     def Scenario_3jets_resolve_general(self):
@@ -1024,9 +1046,6 @@ class topXfinder:
         
         
         # Top (b W) candidates
-        #dijet_b = ak.cartesian({"dijet": ws, "b": bs})
-        #dijet_b["p4"] = dijet_b.dijet + dijet_b.b
-
         trijet = ws + bs
         
         good_top_mass = (
@@ -1054,15 +1073,25 @@ class topXfinder:
         
         
         filtered_chi2_cal = ak.fill_none(ak.sum(chi2_cal, axis = 1), 1000)
-        filtered_tops = ak.firsts(ak.sort(filtered_trijet_comb.mass))
-        
+
+        # Extract pt and mass
+        filtered_tops_pt = ak.firsts(filtered_trijet_comb.pt) 
+        filtered_tops_mass = ak.firsts(filtered_trijet_comb.mass)
+
         # Final steps
         good_chi2 = (filtered_chi2_cal < chi2)
-        tops = filtered_tops.mask[good_chi2]
-        
+
+        tops_pt = filtered_tops_pt.mask[good_chi2]
+        tops_mass = filtered_tops_mass.mask[good_chi2]
                 
         mask_final = ak.fill_none(good_chi2, False)
-        top = ak.fill_none(tops, 0)
+
         
+        # Remove None
+        top_pt = ak.fill_none(tops_pt, 0)
+        top_mass = ak.fill_none(tops_mass, 0)
+
         
-        return top, mask_final  
+        return top_mass, top_pt, mask_final  
+
+ 

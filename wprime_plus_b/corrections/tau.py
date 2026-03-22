@@ -274,10 +274,20 @@ class TauCorrector:
 
         # =============================================================
         # Correction: event-level weight (nominal/up/down)
-        # =============================================================        
+        # =============================================================     
+        # Tau ID correction is only available for Loose, Medium, Tight, and VTight
+        wp_jet = {
+            "VVVLoose": "Loose",
+            "VVLoose": "Loose",
+            "VLoose": "Loose",
+            "Loose": "Loose",
+            "Medium": "Medium",
+            "Tight": "Tight",
+            "VTight": "VTight"
+        }   
         # Get nominal, up, and down scale factors
         nominal_sf, up_sf, down_sf = [
-            unflat_sf(self.cset[correction_name].evaluate(tau_pt, tau_dm, tau_genMatch, self.tau_vs_jet, self.tau_vs_ele, v, flag), in_tau_mask, self.n)
+            unflat_sf(self.cset[correction_name].evaluate(tau_pt, tau_dm, tau_genMatch, wp_jet[self.tau_vs_jet], self.tau_vs_ele, v, flag), in_tau_mask, self.n)
             for v in ("default", "up", "down")
         ]
 

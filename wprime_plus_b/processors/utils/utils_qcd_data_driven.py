@@ -101,7 +101,6 @@ class QCD_data_driven:
         
         for cr in ["cr_b", "cr_c", "cr_d"]:
             """
-            OPTIMIZATION 1: Avoid deep copying objects. 
             We create a new dictionary with references to the same awkward arrays.
             Awkward is immutable, so we don't need deep copying to protect the data.
             """
@@ -115,7 +114,7 @@ class QCD_data_driven:
             # Obtain definition of regions B, C, and D based on the criteria defined in the config file
             cr_criteria = self.criteria["data_driven_qcd_estimation"][cr][self.lepton_flavor]
             
-            if cr_criteria["fake_VSjet_fail"] is not None: 
+            if cr_criteria["fake_VSjet_fail"] is not None or cr_criteria["fake_VSjet_pass"] != self.criteria["tau"][self.lepton_flavor]["fake_VSjet_pass"]: 
                 good_taus_masks = select_good_taus(
                     events=objects_region["events"],
                     tau_pt_threshold=self.criteria["tau"][self.lepton_flavor]["pt"],
@@ -180,7 +179,7 @@ class QCD_data_driven:
                 has_top  = any("top_tagger" in cut for cut in self.cuts_map[cr])
 
 
-                if cr_criteria["fake_VSjet_fail"] is not None:
+                if cr_criteria["fake_VSjet_fail"] is not None or cr_criteria["fake_VSjet_pass"] != self.criteria["tau"][self.lepton_flavor]["fake_VSjet_pass"]:
                     # Since the subset of taus changes, it is necessary to recalculate the identification weights.
                     exclude_list = [
                         f"CMS_fake_t_DeepTau{self.suffix}_VSjet", f"CMS_fake_t_DeepTau{self.suffix}_{self.year}", f"CMS_fake_t_DeepTau{self.suffix}_{self.year}",  
@@ -189,7 +188,24 @@ class QCD_data_driven:
                         f"top_boost_weight_{self.lepton_flavor}_{self.year}",
                         f"CMS_eff_j_PUJetID_eff_{self.year}",
                     ]
-                    weights_cr.add("baseline_weights", self.weights_container.partial_weight(exclude=exclude_list))
+
+                    for name, w in self.weights_container._weights.items():
+                        if name in exclude_list:
+                            continue
+
+                        up = self.weights_container._modifiers.get(name + "Up")
+                        down = self.weights_container._modifiers.get(name + "Down")
+
+                        if name in self.weights_container._modifiers:
+                            weights_cr.add(
+                                name,
+                                weight=w,
+                                weightUp=up,
+                                weightDown=down,
+                            )
+                        else:
+                            weights_cr.add(name, weight=w)    
+
 
                     # ************************************
                     #          Pileup Jet ID
@@ -199,7 +215,7 @@ class QCD_data_driven:
                         weights=weights_cr,
                         year=self.year,
                         working_point = self.criteria["jet"][self.lepton_flavor]["pileup_id"],
-                        jet_mask = get_mask_until_object(self.selections_BCD, self.cuts_map[cr], "top_tagger" if has_top and not has_bjet else "bjet")
+                        jet_mask = get_mask_until_object(selections=self.selections_BCD, cuts= self.cuts_map[cr], obj_name="top_tagger" if has_top and not has_bjet else "bjet", include_cut=False, only_cut=True)
                     )
 
                     # ************************************
@@ -270,7 +286,28 @@ class QCD_data_driven:
 
 
                 else:
-                    weights_cr.add("baseline_weights", self.weights_container.partial_weight(exclude=[f"top_boost_weight_{self.lepton_flavor}_{self.year}"]))
+                    exclude_list = [
+                        f"top_boost_weight_{self.lepton_flavor}_{self.year}"
+                    ]
+
+                    for name, w in self.weights_container._weights.items():
+                        if name in exclude_list:
+                            continue
+
+                        up = self.weights_container._modifiers.get(name + "Up")
+                        down = self.weights_container._modifiers.get(name + "Down")
+
+                        if name in self.weights_container._modifiers:
+                            weights_cr.add(
+                                name,
+                                weight=w,
+                                weightUp=up,
+                                weightDown=down,
+                            )
+                        else:
+                            weights_cr.add(name, weight=w)    
+
+
                 
                 add_top_boost_corrections(
                     objects=objects_final, 
@@ -280,9 +317,11 @@ class QCD_data_driven:
                     year=self.year
                 ) 
                 
-
             else:
                 weights_cr = self.weights_container
+
+            #self.output_metadata[cr].update({"sumw": ak.sum(weights_cr.weight())})
+
 
             # Process histograms IMMEDIATELY to avoid saving ‘objects_final’ in a map
             self._fill_results(cr, objects_final, weights_cr, objects_var)
@@ -296,7 +335,9 @@ class QCD_data_driven:
         self.output_metadata[cr] = {}
         self.output_metadata[cr].update({"sumw": ak.sum(weights.weight())})
 
-        self.output_metadata[cr] = {"weight_statistics": {k: v for k, v in weights.weightStatistics.items()}}
+        self.output_metadata[cr].update({
+            "weight_statistics": {k: v for k, v in weights.weightStatistics.items()}
+        })
         
         fill_cutflow(self.cuts_map[cr], self.selections_BCD, f"cutflow_{cr}", 
                      self.output_metadata[cr], weights.weight())

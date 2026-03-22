@@ -32,37 +32,25 @@ def ISR_boost_plot(objects, out, mask, weights_container):
     out["nj_edges"] = nj_edges
 
 
-
-
 def ttbar_boost_plot(objects, out, mask, weights_container, lepton_flavor):
 
 
     lepton_map = {"ele": objects["electrons"], "mu": objects["muons"], "tau": objects["taus"]}
 
 
-    lepton = lepton_map[lepton_flavor][mask]
+    lepton = ak.firsts(lepton_map[lepton_flavor][mask])
     met = objects['met'][mask]
-    bjets = objects['bjets'][mask]
-    lightjets = objects['lightjets'][mask]
-    topjets = objects['topjets'][mask]
-    wjets = objects['wjets'][mask]
     events = objects["events"][mask]
     weights = ak.to_numpy(weights_container[mask])
     
-    ST = ak.to_numpy(
-            ak.sum(lepton.pt, axis=1) 
-            + met.pt 
-            + ak.sum(bjets.pt, axis=1) 
-            + ak.sum(lightjets.pt, axis=1) 
-            + ak.sum(topjets.pt, axis=1) 
-            + ak.sum(wjets.pt, axis=1)
-    )
+  
+    ST = events.top_tagger_pt + lepton.pt + met.pt
     
     nj = ak.to_numpy(events.njets_noTopTagger)
 
     
     binning_ST = np.array([
-        0, 20, 40, 60, 80, 100, 120, 150,
+        0, 100, 150,
         200, 300, 400, 500, 600, 700,
         800, 900, 1000, 1500, 2000, 3000, 4000, 5000
     ])
@@ -83,3 +71,4 @@ def ttbar_boost_plot(objects, out, mask, weights_container, lepton_flavor):
     out["hist"] =  H
     out["ST_edges"] = ST_edges
     out["nj_edges"] = nj_edges
+

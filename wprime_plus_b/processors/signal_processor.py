@@ -239,6 +239,7 @@ class SignalProccessor(processor.ProcessorABC):
             tau_eta_threshold = self.criteria["tau"][self.lepton_flavor]["eta"],
             tau_dz_threshold = self.criteria["tau"][self.lepton_flavor]["dz"],
             tau_vs_jet_pass = self.criteria["tau"][self.lepton_flavor]["fake_VSjet_pass"],
+            tau_vs_jet_fail = self.criteria["tau"][self.lepton_flavor]["fake_VSjet_fail"],
             tau_vs_ele =self.criteria["tau"][self.lepton_flavor]["fake_VSe"],
             tau_vs_mu = self.criteria["tau"][self.lepton_flavor]["fake_VSmu"],
             prong = self.criteria["tau"][self.lepton_flavor]["prongs"] ,

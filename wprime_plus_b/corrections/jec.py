@@ -180,23 +180,12 @@ def apply_jet_corrections(events: NanoEventsArray, year: str, syst_var: bool, je
     #  MET recalculation
     # ==============================================
     if jet_case == "AK4":
-        print("I am here: JEC")
         events[met_type, "pt_nano"] = events[met_type, "pt"]
         events[met_type, "phi_nano"] = events[met_type, "phi"]
 
         met_factory = get_met_factory()
         events[met_type] = met_factory.build(events[met_type], events[jet_type], {})
         
-
-    else:
-        update_met(events=events, 
-            met_initial=met_type, 
-            met_final=met_type, 
-            pt_new_objects=events[jet_type, "pt"], 
-            pt_old_objects=events[jet_type, "pt_nano"], 
-            phi_objects=events[jet_type, "phi"],
-            add_delta = False
-        )
     
     # =======================================
     # Remove unnecesary fields
@@ -265,48 +254,6 @@ def apply_jet_corrections(events: NanoEventsArray, year: str, syst_var: bool, je
             events[met_type, f"pt_{jet_case}_JER_down"] = events[met_type].JER.down.pt
             events[met_type, f"phi_{jet_case}_JER_down"] = events[met_type].JER.down.phi    
 
-
-        else:
-            update_met(events=events, 
-                met_initial=met_type, 
-                met_final=met_type, 
-                pt_new_objects=events[jet_type].JES_jes.up.pt, 
-                pt_old_objects=events[jet_type, "pt_nano"], 
-                phi_objects=events[jet_type, "phi"],
-                variation = f"{jet_case}_JES_up",
-                add_delta = False
-            )
-
-            update_met(events=events, 
-                met_initial=met_type, 
-                met_final=met_type, 
-                pt_new_objects=events[jet_type].JES_jes.down.pt, 
-                pt_old_objects=events[jet_type, "pt_nano"], 
-                phi_objects=events[jet_type, "phi"],
-                variation = f"{jet_case}_JES_down",
-                add_delta = False
-            )            
-
-
-            update_met(events=events, 
-                met_initial=met_type, 
-                met_final=met_type, 
-                pt_new_objects=events[jet_type].JER.up.pt, 
-                pt_old_objects=events[jet_type, "pt_nano"], 
-                phi_objects=events[jet_type, "phi"],
-                variation = f"{jet_case}_JER_up",
-                add_delta = False
-            )
-
-            update_met(events=events, 
-                met_initial=met_type, 
-                met_final=met_type, 
-                pt_new_objects=events[jet_type].JER.down.pt, 
-                pt_old_objects=events[jet_type, "pt_nano"], 
-                phi_objects=events[jet_type, "phi"],
-                variation = f"{jet_case}_JER_down",
-                add_delta = False
-            )            
     
     # ===============================================
     # Remove extra fields from systematic variations

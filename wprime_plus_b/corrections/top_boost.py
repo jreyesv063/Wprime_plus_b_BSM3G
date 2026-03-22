@@ -19,10 +19,10 @@ def add_top_boost_corrections(
         return    
 
     if year not in {"2016APV", "2016", "2017", "2018"}:
-        raise ValueError(f"Año no reconocido: {year}")
+        raise ValueError(f"Unrecognized year: {year}")
 
     if lepton_flavor not in {"tau", "mu"}:
-        raise ValueError(f"Lepton flavor no reconocido: {lepton_flavor}")        
+        raise ValueError(f"Unrecognized lepton flavor: {lepton_flavor}")  
 
     cset = correctionlib.CorrectionSet.from_file(
         f"wprime_plus_b/corrections/top_boost/top_boost_{lepton_flavor}_{year}.json"
@@ -30,41 +30,31 @@ def add_top_boost_corrections(
 
     lepton_map = {"ele": objects["electrons"], "mu": objects["muons"], "tau": objects["taus"]}
     
-    lepton = lepton_map[lepton_flavor]
+    lepton = ak.firsts(lepton_map[lepton_flavor])
 
-    ST = ak.to_numpy(
-            ak.sum(lepton.pt, axis=1) 
-            + objects["met"].pt 
-            + ak.sum(objects["bjets"].pt, axis=1) 
-            + ak.sum(objects["lightjets"].pt, axis=1) 
-            + ak.sum(objects["topjets"].pt, axis=1) 
-            + ak.sum(objects["wjets"].pt, axis=1)
-    )
+    ST = ak.fill_none(objects["events"].top_tagger_pt  + objects["met"].pt  + lepton.pt, 0)
+    nj = ak.fill_none(objects["events"].njets_noTopTagger, 0)
 
-    nj = ak.to_numpy(objects["events"].njets_noTopTagger)
 
-    # Máscara con todas las condiciones
+    # Mask
     selection_mask = (
-        (ak.num(lepton) == 1) # Se tenga al menos un lepton
+        (ak.num(lepton_map[lepton_flavor]) == 1)    # Exactly one lepton
         & (objects["events"].top_tagger_case_id > 0)
     )
 
-    if lepton_flavor  == "mu":
-        # Evaluar peso y aplicar máscara
-        sf = ak.where(
+
+    sf = {
+        var: ak.where(
             selection_mask,
-            cset["top_boost_weight"].evaluate(ST, nj, "nominal"),
+            cset["top_boost_weight"].evaluate(ST, nj, var),
             1.0
         )
-    else:
-        # Evaluar peso y aplicar máscara
-        sf = ak.where(
-            selection_mask,
-            cset["top_boost_weight"].evaluate(ST, nj, "nominal"),
-            1.0
-        )        
+        for var in ["nominal", "up", "down"]
+    }
 
     weights.add(
         name=f"top_boost_weight_{lepton_flavor}_{year}",
-        weight=sf,
+        weight=sf['nominal'],
+        weightUp=sf['up'],
+        weightDown=sf['down'],
     )

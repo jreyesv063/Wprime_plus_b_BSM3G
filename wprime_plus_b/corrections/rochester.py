@@ -213,7 +213,7 @@ def apply_rochester_corrections_run2(
         pt_new_objects =  events.Muon.pt,
         pt_old_objects = events.Muon.pt_nano,
         phi_objects = events.Muon.phi,
-        add_delta = True
+        add_delta = False
     )
     # ====================================================
     # Systematic variations
@@ -230,7 +230,7 @@ def apply_rochester_corrections_run2(
             pt_old_objects = events.Muon.pt_nano,
             phi_objects = events.Muon.phi,
             variation = "Muon_Rochester_up",
-            add_delta = True
+            add_delta = False
         )
 
         # Down
@@ -243,7 +243,7 @@ def apply_rochester_corrections_run2(
             pt_old_objects = events.Muon.pt_nano,
             phi_objects = events.Muon.phi,
             variation = "Muon_Rochester_down",
-            add_delta = True
+            add_delta = False
         )
 
 

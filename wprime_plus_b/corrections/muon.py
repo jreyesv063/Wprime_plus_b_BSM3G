@@ -380,10 +380,6 @@ class MuonCorrector:
         event_mask = trigger_mask & trigger_match_mask    
         nominal_sf = ak.where(event_mask, nominal_sf_tmp, 1.0)
          
-        nominal_sf, up_sf, down_sf = [
-            ak.where(self.muon_mask, sf, 1.0)
-            for sf in (nominal_sf, up_sf, down_sf)
-        ]
 
         self.weights.add(
             name=f"CMS_eff_m_trigger_{self.year}",

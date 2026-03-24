@@ -503,14 +503,6 @@ class WjetsProccessor(processor.ProcessorABC):
             ],
         }             
 
-        # -------------------------------------------------------------
-        # sumw without ID weights
-        # -------------------------------------------------------------
-        output["metadata"]["main"] = {}
-        # Weighted events
-        output["metadata"]["main"].update({"sumw": ak.sum(weights_container.weight())})
-
-
 
         # -------------------------
         # Object ID corrections
@@ -518,8 +510,7 @@ class WjetsProccessor(processor.ProcessorABC):
         # top boost weights
         if self.is_mc:
             has_bjet = any("bjet" in cut for cut in region_selection[self.lepton_flavor])
-            has_top  = any("top_tagger" in cut for cut in region_selection[self.lepton_flavor])
-
+            
 
             # ************************************
             #          Pileup Jet ID
@@ -529,7 +520,7 @@ class WjetsProccessor(processor.ProcessorABC):
                 weights=weights_container,
                 year=self.year,
                 working_point = self.criteria["jet"][self.lepton_flavor]["pileup_id"],
-                jet_mask = get_mask_until_object(self.selections, region_selection[self.lepton_flavor], "top_tagger" if has_top and not has_bjet else "bjet")
+                jet_mask = get_mask_until_object(selections=self.selections, cuts=region_selection[self.lepton_flavor], obj_name="bjet" if has_bjet else "none", include_cut=False, only_cut=True)
             )
 
             # ************************************
@@ -542,7 +533,8 @@ class WjetsProccessor(processor.ProcessorABC):
                 tagger="deepJet",                
                 weights=weights_container,
                 pass_working_point=self.criteria["bjet"][self.lepton_flavor]["btag_wp_pass"],
-                bjet_mask = get_mask_until_object(self.selections, region_selection[self.lepton_flavor], "top_tagger" if has_top and not has_bjet else "bjet")
+                bjet_mask = get_mask_until_object(selections=self.selections, cuts=region_selection[self.lepton_flavor], obj_name="bjet" if has_bjet else "none", include_cut=False, only_cut=True),
+                mask_eff_btag = get_mask_until_object(selections=self.selections, cuts=region_selection[self.lepton_flavor], obj_name="bjet" if has_bjet else "none", include_cut=False, only_cut=False)
             )            
             # add b-tagging weights
             btag_corrector.add_btag_weights(flavor="bc", correlated=False)
@@ -556,7 +548,7 @@ class WjetsProccessor(processor.ProcessorABC):
                 electrons=objects["electrons"],
                 weights=weights_container,
                 year=self.year,
-                electron_mask = get_mask_until_object(self.selections, region_selection[self.lepton_flavor], "electron")
+                electron_mask = get_mask_until_object(selections=self.selections, cuts=region_selection[self.lepton_flavor], obj_name="electron", include_cut=False, only_cut=True)
             )
 
             # add electron ID weights
@@ -579,7 +571,7 @@ class WjetsProccessor(processor.ProcessorABC):
                 id_wp = self.criteria["muon"][self.lepton_flavor]["id"],
                 iso_wp = self.criteria["muon"][self.lepton_flavor]["iso"],
                 pt_range = "MediumPt",
-                muon_mask = get_mask_until_object(self.selections, region_selection[self.lepton_flavor], "muon")
+                muon_mask = get_mask_until_object(selections=self.selections, cuts=region_selection[self.lepton_flavor], obj_name="muon", include_cut=False, only_cut=True)
             )
 
             # add muon RECO weights
@@ -600,7 +592,7 @@ class WjetsProccessor(processor.ProcessorABC):
                 tau_vs_jet = self.criteria["tau"][self.lepton_flavor]["fake_VSjet_pass"],
                 tau_vs_ele = self.criteria["tau"][self.lepton_flavor]["fake_VSe"],
                 tau_vs_mu = self.criteria["tau"][self.lepton_flavor]["fake_VSmu"],
-                tau_mask = get_mask_until_object(self.selections, region_selection[self.lepton_flavor], "tau")
+                tau_mask = get_mask_until_object(selections=self.selections, cuts=region_selection[self.lepton_flavor], obj_name="tau", include_cut=False, only_cut=True)
             )
             tau_corrector.add_id_weight_DeepTau2017v2p1VSe()
             tau_corrector.add_id_weight_DeepTau2017v2p1VSmu()
@@ -626,7 +618,12 @@ class WjetsProccessor(processor.ProcessorABC):
 
         # ============================================================== 
         #  Save cutflow: Table with nominal values
-        # ==============================================================        
+        # ==============================================================       
+        output["metadata"]["main"] = {}
+        # Weighted events
+        output["metadata"]["main"].update({"sumw": ak.sum(weights_container.weight())})
+
+
         output["metadata"]["main"]["weight_statistics"] = {}
         for weight, statistics in weights_container.weightStatistics.items():
             output["metadata"]["main"]["weight_statistics"][weight] = statistics

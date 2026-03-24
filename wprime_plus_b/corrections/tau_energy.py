@@ -175,7 +175,7 @@ def apply_tau_energy_scale_corrections(
         pt_new_objects =  events.Tau.pt,
         pt_old_objects = events.Tau.pt_nano,
         phi_objects = events.Tau.phi,
-        add_delta = True
+        add_delta = False
     )
 
     # ====================================================
@@ -193,7 +193,7 @@ def apply_tau_energy_scale_corrections(
             pt_old_objects = events.Tau.pt_nano,
             phi_objects = events.Tau.phi,
             variation = "Tau_TES_up",
-            add_delta = True
+            add_delta = False
         )
 
         # Down
@@ -206,7 +206,7 @@ def apply_tau_energy_scale_corrections(
             pt_old_objects = events.Tau.pt_nano,
             phi_objects = events.Tau.phi,
             variation = "Tau_TES_down",
-            add_delta = True
+            add_delta = False
         )
     
 

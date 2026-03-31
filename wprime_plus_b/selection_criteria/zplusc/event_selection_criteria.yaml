@@ -44,7 +44,6 @@ tau:
     fake_VSe: "Tight"
     fake_VSmu: "Tight"
     fake_VSjet_pass: "Tight"
-    fake_VSjet_fail: ""
     prongs: "1or3prongs"
 
   mu:
@@ -54,7 +53,6 @@ tau:
     fake_VSe: "Tight"
     fake_VSmu: "Tight"
     fake_VSjet_pass: "Tight"
-    fake_VSjet_fail: ""
     prongs: "1or3prongs"
 
   tau:
@@ -64,7 +62,6 @@ tau:
     fake_VSe: "Tight"
     fake_VSmu: "Tight"
     fake_VSjet_pass: "Tight"
-    fake_VSjet_fail: ""
     prongs: "1or3prongs"        
 
 bjet:

@@ -12,8 +12,7 @@
             "EcalDeadCellTriggerPrimitiveFilter",
             "BadPFMuonFilter",
             "BadPFMuonDzFilter",
-            "eeBadScFilter",
-            "ecalBadCalibFilter"
+            "eeBadScFilter"
         ],
         "mc": [
             "goodVertices",
@@ -23,8 +22,7 @@
             "EcalDeadCellTriggerPrimitiveFilter",
             "BadPFMuonFilter",
             "BadPFMuonDzFilter",
-            "eeBadScFilter",
-            "ecalBadCalibFilter"
+            "eeBadScFilter"
         ]
     },
     "2016": {
@@ -36,8 +34,7 @@
             "EcalDeadCellTriggerPrimitiveFilter",
             "BadPFMuonFilter",
             "BadPFMuonDzFilter",
-            "eeBadScFilter",
-            "ecalBadCalibFilter"
+            "eeBadScFilter"
         ],
         "mc": [
             "goodVertices",
@@ -47,8 +44,7 @@
             "EcalDeadCellTriggerPrimitiveFilter",
             "BadPFMuonFilter",
             "BadPFMuonDzFilter",
-            "eeBadScFilter",
-            "ecalBadCalibFilter"
+            "eeBadScFilter"
         ]
     },
     "2017": {

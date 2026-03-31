@@ -20,6 +20,10 @@ def get_met_filters_mask(events: ak.Array, year: str, is_mc: bool) -> np.ndarray
     -------
     metfilters : np.ndarray
         Boolean mask per event. True if the event passes all MET filters.
+
+    References:
+    - CMS MET filters recommendations:
+        https://twiki.cern.ch/twiki/bin/viewauth/CMS/MissingETOptionalFiltersRun2
     """
     # Load MET filters from JSON
     with open("wprime_plus_b/json_files/metfilters.json", "r") as f:

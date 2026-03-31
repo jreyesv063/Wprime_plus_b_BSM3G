@@ -48,7 +48,7 @@ considerar_inclusive_ch3=false
 considerar_dy=false
 
 # Path to the run.sh file you want to check
-archivo_run="run_2018.sh"
+archivo_run="run.sh"
 
 
 #####################################
@@ -261,7 +261,7 @@ cd $SCRIPT_DIR/wprime_plus_b/fileset/
 echo $GRID_PASSWORD | voms-proxy-init --voms cms --pwstdin
 
 # Obtener el shell de Singularity
-singularity shell -B /afs -B /eos -B /cvmfs /cvmfs/unpacked.cern.ch/registry.hub.docker.com/coffeateam/coffea-dask:latest-py3.10 << EOF
+env PYTHONNOUSERSITE=1 singularity shell -B /afs -B /eos -B /cvmfs /cvmfs/unpacked.cern.ch/registry.hub.docker.com/coffeateam/coffea-dask-almalinux9:2025.3.0-py3.10 << EOF
 
 if [ "$create_fileset" = "true" ]; then
     echo “Running make_fileset_lxplus.py ...”

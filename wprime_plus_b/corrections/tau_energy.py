@@ -56,12 +56,15 @@ def mask_corrections(tau):
         tau_dm_mask = tau_dm_mask | (tau.decayMode == decay_mode)
 
     tau_genmatch_mask = (
-        (tau.genPartFlav == taus_info["genPartFlav"]["prompt_electron"])
-        | (tau.genPartFlav == taus_info["genPartFlav"]["prompt_muon"])
-        | (tau.genPartFlav == taus_info["genPartFlav"]["hadronic_tau_decay"])
-        | (tau.genPartFlav == taus_info["genPartFlav"]["unmatched"])
+        (tau.genPartFlav == taus_info["genPartFlav"]["hadronic_tau_decay"])
+        & (tau.genPartFlav == taus_info["genPartFlav"]["prompt_muon"])
+        & (tau.genPartFlav == taus_info["genPartFlav"]["prompt_electron"])
+        & (tau.genPartFlav == taus_info["genPartFlav"]["unmatched"])
     )
-    tau_eta_mask = (np.abs(tau.eta) < 2.5)
+    tau_eta_mask = (
+        (tau.eta > 0.0)
+        & (tau.eta < 2.5)
+    )
 
     tau_mask = tau_genmatch_mask & tau_dm_mask  & tau_eta_mask
     

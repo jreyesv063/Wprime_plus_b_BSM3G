@@ -126,13 +126,18 @@ class TauCorrector:
         #  Tau candidates
         # =============================================================           
         # tau pseudorapidity range: [0, 2.3)
-        tau_eta_mask = np.abs(self.taus_eta < 2.3) 
+        tau_eta_mask =(
+            (self.taus_eta > 0.0) 
+            & (self.taus_eta < 2.3)
+        ) 
         # GenMatch = 0 "unmatched", 1 "electron";
-        tau_genMatch_mask = (self.taus_genPartFlav == self.taus_genMatch["prompt_electron"]) | (self.taus_genPartFlav == self.taus_genMatch["tau_e_decay"])
-        # Only taus passing the wp stablished
-        tau_wp_mask = (self.taus_wp_e >= self.tau_vs_ele_wp)
+        tau_genMatch_mask = (
+            (self.taus_genPartFlav == self.taus_genMatch["prompt_electron"])
+            | (self.taus_genPartFlav == self.taus_genMatch["unknown"])
+        )
 
-        in_tau_mask = tau_genMatch_mask & tau_wp_mask  & tau_eta_mask
+
+        in_tau_mask = tau_genMatch_mask  & tau_eta_mask
         # get 'in-limits' taus
         in_limit_taus = self.taus.mask[in_tau_mask]
 
@@ -184,13 +189,18 @@ class TauCorrector:
         #  Tau candidates
         # =============================================================     
         # tau pseudorapidity range: [0, 2.3)
-        tau_eta_mask = np.abs(self.taus_eta < 2.3) 
+        tau_eta_mask = (            
+            (self.taus_eta > 0.0) 
+            & (self.taus_eta < 2.3)
+        )
         # GenMatch = 0 "unmatched", 2 "muon";
-        tau_genMatch_mask = (self.taus_genPartFlav == self.taus_genMatch["prompt_muon"]) | (self.taus_genPartFlav == self.taus_genMatch["tau_mu_decay"])
+        tau_genMatch_mask = (
+            (self.taus_genPartFlav == self.taus_genMatch["prompt_muon"]) 
+            | (self.taus_genPartFlav == self.taus_genMatch["unknown"])
+        )
         
-        # Only taus passing the wp stablished
-        tau_wp_mask = (self.taus_wp_mu >= self.tau_vs_mu_wp)
-        in_tau_mask = tau_genMatch_mask & tau_wp_mask  & tau_eta_mask 
+
+        in_tau_mask = tau_genMatch_mask  & tau_eta_mask 
         # get 'in-limits' taus
         in_limit_taus = self.taus.mask[in_tau_mask]
 
@@ -255,14 +265,18 @@ class TauCorrector:
             tau_dm_mask = tau_dm_mask | (self.taus_decayMode == decay_mode)
 
         # GenMatch = 0 or 6 = unmatched or jet, 1 or 3 = electron, 2 or 4 = muon, 5 = real tau
-        tau_genMatch_mask = (self.taus_genPartFlav == self.taus_genMatch["hadronic_tau_decay"])
+        tau_genMatch_mask = (
+            (self.taus_genPartFlav == self.taus_genMatch["prompt_electron"])
+            | (self.taus_genPartFlav == self.taus_genMatch["prompt_muon"])
+            | (self.taus_genPartFlav == self.taus_genMatch["tau_e_decay"])
+            | (self.taus_genPartFlav == self.taus_genMatch["tau_mu_decay"])
+            | (self.taus_genPartFlav == self.taus_genMatch["hadronic_tau_decay"])
+            | (self.taus_genPartFlav == self.taus_genMatch["unknown"])
+            | (self.taus_genPartFlav == self.taus_genMatch["unmatched"])
+        )      
         
-        # Only taus passing the wp stablished
-        tau_wp_mask = (
-            (self.taus_wp_jet >= self.tau_vs_jet_wp)  # vs Jet mask
-            & (self.taus_wp_jet >= self.tau_vs_ele_wp) # vs Ele mask
-        )
-        in_tau_mask = tau_dm_mask & tau_genMatch_mask & tau_wp_mask
+
+        in_tau_mask = tau_dm_mask & tau_genMatch_mask
         # get 'in-limits' taus
         in_limit_taus = self.taus.mask[in_tau_mask]
         # get pt and eta
@@ -296,6 +310,7 @@ class TauCorrector:
             ak.where(self.tau_mask, sf, 1.0)
             for sf in (nominal_sf, up_sf, down_sf)
         ]
+
         
         # add scale factors to weights container
         self.weights.add(

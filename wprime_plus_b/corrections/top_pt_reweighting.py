@@ -94,7 +94,9 @@ def add_TopPtReweighting(
 
     # --- SF calculation ---
     def sf(a, b, pt):
-        return np.exp(a + b * pt)        
+        # Apply the 500 GeV limit before calculating the exponential
+        pt_value = ak.where(pt > 500, 500, pt)
+        return np.exp(a + b * pt_value)    
     
     # --- Dictionary to loop over variations ---
     variations = {

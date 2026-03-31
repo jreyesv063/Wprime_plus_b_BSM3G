@@ -53,7 +53,7 @@ def select_good_bjets(
     # ============================================================
     # Btag flavor
     # ============================================================
-    bjet_btag_mask = (events.Jet.btagDeepFlavB > btag_pass)      # DeepJet b+bb+lepb tag discriminator
+    bjet_btag_mask = (events.Jet.btagDeepFlavB >= btag_pass)      # DeepJet b+bb+lepb tag discriminator
 
     if btag_fail is not None:
         bjet_btag_mask = bjet_btag_mask & (events.Jet.btagDeepFlavB < btag_fail)

@@ -40,11 +40,20 @@ top_tagger:
       label: '$m_{rec}(top)$ [GeV]'
       expression: objects['events'].top_tagger_mass
 
+
+    top_pt:
+      include_plot: True
+      type: Variable
+      edges: [0, 20, 40, 60, 80, 100, 120, 140, 160, 180, 200, 250, 300, 400, 500]
+      label: '$p_T_{rec}(top)$ [GeV]'
+      expression: objects['events'].top_tagger_pt      
+
+
 main_lepton:
     lepton_pt:
         include_plot: True
         type: Variable
-        edges: [0, 20, 40, 60, 80, 100, 120, 140, 160, 180, 200, 250, 300, 400, 500]
+        edges: [0, 20, 40, 60, 80, 100, 150, 200, 250, 300, 400]
         label: '$p_T(\tau)$ [GeV]'
         expression: ak.fill_none(ak.firsts(objects['taus'].pt), np.nan)
     
@@ -165,7 +174,7 @@ jets:
         type: Variable
         edges: [0, 20, 40, 60, 80, 100, 120, 150, 200, 300, 400, 500, 600, 700, 800, 900, 1000]
         label: '$ST(\tau, j, fj, p_{T}^{miss})$'
-        expression: ak.fill_none(ak.sum(objects['jets'].pt, axis=1) + ak.sum(objects['taus'].pt, axis=1) + objects['met'].pt, np.nan)
+        expression: ak.fill_none(objects["events"].top_tagger_pt  + objects["met"].pt  + ak.firsts(objects['taus']).pt, np.nan)
 
 N:
     npvs:

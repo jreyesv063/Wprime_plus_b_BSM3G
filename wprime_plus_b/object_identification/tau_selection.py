@@ -67,12 +67,12 @@ def select_good_taus(
     # ============================================================
     # Eta
     # ============================================================    
-    tau_eta_mask = (np.abs(events.Tau.eta) < tau_eta_threshold)
+    tau_eta_mask = (np.abs(events.Tau.eta) <= tau_eta_threshold)
 
     # ============================================================
     # dz
     # ============================================================     
-    tau_dz_mask = (np.abs(events.Tau.dz) < tau_dz_threshold)
+    tau_dz_mask = (np.abs(events.Tau.dz) <= tau_dz_threshold)
 
 
     # ============================================================

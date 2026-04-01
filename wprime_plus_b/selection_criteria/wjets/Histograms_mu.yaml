@@ -17,7 +17,7 @@ main_lepton:
     lepton_pt:
         include_plot: True
         type: Variable
-        edges: [0, 20, 40, 60, 80, 100, 120, 140, 160, 180, 200, 250, 300, 400, 500]
+        edges: [0, 20, 40, 60, 80, 100, 150, 200, 250, 300, 400]
         label: '$p_T(\mu)$ [GeV]'
         expression: ak.fill_none(ak.firsts(objects['muons'].pt), np.nan)
     
@@ -45,7 +45,7 @@ bjet:
     bjet_pt:
         include_plot: False
         type: Variable
-        edges: [0, 20, 40, 60, 80, 100, 120, 140, 160, 180, 200, 250, 300, 400, 500]              
+        edges: [0, 20, 40, 60, 80, 100, 150, 200, 250, 300, 400]         
         label: '$p_T$(bjet) [GeV]'
         expression: ak.fill_none(ak.firsts(objects['bjets'].pt), np.nan)
 

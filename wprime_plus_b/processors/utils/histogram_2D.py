@@ -28,8 +28,8 @@ def ISR_boost_plot(objects, out, mask, weights_container):
 
 
     out["hist"] = H
-    out["Z_pt_edges"] = Z_pt_edges
-    out["nj_edges"] = nj_edges
+    out["X_edges"] = Z_pt_edges
+    out["Y_edges"] = nj_edges
 
 
 def ttbar_boost_plot(objects, out, mask, weights_container, lepton_flavor):
@@ -69,6 +69,6 @@ def ttbar_boost_plot(objects, out, mask, weights_container, lepton_flavor):
 
 
     out["hist"] =  H
-    out["ST_edges"] = ST_edges
-    out["nj_edges"] = nj_edges
+    out["X_edges"] = ST_edges
+    out["Y_edges"] = nj_edges
 

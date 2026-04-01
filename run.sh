@@ -51,16 +51,16 @@ cd "$SCRIPT_DIR"
 # =========================
 
 # Define processor and channel
-processor="qcd_hadronic_closure"     # Options: top_tagger; signal; qcd_hadronic_closure; wplusjets; wjets; ztoll; zplusc  # ; btag_eff; ctag_eff; 
+processor="ztoll"     # Options: top_tagger; signal; qcd_hadronic_closure; wplusjets; wjets; ztoll; zplusc  # ; btag_eff; ctag_eff; 
 
 # Lepton flavor
-lepton_flavor="tau"
+lepton_flavor="mu"
 
 # Data-taking year
-year="2017"                  # Options: 2016APV; 2016; 2017; 2018
+year="2016APV"                  # Options: 2016APV; 2016; 2017; 2018
 
 # Number of files to process (-1 means all files)
-nfiles="1"
+nfiles="-1"
 
 # Executor type
 executor="futures"
@@ -69,10 +69,10 @@ executor="futures"
 output_type="array"          # hist / array
 
 # Sample index (leave empty to run all samples)
-nsample="1"                  # IMPORTANT: Leave nsample="" unless a specific sample index is needed (e.g. nsample="3")
+nsample=""                  # IMPORTANT: Leave nsample="" unless a specific sample index is needed (e.g. nsample="3")
 
 # Output directory
-output_folder="/eos/user/j/jreyesve/WINDOWS/Desktop/2026/Marzo_new/test/$processor/$year"  
+output_folder="$ANALYSIS_PATH/$processor/$year"  
 
 
 # Enable object-level systematics (can significantly increase runtime)
@@ -80,7 +80,7 @@ run_systematics="true"       # Set to "true" only when needed
 
 
 # Control whether new filesets should be created
-create_new_filesets="false"  # Set to "true" to regenerate filesets
+create_new_filesets="true"  # Set to "true" to regenerate filesets
                              # (use only if servers were modified in make_fileset_lxplus.py)
 
 
@@ -97,44 +97,44 @@ unblinded="false"
 
 samples=(
     "TTToSemiLeptonic"
-    # "TTTo2L2Nu"
-    # "TTToHadronic"
-    # "DYJetsToLL_nlo_M-10to50"
-    # "DYJetsToLL_nlo_M-50"
-    # # # # # #"SingleMuon"
-    "MET"
-    # # # # # # "Tau"
-    # # # # # # "SingleElectron"
-    # "ST_s-channel_4f_leptonDecays"
-    # "ST_t-channel_antitop_5f_InclusiveDecays"
-    # "ST_t-channel_top_5f_InclusiveDecays"
-    # "ST_tW_antitop_5f_inclusiveDecays"
-    # "ST_tW_top_5f_inclusiveDecays"
-    # "WJetsToLNu_HT-70To100"
-    # "WJetsToLNu_HT-100To200"
-    # "WJetsToLNu_HT-200To400"
-    # "WJetsToLNu_inclusive"
-    # "WJetsToLNu_HT-400To600"
-    # "WJetsToLNu_HT-600To800"
-    # "WJetsToLNu_ext"
-    # "WJetsToLNu_HT-800To1200"
-    # "WJetsToLNu_HT-1200To2500"
-    # "WJetsToLNu_HT-2500ToInf"
-    # "WW"
-    # "WZ"
-    # "ZZ"
-    # "GluGluHToWWToLNuQQ"
-    # "VBFHToWWTo2L2Nu"
-    # "VBFHToWWToLNuQQ"    
-    # "QCD_HT50to100"
-    # "QCD_HT100to200"
-    # "QCD_HT200to300"
-    # "QCD_HT300to500"
-    # "QCD_HT500to700"
-    # "QCD_HT700to1000"
-    # "QCD_HT1000to1500"
-    # "QCD_HT1500to2000"
-    # "QCD_HT2000toInf"
+    "TTTo2L2Nu"
+    "TTToHadronic"
+    "DYJetsToLL_nlo_M-10to50"
+    "DYJetsToLL_nlo_M-50"
+    "SingleMuon"
+    # "MET"
+    # "Tau"
+    # "SingleElectron"
+    "ST_s-channel_4f_leptonDecays"
+    "ST_t-channel_antitop_5f_InclusiveDecays"
+    "ST_t-channel_top_5f_InclusiveDecays"
+    "ST_tW_antitop_5f_inclusiveDecays"
+    "ST_tW_top_5f_inclusiveDecays"
+    "WJetsToLNu_HT-70To100"
+    "WJetsToLNu_HT-100To200"
+    "WJetsToLNu_HT-200To400"
+    "WJetsToLNu_inclusive"
+    "WJetsToLNu_HT-400To600"
+    "WJetsToLNu_HT-600To800"
+    "WJetsToLNu_ext"
+    "WJetsToLNu_HT-800To1200"
+    "WJetsToLNu_HT-1200To2500"
+    "WJetsToLNu_HT-2500ToInf"
+    "WW"
+    "WZ"
+    "ZZ"
+    "GluGluHToWWToLNuQQ"
+    "VBFHToWWTo2L2Nu"
+    "VBFHToWWToLNuQQ"    
+    "QCD_HT50to100"
+    "QCD_HT100to200"
+    "QCD_HT200to300"
+    "QCD_HT300to500"
+    "QCD_HT500to700"
+    "QCD_HT700to1000"
+    "QCD_HT1000to1500"
+    "QCD_HT1500to2000"
+    "QCD_HT2000toInf"
     # #"SignalTau_300GeV"
     # "SignalTau_400GeV"
     # "SignalTau_600GeV"

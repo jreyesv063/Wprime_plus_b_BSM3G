@@ -145,7 +145,7 @@ def get_topXfinder_masks(
     ])
 
     full_top_pt = ak.Array([
-        mass_lookup.get(evt_idx, -1.0)
+        pt_lookup.get(evt_idx, -1.0)
         for evt_idx in ak.to_list(objects["events"].event_index)
     ])
 

@@ -231,6 +231,88 @@ def get_mask_until_object(selections, cuts, obj_name, include_cut=True, only_cut
 # ===================================================
 #  Metadata
 # ===================================================
+def fill_sumw(weights_container, is_mc, metadata):
+    """
+    Fill the sum of weights in the metadata dictionary.
+
+    Parameters
+    ----------
+    weights : awkward.Array
+        Array of event weights.
+    is_mc : bool
+        Flag indicating whether the dataset is Monte Carlo (MC) or real data.
+
+    """
+    metadata.update({"sumw": ak.sum(weights_container.weight())})
+    if is_mc:
+        
+        all_names = list(weights_container._weights.keys())
+        
+        exclude_weights = ["top_boost_weight_tau_2017"]
+
+        all_names = [
+            n for n in all_names 
+            if n not in exclude_weights
+        ]
+
+        # 1. Total sum of generator weights only (the most basic normalization)
+        gen_weights = weights_container.partial_weight(include=["genweight"])
+        metadata.update({"sumw_genweights": ak.sum(gen_weights)})
+
+        # 2. Sum of weights including Object SFs but EXCLUDING Trigger SFs
+        names_no_trigger = [n for n in all_names if "trigger" not in n.lower()]
+        metadata.update({
+            "sumw_no_trigger": ak.sum(weights_container.partial_weight(include=names_no_trigger))
+        })
+
+        # 3. Sum of weights including Trigger SFs but EXCLUDING Object SFs (e, m, t, j, btag)
+        exclude_patterns = ["_e_", "_m_", "_t_", "_j_", "_btag_"]
+        names_no_object = [
+            name for name in all_names 
+            if not any(pattern in name.lower() for pattern in exclude_patterns)
+        ]
+        metadata.update({
+            "sumw_no_object": ak.sum(weights_container.partial_weight(include=names_no_object))
+        })
+
+        # 4. Sum of weights EXCLUDING both Object SFs and Trigger SFs
+        # This represents the weight sum with only global/theory corrections (like pileup or genweight)
+        names_no_obj_no_trig = [n for n in names_no_object if "trigger" not in n.lower()]
+        metadata.update({
+            "sumw_no_object_no_trigger": ak.sum(weights_container.partial_weight(include=names_no_obj_no_trig))
+        })
+
+        # 5. Remove Parton Shower (PS) and PDF variations
+        exclude_theory = ["ps_", "pdf_"]
+        names_no_obj_no_trig_no_theory = [
+            n for n in names_no_obj_no_trig 
+            if not any(p in n.lower() for p in exclude_theory)
+        ]
+
+        metadata.update({
+            "sumw_no_obj_no_trig_no_theory": ak.sum(weights_container.partial_weight(include=names_no_obj_no_trig_no_theory))
+        })
+
+        # 6. Remove L1Prefiring
+        names_no_l1 = [n for n in names_no_obj_no_trig_no_theory if "l1" not in n.lower()]
+
+        metadata.update({
+            "sumw_no_l1": ak.sum(weights_container.partial_weight(include=names_no_l1))
+        })
+
+        # 7. Remove pileup
+        names_no_pileup = [n for n in names_no_l1 if "pileup" not in n.lower()]
+        metadata.update({
+            "sumw_no_pileup": ak.sum(weights_container.partial_weight(include=names_no_pileup))
+        })
+
+        # 8. Remove top_pt reweighting
+        names_no_toppt = [n for n in names_no_pileup if "top_pt" not in n.lower()]
+        metadata.update({
+            "sumw_no_toppt": ak.sum(weights_container.partial_weight(include=names_no_toppt))
+        })
+
+        
 
 def fill_cutflow(cut_names, selections, table_name, metadata, weights):
         
@@ -327,6 +409,66 @@ def chi2_test(topJet, wJet, top_sigma, w_sigma, top_mass_pdg,  w_mass_pdg):
 # =================================================
 # Function that decides whether a cut applies to the object
 def check_object_cut_dependency(obj, cut):
+
+    CUT_DEPENDENCIES = {
+        # Vetoes
+        "electron_veto": {"electron"},
+        "tau_veto": {"tau"},
+        "bjet_veto": {"bjet"},
+        "cjet_veto": {"cjet"},
+
+        # At least N objects
+        "at_least_one_electron": {"electron"},
+        "at_least_two_electrons": {"electron"},
+        "at_least_one_muon": {"muon"},
+        "at_least_two_muons": {"muon"},
+        "at_least_one_tau": {"tau"},
+        "at_least_two_taus": {"tau"},
+        "at_least_one_bjet": {"bjet"},
+        "at_least_two_bjets": {"bjet"},
+        "at_least_one_cjet": {"cjet"},
+        "at_least_one_lightjet": {"lightjet"},
+        "at_least_one_topjet": {"topjet"},
+        "at_least_one_wjet": {"wjet"},
+        "at_least_one_jet": {"jets"},
+
+        # Leading jet
+        "leading_jet": {"jets"},
+        "leading_bjet": {"bjet"},
+        "leading_cjet": {"cjet"},
+        "leading_lightjet": {"lightjet"},
+        "leading_topjet": {"topjet"},
+        "leading_wjet": {"wjet"},
+        "leading_muon": {"muon"},
+        "leading_electron": {"electron"},
+        "leading_tau": {"tau"},
+        
+        # Object multiplicity cuts an Z boson reconstruction cuts
+        "two_electrons": {"electron"},
+        "two_muons": {"muon"},
+        "two_taus": {"tau"},
+        "two_bjets": {"bjet"},
+        "two_cjets": {"cjet"},
+        "Z_boson": {"muon", "electron", "tau"},  
+
+        # MET is recalculated given the object variations
+        "met": {"electron", "muon", "tau", "bjet", "cjet", "lightjet", "topjet", "wjet", "met"},
+        "delta_phi_jet_met": {"electron", "muon", "tau", "bjet", "cjet", "lightjet", "topjet", "wjet", "met"},
+    }
+
+    # Check top tagger
+    if "top_tagger" in cut:
+        return obj in {"bjet", "lightjet", "topjet", "wjet"}
+
+    if cut in CUT_DEPENDENCIES:
+        return obj in CUT_DEPENDENCIES[cut]
+
+    if obj in cut:
+        return True
+
+    return False
+    
+    """
     # Direct match with the object
     if obj in cut:
         return True
@@ -347,7 +489,7 @@ def check_object_cut_dependency(obj, cut):
         return True
 
     return False
-    
+    """
 
 def map_object_level_var(case: str = "AK4_JES"):
 

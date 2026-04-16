@@ -65,8 +65,7 @@ class TauCorrector:
        
         
         self.tau_vs_jet_wp = taus_info[tau_id_version]["tau_vs_jet"][tau_vs_jet]
-        self.tau_vs_ele_wp = taus_info[tau_id_version]["tau_vs_e"][tau_vs_ele]
-        self.tau_vs_mu_wp = taus_info[tau_id_version]["tau_vs_mu"][tau_vs_mu]
+        
 
         self.taus_genMatch = taus_info["genPartFlav"] 
         self.taus_prongs = taus_info["prongs"] 
@@ -311,7 +310,6 @@ class TauCorrector:
             for sf in (nominal_sf, up_sf, down_sf)
         ]
 
-        
         # add scale factors to weights container
         self.weights.add(
             name=f"CMS_fake_t_DeepTau{self.suffix}_VSjet_{self.year}",

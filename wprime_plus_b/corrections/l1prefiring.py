@@ -1,4 +1,5 @@
 import awkward as ak
+import numpy as np
 from typing import Type
 from coffea.analysis_tools import Weights
 

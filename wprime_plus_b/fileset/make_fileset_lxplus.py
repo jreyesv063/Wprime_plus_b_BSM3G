@@ -20,35 +20,35 @@ ERAS = {
 SITES = {
     "2016APV": [
         # ---- T1 sites ----
-        "T1_DE_KIT_Disk",
+        #"T1_DE_KIT_Disk", # 26/03/2026
         "T1_ES_PIC_Disk",
-        "T1_FR_CCIN2P3_Disk",
+        #"T1_FR_CCIN2P3_Disk", # 31/03/2026
         "T1_FR_CCIN2P3_Tape",
-    #   "T1_RU_JINR_Disk", # 24/02/2026
+        #"T1_RU_JINR_Disk", # 24/02/2026
         "T1_UK_RAL_Disk",
         "T1_US_FNAL_Disk",
         # ---- T2 sites ----
-    #   "T2_BE_IIHE", # 24/02/2026
+        "T2_BE_IIHE", # 24/02/2026
         "T2_BR_UERJ",
         "T2_CH_CERN",
         "T2_DE_DESY",
-    #   "T2_DE_RWTH", # 24/02/2026
+        "T2_DE_RWTH", # 24/02/2026
         "T2_FR_IPHC",
-    #   "T2_IN_TIFR",
+        #"T2_IN_TIFR",
         "T2_IT_Legnaro",
         "T2_IT_Rome",
-    #   "T2_TW_NCHC",
-    #   "T2_UK_London_IC", # 24/02/2026
+        #"T2_TW_NCHC",     # 06/04/2026
+        "T2_UK_London_IC", # 24/02/2026
         "T2_US_MIT",
         "T2_US_Nebraska",
         "T2_US_Purdue",
-    #   "T2_US_Vanderbilt",
+        #"T2_US_Vanderbilt",
         "T3_CH_CERN_OpenData",
         # ---- T3 sites ----
         "T3_FR_IPNL",
         "T3_IT_Trieste",
-    #   "T3_KR_UOS",
-    #   "T3_US_FNALLPC"
+        #"T3_KR_UOS",      # 26/03/2026
+        "T3_US_FNALLPC"
     ],
     "2016": [
         # ---- T1 sites ----
@@ -99,9 +99,9 @@ SITES = {
         "T2_HU_Budapest",
         #"T2_UK_London_IC", 
         "T2_US_MIT",       
-        "T2_US_Nebraska",
+        #"T2_US_Nebraska",
         "T2_US_Purdue",
-        "T2_US_Vanderbilt",
+        #"T2_US_Vanderbilt", # 12/04/2026
         #---- T3 sites ----
         "T3_CH_PSI",
         "T3_FR_IPNL",
@@ -115,28 +115,28 @@ SITES = {
     "2018": [
         # ---- T1 sites ----
         "T1_DE_KIT_Disk",
-        "T1_FR_CCIN2P3_Disk",
-        #"T1_FR_CCIN2P3_Tape", 
-        #"T1_IT_CNAF_Disk",
-        #"T1_RU_JINR_Disk", # 24/02/2026
+        #"T1_FR_CCIN2P3_Disk", # 24/03/2026
+        #"T1_FR_CCIN2P3_Tape", # 24/03/2026
+        "T1_IT_CNAF_Disk",
+        "T1_RU_JINR_Disk", 
         "T1_UK_RAL_Disk",
         "T1_US_FNAL_Disk",
         #---- T2 sites ----
-        #"T2_BE_IIHE",
+        "T2_BE_IIHE",
         "T2_BE_UCL",
-        #"T2_BR_SPRACE", # 22/02/2026
+        #"T2_BR_SPRACE", # 12/04/2026
         "T2_CH_CERN",
         "T2_DE_DESY",
-        #"T2_DE_RWTH",  # 15/03/2026
+        "T2_DE_RWTH",  
         "T2_FR_IPHC",
         "T2_HU_Budapest",
         "T2_IT_Rome",
         "T2_PL_Cyfronet",
         "T2_UK_London_IC",
-        #"T2_US_Caltech",
-        #"T2_US_Nebraska",
-        #"T2_US_Purdue",
-        #"T2_US_Vanderbilt",
+        #"T2_US_Caltech",  # 24/03/2026
+        #"T2_US_Nebraska", # 24/03/2026
+        "T2_US_Purdue",
+        "T2_US_Vanderbilt",
         "T2_US_Wisconsin",
         # ---- T3 sites ----
         "T3_IT_Trieste",

@@ -129,7 +129,7 @@ trigger:
   tau:
     main: "ditau"
     OR_trigger: True
-    efficiency: "tau"
+    efficiency: null
     OR_trigger_num: False
 
 

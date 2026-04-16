@@ -19,7 +19,8 @@ def get_trigger_mask(
     # Load triggers from JSON
     with open("wprime_plus_b/json_files/triggers.json", "r") as f:
         trigger_name = json.load(f)["HLT_names"][year][trigger_case] 
-        
+    
+    
     if Or_HLT:
         all_triggers = [
             trig for trig in events.HLT.fields if any(trig.startswith(r) for r in trigger_name)
@@ -32,7 +33,7 @@ def get_trigger_mask(
         
     trigger_mask = ak.any(ak.Array(masks), axis=0)
 
-
+  
     return all_triggers, trigger_mask
 
     

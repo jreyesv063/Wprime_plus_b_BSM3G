@@ -193,8 +193,12 @@ def apply_jet_corrections(events: NanoEventsArray, year: str, syst_var: bool, je
     keep_systematics = {
         "JES_pt_up",
         "JES_pt_down",
+        "JES_mass_up",
+        "JES_mass_down",
         "JER_pt_up",
         "JER_pt_down",
+        "JER_mass_up",
+        "JER_mass_down"
     }
 
     def drop_jet_field(name):
@@ -215,7 +219,7 @@ def apply_jet_corrections(events: NanoEventsArray, year: str, syst_var: bool, je
         # Samples without Jets
         if (np.sum(ak.num(events[jet_type])) == 0):
             # Jet
-            for var in ["JES_pt_up", "JES_pt_down", "JER_pt_up", "JER_pt_down"]:
+            for var in ["JES_pt_up", "JES_pt_down", "JES_mass_up", "JES_mass_down", "JER_pt_up", "JER_pt_down", "JER_mass_up", "JER_mass_down"]:
                 events[jet_type, var] = events[jet_type].pt
         
             # MET (no recalculation)
@@ -229,12 +233,14 @@ def apply_jet_corrections(events: NanoEventsArray, year: str, syst_var: bool, je
         # JES
         events[jet_type, "JES_pt_up"] =  events[jet_type].JES_jes.up.pt
         events[jet_type, "JES_pt_down"] = events[jet_type].JES_jes.down.pt
-        
+        events[jet_type, "JES_mass_up"] =  events[jet_type].JES_jes.up.mass
+        events[jet_type, "JES_mass_down"] = events[jet_type].JES_jes.down.mass
 
         # JER        
         events[jet_type, "JER_pt_up"] =  events[jet_type].JER.up.pt       
         events[jet_type, "JER_pt_down"] =  events[jet_type].JER.down.pt
-        
+        events[jet_type, "JER_mass_up"] =  events[jet_type].JER.up.mass
+        events[jet_type, "JER_mass_down"] =  events[jet_type].JER.down.mass
 
         # ============================================
         # MET variations in the Up/Down directions

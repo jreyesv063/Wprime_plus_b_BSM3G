@@ -28,7 +28,7 @@ from wprime_plus_b.object_identification.met_selection import select_good_delta_
 # General cuts
 # =======================================
 # Top tagger
-from wprime_plus_b.processors.utils.utils_topXfinder import get_topXfinder_masks
+from wprime_plus_b.object_identification.top_selection import select_top_tagger
 
 # =======================================
 # Systematic variations
@@ -43,7 +43,7 @@ from wprime_plus_b.processors.utils.histograms import Histograms
 # =======================================
 # Utils
 # =======================================
-from wprime_plus_b.processors.utils.analysis_utils import cross_cleaning, fill_cutflow, get_mask_until_object 
+from wprime_plus_b.processors.utils.analysis_utils import cross_cleaning, fill_sumw, fill_cutflow, get_mask_until_object 
 
 class QCD_data_driven:
     def __init__(
@@ -129,7 +129,10 @@ class QCD_data_driven:
                 )
                 
                 objects_region["taus"] = objects_region["events"].Tau[good_taus_masks["nominal"]] 
+                
                 if objects_var is not None:
+                    # None is in data samples
+                    # Save new tau mask in variations for systematic evaluation
                     objects_var["tau"] = good_taus_masks
 
             
@@ -144,6 +147,12 @@ class QCD_data_driven:
                 syst_var=self.syst
             )
            
+            
+            if objects_var is not None:
+                # None is in data samples
+                # Save new delta phi mask in variations for systematic evaluation
+                objects_var["delta_phi_jet_met"] = delta_phi_masks
+
             # Add selections for CRs
             self.selections_BCD.add(f"one_tau_{cr}", ak.num(objects_cleaned["taus"]) == 1)
             self.selections_BCD.add(f"delta_phi_jet_met_{cr}", delta_phi_masks["nominal"])
@@ -153,26 +162,23 @@ class QCD_data_driven:
             self.selections_BCD.add(f"bjet_veto_{cr}", ak.num(objects_cleaned["bjets"]) == 0)
             self.selections_BCD.add(f"one_bjet_{cr}", ak.num(objects_cleaned["bjets"]) == 1)          
        
-            # Top Tagger
-            sub_list = []
-            for cut in self.cuts_map[cr]:
-                if "top_tagger" in cut: break
-                sub_list.append(cut)
+                
 
-            region_mask_tmp = self.selections_BCD.all(*sub_list)
+            if cr_criteria["fake_VSjet_fail"] is not None or cr_criteria["fake_VSjet_pass"] != self.criteria["tau"][self.lepton_flavor]["fake_VSjet_pass"]:
+                # Recalculate top tagger mask since the input collection of taus has changed, which can affect the cross-cleaning and thus the top tagger candidates.
+                objects_cleaned, top_tagger_mask = select_top_tagger(
+                    objects=objects_cleaned,
+                    region_mask=ak.ones_like(objects_cleaned["events"].run, dtype=bool), # All events to be evaluated
+                    cross_cleaning=self.cc,
+                    criteria=self.criteria["top_tagger"][self.lepton_flavor]
+                )
+            
+                self.selections_BCD.add(f"top_tagger_{cr}", top_tagger_mask)
 
-            objects_final = get_topXfinder_masks(
-                objects=objects_cleaned,           
-                region_mask=region_mask_tmp,
-                lepton_flavor=self.lepton_flavor,
-                cross_cleaning=self.cc,
-                top_tagger_cases=self.criteria["top_tagger"][self.lepton_flavor]["cases"],
-                nworkers=self.criteria["top_tagger"][self.lepton_flavor]["nworkers"]
-            )                  
-
-            top_mask = (objects_final["events"].top_tagger_case_id > 0)
-            tagger_name = f"fail_top_tagger_{cr}" if self.criteria["top_tagger"][self.lepton_flavor]["invert_top_tagger"] else f"pass_top_tagger_{cr}"
-            self.selections_BCD.add(tagger_name, ~top_mask if "fail" in tagger_name else top_mask)
+            else:
+                # Use the existing top tagger mask since the tau selection didn't change in a way that would affect it. This avoids unnecessary recalculation.
+                self.selections_BCD.add(f"top_tagger_{cr}", self.selections.all("top_tagger"))
+            
 
             if self.lepton_flavor == "tau" and self.is_mc:    
                 has_bjet = any("bjet" in cut for cut in self.cuts_map[cr])
@@ -182,7 +188,8 @@ class QCD_data_driven:
                 if cr_criteria["fake_VSjet_fail"] is not None or cr_criteria["fake_VSjet_pass"] != self.criteria["tau"][self.lepton_flavor]["fake_VSjet_pass"]:
                     # Since the subset of taus changes, it is necessary to recalculate the identification weights.
                     exclude_list = [
-                        f"CMS_fake_t_DeepTau{self.suffix}_VSjet", f"CMS_fake_t_DeepTau{self.suffix}_{self.year}", f"CMS_fake_t_DeepTau{self.suffix}_{self.year}",  
+                        #f"CMS_fake_t_DeepTau{self.suffix}_VSjet", f"CMS_fake_t_DeepTau{self.suffix}_{self.year}", f"CMS_fake_t_DeepTau{self.suffix}_{self.year}",  
+                        f"CMS_fake_t_DeepTau{self.suffix}_VSjet_{self.year}",  
                         f"CMS_eff_j_ParticleNet_Top_Nominal_{self.year}", f"CMS_eff_j_ParticleNet_W_Nominal_{self.year}",
                         f"CMS_btag_heavy_{self.year}", f"CMS_btag_light_{self.year}",                         
                         f"top_boost_weight_{self.lepton_flavor}_{self.year}",
@@ -196,7 +203,8 @@ class QCD_data_driven:
                         up = self.weights_container._modifiers.get(name + "Up")
                         down = self.weights_container._modifiers.get(name + "Down")
 
-                        if name in self.weights_container._modifiers:
+                        
+                        if up is not None and down is not None:
                             weights_cr.add(
                                 name,
                                 weight=w,
@@ -262,11 +270,11 @@ class QCD_data_driven:
                         year=self.year,
                         working_point_topjet = self.criteria["topjet"][self.lepton_flavor]["particleNet_Top_Nominal"],
                         top_mask = (
-                            (objects_final["events"].top_tagger_case_id == 5) 
-                            | (objects_final["events"].top_tagger_case_id == 6) 
-                            | (objects_final["events"].top_tagger_case_id == 7) 
-                            | (objects_final["events"].top_tagger_case_id == 8) 
-                            | (objects_final["events"].top_tagger_case_id == 13)
+                            (objects_cleaned["events"].top_tagger_case_id == 5) 
+                            | (objects_cleaned["events"].top_tagger_case_id == 6) 
+                            | (objects_cleaned["events"].top_tagger_case_id == 7) 
+                            | (objects_cleaned["events"].top_tagger_case_id == 8) 
+                            | (objects_cleaned["events"].top_tagger_case_id == 13)
                         )
                     )
 
@@ -277,63 +285,38 @@ class QCD_data_driven:
                         year=self.year,
                         working_point_wjet = self.criteria["wjet"][self.lepton_flavor]["particleNet_W_Nominal"],
                         W_mask = (
-                            (objects_final["events"].top_tagger_case_id == 3) 
-                            | (objects_final["events"].top_tagger_case_id == 4) 
-                            | (objects_final["events"].top_tagger_case_id == 11) 
-                            | (objects_final["events"].top_tagger_case_id == 12)
+                            (objects_cleaned["events"].top_tagger_case_id == 3) 
+                            | (objects_cleaned["events"].top_tagger_case_id == 4) 
+                            | (objects_cleaned["events"].top_tagger_case_id == 11) 
+                            | (objects_cleaned["events"].top_tagger_case_id == 12)
                         )
                     )
 
-
-                else:
-                    exclude_list = [
-                        f"top_boost_weight_{self.lepton_flavor}_{self.year}"
-                    ]
-
-                    for name, w in self.weights_container._weights.items():
-                        if name in exclude_list:
-                            continue
-
-                        up = self.weights_container._modifiers.get(name + "Up")
-                        down = self.weights_container._modifiers.get(name + "Down")
-
-                        if name in self.weights_container._modifiers:
-                            weights_cr.add(
-                                name,
-                                weight=w,
-                                weightUp=up,
-                                weightDown=down,
-                            )
-                        else:
-                            weights_cr.add(name, weight=w)    
-
-
-                
-                add_top_boost_corrections(
-                    objects=objects_final, 
-                    lepton_flavor=self.lepton_flavor, 
-                    dataset=self.dataset, 
-                    weights=weights_cr, 
-                    year=self.year
-                ) 
+                    add_top_boost_corrections(
+                        objects=objects_cleaned, 
+                        lepton_flavor=self.lepton_flavor, 
+                        dataset=self.dataset, 
+                        weights=weights_cr, 
+                        year=self.year
+                    ) 
                 
             else:
+                # Use the weights of the nominal selection since the tau selection didn't change in a way that would affect the weights. This avoids unnecessary recalculation.
                 weights_cr = self.weights_container
 
-            #self.output_metadata[cr].update({"sumw": ak.sum(weights_cr.weight())})
-
-
-            # Process histograms IMMEDIATELY to avoid saving ‘objects_final’ in a map
-            self._fill_results(cr, objects_final, weights_cr, objects_var)
+            # Process histograms IMMEDIATELY to avoid saving ‘objects_cleaned’ in a map
+            self._fill_results(cr, objects_cleaned, weights_cr, objects_var)
             
             # Explicit cleanup for each iteration of the CR
-            del objects_region, objects_cleaned, objects_final, weights_cr
+            del objects_region, objects_cleaned, weights_cr
             gc.collect()
 
     def _fill_results(self, cr, objects, weights, objects_var):
         """Auxiliary method for processing data for each CR and quickly freeing up memory"""
         self.output_metadata[cr] = {}
-        self.output_metadata[cr].update({"sumw": ak.sum(weights.weight())})
+        
+        #self.output_metadata[cr].update({"sumw": ak.sum(weights.partial_weight(include=["genweight"]))})
+        fill_sumw(weights, self.is_mc, self.output_metadata[cr])
 
         self.output_metadata[cr].update({
             "weight_statistics": {k: v for k, v in weights.weightStatistics.items()}
@@ -343,12 +326,11 @@ class QCD_data_driven:
                      self.output_metadata[cr], weights.weight())
 
         self.output_hist[cr] = {}
-        hist = Histograms(self.lepton_flavor, self.processor, objects, weights.weight(), 
-                          self.selections_BCD, self.cuts_map[cr])
+        hist = Histograms(self.lepton_flavor, self.processor, objects, weights.weight(), self.selections_BCD, self.cuts_map[cr])
         
         self.output_hist[cr]["nominal"] = hist.fill_histograms()
         self.output_hist[cr]["nominal"]["count"] = 1
-        self.output_hist[cr]["nominal"]["sumw_all_weights"] = np.sum(weights.weight())
+        self.output_hist[cr]["nominal"]["sumw_all_weights"] = np.sum(weights.partial_weight(include=["genweight"]))
 
         # Process systematically right here if necessary to avoid keeping large objects in memory for too long
         if self.syst and self.is_mc:

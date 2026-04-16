@@ -44,6 +44,8 @@ from wprime_plus_b.object_identification.electron_selection import select_good_e
 from wprime_plus_b.object_identification.lightjet_selection import select_good_lightjets
 from wprime_plus_b.object_identification.met_selection import select_good_delta_phi_jet_met, select_good_met
 
+from wprime_plus_b.object_identification.top_selection import select_top_tagger
+
 # =======================================
 # General cuts
 # =======================================
@@ -54,9 +56,6 @@ from wprime_plus_b.general_selections.jetvetomaps import jetvetomaps_mask
 from wprime_plus_b.general_selections.met_filters import get_met_filters_mask
 from wprime_plus_b.general_selections.good_vertex import get_good_vertex_mask
 from wprime_plus_b.general_selections.triggers import get_trigger_mask, get_trigger_match_mask
-
-# Top tagger
-from wprime_plus_b.processors.utils.utils_topXfinder import get_topXfinder_masks
 
 
 # =======================================
@@ -79,7 +78,7 @@ from wprime_plus_b.processors.utils.histogram_2D import ttbar_boost_plot
 # =======================================
 # Utils
 # =======================================
-from wprime_plus_b.processors.utils.analysis_utils import cross_cleaning, fill_cutflow, delta_r_mask, get_mask_until_object 
+from wprime_plus_b.processors.utils.analysis_utils import cross_cleaning, fill_sumw, fill_cutflow, delta_r_mask, get_mask_until_object 
 
 
 
@@ -109,21 +108,11 @@ class TopTaggerProccessor(processor.ProcessorABC):
         # initialize dictionary of arrays
         self.array_dict = {}        
 
-        if unblinded == "true":
-            self.unblinded = True 
-        else:
-            self.unblinded = False
-
 
         # Load event selection criteria
         with open(f"wprime_plus_b/selection_criteria/{self.processor}/event_selection_criteria.yaml") as f:
             self.criteria = yaml.safe_load(f)
 
-        self.qcd_data_driven = (
-            qcd_data_driven == "true" and
-            all(field in self.criteria.get("data_driven_qcd_estimation", {}) for field in ["cr_b", "cr_c", "cr_d"])
-        )
-        
 
     def add_feature(self, name: str, var: ak.Array) -> None:
         """add a variable array to the out dictionary"""
@@ -395,7 +384,7 @@ class TopTaggerProccessor(processor.ProcessorABC):
             delta_pdf, pdf_weight_nominal = add_pdf_weight(events, weights_container, output, self.year)            
 
             # add top pt reweighting
-            add_TopPtReweighting(events, weights_container, dataset)     
+            add_TopPtReweighting(events, weights_container, dataset, self.year)     
 
             # add pileup weigths
             add_pileup_weight(events, weights_container, self.year)
@@ -526,7 +515,20 @@ class TopTaggerProccessor(processor.ProcessorABC):
 
         self.selections.add(f"met",  good_met_masks["nominal"])
 
-        
+
+        # --------------------------
+        #  Top tagger
+        # --------------------------
+        objects, top_tagger_mask = select_top_tagger(
+            objects=objects,
+            region_mask=ak.ones_like(events.run, dtype=bool), # All events to be evaluated
+            cross_cleaning=cc,
+            criteria=self.criteria["top_tagger"][self.lepton_flavor]
+        )
+
+        self.selections.add(f"top_tagger",  top_tagger_mask)
+            
+
         # ====================================================
         #     Define selection regions for each channel
         # ===================================================
@@ -544,7 +546,8 @@ class TopTaggerProccessor(processor.ProcessorABC):
                 "electron_veto",
                 "muon_veto",
                 "one_tau",
-                "delta_phi_jet_met"
+                "delta_phi_jet_met",
+                "top_tagger"
             ],
             "mu": [
                 "goodvertex",
@@ -559,39 +562,11 @@ class TopTaggerProccessor(processor.ProcessorABC):
                 "electron_veto",
                 "tau_veto",
                 "one_muon",
-                "delta_phi_jet_met"
+                "delta_phi_jet_met",
+                "top_tagger",
+                "trigger_eff"
             ],
         }      
-
-        # ============================================================== 
-        # Extra cuts
-        # ============================================================== 
-        
-        # --------------------------
-        #   Top tagger
-        # --------------------------
-        region_mask_tmp = self.selections.all(*region_selection[self.lepton_flavor])
-        
-        objects = get_topXfinder_masks(
-            objects=objects,           
-            region_mask = region_mask_tmp,
-            lepton_flavor=self.lepton_flavor,
-            cross_cleaning =cc,
-            top_tagger_cases=self.criteria["top_tagger"][self.lepton_flavor]["cases"],
-            nworkers=self.criteria["top_tagger"][self.lepton_flavor]["nworkers"]
-        )        
-
-        # Remember: 0 means that the event was evaluated, but no top was found; -1 means that the event was not evaluated in the top tagger.
-        top_mask = (objects["events"].top_tagger_case_id > 0)
-
-        if self.criteria["top_tagger"][self.lepton_flavor]["invert_top_tagger"]:
-            # Invert top tagger mask
-            self.selections.add(f"fail_top_tagger",  ~top_mask)
-            region_selection[self.lepton_flavor].append("fail_top_tagger")
-            
-        else:
-            self.selections.add(f"pass_top_tagger",  (top_mask))
-            region_selection[self.lepton_flavor].append("pass_top_tagger")
 
 
 
@@ -755,29 +730,36 @@ class TopTaggerProccessor(processor.ProcessorABC):
             
 
         # -------------------------------------------------------------
-        # sumw without ID weights
+        # sumw 
         # -------------------------------------------------------------
         output["metadata"]["main"] = {}
-        # Weighted events
-        output["metadata"]["main"].update({"sumw": ak.sum(weights_container.weight())})
+        fill_sumw(weights_container, self.is_mc, output["metadata"]["main"])
 
-        # -------------------------------------------------------------
-        # 2D histogram
-        # -------------------------------------------------------------
-        output["hist"]["main"] = {}     
 
-        output["hist"]["main"]["ttbar_boost_weight"] = {}
-        ttbar_boost_plot(
-            objects = objects, 
-            out = output["hist"]["main"]["ttbar_boost_weight"] , 
-            mask = self.selections.all(*region_selection[self.lepton_flavor]),
-            weights_container = weights_container.weight(),
-            lepton_flavor = self.lepton_flavor
-        )
+        # ============================================================== 
+        #  Save cutflow: Table with nominal values
+        # ==============================================================        
+        output["metadata"]["main"]["weight_statistics"] = {}
+        for weight, statistics in weights_container.weightStatistics.items():
+            output["metadata"]["main"]["weight_statistics"][weight] = statistics
+        fill_cutflow(region_selection[self.lepton_flavor], self.selections, "cutflow", output["metadata"]["main"], weights_container.weight())
+            
+
+        # =============================================================
+        #             Histograms
+        # =============================================================
+        output["hist"]["main"] = {}  
+
+        hist = Histograms(self.lepton_flavor, self.processor, objects, weights_container.weight(), self.selections, region_selection[self.lepton_flavor])
+        output["hist"]["main"]["nominal"] = hist.fill_histograms()
+        output["hist"]["main"]["nominal"]["sumw_all_weights"] = ak.sum(weights_container.partial_weight(include=["genweight"]))
+        output["hist"]["main"]["nominal"]["count"] = 1        
+
 
         # ============================================================== 
         #                     Systematics variations
         # ============================================================== 
+        # Overwrite events to have access to the top tagger
         objects_tmp["events"] = objects["events"]
         if self.syst and self.is_mc:
             systematic_variations = Systematics(
@@ -800,31 +782,18 @@ class TopTaggerProccessor(processor.ProcessorABC):
             systematic_variations.object_level()
             systematic_variations.event_level()
 
+        # -------------------------------------------------------------
+        # 2D histogram
+        # ------------------------------------------------------------- 
+        output["hist"]["main"]["ttbar_boost_weight"] = {}
 
-        # --------------------------
-        #   Efficiency studies
-        # --------------------------
-        if trigger_eff is not None:
-            region_selection[self.lepton_flavor].append("trigger_eff")           
-                
-          
-        # ============================================================== 
-        #  Save cutflow: Table with nominal values
-        # ==============================================================        
-        output["metadata"]["main"]["weight_statistics"] = {}
-        for weight, statistics in weights_container.weightStatistics.items():
-            output["metadata"]["main"]["weight_statistics"][weight] = statistics
-        fill_cutflow(region_selection[self.lepton_flavor], self.selections, "cutflow", output["metadata"]["main"], weights_container.weight())
-            
-        # =============================================================
-        #             Histograms
-        # =============================================================
-        hist = Histograms(self.lepton_flavor, self.processor, objects, weights_container.weight(), self.selections, region_selection[self.lepton_flavor])
-        output["hist"]["main"]["nominal"] = hist.fill_histograms()
-        output["hist"]["main"]["nominal"]["sumw_all_weights"] = ak.sum(weights_container.weight())
-        output["hist"]["main"]["nominal"]["count"] = 1        
-
-
+        ttbar_boost_plot(
+            objects = objects, 
+            out = output["hist"]["main"]["ttbar_boost_weight"] , 
+            mask = get_mask_until_object(selections=self.selections, cuts=region_selection[self.lepton_flavor], obj_name="top_tagger", include_cut=True, only_cut=False),
+            weights_container = weights_container.weight(),
+            lepton_flavor = self.lepton_flavor
+        )
         
         return {dataset: output}
         

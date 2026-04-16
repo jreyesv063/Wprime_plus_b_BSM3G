@@ -8,7 +8,6 @@ from wprime_plus_b.processors.utils.analysis_utils import apply_selection, paral
 def get_topXfinder_masks(
     objects,
     region_mask,
-    lepton_flavor,
     cross_cleaning,
     top_tagger_cases,    
     nworkers=8
@@ -28,7 +27,6 @@ def get_topXfinder_masks(
     # Create a topXfinder instance
     # =================================
     topX = topXfinder(
-        lepton_flavor=lepton_flavor,
         bjets=selected_objects["bjets"],
         jets=selected_objects["lightjets"],
         topjets=selected_objects["topjets"],

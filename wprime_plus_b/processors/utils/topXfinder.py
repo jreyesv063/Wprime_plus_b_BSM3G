@@ -10,7 +10,6 @@ from wprime_plus_b.processors.utils.analysis_utils import chi2_test, delta_r_mas
 class topXfinder:
     def __init__(
         self,
-        lepton_flavor,
         bjets,
         jets,
         topjets,
@@ -25,8 +24,6 @@ class topXfinder:
         self.jets = jets
         self.topjets = topjets
         self.wjets = wjets
-
-        self.lepton_flavor = lepton_flavor
 
         self.top_mass_pdg, self.w_mass_pdg = pdg_masses()
     

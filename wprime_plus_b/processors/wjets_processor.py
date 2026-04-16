@@ -60,11 +60,6 @@ from wprime_plus_b.processors.utils.utils_syst_var import Systematics
 
 
 # =======================================
-# Data driven
-# =======================================
-from wprime_plus_b.processors.utils.utils_qcd_data_driven import QCD_data_driven
-
-# =======================================
 #  Plots
 # =======================================
 from wprime_plus_b.processors.utils.histograms import Histograms
@@ -72,7 +67,7 @@ from wprime_plus_b.processors.utils.histograms import Histograms
 # =======================================
 # Utils
 # =======================================
-from wprime_plus_b.processors.utils.analysis_utils import cross_cleaning, fill_cutflow, delta_r_mask, get_mask_until_object 
+from wprime_plus_b.processors.utils.analysis_utils import cross_cleaning, fill_sumw, fill_cutflow, delta_r_mask, get_mask_until_object 
 
 
 
@@ -270,6 +265,7 @@ class WjetsProccessor(processor.ProcessorABC):
         # Compute recoil-corrected MET using reconstructed leptons
         met_recoil(events = events, muons = muons)
 
+
         # -----------------------------------------------------
         # Create a dictionary of objects to simplify handling
         # -----------------------------------------------------
@@ -327,7 +323,7 @@ class WjetsProccessor(processor.ProcessorABC):
             delta_pdf, pdf_weight_nominal = add_pdf_weight(events, weights_container, output, self.year)            
 
             # add top pt reweighting
-            add_TopPtReweighting(events, weights_container, dataset)     
+            add_TopPtReweighting(events, weights_container, dataset, self.year)     
 
             # add pileup weigths
             add_pileup_weight(events, weights_container, self.year)
@@ -482,7 +478,6 @@ class WjetsProccessor(processor.ProcessorABC):
                 "one_tau",
                 "at_least_one_jet",
                 "bjet_veto"
-                
             ],
             "mu": [
                 "goodvertex",
@@ -499,7 +494,8 @@ class WjetsProccessor(processor.ProcessorABC):
                 "bjet_veto",
                 "one_muon",
                 "at_least_one_jet",
-                "leading_jet"
+                "leading_jet",
+                "trigger_eff"
             ],
         }             
 
@@ -609,20 +605,12 @@ class WjetsProccessor(processor.ProcessorABC):
                 ) 
             
 
-        # --------------------------
-        #   Efficiency studies
-        # --------------------------
-        if trigger_eff is not None:
-            region_selection[self.lepton_flavor].append("trigger_eff")
-            
-
         # ============================================================== 
         #  Save cutflow: Table with nominal values
         # ==============================================================       
         output["metadata"]["main"] = {}
         # Weighted events
-        output["metadata"]["main"].update({"sumw": ak.sum(weights_container.weight())})
-
+        fill_sumw(weights_container, self.is_mc, output["metadata"]["main"])
 
         output["metadata"]["main"]["weight_statistics"] = {}
         for weight, statistics in weights_container.weightStatistics.items():
@@ -637,11 +625,35 @@ class WjetsProccessor(processor.ProcessorABC):
         hist = Histograms(self.lepton_flavor, self.processor, objects, weights_container.weight(), self.selections, region_selection[self.lepton_flavor])
         output["hist"]["main"] = {}
         output["hist"]["main"]["nominal"] = hist.fill_histograms()
-        output["hist"]["main"]["nominal"]["sumw_all_weights"] = ak.sum(weights_container.weight())
+        output["hist"]["main"]["nominal"]["sumw_all_weights"] = ak.sum(weights_container.partial_weight(include=["genweight"]))
         output["hist"]["main"]["nominal"]["count"] = 1        
 
 
-        
+        # ============================================================== 
+        #                     Systematics variations
+        # ============================================================== 
+        objects_tmp["events"] = objects["events"]
+        if self.syst and self.is_mc:
+            systematic_variations = Systematics(
+                cc=cc,
+                cr=None,
+                year=self.year,
+                objects=objects_tmp,
+                table_name="cutflow",
+                criteria=self.criteria,
+                processor=self.processor,
+                histograms=output["hist"]["main"],
+                weights=weights_container,
+                selections=self.selections,
+                metadata=output["metadata"]["main"],
+                variations=objects_variations,
+                lepton_flavor=self.lepton_flavor,
+                cut_names=region_selection[self.lepton_flavor]
+            )
+
+            systematic_variations.object_level()
+            systematic_variations.event_level()
+            
         return {dataset: output}
         
     def postprocess(self, accumulator):

@@ -336,7 +336,7 @@ class ZplusCProcessor(processor.ProcessorABC):
             delta_pdf, pdf_weight_nominal = add_pdf_weight(events, weights_container, output, self.year)            
 
             # add top pt reweighting
-            add_TopPtReweighting(events, weights_container, dataset)     
+            add_TopPtReweighting(events, weights_container, dataset, self.year)     
 
             # add pileup weigths
             add_pileup_weight(events, weights_container, self.year)
@@ -508,7 +508,7 @@ class ZplusCProcessor(processor.ProcessorABC):
         # -------------------------------------------------------------
         output["metadata"]["main"] = {}
         # Weighted events
-        output["metadata"]["main"].update({"sumw": ak.sum(weights_container.weight())})
+        output["metadata"]["main"].update({"sumw": ak.sum(weights_container.partial_weight(include=["genweight"]))})
 
 
         # -------------------------
@@ -633,7 +633,7 @@ class ZplusCProcessor(processor.ProcessorABC):
         hist = Histograms(self.lepton_flavor, self.processor, objects, weights_container.weight(), self.selections, region_selection[self.lepton_flavor])
         output["hist"]["main"] = {}
         output["hist"]["main"]["nominal"] = hist.fill_histograms()
-        output["hist"]["main"]["nominal"]["sumw_all_weights"] = ak.sum(weights_container.weight())
+        output["hist"]["main"]["nominal"]["sumw_all_weights"] = ak.sum(weights_container.partial_weight(include=["genweight"]))
         output["hist"]["main"]["nominal"]["count"] = 1        
 
 

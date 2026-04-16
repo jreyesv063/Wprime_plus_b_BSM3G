@@ -60,11 +60,6 @@ from wprime_plus_b.processors.utils.utils_syst_var import Systematics
 
 
 # =======================================
-# Data driven
-# =======================================
-from wprime_plus_b.processors.utils.utils_qcd_data_driven import QCD_data_driven
-
-# =======================================
 #  Plots
 # =======================================
 from wprime_plus_b.processors.utils.histograms import Histograms
@@ -73,7 +68,7 @@ from wprime_plus_b.processors.utils.histogram_2D import ISR_boost_plot
 # =======================================
 # Utils
 # =======================================
-from wprime_plus_b.processors.utils.analysis_utils import cross_cleaning, fill_cutflow, delta_r_mask, get_mask_until_object 
+from wprime_plus_b.processors.utils.analysis_utils import cross_cleaning, fill_sumw, fill_cutflow, delta_r_mask, get_mask_until_object 
 
 
 
@@ -181,6 +176,7 @@ class ZToLLProcessor(processor.ProcessorABC):
             syst_var=self.syst
         )
         
+        
         # ===============================================================
         #            Object identification
         # ===============================================================
@@ -260,6 +256,13 @@ class ZToLLProcessor(processor.ProcessorABC):
         good_jets = good_jets_masks["nominal"]
         jets = events.Jet[good_jets]
         
+        
+        good_met_masks = select_good_met(
+            events = events,
+            met_min = 0.0,
+            year = self.year,
+            syst_var=self.syst
+        )
 
         # -----------------------------------------------------
         # Create a dictionary of objects to simplify handling
@@ -298,6 +301,7 @@ class ZToLLProcessor(processor.ProcessorABC):
                 "electron": good_electrons_masks,
                 "muon": good_muons_masks,
                 "tau": good_taus_masks,
+                "met": good_met_masks,
                 "Z_boson": Z_masks
             }
 
@@ -321,12 +325,11 @@ class ZToLLProcessor(processor.ProcessorABC):
             delta_pdf, pdf_weight_nominal = add_pdf_weight(events, weights_container, output, self.year)            
 
             # add top pt reweighting
-            add_TopPtReweighting(events, weights_container, dataset)     
+            add_TopPtReweighting(events, weights_container, dataset, self.year)     
 
             # add pileup weigths
             add_pileup_weight(events, weights_container, self.year)
 
-            
 
         else:
             delta_pdf = pdf_weight_nominal = ak.ones_like(events.MET.pt)
@@ -378,6 +381,7 @@ class ZToLLProcessor(processor.ProcessorABC):
         )
 
         output["metadata"].update({"Triggers": trigger_names})
+        print(trigger_mask)
         self.selections.add("trigger", trigger_mask)
 
 
@@ -587,7 +591,7 @@ class ZToLLProcessor(processor.ProcessorABC):
         # -------------------------------------------------------------
         output["metadata"]["main"] = {}
         # Weighted events
-        output["metadata"]["main"].update({"sumw": ak.sum(weights_container.weight())})            
+        fill_sumw(weights_container, self.is_mc, output["metadata"]["main"])
         output["metadata"]["main"]["weight_statistics"] = {}
         for weight, statistics in weights_container.weightStatistics.items():
             output["metadata"]["main"]["weight_statistics"][weight] = statistics
@@ -601,7 +605,7 @@ class ZToLLProcessor(processor.ProcessorABC):
         hist = Histograms(self.lepton_flavor, self.processor, objects, weights_container.weight(), self.selections, region_selection[self.lepton_flavor])
         output["hist"]["main"] = {}
         output["hist"]["main"]["nominal"] = hist.fill_histograms()
-        output["hist"]["main"]["nominal"]["sumw_all_weights"] = ak.sum(weights_container.weight())
+        output["hist"]["main"]["nominal"]["sumw_all_weights"] = ak.sum(weights_container.partial_weight(include=["genweight"]))
         output["hist"]["main"]["nominal"]["count"] = 1        
 
 
@@ -617,6 +621,32 @@ class ZToLLProcessor(processor.ProcessorABC):
         )
 
         
+        # ============================================================== 
+        #                     Systematics variations
+        # ============================================================== 
+        objects_tmp["events"] = objects["events"]
+        if self.syst and self.is_mc:
+            systematic_variations = Systematics(
+                cc=cc,
+                cr=None,
+                year=self.year,
+                objects=objects_tmp,
+                table_name="cutflow",
+                criteria=self.criteria,
+                processor=self.processor,
+                histograms=output["hist"]["main"],
+                weights=weights_container,
+                selections=self.selections,
+                metadata=output["metadata"]["main"],
+                variations=objects_variations,
+                lepton_flavor=self.lepton_flavor,
+                cut_names=region_selection[self.lepton_flavor]
+            )
+
+            systematic_variations.object_level()
+            systematic_variations.event_level()
+
+
         return {dataset: output}
         
     def postprocess(self, accumulator):

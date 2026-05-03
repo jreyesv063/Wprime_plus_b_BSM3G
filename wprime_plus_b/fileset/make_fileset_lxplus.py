@@ -480,7 +480,15 @@ def main():
 
         new_dataset = {key: [] for key in datasets[yreco]}
         for dataset in dataset_discovery:
-            root_files = list(dataset_discovery[dataset]["files"].keys())
+            # Maodification due to inconsistencies in the dataset discovery output format (e.g. some datasets have "files" as a dict, while others have it as a list)
+            files = dataset_discovery[dataset]["files"]
+            if isinstance(files, dict):
+                root_files = list(files.keys())
+            elif isinstance(files, list):
+                root_files = files
+            else:
+                raise TypeError(f"Unknown files format: {type(files)}")
+                
             dataset_key = dataset_discovery[dataset]["metadata"]["short_name"]
             if dataset_key.startswith(("Single", "MET", "Tau")):
                 new_dataset[dataset_key.split("_")[0]] += root_files

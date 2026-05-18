@@ -15,14 +15,21 @@ def add_top_boost_corrections(
     year: str
 ) -> None:
 
-    if not (dataset.startswith("TTTo") and lepton_flavor in ["tau" , "mu"]):
-        return    
 
     if year not in {"2016APV", "2016", "2017", "2018"}:
         raise ValueError(f"Unrecognized year: {year}")
 
     if lepton_flavor not in {"tau", "mu"}:
         raise ValueError(f"Unrecognized lepton flavor: {lepton_flavor}")  
+
+    if not (dataset.startswith("TTTo") and lepton_flavor in ["tau" , "mu"]):
+        weights.add(
+            name=f"top_boost_weight_{lepton_flavor}_{year}",
+            weight=np.ones_like(objects["met"].pt),
+            weightUp=np.ones_like(objects["met"].pt),
+            weightDown=np.ones_like(objects["met"].pt),
+        )
+        return    
 
     cset = correctionlib.CorrectionSet.from_file(
         f"wprime_plus_b/corrections/top_boost/top_boost_{lepton_flavor}_{year}.json"

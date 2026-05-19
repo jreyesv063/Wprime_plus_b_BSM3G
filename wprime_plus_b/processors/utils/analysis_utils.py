@@ -244,6 +244,8 @@ def fill_sumw(weights_container, is_mc, metadata):
 
     """
     metadata.update({"sumw": ak.sum(weights_container.weight())})
+    metadata.update({"initial_events": len(weights_container.weight())})
+
     if is_mc:
         
         all_names = list(weights_container._weights.keys())

@@ -26,9 +26,10 @@ def add_particle_shower_weight(
     """
     if not hasattr(events, "PSWeight") or ak.all(ak.num(events.PSWeight, axis=1) != 4):
         ones = np.ones(len(events))
-        for v in ["ps", "pf"]:
-            weights_container.add(f"{v}_isr_{year}", weight= ones, weightUp=ones, weightDown=ones)
-    
+        
+        weights_container.add(f"ps_isr_{year}", weight= ones, weightUp=ones, weightDown=ones)
+        weights_container.add(f"ps_fsr_{year}", weight= ones, weightUp=ones, weightDown=ones)
+
     else:
         # add ps weights (Initial state radiation)
         weights_container.add(

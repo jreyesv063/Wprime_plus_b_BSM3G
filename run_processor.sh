@@ -8,6 +8,8 @@ lepton_flavor="tau"
 run_era="run_2"  # Options: run_2, run_3
 BASE_OUTPUT_DIR="/eos/user/j/jreyesve/WINDOWS/Desktop/2026/Mayo/CRs_shapes"
 unblinded="false" # Only affects signal processor; set to "true" to include data in the signal region (use with caution)
+global_redirector="true" # Set to "true" to use the global redirector
+
 
 # Define years based on the run_era
 if [ "$run_era" == "run_2" ]; then
@@ -120,6 +122,7 @@ build_filesets(args)
             --run_systematics "$run_systematics" \
             --qcd_data_driven "$qcd_data_driven" \
             --unblinded "$unblinded" \
+            --global_redirector "$global_redirector" \
             --output_folder "$output_folder"
         
         sleep 60 # Wait 60 seconds before submitting the next sample

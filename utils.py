@@ -94,6 +94,25 @@ def build_filesets(args: dict) -> None:
             with open(json_file, "r") as f:
                 try:
                     data = json.load(f)
+
+                    # ------------------------------------------------------------
+                    # Select global redirector ig the variable is set to true
+                    # ------------------------------------------------------------
+                    if args["global_redirector"] == "true":
+                        new_data = {}
+                        for sample, paths in data.items():
+                            clean_paths = []
+                            for p in paths:
+                                if "/store" in p:
+                                    # Obtain the path after "/store" 
+                                    lfn = p.split("/store")[1]
+                                    clean_paths.append(f"root://cms-xrd-global.cern.ch//store/{lfn}")
+                                else:
+                                    clean_paths.append(p)
+                            new_data[sample] = clean_paths
+                        data = new_data
+                    # ------------------------------------------------------------
+
                     combined_datasets.update(data)
                 except json.JSONDecodeError as e:
                     print(f"Error loading {json_file}: {e}")

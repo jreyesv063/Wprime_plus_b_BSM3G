@@ -350,6 +350,14 @@ if __name__ == "__main__":
      )       
 
     parser.add_argument(
+        "--global_redirector",
+        dest="global_redirector",
+        type=str,
+        default="false",
+        help="Use global redirector",
+    )
+    
+    parser.add_argument(
         "--output_folder",
         dest="output_folder",
         type=str,

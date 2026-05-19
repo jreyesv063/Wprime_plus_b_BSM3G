@@ -52,16 +52,16 @@ cd "$SCRIPT_DIR"
 # =========================
 
 # Define processor and channel
-processor="signal"     # Options: top_tagger; signal; qcd_hadronic_closure; wplusjets; wjets; ztoll; zplusc  # ; btag_eff; ctag_eff; 
+processor="top_tagger"     # Options: top_tagger; signal; qcd_hadronic_closure; wplusjets; wjets; ztoll; zplusc  # ; btag_eff; ctag_eff; 
 
 # Lepton flavor
 lepton_flavor="tau"
 
 # Data-taking year
-year="2016"                  # Options: 2016APV; 2016; 2017; 2018
+year="2016APV"                  # Options: 2016APV; 2016; 2017; 2018
 
 # Number of files to process (-1 means all files)
-nfiles="-1"
+nfiles="1"
 
 # Executor type
 executor="futures"
@@ -70,7 +70,7 @@ executor="futures"
 output_type="array"          # hist / array
 
 # Sample index (leave empty to run all samples)
-nsample=""                  # IMPORTANT: Leave nsample="" unless a specific sample index is needed (e.g. nsample="3")
+nsample="1"                  # IMPORTANT: Leave nsample="" unless a specific sample index is needed (e.g. nsample="3")
 
 # Output directory
 output_folder="/eos/user/j/jreyesve/WINDOWS/Desktop/2026/Mayo/test/$processor/$lepton_flavor/$year"    
@@ -90,22 +90,25 @@ qcd_data_driven="true"
 
 
 # Variable to control whether or not data samples are processed in the signal region
-unblinded="false"
+unblinded="true"
+
+# Variable to select the global redirector: root://cms-xrd-global.cern.ch
+global_redirector="true"  
 
 # =========================
 # Sample list
 # =========================
 
 samples=(
-    # "TTToSemiLeptonic"
-    # "TTTo2L2Nu"
-    # "TTToHadronic"
+    "TTToSemiLeptonic"
+    "TTTo2L2Nu"
+    #"TTToHadronic"
     # "DYJetsToLL_nlo_M-10to50"
     # "DYJetsToLL_nlo_M-50"
-    # "SingleMuon"
-    # # "MET"
-    # # "Tau"
-    # # "SingleElectron"
+    # # "SingleMuon"
+    "MET"
+    # # # "Tau"
+    # # # "SingleElectron"
     # "ST_s-channel_4f_leptonDecays"
     # "ST_t-channel_antitop_5f_InclusiveDecays"
     # "ST_t-channel_top_5f_InclusiveDecays"
@@ -165,7 +168,8 @@ args = {
     'lepton_flavor': '$lepton_flavor',
     'year': '$year',
     'run_systematics': '$run_systematics',
-    'facility': 'lxplus'
+    'facility': 'lxplus',
+    'global_redirector': '$global_redirector'
 };
 build_filesets(args);
 "
@@ -225,6 +229,7 @@ elif [ "$processor" == "top_tagger" ] || \
             --run_systematics "$run_systematics" \
             --qcd_data_driven "$qcd_data_driven" \
             --unblinded "$unblinded" \
+            --global_redirector "$global_redirector" \
             --output_folder "$output_folder"
         sleep 60  # Wait 60 seconds before submitting the next sample (optional)
     done

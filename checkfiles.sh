@@ -62,6 +62,7 @@ output_type=$(grep -o 'output_type=".*"' "$archivo_run" | cut -d'"' -f2)
 run_systematics=$(grep -o 'run_systematics=".*"' "$archivo_run" | cut -d'"' -f2)
 qcd_data_driven=$(grep -o 'qcd_data_driven=".*"' "$archivo_run" | cut -d'"' -f2)
 unblinded=$(grep -o 'unblinded=".*"' "$archivo_run" | cut -d'"' -f2)
+global_redirector=$(grep -o 'global_redirector=".*"' "$archivo_run" | cut -d'"' -f2)
 
 output_folder_raw=$(grep -o 'output_folder=".*"' "$archivo_run" | cut -d'"' -f2)
 output_folder=$(eval echo "$output_folder_raw")
@@ -251,7 +252,6 @@ done
     fi
 #'
 
-cd $SCRIPT_DIR/wprime_plus_b/fileset/
 
 #######################################################
 ### Preparando la corrida de los archivos faltantes ###
@@ -261,23 +261,24 @@ cd $SCRIPT_DIR/wprime_plus_b/fileset/
 echo $GRID_PASSWORD | voms-proxy-init --voms cms --pwstdin
 
 # Obtener el shell de Singularity
-env PYTHONNOUSERSITE=1 singularity shell -B /afs -B /eos -B /cvmfs /cvmfs/unpacked.cern.ch/registry.hub.docker.com/coffeateam/coffea-dask-almalinux9:2025.3.0-py3.10 << EOF
-
+#env PYTHONNOUSERSITE=1 singularity shell -B /afs -B /eos -B /cvmfs /cvmfs/unpacked.cern.ch/registry.hub.docker.com/coffeateam/coffea-dask-almalinux9:2025.3.0-py3.10 << EOF
 if [ "$create_fileset" = "true" ]; then
-    echo “Running make_fileset_lxplus.py ...”
-    python make_fileset_lxplus.py --year "$year"
+    echo "Running make_fileset_lxplus.py ..."
+    cd "$SCRIPT_DIR/wprime_plus_b/fileset/" || exit 1
+
+    singularity shell -B /afs -B /eos -B /cvmfs \
+/cvmfs/unpacked.cern.ch/registry.hub.docker.com/coffeateam/coffea-base-almalinux9:0.7.30-py3.10 <<EOF
+
+PYTHONNOUSERSITE=1 python3 make_fileset_lxplus.py --year "$year"
+
+EOF
+
 else
     echo "make_fileset_lxplus.py is disabled. Skipping fileset creation."
 fi
 
-
-exit
-
-EOF
-
-
 # Main directory
-cd $SCRIPT_DIR
+cd "$SCRIPT_DIR"
 
 
 # Run build_filesets once before the loop
@@ -296,7 +297,8 @@ args = {
     'year': '$year',
     'run_systematics': '$run_systematics',
     'sample': 'TTToSemiLeptonic',
-    'facility': 'lxplus'
+    'facility': 'lxplus',
+    'global_redirector': '$global_redirector'
 }
 build_filesets(args)
 "
@@ -363,6 +365,7 @@ for archivo_faltante in "${archivos_faltantes[@]}"; do
             --run_systematics $run_systematics \
             --qcd_data_driven $qcd_data_driven \
             --unblinded $unblinded \
+            --global_redirector $global_redirector \
             --output_folder $output_folder \
             $extra_arg"
     fi
@@ -385,4 +388,3 @@ echo "########### Resultados  ################"
 echo "Número de archivos faltantes: $num_missing_files"
 echo "########################################"
 
-echo "$num_missing_files" > archivos_faltantes.txt

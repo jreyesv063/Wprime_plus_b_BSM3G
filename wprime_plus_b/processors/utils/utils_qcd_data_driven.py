@@ -8,7 +8,9 @@ from coffea.analysis_tools import PackedSelection, Weights
 # =======================================
 # Corrections: event-level
 # =======================================
+from wprime_plus_b.corrections.pileup import add_pileup_weight
 from wprime_plus_b.corrections.pujetid import add_pujetid_weight
+from wprime_plus_b.corrections.l1prefiring import add_l1prefiring_weight
 from wprime_plus_b.corrections.top_boost import add_top_boost_corrections
 from wprime_plus_b.corrections.wjets_topjets import add_QCD_vs_W_weight, add_QCD_vs_Top_weight
 
@@ -188,12 +190,15 @@ class QCD_data_driven:
                 if cr_criteria["fake_VSjet_fail"] is not None or cr_criteria["fake_VSjet_pass"] != self.criteria["tau"][self.lepton_flavor]["fake_VSjet_pass"]:
                     # Since the subset of taus changes, it is necessary to recalculate the identification weights.
                     exclude_list = [
-                        #f"CMS_fake_t_DeepTau{self.suffix}_VSjet", f"CMS_fake_t_DeepTau{self.suffix}_{self.year}", f"CMS_fake_t_DeepTau{self.suffix}_{self.year}",  
-                        f"CMS_fake_t_DeepTau{self.suffix}_VSjet_{self.year}",  
+                        f"CMS_fake_t_DeepTau{self.suffix}_VSjet_{self.year}", f"CMS_fake_t_DeepTau{self.suffix}_VSmu_{self.year}", f"CMS_fake_t_DeepTau{self.suffix}_VSe_{self.year}",
                         f"CMS_eff_j_ParticleNet_Top_Nominal_{self.year}", f"CMS_eff_j_ParticleNet_W_Nominal_{self.year}",
                         f"CMS_btag_heavy_{self.year}", f"CMS_btag_light_{self.year}",                         
                         f"top_boost_weight_{self.lepton_flavor}_{self.year}",
                         f"CMS_eff_j_PUJetID_eff_{self.year}",
+                        f"CMS_pileup_{self.year}",
+                        *(
+                            [f"CMS_l1_prefiring_{self.year}"] if self.year in ["2016APV", "2016", "2017"] else []
+                        )
                     ]
 
                     for name, w in self.weights_container._weights.items():
@@ -214,6 +219,11 @@ class QCD_data_driven:
                         else:
                             weights_cr.add(name, weight=w)    
 
+                    # ************************************
+                    #    Pileup, L1prefiring
+                    # ************************************
+                    add_pileup_weight(objects_cleaned["events"], weights_cr, self.year)
+                    add_l1prefiring_weight(objects_cleaned["events"], weights_cr, self.year)
 
                     # ************************************
                     #          Pileup Jet ID

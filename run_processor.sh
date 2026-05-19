@@ -8,6 +8,7 @@ lepton_flavor="tau"
 run_era="run_2"  # Options: run_2, run_3
 BASE_OUTPUT_DIR="/eos/user/j/jreyesve/WINDOWS/Desktop/2026/Mayo/CRs_shapes"
 unblinded="false" # Only affects signal processor; set to "true" to include data in the signal region (use with caution)
+qcd_cr_B_TF_estimation="true" # Set to "true" to run the QCD shape estimation (only for processor with ABCD methodology)
 global_redirector="true" # Set to "true" to use the global redirector
 
 
@@ -123,7 +124,8 @@ build_filesets(args)
             --qcd_data_driven "$qcd_data_driven" \
             --unblinded "$unblinded" \
             --global_redirector "$global_redirector" \
-            --output_folder "$output_folder"
+            --output_folder "$output_folder" \
+            --qcd_cr_B_TF_estimation "$qcd_cr_B_TF_estimation"
         
         sleep 60 # Wait 60 seconds before submitting the next sample
     done

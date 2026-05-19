@@ -93,9 +93,9 @@ class WplusJetsProcessor(processor.ProcessorABC):
         run_systematics: str = "false",
         qcd_data_driven: str = "false",
         output_folder: str = "",
-        unblinded: str = "false"        
+        unblinded: str = "false",
+        qcd_cr_B_TF_estimation: str = "false"        
     ):
-
         self.year = year
         self.lepton_flavor = lepton_flavor
         self.syst = (run_systematics == "true")
@@ -109,9 +109,13 @@ class WplusJetsProcessor(processor.ProcessorABC):
 
 
         # Load event selection criteria
-        #with open(f"wprime_plus_b/selection_criteria/{self.processor}/event_selection_criteria_shape_QCD.yaml") as f:
-        with open(f"wprime_plus_b/selection_criteria/{self.processor}/event_selection_criteria.yaml") as f:
-            self.criteria = yaml.safe_load(f)
+        if qcd_cr_B_TF_estimation == "true":
+            with open(f"wprime_plus_b/selection_criteria/{self.processor}/event_selection_criteria_shape_QCD.yaml") as f:
+                self.criteria = yaml.safe_load(f)
+
+        else:
+            with open(f"wprime_plus_b/selection_criteria/{self.processor}/event_selection_criteria.yaml") as f:
+                self.criteria = yaml.safe_load(f)
 
         self.qcd_data_driven = (
             qcd_data_driven == "true" and

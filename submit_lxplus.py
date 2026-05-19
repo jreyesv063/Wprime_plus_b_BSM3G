@@ -251,6 +251,14 @@ if __name__ == "__main__":
      )
 
     parser.add_argument(
+        "--qcd_cr_B_TF_estimation",
+        dest="qcd_cr_B_TF_estimation",
+        type=str,
+        default="false",
+        help="Run QCD shape estimation (only for processor with ABCD methodology) (true/false)",
+     )
+
+    parser.add_argument(
         "--output_folder",
         dest="output_folder",
         type=str,

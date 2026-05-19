@@ -57,6 +57,7 @@ def main(args):
         "run_systematics",
         "qcd_data_driven",
         "unblinded",
+        "qcd_cr_B_TF_estimation",
         "output_folder"
     ]
     processor_kwargs = {k: args[k] for k in processor_args if args[k]}
@@ -357,6 +358,14 @@ if __name__ == "__main__":
         help="Use global redirector",
     )
     
+    parser.add_argument(
+        "--qcd_cr_B_TF_estimation",
+        dest="qcd_cr_B_TF_estimation",
+        type=str,
+        default="false",
+        help="Run QCD shape estimation (only for processor with ABCD methodology) (true/false)",
+    )    
+
     parser.add_argument(
         "--output_folder",
         dest="output_folder",

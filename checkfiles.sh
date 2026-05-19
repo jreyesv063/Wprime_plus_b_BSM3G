@@ -63,6 +63,7 @@ run_systematics=$(grep -o 'run_systematics=".*"' "$archivo_run" | cut -d'"' -f2)
 qcd_data_driven=$(grep -o 'qcd_data_driven=".*"' "$archivo_run" | cut -d'"' -f2)
 unblinded=$(grep -o 'unblinded=".*"' "$archivo_run" | cut -d'"' -f2)
 global_redirector=$(grep -o 'global_redirector=".*"' "$archivo_run" | cut -d'"' -f2)
+qcd_cr_B_TF_estimation=$(grep -o 'qcd_cr_B_TF_estimation=".*"' "$archivo_run" | cut -d'"' -f2)
 
 output_folder_raw=$(grep -o 'output_folder=".*"' "$archivo_run" | cut -d'"' -f2)
 output_folder=$(eval echo "$output_folder_raw")
@@ -367,6 +368,7 @@ for archivo_faltante in "${archivos_faltantes[@]}"; do
             --unblinded $unblinded \
             --global_redirector $global_redirector \
             --output_folder $output_folder \
+            --qcd_cr_B_TF_estimation $qcd_cr_B_TF_estimation \
             $extra_arg"
     fi
 

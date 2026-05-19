@@ -109,9 +109,14 @@ class QCD_closure_Proccessor(processor.ProcessorABC):
         self.array_dict = {}        
 
         # Load event selection criteria
-        #with open(f"wprime_plus_b/selection_criteria/{self.processor}/event_selection_criteria_shape_QCD.yaml") as f:
-        with open(f"wprime_plus_b/selection_criteria/{self.processor}/event_selection_criteria.yaml") as f:
-            self.criteria = yaml.safe_load(f)
+        if qcd_cr_B_TF_estimation == "true":
+            with open(f"wprime_plus_b/selection_criteria/{self.processor}/event_selection_criteria_shape_QCD.yaml") as f:
+                self.criteria = yaml.safe_load(f)
+
+        else:
+            with open(f"wprime_plus_b/selection_criteria/{self.processor}/event_selection_criteria.yaml") as f:
+                self.criteria = yaml.safe_load(f)
+
 
         self.qcd_data_driven = (
             qcd_data_driven == "true" and

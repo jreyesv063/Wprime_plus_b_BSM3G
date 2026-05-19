@@ -6,7 +6,7 @@
 processor="signal"     # Options: top_tagger; signal; qcd_hadronic_closure; wplusjets; wjets; ztoll; zplusc  # ; btag_eff; ctag_eff;
 lepton_flavor="tau"
 run_era="run_2"  # Options: run_2, run_3
-BASE_OUTPUT_DIR="/eos/user/j/jreyesve/WINDOWS/Desktop/2026/Mayo/CRs_shapes"
+BASE_OUTPUT_DIR="$ANALYSIS_PATH"
 unblinded="false" # Only affects signal processor; set to "true" to include data in the signal region (use with caution)
 qcd_cr_B_TF_estimation="true" # Set to "true" to run the QCD shape estimation (only for processor with ABCD methodology)
 global_redirector="true" # Set to "true" to use the global redirector

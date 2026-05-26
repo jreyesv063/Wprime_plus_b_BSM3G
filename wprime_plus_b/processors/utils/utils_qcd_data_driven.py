@@ -10,8 +10,10 @@ from coffea.analysis_tools import PackedSelection, Weights
 # =======================================
 from wprime_plus_b.corrections.pileup import add_pileup_weight
 from wprime_plus_b.corrections.pujetid import add_pujetid_weight
+from wprime_plus_b.corrections.met import add_met_trigger_corrections
 from wprime_plus_b.corrections.l1prefiring import add_l1prefiring_weight
 from wprime_plus_b.corrections.top_boost import add_top_boost_corrections
+from wprime_plus_b.corrections.top_pt_reweighting import add_TopPtReweighting
 from wprime_plus_b.corrections.wjets_topjets import add_QCD_vs_W_weight, add_QCD_vs_Top_weight
 
 
@@ -30,7 +32,9 @@ from wprime_plus_b.object_identification.met_selection import select_good_delta_
 # General cuts
 # =======================================
 # Top tagger
+from wprime_plus_b.general_selections.triggers import get_trigger_mask
 from wprime_plus_b.object_identification.top_selection import select_top_tagger
+
 
 # =======================================
 # Systematic variations
@@ -195,6 +199,8 @@ class QCD_data_driven:
                         f"CMS_btag_heavy_{self.year}", f"CMS_btag_light_{self.year}",                         
                         f"top_boost_weight_{self.lepton_flavor}_{self.year}",
                         f"CMS_eff_j_PUJetID_eff_{self.year}",
+                        f"CMS_eff_MET_trigger_{self.year}",
+                        f"top_pt_reweighting_{self.year}",
                         f"CMS_pileup_{self.year}",
                         *(
                             [f"CMS_l1_prefiring_{self.year}"] if self.year in ["2016APV", "2016", "2017"] else []
@@ -220,10 +226,31 @@ class QCD_data_driven:
                             weights_cr.add(name, weight=w)    
 
                     # ************************************
-                    #    Pileup, L1prefiring
+                    #    Pileup, L1prefiring,
+                    #    top pt reweighting
+                    #    MET trigger
                     # ************************************
                     add_pileup_weight(objects_cleaned["events"], weights_cr, self.year)
                     add_l1prefiring_weight(objects_cleaned["events"], weights_cr, self.year)
+                    add_TopPtReweighting(objects_cleaned["events"], weights_cr, self.dataset, self.year)   
+
+                    trigger_names, trigger_mask = get_trigger_mask(
+                        events=objects_cleaned['events'],
+                        lepton_flavor = 'tau',
+                        year = self.year,
+                        trigger_case = self.criteria["trigger"]['tau']["main"],
+                        Or_HLT = self.criteria["trigger"]['tau']["OR_trigger"]
+                    )
+                    
+                    add_met_trigger_corrections(
+                        trigger_mask, 
+                        self.dataset, 
+                        objects_cleaned["met"], 
+                        weights_cr, 
+                        self.year,
+                        trigger_mask = get_mask_until_object(selections=self.selections_BCD, cuts=self.cuts_map[cr], obj_name="trigger", include_cut=False, only_cut=True)
+                    )   
+
 
                     # ************************************
                     #          Pileup Jet ID

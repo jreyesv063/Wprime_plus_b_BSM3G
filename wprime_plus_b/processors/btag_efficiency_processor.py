@@ -75,7 +75,8 @@ class BTagEfficiencyProcessor(processor.ProcessorABC):
         run_systematics: str = "false",
         qcd_data_driven: str = "false",
         output_folder: str = "",
-        unblinded: str = "false"        
+        unblinded: str = "false",
+        qcd_cr_B_TF_estimation: str = "false"        
     ):
 
         self.year = year

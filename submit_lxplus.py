@@ -106,10 +106,7 @@ def main(args):
     # add facility and output path to args
     args["facility"] = "lxplus"
     args["output_path"] = build_output_directories(args)
-    # build filesets
-    #build_filesets(args)
-
-
+    
     # get dataset config
     dataset_config = load_dataset_config(config_name=args["sample"], object_syst=args["run_systematics"])
     # run job for each partition

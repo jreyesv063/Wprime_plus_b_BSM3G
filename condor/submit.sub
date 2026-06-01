@@ -6,4 +6,9 @@ log                   = DIRECTORY/logs/JOBPATH/JOBNAME.$(ClusterId).$(ProcId).lo
 +JobFlavour           = "workday"
 +SingularityImage     = "/cvmfs/unpacked.cern.ch/registry.hub.docker.com/coffeateam/coffea-base-almalinux9:0.7.30-py3.10"
 request_memory = 8000MB
+
+
+on_exit_remove = (ExitBySignal == False) && (ExitCode == 0)
+max_retries = 3
+
 queue 1

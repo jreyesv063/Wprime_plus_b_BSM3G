@@ -3,6 +3,7 @@ import sys
 import time
 import dask
 import yaml
+import uproot
 import pickle
 import argparse
 import datetime

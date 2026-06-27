@@ -26,6 +26,14 @@ run_2:
   - GluGluHToWWToLNuQQ
   - VBFHToWWTo2L2Nu
   - VBFHToWWToLNuQQ    
+  - SignalTau_300GeV
+  - SignalTau_400GeV
+  - SignalTau_600GeV
+  - SignalTau_750GeV
+  - SignalTau_1000GeV
+  - SignalTau_1500GeV
+  - SignalTau_2000GeV
+  - SignalTau_3000GeV  
 
 run_3:
   - TTToSemiLeptonic

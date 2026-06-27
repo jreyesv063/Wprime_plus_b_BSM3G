@@ -71,13 +71,28 @@ def ISR_weight(
 
 
         # Calculate the ISR weight using the mother pt
-        sf = cset[f"ISR_weight_{year}_UL"].evaluate("nominal", njets_var, Z_pt_var)
+        sf = cset[f"ISR_weight_{year}_UL"].evaluate("nominal", Z_pt_var, njets_var)
+        sf_up_tmp = cset[f"ISR_weight_{year}_UL"].evaluate("up", Z_pt_var, njets_var)
+        sf_down_tmp = cset[f"ISR_weight_{year}_UL"].evaluate("down", Z_pt_var, njets_var)
 
         
-        sf_nominal = ak.where(event_mask, sf, 1.0)  # Apply the ISR weight only where the mask is true, otherwise set to 1.0
+        # Apply the ISR weight only where the mask is true, otherwise set to 1.0
+        sf_nominal = ak.where(event_mask, sf, 1.0) 
+        sf_up = ak.where(event_mask, sf_up_tmp, 1.0)
+        sf_down = ak.where(event_mask, sf_down_tmp, 1.0)
        
         # Add nominal variation to the weights object
         weights.add(
-            name=f"ISR_{ISR_type}_{year}",  # Name of the weight
-            weight=sf_nominal,  # Nominal weight
+            name=f"ISR_{year}",  # Name of the weight
+            weight=sf_nominal,
+            weightUp=sf_up,
+            weightDown=sf_down,
+        )
+
+    else:
+        weights.add(
+            name=f"ISR_{year}",
+            weight=np.ones_like(events.MET.pt),
+            weightUp=np.ones_like(events.MET.pt),
+            weightDown=np.ones_like(events.MET.pt),
         )

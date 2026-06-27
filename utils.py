@@ -106,9 +106,16 @@ def build_filesets(args: dict) -> None:
                                 if "/store" in p:
                                     # Obtain the path after "/store" 
                                     lfn = p.split("/store")[1]
-                                    clean_paths.append(f"root://cms-xrd-global.cern.ch//store/{lfn}")
+                                    
+                                    if sample.startswith("Signal"):
+                                        #clean_paths.append(f"root://cmsxrootd.fnal.gov//store/{lfn}")
+                                        clean_paths.append(f"/store/{lfn}")
+                                    else:
+                                        clean_paths.append(f"root://cms-xrd-global.cern.ch//store/{lfn}")
+
                                 else:
                                     clean_paths.append(p)
+
                             new_data[sample] = clean_paths
                         data = new_data
                     # ------------------------------------------------------------

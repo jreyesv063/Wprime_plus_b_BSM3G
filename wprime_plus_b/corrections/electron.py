@@ -127,7 +127,7 @@ class ElectronCorrector:
         
         # add scale factors to weights container
         self.weights.add(
-            name=f"CMS_eff_e_id_13TeV_{self.year}",
+            name=f"CMS_eff_e_id_13TeV",
             weight=nominal_sf,
             weightUp=up_sf,
             weightDown=down_sf,
@@ -181,7 +181,7 @@ class ElectronCorrector:
 
         # add scale factors to weights container
         self.weights.add(
-            name=f"CMS_eff_e_reco_{reco_case}_13TeV_{self.year}",
+            name=f"CMS_eff_e_reco_{reco_case}_13TeV",
             weight=nominal_sf,
             weightUp=up_sf,
             weightDown=down_sf,

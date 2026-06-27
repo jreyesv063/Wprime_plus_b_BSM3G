@@ -203,7 +203,7 @@ class QCD_data_driven:
                         f"top_pt_reweighting_{self.year}",
                         f"CMS_pileup_{self.year}",
                         *(
-                            [f"CMS_l1_prefiring_{self.year}"] if self.year in ["2016APV", "2016", "2017"] else []
+                            [f"CMS_l1_ecal_prefiring_{self.year}"] if self.year in ["2016APV", "2016", "2017"] else []
                         )
                     ]
 

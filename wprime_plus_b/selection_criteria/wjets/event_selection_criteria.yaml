@@ -103,6 +103,7 @@ jet:
     eta: 2.4
     jet_id: "TightLepVeto"
     pileup_id: "Tight"
+    btag_wp_fail: "Loose"
     leading_pt: 100.0
 
   mu:
@@ -110,6 +111,7 @@ jet:
     eta: 2.4
     jet_id: "TightLepVeto"
     pileup_id: "Tight"
+    btag_wp_fail: "Loose"
     leading_pt: 100.0
 
   tau:
@@ -117,6 +119,7 @@ jet:
     eta: 2.4
     jet_id: "TightLepVeto"
     pileup_id: "Tight"  
+    btag_wp_fail: "Loose"
     leading_pt: 100.0
 
 cross_cleaning:

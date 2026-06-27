@@ -110,7 +110,7 @@ Z_boson:
     Z_mass:
         include_plot: True
         type: Variable
-        edges: [0, 20, 30, 40, 50, 60, 70, 80, 90, 100, 110, 120, 130, 140, 150, 160, 170, 180, 190, 200]
+        edges: [70, 80, 90, 100, 110, 120]
         label: '$m(Z)$ [GeV]'
         expression: ak.fill_none(objects['events'].Z_mass, np.nan)
     
@@ -155,9 +155,9 @@ N:
     njets:
         include_plot: True
         type: Regular
-        bins: 10
+        bins: 5
         start: 0
-        stop: 10
+        stop: 5
         label: '$N(j)$'
         expression: ak.num(objects['jets']) 
 

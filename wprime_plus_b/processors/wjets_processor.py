@@ -14,6 +14,7 @@ from wprime_plus_b.corrections.met import apply_met_unclustered, apply_met_phi_c
 # =======================================
 # Corrections: event-level
 # =======================================
+from wprime_plus_b.corrections.ISR_weight import ISR_weight
 from wprime_plus_b.corrections.pileup import add_pileup_weight
 from wprime_plus_b.corrections.pdfweights import add_pdf_weight
 from wprime_plus_b.corrections.pujetid import add_pujetid_weight
@@ -32,13 +33,13 @@ from wprime_plus_b.corrections.electron import ElectronCorrector
 # Selections: objects
 # =======================================
 from wprime_plus_b.object_identification.met_selection import select_good_met
-from wprime_plus_b.object_identification.jet_selection import select_good_jets
+#from wprime_plus_b.object_identification.jet_selection import select_good_jets
 from wprime_plus_b.object_identification.tau_selection import select_good_taus
 from wprime_plus_b.object_identification.leading_jet import get_leading_jet_mask
 from wprime_plus_b.object_identification.muon_selection import select_good_muons
 from wprime_plus_b.object_identification.bjet_selection import select_good_bjets
 from wprime_plus_b.object_identification.electron_selection import select_good_electrons
-
+from wprime_plus_b.object_identification.lightjet_selection import select_good_lightjets
 
 # =======================================
 # General cuts
@@ -97,11 +98,6 @@ class WjetsProccessor(processor.ProcessorABC):
         self.features = {}
         # initialize dictionary of arrays
         self.array_dict = {}        
-
-        if unblinded == "true":
-            self.unblinded = True 
-        else:
-            self.unblinded = False
 
 
         # Load event selection criteria
@@ -243,13 +239,14 @@ class WjetsProccessor(processor.ProcessorABC):
         
 
         # Jets candidates
-        good_jets_masks = select_good_jets(
+        good_jets_masks = select_good_lightjets(
             events=events,
             year=self.year,
-            jet_pt_threshold = self.criteria["jet"][self.lepton_flavor]["pt"],
-            jet_eta_threshold = self.criteria["jet"][self.lepton_flavor]["eta"],
-            jet_id_wp = self.criteria["jet"][self.lepton_flavor]["jet_id"],
-            jet_pileup_id = self.criteria["jet"][self.lepton_flavor]["pileup_id"],
+            btag_working_point_fail = self.criteria["jet"][self.lepton_flavor]["btag_wp_fail"],
+            lightjet_pt_threshold = self.criteria["jet"][self.lepton_flavor]["pt"],
+            lightjet_eta_threshold = self.criteria["jet"][self.lepton_flavor]["eta"],
+            lightjet_id_wp = self.criteria["jet"][self.lepton_flavor]["jet_id"],
+            lightjet_pileup_id = self.criteria["jet"][self.lepton_flavor]["pileup_id"],
             syst_var=self.syst
         )
         good_jets = good_jets_masks["nominal"]
@@ -605,7 +602,19 @@ class WjetsProccessor(processor.ProcessorABC):
                     trigger_match_mask=trigger_match_mask,
                 ) 
             
-
+            # **************************************
+            #            ISR correction
+            # **************************************
+            ISR_weight(
+                events=events, 
+                jets=objects["jets"], 
+                dataset=dataset, 
+                weights=weights_container, 
+                year=self.year, 
+                channel="", 
+                variation=self.syst
+            )
+            
         # ============================================================== 
         #  Save cutflow: Table with nominal values
         # ==============================================================       
@@ -644,17 +653,44 @@ class WjetsProccessor(processor.ProcessorABC):
                 criteria=self.criteria,
                 processor=self.processor,
                 histograms=output["hist"]["main"],
+                #histograms=output["hist"]["main"] if self.lepton_flavor == "tau" else output["hist"]["main_eff"] ,
                 weights=weights_container,
                 selections=self.selections,
                 metadata=output["metadata"]["main"],
+                #metadata=output["metadata"]["main"] if self.lepton_flavor == "tau" else output["metadata"]["main_eff"],
                 variations=objects_variations,
                 lepton_flavor=self.lepton_flavor,
-                cut_names=region_selection[self.lepton_flavor]
+                #cut_names=region_selection[self.lepton_flavor]
+                cut_names=region_selection[self.lepton_flavor][:-1] if self.lepton_flavor == "mu" else region_selection[self.lepton_flavor] #region_selection[self.lepton_flavor]
             )
 
             systematic_variations.object_level()
             systematic_variations.event_level()
-            
+
+            if self.lepton_flavor == "mu":
+                output["hist"]["trigger_eff"] = {}  
+                output["metadata"]["trigger_eff"] = {}  
+                # We are studying the effect of trigger efficiency in the muon channel, so we save the variations related to it
+                systematic_variations_trigger_eff = Systematics(
+                    cc=cc,
+                    cr=None,
+                    year=self.year,
+                    objects=objects_tmp,
+                    table_name="cutflow",
+                    criteria=self.criteria,
+                    processor=self.processor,
+                    histograms=output["hist"]["trigger_eff"],
+                    weights=weights_container,
+                    selections=self.selections,
+                    metadata=output["metadata"]["trigger_eff"],
+                    variations=objects_variations,
+                    lepton_flavor=self.lepton_flavor,
+                    cut_names=region_selection[self.lepton_flavor]
+                )
+
+                systematic_variations_trigger_eff.object_level()
+                systematic_variations_trigger_eff.event_level()
+
         return {dataset: output}
         
     def postprocess(self, accumulator):

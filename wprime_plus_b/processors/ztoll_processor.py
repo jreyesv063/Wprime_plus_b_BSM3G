@@ -14,6 +14,7 @@ from wprime_plus_b.corrections.met import apply_met_unclustered, apply_met_phi_c
 # =======================================
 # Corrections: event-level
 # =======================================
+from wprime_plus_b.corrections.ISR_weight import ISR_weight
 from wprime_plus_b.corrections.pileup import add_pileup_weight
 from wprime_plus_b.corrections.pdfweights import add_pdf_weight
 from wprime_plus_b.corrections.pujetid import add_pujetid_weight
@@ -330,7 +331,8 @@ class ZToLLProcessor(processor.ProcessorABC):
 
             # add pileup weigths
             add_pileup_weight(events, weights_container, self.year)
-
+            
+            
 
         else:
             delta_pdf = pdf_weight_nominal = ak.ones_like(events.MET.pt)
@@ -453,7 +455,6 @@ class ZToLLProcessor(processor.ProcessorABC):
                 "metfilters",
                 "lumi",
                 "Stitching",
-                "trigger_match",
                 "trigger",                
                 "electron_veto",
                 "muon_veto",
@@ -468,7 +469,6 @@ class ZToLLProcessor(processor.ProcessorABC):
                 "metfilters",
                 "Stitching",
                 "lumi",
-                "trigger_match",
                 "trigger",
                 "electron_veto",
                 "tau_veto",
@@ -582,6 +582,19 @@ class ZToLLProcessor(processor.ProcessorABC):
                     trigger_match_mask=trigger_match_mask
                 )
 
+
+            # -------------------------
+            # ISR correction
+            # -------------------------
+            ISR_weight(
+                events=events, 
+                jets=objects["jets"], 
+                dataset=dataset, 
+                weights=weights_container, 
+                year=self.year, 
+                channel="", 
+                variation=self.syst
+            )
 
         # ============================================================== 
         #  Save cutflow: Table with nominal values

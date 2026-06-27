@@ -15,6 +15,7 @@ from wprime_plus_b.corrections.met import apply_met_unclustered, apply_met_phi_c
 # =======================================
 # Corrections: event-level
 # =======================================
+from wprime_plus_b.corrections.ISR_weight import ISR_weight
 from wprime_plus_b.corrections.pileup import add_pileup_weight
 from wprime_plus_b.corrections.pdfweights import add_pdf_weight
 from wprime_plus_b.corrections.pujetid import add_pujetid_weight
@@ -522,13 +523,18 @@ class TopTaggerProccessor(processor.ProcessorABC):
         # --------------------------
         objects, top_tagger_mask = select_top_tagger(
             objects=objects,
-            region_mask=ak.ones_like(events.run, dtype=bool), # All events to be evaluated
             cross_cleaning=cc,
+            region_mask=ak.ones_like(events.run, dtype=bool), # All events to be evaluated
             criteria=self.criteria["top_tagger"][self.lepton_flavor]
         )
 
-        self.selections.add(f"top_tagger",  top_tagger_mask)
-            
+        if self.lepton_flavor == "tau":
+            self.selections.add(f"top_tagger",  top_tagger_mask)
+        elif self.lepton_flavor == "mu":
+            self.selections.add(f"top_tagger",  objects['events'].top_tagger_mass >= 120.0)
+        else:
+            raise ValueError(f"Invalid channel: {self.lepton_flavor}. Must be 'tau' or 'mu'.")
+
 
         # ====================================================
         #     Define selection regions for each channel
@@ -720,15 +726,31 @@ class TopTaggerProccessor(processor.ProcessorABC):
                 ) 
 
             
-            if self.lepton_flavor == "tau":   
+            # **************************************
+            #              Top boost
+            # **************************************
+            if self.lepton_flavor == "tau" and self.year in ["2016", "2016APV", "2017", "2018"]:   
                 add_top_boost_corrections(
-                        objects = objects,
-                        lepton_flavor = self.lepton_flavor,
-                        dataset = dataset,
-                        weights = weights_container,
-                        year = self.year
+                    objects = objects,
+                    lepton_flavor = self.lepton_flavor,
+                    dataset = dataset,
+                    weights = weights_container,
+                    year = self.year
                 ) 
             
+            # **************************************
+            #            ISR correction
+            # **************************************
+            ISR_weight(
+                events=events, 
+                jets=objects["jets"], 
+                dataset=dataset, 
+                weights=weights_container, 
+                year=self.year, 
+                channel="", 
+                variation=self.syst
+            )
+
 
         # -------------------------------------------------------------
         # sumw 
@@ -772,16 +794,43 @@ class TopTaggerProccessor(processor.ProcessorABC):
                 criteria=self.criteria,
                 processor=self.processor,
                 histograms=output["hist"]["main"],
+                #histograms=output["hist"]["main"] if self.lepton_flavor == "tau" else output["hist"]["main_eff"] ,
                 weights=weights_container,
                 selections=self.selections,
                 metadata=output["metadata"]["main"],
+                #metadata=output["metadata"]["main"] if self.lepton_flavor == "tau" else output["metadata"]["main_eff"],
                 variations=objects_variations,
                 lepton_flavor=self.lepton_flavor,
-                cut_names=region_selection[self.lepton_flavor]
+                #cut_names=region_selection[self.lepton_flavor]
+                cut_names=region_selection[self.lepton_flavor][:-1] if self.lepton_flavor == "mu" else region_selection[self.lepton_flavor] #region_selection[self.lepton_flavor]
             )
 
             systematic_variations.object_level()
             systematic_variations.event_level()
+
+            if self.lepton_flavor == "mu":
+                output["hist"]["trigger_eff"] = {}  
+                output["metadata"]["trigger_eff"] = {}  
+                # We are studying the effect of trigger efficiency in the muon channel, so we save the variations related to it
+                systematic_variations_trigger_eff = Systematics(
+                    cc=cc,
+                    cr=None,
+                    year=self.year,
+                    objects=objects_tmp,
+                    table_name="cutflow",
+                    criteria=self.criteria,
+                    processor=self.processor,
+                    histograms=output["hist"]["trigger_eff"],
+                    weights=weights_container,
+                    selections=self.selections,
+                    metadata=output["metadata"]["trigger_eff"],
+                    variations=objects_variations,
+                    lepton_flavor=self.lepton_flavor,
+                    cut_names=region_selection[self.lepton_flavor]
+                )
+
+                systematic_variations_trigger_eff.object_level()
+                systematic_variations_trigger_eff.event_level()
 
         # -------------------------------------------------------------
         # 2D histogram

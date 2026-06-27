@@ -15,6 +15,7 @@ from wprime_plus_b.corrections.met import apply_met_unclustered, apply_met_phi_c
 # =======================================
 # Corrections: event-level
 # =======================================
+from wprime_plus_b.corrections.ISR_weight import ISR_weight
 from wprime_plus_b.corrections.pileup import add_pileup_weight
 from wprime_plus_b.corrections.pdfweights import add_pdf_weight
 from wprime_plus_b.corrections.pujetid import add_pujetid_weight
@@ -731,6 +732,9 @@ class QCD_closure_Proccessor(processor.ProcessorABC):
                 ) 
 
             
+            # **************************************
+            #              Top boost
+            # **************************************
             if self.lepton_flavor == "tau":   
                 add_top_boost_corrections(
                         objects = objects,
@@ -740,7 +744,19 @@ class QCD_closure_Proccessor(processor.ProcessorABC):
                         year = self.year
                 ) 
             
-
+            # **************************************
+            #            ISR correction
+            # **************************************
+            ISR_weight(
+                events=events, 
+                jets=objects["jets"], 
+                dataset=dataset, 
+                weights=weights_container, 
+                year=self.year, 
+                channel="", 
+                variation=self.syst
+            )
+            
         # -------------------------------------------------------------
         # sumw without ID weights
         # -------------------------------------------------------------

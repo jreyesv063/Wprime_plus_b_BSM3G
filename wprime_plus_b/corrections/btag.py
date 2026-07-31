@@ -199,8 +199,16 @@ class BTagCorrector:
                
         
         # Define whether it is a correlated case or not
-        suffix = "_correlated" if correlated else ""
-        variations = {"nominal": "central", "up": f"up{suffix}", "down": f"down{suffix}"}
+        #suffix = "_correlated" if correlated else ""
+        variations = {
+            "nominal": "central", 
+            "up": "up", 
+            "up_correlated": "up_correlated", 
+            "up_uncorrelated": "up_uncorrelated", 
+            "down": "down",
+            "down_correlated": "down_correlated", 
+            "down_uncorrelated": "down_uncorrelated"
+        }
 
 
         # -----------------------------------------------------------
@@ -293,18 +301,20 @@ class BTagCorrector:
             weights[label] = ak.fill_none(ak.prod(weight, axis=-1), 1.0)
 
 
-        
-        """
-        nominal_sf, up_sf, down_sf = [
-            ak.where(self.bjet_mask, sf, 1.0)
-            for sf in (weights["nominal"], weights["up"], weights["down"])
-        ]  
-        """
         nominal_sf, up_sf, down_sf = [
             ak.where(self.bjet_mask, ak.nan_to_num(sf, nan=1.0, posinf=1.0, neginf=1.0), 1.0)
             for sf in (weights["nominal"], weights["up"], weights["down"])
         ]
 
+        up_corr, down_corr = [
+            ak.where(self.bjet_mask, ak.nan_to_num(sf, nan=1.0, posinf=1.0, neginf=1.0), 1.0)
+            for sf in (weights["up_correlated"], weights["down_correlated"])
+        ]
+
+        up_uncorr, down_uncorr = [
+            ak.where(self.bjet_mask, ak.nan_to_num(sf, nan=1.0, posinf=1.0, neginf=1.0), 1.0)
+            for sf in (weights["up_uncorrelated"], weights["down_uncorrelated"])
+        ]
             
         # add scale factors to weights container
         self.weights.add(
@@ -313,3 +323,17 @@ class BTagCorrector:
             weightUp=up_sf,
             weightDown=down_sf
         )
+
+        self.weights.add(
+            name=f"CMS_btag_{'heavy' if flavor == 'bc' else 'light'}_correlated_{self.year}",
+            weight=np.ones_like(nominal_sf),
+            weightUp=up_corr,
+            weightDown=down_corr
+        )        
+
+        self.weights.add(
+            name=f"CMS_btag_{'heavy' if flavor == 'bc' else 'light'}_uncorrelated_{self.year}",
+            weight=np.ones_like(nominal_sf),
+            weightUp=up_uncorr,
+            weightDown=down_uncorr
+        )           

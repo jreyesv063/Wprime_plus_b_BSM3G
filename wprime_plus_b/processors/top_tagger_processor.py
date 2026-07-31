@@ -527,15 +527,18 @@ class TopTaggerProccessor(processor.ProcessorABC):
             region_mask=ak.ones_like(events.run, dtype=bool), # All events to be evaluated
             criteria=self.criteria["top_tagger"][self.lepton_flavor]
         )
+        
+        self.selections.add("top_tagger",  top_tagger_mask)
 
-        if self.lepton_flavor == "tau":
-            self.selections.add(f"top_tagger",  top_tagger_mask)
-        elif self.lepton_flavor == "mu":
-            self.selections.add(f"top_tagger",  objects['events'].top_tagger_mass >= 120.0)
-        else:
-            raise ValueError(f"Invalid channel: {self.lepton_flavor}. Must be 'tau' or 'mu'.")
-
-
+        # if self.lepton_flavor == "tau":
+        #     self.selections.add(f"top_tagger",  top_tagger_mask)
+        # elif self.lepton_flavor == "mu":
+        #     self.selections.add(f"top_tagger",  objects['events'].top_tagger_mass >= 120.0)
+        # else:
+        #     raise ValueError(f"Invalid channel: {self.lepton_flavor}. Must be 'tau' or 'mu'.")
+        
+        #self.selections.add(f"top_tagger",  top_tagger_mask)
+ 
         # ====================================================
         #     Define selection regions for each channel
         # ===================================================
@@ -562,8 +565,7 @@ class TopTaggerProccessor(processor.ProcessorABC):
                 "HEMCleaning",                
                 "metfilters",
                 "lumi",
-                "Stitching",                
-                "trigger_match",
+                "Stitching",     
                 "trigger",
                 "met",
                 "electron_veto",

@@ -39,7 +39,7 @@ def select_top_tagger(
         Selection mask for the analysis. Note: events with ID == -1 (not evaluated) 
         are always excluded from this mask.
     """
-
+    
     objects = get_topXfinder_masks(
         objects=objects,           
         region_mask = region_mask, 
@@ -47,7 +47,6 @@ def select_top_tagger(
         top_tagger_cases=criteria["cases"],
         nworkers=criteria["nworkers"]
     )        
-
     
 
     if criteria["invert_top_tagger"]:
@@ -60,3 +59,4 @@ def select_top_tagger(
 
 
     return objects, top_mask
+    

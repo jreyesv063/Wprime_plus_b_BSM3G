@@ -623,9 +623,19 @@ class topXfinder:
 
         filtered_chi2_cal = ak.fill_none(ak.sum(chi2_cal_comb, axis = 1), 1000)
         
-        filtered_tops_mass = ak.firsts(filtered_trijet.mass)
-        filtered_tops_pt = ak.firsts(filtered_trijet.pt)
-        
+        #filtered_tops_mass = ak.firsts(filtered_trijet.mass)
+        #filtered_tops_pt = ak.firsts(filtered_trijet.pt)
+        filtered_tops_mass = ak.Array([
+            next((x for x in event if x is not None), None)
+            if event is not None else None
+            for event in ak.to_list(filtered_trijet.mass)
+        ])
+
+        filtered_tops_pt = ak.Array([
+            next((x for x in event if x is not None), None)
+            if event is not None else None
+            for event in ak.to_list(filtered_trijet.pt)
+        ])
         
         # Final steps
         good_chi2 = (filtered_chi2_cal < chi2)
@@ -726,9 +736,19 @@ class topXfinder:
         
         
         filtered_chi2_cal = ak.fill_none(ak.sum(chi2_cal, axis = 1), 1000)
-        filtered_tops_mass = ak.firsts(filtered_trijets.mass)
-        filtered_tops_pt = ak.firsts(filtered_trijets.pt)
+        #filtered_tops_mass = ak.firsts(filtered_trijets.mass)
+        #filtered_tops_pt = ak.firsts(filtered_trijets.pt)
+        filtered_tops_mass = ak.Array([
+            next((x for x in event if x is not None), None)
+            if event is not None else None
+            for event in ak.to_list(filtered_trijets.mass)
+        ])
         
+        filtered_tops_pt = ak.Array([
+            next((x for x in event if x is not None), None)
+            if event is not None else None
+            for event in ak.to_list(filtered_trijets.pt)
+        ])
         
         # Final steps
         good_chi2 = (filtered_chi2_cal < chi2)
@@ -1072,8 +1092,17 @@ class topXfinder:
         filtered_chi2_cal = ak.fill_none(ak.sum(chi2_cal, axis = 1), 1000)
 
         # Extract pt and mass
-        filtered_tops_pt = ak.firsts(filtered_trijet_comb.pt) 
-        filtered_tops_mass = ak.firsts(filtered_trijet_comb.mass)
+        #filtered_tops_pt = ak.firsts(filtered_trijet_comb.pt) 
+        #filtered_tops_mass = ak.firsts(filtered_trijet_comb.mass)
+        filtered_tops_mass = ak.Array([
+            None if event is None else next((x for x in event if x is not None), None)
+            for event in ak.to_list(filtered_trijet_comb.mass)
+        ])
+
+        filtered_tops_pt = ak.Array([
+            None if event is None else next((x for x in event if x is not None), None)
+            for event in ak.to_list(filtered_trijet_comb.pt)
+        ])
 
         # Final steps
         good_chi2 = (filtered_chi2_cal < chi2)

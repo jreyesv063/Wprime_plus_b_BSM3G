@@ -36,7 +36,7 @@ top_tagger:
     top_mass:
       include_plot: True
       type: Variable
-      edges: [120, 140, 160, 180, 200, 220, 240, 260]
+      edges: [100, 120, 140, 160, 180, 200, 220, 240, 260]
       label: '$m_{rec}(top)$ [GeV]'
       expression: objects['events'].top_tagger_mass
 

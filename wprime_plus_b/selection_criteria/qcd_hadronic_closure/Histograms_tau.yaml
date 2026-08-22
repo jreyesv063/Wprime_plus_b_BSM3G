@@ -57,7 +57,7 @@ main_lepton:
         expression: ak.fill_none(ak.firsts(objects['taus'].pt), np.nan)
     
     lepton_eta:
-        include_plot: False
+        include_plot: True
         type: Regular
         bins: 48
         start: -2.4

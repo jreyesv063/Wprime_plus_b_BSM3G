@@ -126,8 +126,7 @@ class TauCorrector:
         # =============================================================           
         # tau pseudorapidity range: [0, 2.3)
         tau_eta_mask =(
-            (self.taus_eta > 0.0) 
-            & (self.taus_eta < 2.3)
+            np.abs(self.taus_eta) < 2.3
         ) 
         # GenMatch = 0 "unmatched", 1 "electron";
         tau_genMatch_mask = (
@@ -189,8 +188,7 @@ class TauCorrector:
         # =============================================================     
         # tau pseudorapidity range: [0, 2.3)
         tau_eta_mask = (            
-            (self.taus_eta > 0.0) 
-            & (self.taus_eta < 2.3)
+            np.abs(self.taus_eta) < 2.3
         )
         # GenMatch = 0 "unmatched", 2 "muon";
         tau_genMatch_mask = (

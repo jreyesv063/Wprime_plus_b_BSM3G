@@ -3,7 +3,7 @@
 # =========================
 # Global Configuration
 # =========================
-processor="signal"     # Options: top_tagger; signal; qcd_hadronic_closure; wplusjets; wjets; ztoll; zplusc  # ; btag_eff; ctag_eff;
+processor="top_tagger"     # Options: top_tagger; signal; qcd_hadronic_closure; wplusjets; wjets; ztoll; zplusc  # ; btag_eff; ctag_eff;
 lepton_flavor="tau"
 run_era="run_2"  # Options: run_2, run_3
 BASE_OUTPUT_DIR="$ANALYSIS_PATH"
@@ -14,7 +14,7 @@ global_redirector="true" # Set to "true" to use the global redirector
 
 # Define years based on the run_era
 if [ "$run_era" == "run_2" ]; then
-    years=("2016APV" "2016" "2017" "2018")
+    years=("2017")
 elif [ "$run_era" == "run_3" ]; then
     years=("2022pre" "2022post" "2023pre" "2023post" "2024")
 else
@@ -97,11 +97,23 @@ except Exception as e:
     # Fileset creation
     # =========================
     if [ "$create_new_filesets" = "true" ]; then
-        python3 -c "
-from utils import update_nsplit, build_filesets
-update_nsplit('$year')
-args = {'processor': '$processor', 'lepton_flavor': '$lepton_flavor', 'year': '$year', 'run_systematics': '$run_systematics', 'facility': 'lxplus'}
-build_filesets(args)
+    python3 -c "
+from utils import update_nsplit, build_filesets;
+
+print('::::: Running update_nsplit for year $year :::::');
+update_nsplit('$year');
+
+print('::::: Creating sample partitions with build_filesets() for $year ::::::');
+
+args = {
+    'processor': '$processor',
+    'lepton_flavor': '$lepton_flavor',
+    'year': '$year',
+    'run_systematics': '$run_systematics',
+    'facility': 'lxplus',
+    'global_redirector': '$global_redirector'
+};
+build_filesets(args);
 "
     fi
 

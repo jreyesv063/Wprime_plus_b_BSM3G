@@ -150,7 +150,7 @@ def apply_tau_energy_scale_corrections(
     }
 
     # =============================================================
-    #  Calculating changes in kinematic variables: pt, mass
+    #  Calculating changes in kinematic variables: pt, mass, energy
     # ============================================================= 
     # Compute new pt and mass values. taus_new is a map: nom; up; down.
     taus_new = {var: (taus_filter.pt_nano * scale_factors[var], taus_filter.mass_nano * scale_factors[var], taus_filter.E_nano * scale_factors[var]) for var in scale_factors}

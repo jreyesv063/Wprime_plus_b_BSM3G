@@ -310,7 +310,7 @@ class TauCorrector:
 
         # add scale factors to weights container
         self.weights.add(
-            name=f"CMS_fake_t_DeepTau{self.suffix}_VSjet_{self.year}",
+            name=f"CMS_eff_t_DeepTau{self.suffix}_VSjet_{self.year}",
             weight=nominal_sf,
             weightUp=up_sf,
             weightDown=down_sf,
